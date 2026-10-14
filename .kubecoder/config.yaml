@@ -1,0 +1,15 @@
+# Pilot's store environment: where the brain, a headless Claude Code session,
+# runs and drives the managed projects' environments. The repo carries the
+# brain's skills and no data.
+# Schema: https://kubecoder.home/help/reference/config-yaml/
+
+capabilities:
+  github: rw
+  # The brain starts and resumes sessions in the managed projects'
+  # environments.
+  fleetAdmin: true
+
+preamble:
+  instructions: |
+    Pilot's store environment: the brain's skills (/work/PilotProjects),
+    and no data. The app is pvginkel/PilotApp.
