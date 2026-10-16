@@ -8,6 +8,9 @@ capabilities:
   # The brain starts and resumes sessions in the managed projects'
   # environments.
   fleetAdmin: true
+  # Outside the node's environment cap, so it always starts; Pilot's server
+  # reads the exemption and never stops it (KC-159).
+  capacityExempt: true
 
 preamble:
   instructions: |
