@@ -1,0 +1,9 @@
+# Curated entry points for PilotProjects, the store environment's repo: the brain's skills and
+# no data. A seed: its one check is that the environment's config is in place; the work that
+# gives the repo code gives it the test that proves it.
+projects:
+  root:
+    description: >-
+      Pilot's store environment: its KubeCoder configuration and the brain's skills, no data.
+    test:
+      - test -s .kubecoder/config.yaml
