@@ -1,9 +1,10 @@
 # Curated entry points for PilotProjects, the store environment's repo: the brain's skills and
-# no data. A seed: its one check is that the environment's config is in place; the work that
-# gives the repo code gives it the test that proves it.
+# no data. Its test runs the hook of .claude/settings.json against a stand-in for pilot-sync's
+# local check.
 projects:
   root:
     description: >-
-      Pilot's store environment: its KubeCoder configuration and the brain's skills, no data.
+      Pilot's store environment: its KubeCoder configuration, the hook that checks each edit of
+      the record's tree, and the brain's skills; no data.
     test:
-      - test -s .kubecoder/config.yaml
+      - python3 -m unittest discover --start-directory tests --verbose

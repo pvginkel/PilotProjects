@@ -12,6 +12,13 @@ capabilities:
   # reads the exemption and never stops it (KC-159).
   capacityExempt: true
 
+# pilot-sync keeps /work/Projects, the record's tree, in step with Pilot's
+# record, and serves the hook's local check (.claude/settings.json) on
+# 127.0.0.1:3510. Its image, Pilot's address and its bearer are the catalog
+# entry's, each stage's own.
+services:
+  - pilot-sync
+
 preamble:
   instructions: |
     Pilot's store environment: the brain's skills (/work/PilotProjects),
