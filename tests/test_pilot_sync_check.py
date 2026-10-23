@@ -26,8 +26,8 @@ class StandIn(http.server.ThreadingHTTPServer):
     """The local check: answers each `GET /check` with `status` and `body`, after
     `released` is set when `hold` is."""
 
-    def __init__(self) -> None:
-        super().__init__(("127.0.0.1", 0), Handler)
+    def __init__(self, port: int = 0) -> None:
+        super().__init__(("127.0.0.1", port), Handler)
         self.status = 200
         self.body = ""
         self.hold = False
@@ -83,11 +83,10 @@ class HookTest(unittest.TestCase):
             "tool_input": {"file_path": file_path},
             "tool_response": {"filePath": file_path, "success": True},
         }
-        environment = {
-            **os.environ,
-            "CLAUDE_PROJECT_DIR": str(ROOT),
-            "PILOT_SYNC_LOCAL_PORT": str(self.port),
-        }
+        environment = {**os.environ, "CLAUDE_PROJECT_DIR": str(ROOT)}
+        environment.pop("PILOT_SYNC_LOCAL_PORT", None)
+        if self.port is not None:
+            environment["PILOT_SYNC_LOCAL_PORT"] = str(self.port)
         started = time.monotonic()
         completed = subprocess.run(
             hook_command()["command"],
@@ -160,6 +159,25 @@ class HookTest(unittest.TestCase):
                 self.sidecar.body = f"answered {status}\n"
                 completed, _ = self.run_hook("Write", "/work/Projects/draft-7/brief.md")
                 self.assert_silent(completed)
+
+    def test_with_no_port_set_the_hook_asks_3510_the_port_the_catalog_gives_the_sidecar(
+        self,
+    ) -> None:
+        try:
+            default = StandIn(3510)
+        except OSError as error:
+            self.skipTest(f"127.0.0.1:3510 is taken here, as pilot-sync takes it in the store: {error}")
+        threading.Thread(target=default.serve_forever, daemon=True).start()
+        self.addCleanup(default.server_close)
+        self.addCleanup(default.shutdown)
+        default.body = "recipe-box/plan.md:12: no such task: T9\n"
+        self.port = None
+        completed, _ = self.run_hook("Write", "/work/Projects/recipe-box/plan.md")
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual(
+            json.loads(completed.stdout)["hookSpecificOutput"]["additionalContext"], default.body
+        )
+        self.assertEqual(default.asked, [check_of("/work/Projects/recipe-box/plan.md")])
 
     def test_a_sidecar_down_prints_nothing(self) -> None:
         self.port = free_port()
