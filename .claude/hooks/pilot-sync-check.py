@@ -3,12 +3,15 @@
 
 The PostToolUse hook of .claude/settings.json (design 1 §5.6). It reads the tool's
 `file_path` from stdin and, for a file under /work/Projects/, asks pilot-sync's local
-check what the record made of it: `GET /check?path=` on 127.0.0.1, the port the
-sidecar's PILOT_SYNC_LOCAL_PORT names, 3510 when unset. A non-empty answer goes before
-the agent as `hookSpecificOutput.additionalContext`; plain stdout never reaches the
-model. A path outside the tree is not asked about, and a sidecar that is down, answers
-an error or is past the cap adds nothing. It exits 0 on every answer, so it never stops
-the turn; settings.json's timeout of 5 s bounds it above the cap.
+check what the record made of it: `GET /check?path=` on 127.0.0.1, at the port
+PILOT_SYNC_LOCAL_PORT names in the hook's own environment, 3510 when unset. The store's
+dev container does not set it, so live the hook calls 3510, the port both stages'
+catalog entries give the sidecar: a sidecar moved to another port needs this default
+moved with it. A non-empty answer goes before the agent as
+`hookSpecificOutput.additionalContext`; plain stdout never reaches the model. A path
+outside the tree is not asked about, and a sidecar that is down, answers an error or is
+past the cap adds nothing. It exits 0 on every answer, so it never stops the turn;
+settings.json's timeout of 5 s bounds it above the cap.
 """
 
 import json
