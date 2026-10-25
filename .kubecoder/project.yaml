@@ -1,7 +1,8 @@
 # Curated entry points for PilotProjects, the store environment's repo: the brain's scripts and
 # skills, and no data. A uv project, run in the python tool container: setup syncs its
 # environment from uv.lock, pilot-dsl fetched from GitHub, and pod start runs it; test runs every
-# test under tests/, pilot.py's and the hook's, against a stand-in for pilot-sync's local check.
+# test under tests/: pilot.py's and the hook's, against a stand-in for pilot-sync's local check, and
+# the map's, the shape of CLAUDE.md, the rule files and the skills.
 projects:
   root:
     description: >-
