@@ -15,6 +15,7 @@ import tempfile
 import threading
 import time
 import unittest
+from collections.abc import Iterator
 from datetime import UTC, datetime
 from pathlib import Path
 from unittest import mock
@@ -1237,29 +1238,50 @@ class TestDefer(BlockCase):
         self.assertEqual(self.sidecar.asked, [])
 
     def test_defer_holds_one_lock_over_both_writes(self) -> None:
-        held = os.open(self.folder, os.O_RDONLY | os.O_DIRECTORY)
-        self.addCleanup(os.close, held)
-        fcntl.flock(held, fcntl.LOCK_EX)
-        before = self.files()
-        writer = subprocess.Popen(
-            self.command("defer", OLD_PATH, "Q2", "--to", "t3", "--summary", "Photos"),
-            cwd=ROOT,
-            env=self.environment(),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
+        module = pilot_module()
+        events: list[str] = []
+        locked, write = module._locked, module._write
+
+        def taken() -> bool:
+            probe = os.open(self.folder, os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                fcntl.flock(probe, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                return True
+            finally:
+                os.close(probe)
+            return False
+
+        @contextlib.contextmanager
+        def recorded_lock(project: object) -> Iterator[None]:
+            with locked(project):
+                events.append("lock")
+                yield
+                events.append("unlock")
+
+        def recorded_write(path: Path, text: str) -> None:
+            state = "taken" if taken() else "free"
+            events.append(f"write {path.relative_to(self.folder).as_posix()}, the flock {state}")
+            write(path, text)
+
+        with (
+            mock.patch.dict(os.environ, self.environment()),
+            mock.patch.object(module, "_locked", recorded_lock),
+            mock.patch.object(module, "_write", recorded_write),
+            contextlib.redirect_stdout(io.StringIO()),
+        ):
+            code = module.main(["defer", OLD_PATH, "Q2", "--to", "t3", "--summary", "Photos"])
+
+        self.assertEqual(code, 0)
+        self.assertEqual(
+            events,
+            [
+                "lock",
+                "write plan.json, the flock taken",
+                f"write {OLD_PATH}, the flock taken",
+                "unlock",
+            ],
         )
-        self.addCleanup(writer.kill)
-        time.sleep(1)
-
-        self.assertIsNone(writer.poll())
-        self.assertEqual(self.files(), before)
-
-        fcntl.flock(held, fcntl.LOCK_UN)
-        _, stderr = writer.communicate(timeout=30)
-        self.assertEqual(writer.returncode, 0, stderr)
-        self.assertEqual(self.block(OLD_PATH, "Q2").to, "t3")
-        self.assertEqual(self.plan()["tasks"][2]["notes"][0]["refs"], [f"{OLD}/Q2"])
 
     def test_defer_exits_by_the_check_of_each_file_it_wrote(self) -> None:
         old, notes = str(self.path(OLD_PATH)), str(self.path(NOTES_PATH))
@@ -1309,6 +1331,66 @@ class TestDefer(BlockCase):
         ):
             with self.subTest(args=args):
                 self.assert_refused("defer", *args, says=(says,))
+
+
+class TestTheBlockLock(BlockCase):
+    def test_a_block_verb_holds_the_lock_from_its_read_to_its_write(self) -> None:
+        """What another writer writes while the verb waits for the lock is in what the
+        verb writes."""
+        other = "\nAnother writer's line.\n"
+        for args, landed in (
+            (
+                ("answer", OLD_PATH, "Q2", "--value", "Yes"),
+                lambda: self.block(OLD_PATH, "Q2").answer == "Yes",
+            ),
+            (("done", KEY_PATH, "A1"), lambda: self.block(KEY_PATH, "A1").done is not None),
+            (
+                ("defer", NOTES_PATH, "D1", "--to", "t3", "--summary", "Later"),
+                lambda: (
+                    self.block(NOTES_PATH, "D1").to == "t3"
+                    and self.plan()["tasks"][2]["notes"][-1]["refs"] == [f"{NOTES}/D1"]
+                ),
+            ),
+        ):
+            relative = args[1]
+            with self.subTest(verb=args[0]):
+                held = os.open(self.folder, os.O_RDONLY | os.O_DIRECTORY)
+                try:
+                    fcntl.flock(held, fcntl.LOCK_EX)
+                    before = self.files()
+                    writer = subprocess.Popen(
+                        self.command(*args),
+                        cwd=ROOT,
+                        env=self.environment(),
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True,
+                    )
+                    self.addCleanup(writer.kill)
+                    time.sleep(1)
+
+                    self.assertIsNone(writer.poll())
+                    self.assertEqual(self.files(), before)
+
+                    self.path(relative).write_bytes((self.text(relative) + other).encode())
+                    plan = self.plan()
+                    plan["tasks"].append(
+                        {
+                            "id": f"o{len(plan['tasks'])}",
+                            "title": "Other",
+                            "status": "pending",
+                            "notes": [],
+                        }
+                    )
+                    self.put_plan(plan)
+                finally:
+                    os.close(held)
+                _, stderr = writer.communicate(timeout=30)
+
+                self.assertEqual(writer.returncode, 0, stderr)
+                self.assertTrue(self.text(relative).endswith(other))
+                self.assertEqual(self.plan()["tasks"][-1]["title"], "Other")
+                self.assertTrue(landed())
 
 
 class TestTheBlockRefusals(BlockCase):
@@ -1408,6 +1490,26 @@ class TestTheValidation(BlockCase):
             says=(
                 "<file>: the engine would hold the write:\n"
                 f"recipe-box/{OLD_PATH}:28: block Q3: a question takes no `recommend`",
+            ),
+        )
+
+    def test_a_fault_refuses_defer_before_either_write(self) -> None:
+        self.edit(
+            OLD_PATH,
+            "default: Only the ones with a photo\n```\n",
+            "default: Only the ones with a photo\n```\n\n```question id=Q3\nrecommend: Yes\n```\n",
+        )
+        self.assert_refused(
+            "defer",
+            OLD_PATH,
+            "Q2",
+            "--to",
+            "t3",
+            "--summary",
+            "Later",
+            says=(
+                "<file>: the engine would hold the write:\n"
+                f"recipe-box/{OLD_PATH}:29: block Q3: a question takes no `recommend`",
             ),
         )
 
