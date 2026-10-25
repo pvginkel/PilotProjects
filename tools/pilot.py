@@ -876,8 +876,10 @@ def usage_text() -> str:
     lines = [
         f"{PROG} [--project <folder>] <verb> …",
         f"    --project <folder>: {project.help}",
-        "    exit: 0 done, the check names no file written · 1 a Save Error names a file"
-        " written · 2 refused, nothing written · 3 not yet checked",
+        (
+            "    exit: 0 done, the check names no file written · 1 a Save Error names a file"
+            " written · 2 refused, nothing written · 3 not yet checked"
+        ),
     ]
     for leaf in _leaves(parser):
         lines.append(leaf.usage or _usage(leaf))

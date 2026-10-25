@@ -204,18 +204,24 @@ class TestTheFrame(PilotCase):
                 "pilot.py [--project <folder>] <verb> …",
                 "pilot.py answer <file> <block id> --value <text> [--note <text>|-]",
                 "pilot.py done <file> <block id> [--note <text>|-]",
-                "pilot.py defer <file> <block id> --to <task id|plan> --summary <line>"
-                " [--content <text>|-] [--note <text>]",
+                (
+                    "pilot.py defer <file> <block id> --to <task id|plan> --summary <line>"
+                    " [--content <text>|-] [--note <text>]"
+                ),
                 "pilot.py check <path>",
                 "pilot.py items list [--open] [--kind <code>]",
                 "pilot.py items show <id|path>",
-                "pilot.py plan task add --id <id> --title <text>"
-                " [--status pending|in_progress|done] [--before <id>|--after <id>]",
+                (
+                    "pilot.py plan task add --id <id> --title <text>"
+                    " [--status pending|in_progress|done] [--before <id>|--after <id>]"
+                ),
                 "pilot.py plan task set <id> [--title <text>] [--status pending|in_progress|done]",
                 "pilot.py plan task remove <id>",
                 "pilot.py plan task list",
-                "pilot.py plan note add [--task <id>] --summary <line> [--ref <block id>]..."
-                " <content|->",
+                (
+                    "pilot.py plan note add [--task <id>] --summary <line> [--ref <block id>]..."
+                    " <content|->"
+                ),
                 "pilot.py plan note strike <id>",
                 "pilot.py plan note list [--task <id>]",
                 "pilot.py plan set [--ticket <id>|--no-ticket] [--repo owner/Name|--no-repo]",
@@ -1081,9 +1087,11 @@ class TestDone(BlockCase):
         for lines, says in (
             (
                 answered.format("deferred", "agent") + "to: t3\n",
-                "<block id>: action A1 holds answer: deferred → t3 by agent: `done` takes an"
-                " action Pilot claimed (`answer: Pilot does it`, `by: agent`) or one with no"
-                " answer",
+                (
+                    "<block id>: action A1 holds answer: deferred → t3 by agent: `done` takes an"
+                    " action Pilot claimed (`answer: Pilot does it`, `by: agent`) or one with no"
+                    " answer"
+                ),
             ),
             (
                 answered.format("Later", "agent"),
@@ -1095,8 +1103,10 @@ class TestDone(BlockCase):
             ),
             (
                 "done: 2026-10-14T09:00:00Z\nby: dana\n",
-                "<block id>: block A1 is done by dana: a change of meaning is a new block or a"
-                " new item (F32.7)",
+                (
+                    "<block id>: block A1 is done by dana: a change of meaning is a new block or a"
+                    " new item (F32.7)"
+                ),
             ),
             (
                 answered.format("Pilot does it", "dana"),
@@ -1104,8 +1114,10 @@ class TestDone(BlockCase):
             ),
             (
                 "options:\n  - Stored\n  - Lost\n",
-                "<block id>: action A1 has options: it is answered with one of them"
-                " (`pilot.py answer`)",
+                (
+                    "<block id>: action A1 has options: it is answered with one of them"
+                    " (`pilot.py answer`)"
+                ),
             ),
         ):
             with self.subTest(lines=lines):
@@ -1312,8 +1324,10 @@ class TestDefer(BlockCase):
             ),
             (
                 (STORAGE_PATH, "D1", "--to", "t3", "--summary", "Later"),
-                "<block id>: block D1 is answered by dana: a change of meaning is a new block"
-                " or a new item (F32.7)",
+                (
+                    "<block id>: block D1 is answered by dana: a change of meaning is a new block"
+                    " or a new item (F32.7)"
+                ),
             ),
             (
                 ("project.md", "D1", "--to", "plan", "--summary", "Later"),
@@ -1402,8 +1416,10 @@ class TestTheBlockRefusals(BlockCase):
             "--value",
             "SQLite",
             says=(
-                "<block id>: block D1 is answered by dana: a change of meaning is a new block"
-                " or a new item (F32.7)",
+                (
+                    "<block id>: block D1 is answered by dana: a change of meaning is a new block"
+                    " or a new item (F32.7)"
+                ),
             ),
         )
 
@@ -1434,8 +1450,10 @@ class TestTheBlockRefusals(BlockCase):
             ("items/9-soup.md", "<file>: no file at"),
             (
                 "items/7-soup.md",
-                "<file>: no item of timeline.json has the path items/7-soup.md;"
-                " an item's file is born through `add_item`",
+                (
+                    "<file>: no item of timeline.json has the path items/7-soup.md;"
+                    " an item's file is born through `add_item`"
+                ),
             ),
         ):
             for verb in (
@@ -1488,8 +1506,10 @@ class TestTheValidation(BlockCase):
             "--value",
             "Yes",
             says=(
-                "<file>: the engine would hold the write:\n"
-                f"recipe-box/{OLD_PATH}:28: block Q3: a question takes no `recommend`",
+                (
+                    "<file>: the engine would hold the write:\n"
+                    f"recipe-box/{OLD_PATH}:28: block Q3: a question takes no `recommend`"
+                ),
             ),
         )
 
@@ -1508,8 +1528,10 @@ class TestTheValidation(BlockCase):
             "--summary",
             "Later",
             says=(
-                "<file>: the engine would hold the write:\n"
-                f"recipe-box/{OLD_PATH}:29: block Q3: a question takes no `recommend`",
+                (
+                    "<file>: the engine would hold the write:\n"
+                    f"recipe-box/{OLD_PATH}:29: block Q3: a question takes no `recommend`"
+                ),
             ),
         )
 
@@ -1531,9 +1553,11 @@ class TestTheValidation(BlockCase):
                         "--value",
                         "Yes",
                         says=(
-                            f"recipe-box/{NOTES_PATH}:14: block D2: `because: hunch` is not a"
-                            " confirmation reason (auto-pilot-off, irreversible, product-hold,"
-                            " rider, self-approval); the reasons are in `reference.json`",
+                            (
+                                f"recipe-box/{NOTES_PATH}:14: block D2: `because: hunch` is not a"
+                                " confirmation reason (auto-pilot-off, irreversible, product-hold,"
+                                " rider, self-approval); the reasons are in `reference.json`"
+                            ),
                         ),
                     )
                 else:
@@ -1549,8 +1573,10 @@ class TestTheValidation(BlockCase):
             KEY_PATH,
             "A1",
             says=(
-                f"recipe-box/{KEY_PATH}: the item has no title: give it `title` in the front"
-                " matter or a first heading",
+                (
+                    f"recipe-box/{KEY_PATH}: the item has no title: give it `title` in the front"
+                    " matter or a first heading"
+                ),
             ),
         )
         self.path("project.md").write_text(DRAFT.replace("slug: soup-club", "slug: Soup_Club"))
@@ -1561,8 +1587,10 @@ class TestTheValidation(BlockCase):
             "--value",
             "Fridays",
             says=(
-                "recipe-box/project.md:3: front matter: `slug: Soup_Club` is not lower-case"
-                " letters, digits and hyphens",
+                (
+                    "recipe-box/project.md:3: front matter: `slug: Soup_Club` is not lower-case"
+                    " letters, digits and hyphens"
+                ),
             ),
         )
 
