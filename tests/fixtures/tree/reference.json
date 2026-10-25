@@ -1,0 +1,97 @@
+{
+  "readonly": "a projection of the record; an edit is reverted — the timeline is edited through the tools",
+  "confirmation_reasons": [
+    {
+      "code": "auto-pilot-off",
+      "name": "Auto pilot off",
+      "description": "A granted act, asked only while auto pilot is off.",
+      "asks_under_autopilot": false
+    },
+    {
+      "code": "irreversible",
+      "name": "Irreversible",
+      "description": "An irreversible act: asked under auto pilot too.",
+      "asks_under_autopilot": true
+    },
+    {
+      "code": "product-hold",
+      "name": "Product hold",
+      "description": "A product hold: asked under auto pilot too.",
+      "asks_under_autopilot": true
+    },
+    {
+      "code": "rider",
+      "name": "Rider",
+      "description": "A push with riders, asked only while auto pilot is off.",
+      "asks_under_autopilot": false
+    },
+    {
+      "code": "self-approval",
+      "name": "Self-approval",
+      "description": "Self-approval: asked under auto pilot too.",
+      "asks_under_autopilot": true
+    }
+  ],
+  "item_kinds": [
+    {
+      "code": "action",
+      "name": "Action",
+      "form": "prose"
+    },
+    {
+      "code": "card_wait",
+      "name": "Card wait",
+      "form": "wait"
+    },
+    {
+      "code": "confirmation",
+      "name": "Confirmation",
+      "form": "prose"
+    },
+    {
+      "code": "decision",
+      "name": "Decision",
+      "form": "prose"
+    },
+    {
+      "code": "document",
+      "name": "Document",
+      "form": "prose"
+    },
+    {
+      "code": "notice",
+      "name": "Notice",
+      "form": "prose"
+    },
+    {
+      "code": "opening",
+      "name": "Opening",
+      "form": "prose"
+    },
+    {
+      "code": "question",
+      "name": "Question",
+      "form": "prose"
+    },
+    {
+      "code": "review",
+      "name": "Review",
+      "form": "prose"
+    },
+    {
+      "code": "timed_wait",
+      "name": "Timed wait",
+      "form": "wait"
+    },
+    {
+      "code": "work",
+      "name": "Work",
+      "form": "work"
+    }
+  ],
+  "task_statuses": [
+    "pending",
+    "in_progress",
+    "done"
+  ]
+}

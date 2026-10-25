@@ -1,0 +1,45 @@
+{
+  "ticket": "RB-12",
+  "repo": "example/recipe-box",
+  "tasks": [
+    {
+      "id": "t1",
+      "title": "Pick a storage format",
+      "status": "done",
+      "notes": []
+    },
+    {
+      "id": "t2",
+      "title": "Import the old recipes",
+      "status": "in_progress",
+      "notes": [
+        {
+          "id": "n1",
+          "summary": "Ask which years come over",
+          "content": "Once the importer reads the old files, ask again.",
+          "refs": [
+            "9c1d4f7a-2e8b-4a36-b5c0-3e7f1a9d6b82/Q1"
+          ],
+          "created": "2026-10-13T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "t3",
+      "title": "Publish the card view",
+      "status": "pending",
+      "notes": []
+    }
+  ],
+  "notes": [
+    {
+      "id": "n2",
+      "summary": "Card layout after the import",
+      "content": "The layout waits for real recipes; Markdown keeps it simple.",
+      "refs": [
+        "4a8c2e19-7b3f-4d05-a6e1-9f2b8c4d0e63/D1"
+      ],
+      "created": "2026-10-14T10:15:00Z"
+    }
+  ]
+}

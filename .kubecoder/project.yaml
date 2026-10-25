@@ -1,10 +1,12 @@
-# Curated entry points for PilotProjects, the store environment's repo: the brain's skills and
-# no data. Its test runs the hook of .claude/settings.json against a stand-in for pilot-sync's
-# local check.
+# Curated entry points for PilotProjects, the store environment's repo: the brain's scripts and
+# skills, and no data. A uv project, run in the python tool container: setup syncs its
+# environment from uv.lock, pilot-dsl fetched from GitHub, and pod start runs it; test runs every
+# test under tests/, pilot.py's and the hook's, against a stand-in for pilot-sync's local check.
 projects:
   root:
     description: >-
       Pilot's store environment: its KubeCoder configuration, the hook that checks each edit of
-      the record's tree, and the brain's skills; no data.
+      the record's tree, and the brain's scripts and skills; no data.
+    setup: cexec python uv sync --locked
     test:
-      - python3 -m unittest discover --start-directory tests --verbose
+      - cexec python uv run --locked python -m unittest discover --start-directory tests --verbose

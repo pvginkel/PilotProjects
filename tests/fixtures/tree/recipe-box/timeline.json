@@ -1,0 +1,106 @@
+{
+  "readonly": "a projection of the record; an edit is reverted — the timeline is edited through the tools",
+  "project": {
+    "id": "7d3f9a42-5c1e-4b8a-9e6d-2f0c8b1a4e57",
+    "folder": "recipe-box",
+    "name": "Recipe box",
+    "state": "open",
+    "archived": false,
+    "autopilot": false
+  },
+  "items": [
+    {
+      "id": "0e5b7c21-3a9d-4f62-8b14-6c2e9d0a7f31",
+      "seq": 1,
+      "kind": "opening",
+      "title": "Recipe box",
+      "path": "items/1-recipe-box.md",
+      "step": null,
+      "urgent": false,
+      "for": null,
+      "summary": null,
+      "created_at": "2026-10-10T08:00:00Z",
+      "done": {
+        "at": "2026-10-10T08:05:00Z",
+        "cause": "turn_ended",
+        "by": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "4a8c2e19-7b3f-4d05-a6e1-9f2b8c4d0e63",
+      "seq": 2,
+      "kind": "decision",
+      "title": "Storage format",
+      "path": "items/2-storage-format.md",
+      "step": "t1",
+      "urgent": false,
+      "for": null,
+      "summary": "How the recipes are stored",
+      "created_at": "2026-10-11T09:00:00Z",
+      "done": {
+        "at": "2026-10-12T09:40:00Z",
+        "cause": "answered",
+        "by": "dana"
+      },
+      "attachments": []
+    },
+    {
+      "id": "9c1d4f7a-2e8b-4a36-b5c0-3e7f1a9d6b82",
+      "seq": 3,
+      "kind": "question",
+      "title": "Old recipes",
+      "path": "items/3-old-recipes.md",
+      "step": "t2",
+      "urgent": false,
+      "for": null,
+      "summary": "Which old recipes come over",
+      "created_at": "2026-10-13T07:30:00Z",
+      "done": null,
+      "attachments": []
+    },
+    {
+      "id": "b2e7a3c9-6d14-4f8e-9a2b-5c0d8e1f7a46",
+      "seq": 4,
+      "kind": "action",
+      "title": "Put the backup key in the vault",
+      "path": "items/4-put-the-backup-key-in-the-vault.md",
+      "step": null,
+      "urgent": true,
+      "for": "dana",
+      "summary": null,
+      "created_at": "2026-10-13T11:00:00Z",
+      "done": null,
+      "attachments": []
+    },
+    {
+      "id": "e6f0b9d3-1c7a-4e25-8d3f-7a9b2c6e0d18",
+      "seq": 5,
+      "kind": "work",
+      "title": "Write the importer",
+      "path": null,
+      "step": "t2",
+      "urgent": false,
+      "for": null,
+      "summary": null,
+      "created_at": "2026-10-14T09:00:00Z",
+      "done": null,
+      "attachments": []
+    },
+    {
+      "id": "3b9e6a14-8f2c-4d7b-a1e5-0c4f9b2d8e75",
+      "seq": 6,
+      "kind": "document",
+      "title": "Import notes",
+      "path": "inbox/6-import-notes.md",
+      "step": null,
+      "urgent": false,
+      "for": null,
+      "summary": "Where the old files are",
+      "created_at": "2026-10-14T16:20:00Z",
+      "done": null,
+      "attachments": []
+    }
+  ],
+  "attachments": []
+}

@@ -19,6 +19,12 @@ capabilities:
 services:
   - pilot-sync
 
+# The brain's scripts are a uv project (pyproject.toml), and the dev image has
+# no uv: they run here, `cexec python uv run tools/pilot.py …`, and so do the
+# repo's setup and test (.kubecoder/project.yaml).
+tools:
+  - use: python
+
 preamble:
   instructions: |
     Pilot's store environment: the brain's skills (/work/PilotProjects),
