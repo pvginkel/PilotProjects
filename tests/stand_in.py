@@ -8,13 +8,15 @@ import urllib.parse
 
 
 class StandIn(http.server.ThreadingHTTPServer):
-    """The local check: answers each `GET /check` with `status` and `body`, after
-    `released` is set when `hold` is."""
+    """The local check: answers each `GET /check` with `status` and `body`, or
+    with the pair `answers` holds for its path, after `released` is set when
+    `hold` is."""
 
     def __init__(self, port: int = 0) -> None:
         super().__init__(("127.0.0.1", port), Handler)
         self.status = 200
         self.body = ""
+        self.answers: dict[str, tuple[int, str]] = {}
         self.hold = False
         self.released = threading.Event()
         self.asked: list[tuple[str, dict]] = []
@@ -29,8 +31,10 @@ class Handler(http.server.BaseHTTPRequestHandler):
         if self.server.hold:
             self.server.released.wait(10)
             return
-        body = self.server.body.encode()
-        self.send_response(self.server.status)
+        path = urllib.parse.parse_qs(url.query).get("path", [""])[0]
+        status, text = self.server.answers.get(path, (self.server.status, self.server.body))
+        body = text.encode()
+        self.send_response(status)
         self.send_header("Content-Type", "text/plain; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()

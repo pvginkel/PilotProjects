@@ -37,6 +37,11 @@ PLAN = "plan.json"
 TIMELINE = "timeline.json"
 REFERENCE = "reference.json"
 TASK_STATUSES = ("pending", "in_progress", "done")
+DRAFT = "project.md"
+DOCUMENT_FOLDERS = ("items", "inbox")
+OPENING = "opening"
+# The answer of an action Pilot has claimed (F21.6, D062).
+CLAIM = "Pilot does it"
 
 DONE, HELD, REFUSED, UNCHECKED = 0, 1, 2, 3
 
@@ -511,25 +516,40 @@ def _note_add(project: Project, args: argparse.Namespace) -> int:
                     f"--ref: `{ref}` names no block of this project's items"
                     f" (`<item id>/<local id>`, the item's id from {TIMELINE})"
                 )
-        numbers = [
-            int(note["id"][1:])
-            for _, note in _all_notes(plan)
-            if isinstance(note["id"], str) and note["id"][:1] == "n" and note["id"][1:].isdigit()
-        ]
-        note_id = f"n{max(numbers, default=0) + 1}"
-        owner.append(
-            {
-                "id": note_id,
-                "summary": _text(args.summary, "--summary"),
-                "content": content,
-                "refs": refs,
-                "created": _utc(datetime.now(UTC)),
-            }
-        )
+        summary = _text(args.summary, "--summary")
+        note_id = _new_note(plan, owner, summary, content, refs, datetime.now(UTC))
         on = "the plan" if args.task is None else f"task {args.task}"
         return f"note {note_id} added on {on}"
 
     return _edit_plan(project, edit)
+
+
+def _new_note(
+    plan: dict[str, Any],
+    owner: list[dict[str, Any]],
+    summary: str,
+    content: str,
+    refs: list[str],
+    created: datetime,
+) -> str:
+    """A note appended to `owner`, a task's notes or the plan's, its id the
+    next `n<number>` among the plan's open notes; its id."""
+    numbers = [
+        int(note["id"][1:])
+        for _, note in _all_notes(plan)
+        if isinstance(note["id"], str) and note["id"][:1] == "n" and note["id"][1:].isdigit()
+    ]
+    note_id = f"n{max(numbers, default=0) + 1}"
+    owner.append(
+        {
+            "id": note_id,
+            "summary": summary,
+            "content": content,
+            "refs": refs,
+            "created": _utc(created),
+        }
+    )
+    return note_id
 
 
 def _note_strike(project: Project, args: argparse.Namespace) -> int:
@@ -584,6 +604,221 @@ def _plan_set(project: Project, args: argparse.Namespace) -> int:
         return f"plan: ticket {plan['ticket'] or 'none'} · repo {plan['repo'] or 'none'}"
 
     return _edit_plan(project, edit)
+
+
+# -- a document's blocks -------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class _Document:
+    """A document a block verb writes, as it stands on disk: the item whose
+    it is, none for the draft."""
+
+    path: Path
+    relative: str
+    item: dict[str, Any] | None
+    text: str
+    parsed: dsl.ParsedDocument
+
+    @property
+    def kind(self) -> dsl.DocumentKind:
+        """What the engine ingests the file as (PilotApp's engine/ingest.py)."""
+        if self.item is None:
+            return dsl.DocumentKind.DRAFT
+        if self.item["kind"] == OPENING:
+            return dsl.DocumentKind.OPENING
+        if self.relative.startswith("inbox/"):
+            return dsl.DocumentKind.REGISTERED_ITEM
+        return dsl.DocumentKind.OWN_ITEM
+
+    def block(self, local_id: str) -> dsl.Block:
+        return next(block for block in self.parsed.blocks if block.local_id == local_id)
+
+
+def _document(project: Project, name: str) -> _Document:
+    """The document `<file>` names, read whole: the draft, or an item's
+    document under `items/` or `inbox/`, which `timeline.json` names."""
+    path = project.file(name, "<file>")
+    relative = path.relative_to(project.folder).as_posix()
+    folder, _, rest = relative.partition("/")
+    if relative != DRAFT and (folder not in DOCUMENT_FOLDERS or not rest or "/" in rest):
+        raise Refused(
+            f"<file>: {relative} is no document a block is written in:"
+            f" items/<file>, inbox/<file> or {DRAFT}"
+        )
+    if not path.is_file():
+        raise Refused(f"<file>: no file at {path}")
+    item = None
+    if relative != DRAFT:
+        items = _timeline(project)["items"]
+        item = next((item for item in items if item["path"] == relative), None)
+        if item is None:
+            raise Refused(
+                f"<file>: no item of {TIMELINE} has the path {relative};"
+                " an item's file is born through `add_item`"
+            )
+    try:
+        text: str | None = path.read_bytes().decode()
+    except UnicodeDecodeError:
+        text = None
+    if text is None or "\x00" in text:
+        raise Refused(
+            f"<file>: {relative} is not UTF-8 text, or holds a NUL: the engine would hold the write"
+        )
+    return _Document(path, relative, item, text, dsl.parse(text))
+
+
+def _spliced(document: _Document, splice: Callable[[str], str]) -> str:
+    """The document's text with the block's lines spliced in by pilot-dsl's
+    writer, as the record splices its own."""
+    try:
+        return splice(document.text)
+    except dsl.WriteRefused as refusal:
+        raise Refused(f"<block id>: {refusal}") from None
+
+
+def _not_a_persons(block: dsl.Block) -> None:
+    """A block a person answered or did is the record's whole (F32.7)."""
+    if block.by is not None and block.by != dsl.AGENT:
+        did = "done" if block.done is not None else "answered"
+        raise Refused(
+            f"<block id>: block {block.local_id} is {did} by {block.by}:"
+            " a change of meaning is a new block or a new item (F32.7)"
+        )
+
+
+def _validated(project: Project, document: _Document, text: str) -> None:
+    """`validate()` on the text to write, with the facts the tree carries:
+    the confirmation reasons, the plan's live tasks, the `to`s the file has.
+    It carries no handle and no removed task, so the rules resting on them
+    are left to the check after the write."""
+    reference = _read_json(project.tree / REFERENCE, "the confirmation reasons")
+    facts = dsl.Facts(
+        document=document.kind,
+        handles=None,
+        plan_task_ids={task["id"] for task in _read_plan(project)["tasks"]},
+        removed_task_ids=None,
+        confirmation_reasons=[reason["code"] for reason in reference["confirmation_reasons"]],
+        taken_slugs=frozenset(),
+        published_to={
+            block.local_id: block.to for block in document.parsed.blocks if block.to is not None
+        },
+    )
+    faults = dsl.validate(dsl.parse(text), facts)
+    if faults:
+        tree_path = project.tree_path(document.path)
+        lines = "\n".join(
+            f"{tree_path}: {fault.message}"
+            if fault.line is None
+            else f"{tree_path}:{fault.line}: {fault.message}"
+            for fault in faults
+        )
+        raise Refused(f"<file>: the engine would hold the write:\n{lines}")
+
+
+def _note_text(value: str | None, flag: str) -> str | None:
+    return None if value is None else _text(_stdin_or(value), flag)
+
+
+def _answer(project: Project, args: argparse.Namespace) -> int:
+    value = _text(args.value, "--value")
+    if value == dsl.DEFERRED:
+        raise Refused(f"--value: `{dsl.DEFERRED}` is `{PROG} defer`'s, which writes its plan note")
+    note = _note_text(args.note, "--note")
+    with _locked(project):
+        document = _document(project, args.file)
+        text = _spliced(
+            document,
+            lambda text: dsl.write_answer(
+                text,
+                args.block,
+                answer=value,
+                by=dsl.AGENT,
+                at=datetime.now(UTC),
+                via=dsl.AnswerChannel.APP,
+                note=note,
+            ),
+        )
+        _not_a_persons(document.block(args.block))
+        _validated(project, document, text)
+        _write(document.path, text)
+    print(f"block {args.block} of {document.relative} answered: {value}")
+    return _check_written(project, [document.path])
+
+
+def _done(project: Project, args: argparse.Namespace) -> int:
+    note = _note_text(args.note, "--note")
+    with _locked(project):
+        document = _document(project, args.file)
+        at = datetime.now(UTC)
+        text = _spliced(
+            document,
+            lambda text: dsl.write_done(text, args.block, by=dsl.AGENT, at=at, note=note),
+        )
+        block = document.block(args.block)
+        _not_a_persons(block)
+        if block.kind is not dsl.BlockKind.ACTION:
+            raise Refused(f"<block id>: block {block.local_id} is a {block.kind}, not an action")
+        claimed = block.answer == CLAIM and block.by == dsl.AGENT and block.done is None
+        if block.answered and not claimed:
+            raise Refused(
+                f"<block id>: action {block.local_id} holds {_answer_line(block)}: `done` takes"
+                f" an action Pilot claimed (`answer: {CLAIM}`, `by: agent`) or one with no answer"
+            )
+        if block.options and not claimed:
+            raise Refused(
+                f"<block id>: action {block.local_id} has options:"
+                f" it is answered with one of them (`{PROG} answer`)"
+            )
+        _validated(project, document, text)
+        _write(document.path, text)
+    print(f"action {block.local_id} of {document.relative} done at {_utc(at)}")
+    return _check_written(project, [document.path])
+
+
+def _defer(project: Project, args: argparse.Namespace) -> int:
+    to = _text(args.to, "--to")
+    summary = _text(args.summary, "--summary")
+    content = summary if args.content is None else _text(_stdin_or(args.content), "--content")
+    note = None if args.note is None else _text(args.note, "--note")
+    plan_path = project.folder / PLAN
+    with _locked(project):
+        document = _document(project, args.file)
+        if document.item is None:
+            raise Refused(
+                f"<file>: {DRAFT} is the draft, whose blocks no plan note may name (D001)"
+            )
+        plan = _read_plan(project)
+        task = None if to == dsl.PLAN else next((t for t in plan["tasks"] if t["id"] == to), None)
+        if to != dsl.PLAN and task is None:
+            raise Refused(f"--to: `{to}` names neither `{dsl.PLAN}` nor a task in the plan")
+        at = datetime.now(UTC)
+        text = _spliced(
+            document,
+            lambda text: dsl.write_answer(
+                text,
+                args.block,
+                answer=dsl.DEFERRED,
+                by=dsl.AGENT,
+                at=at,
+                via=dsl.AnswerChannel.APP,
+                note=note,
+                to=to,
+            ),
+        )
+        _not_a_persons(document.block(args.block))
+        _validated(project, document, text)
+        ref = f"{document.item['id']}/{args.block}"
+        owner = plan["notes"] if task is None else task["notes"]
+        note_id = _new_note(plan, owner, summary, content, [ref], at)
+        # The note first, so that a failure between the two writes never
+        # leaves a deferral without its note.
+        _write(plan_path, _render_plan(plan))
+        _write(document.path, text)
+    on = "the plan" if to == dsl.PLAN else f"task {to}"
+    print(f"note {note_id} added on {on}, refs {ref}")
+    print(f"block {args.block} of {document.relative} deferred to {to}")
+    return _check_written(project, [plan_path, document.path])
 
 
 # -- the parser ----------------------------------------------------------------
@@ -676,6 +911,62 @@ def build_parser() -> argparse.ArgumentParser:
         sub: argparse.ArgumentParser = group.add_parser(name, description=about, help=about)
         sub.set_defaults(run=run)
         return sub
+
+    file = (
+        "file",
+        "<file>",
+        "the document, items/…, inbox/… or project.md, relative to the folder or absolute",
+    )
+    block = ("block", "<block id>", "the block's id, as its fence gives it")
+
+    answer = verb(
+        verbs, "answer", _answer, "Pilot's answer to a block, `by: agent`, in place of its own"
+    )
+    for dest, metavar, about in (file, block):
+        answer.add_argument(dest, metavar=metavar, help=about)
+    answer.add_argument(
+        "--value",
+        required=True,
+        metavar="<text>",
+        help="the answer: an option's label, Agree, Yes, No or free words",
+    )
+    answer.add_argument(
+        "--note", metavar="<text>|-", help="why it was given, - to read it from stdin"
+    )
+    done = verb(
+        verbs,
+        "done",
+        _done,
+        f"an action's Done by Pilot, one it claimed (`answer: {CLAIM}`) or one with no answer",
+    )
+    for dest, metavar, about in (file, block):
+        done.add_argument(dest, metavar=metavar, help=about)
+    done.add_argument(
+        "--note",
+        metavar="<text>|-",
+        help="the paste-back, what was done and what was seen, - to read it from stdin",
+    )
+    defer = verb(
+        verbs,
+        "defer",
+        _defer,
+        "defer a block to a task or the plan, with its plan note, written first",
+    )
+    for dest, metavar, about in (file, block):
+        defer.add_argument(dest, metavar=metavar, help=about)
+    defer.add_argument(
+        "--to",
+        required=True,
+        metavar="<task id|plan>",
+        help="a task of the plan, or plan for the project's end",
+    )
+    defer.add_argument("--summary", required=True, metavar="<line>", help="the plan note's summary")
+    defer.add_argument(
+        "--content",
+        metavar="<text>|-",
+        help="the plan note's content, - to read it from stdin; its summary when not given",
+    )
+    defer.add_argument("--note", metavar="<text>", help="the block's note, why it is deferred")
 
     check = verb(verbs, "check", _check, "the check alone, for a file written by hand")
     check.add_argument(
