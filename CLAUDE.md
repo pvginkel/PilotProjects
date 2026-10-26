@@ -29,7 +29,7 @@ sends says the handbook changed since your last turn: read `handbook.md` again b
   save, reverts a line of it or holds it.
 - **Yours to write**: `project.md` (the draft), `handbook.md`, your items' files in `items/`, the
   answer lines of the documents in `inbox/`, and `plan.json`.
-- **Never edited**, an edit reverted: `timeline.json` (the items, their state and their lines),
+- **Never edited**, an edit reverted: `timeline.json` (the project and its items, each open or done),
   `attachments/`, `chat.md` (the project's chats so far), and `reference.json` at the tree's root,
   `/work/Projects/reference.json`, which holds every closed list's values.
 - **The check after every edit.** After each `Edit` and `Write` of a file under `/work/Projects/`
