@@ -379,7 +379,11 @@ def _read_plan(project: Project) -> dict[str, Any]:
         stray = [key for key in value if key not in keys]
         if stray:
             raise Refused(f"{PLAN}: {what} has the key `{stray[0]}`, which the record's has not")
-        return {key: value.get(key) for key in keys}
+        read = {key: value.get(key) for key in keys}
+        for key, held in read.items():
+            if key not in ("tasks", "notes", "refs") and not isinstance(held, str | None):
+                raise Refused(f"{PLAN}: `{key}` of {what} is not a string")
+        return read
 
     def listed(value: Any, what: str) -> list[Any]:
         if value is None:
@@ -393,6 +397,12 @@ def _read_plan(project: Project) -> dict[str, Any]:
         for note in listed(value, f"`notes` of {owner}"):
             note = shaped(note, _NOTE_KEYS, f"a note of {owner}")
             note["refs"] = listed(note["refs"], f"`refs` of note `{note['id']}`")
+            for ref in note["refs"]:
+                if not isinstance(ref, str):
+                    raise Refused(
+                        f"{PLAN}: `refs` of note `{note['id']}` holds {json.dumps(ref)},"
+                        " not a block id"
+                    )
             read.append(note)
         return read
 

@@ -680,16 +680,24 @@ class TestPlanTask(PilotCase):
         self.assertEqual(self.plan_path.read_text(), canonical(expected))
 
     def test_a_plan_out_of_the_record_s_shape_is_refused(self) -> None:
+        titled = json.loads(canonical(self.fixture_plan))
+        titled["tasks"][0]["title"] = 7
+        referred = json.loads(canonical(self.fixture_plan))
+        referred["notes"][0]["refs"].append(5)
         for text, says in (
             ('{\n  "ticket": \n', "plan.json: "),
             (canonical({**self.fixture_plan, "owner": "dana"}), "the plan has the key `owner`"),
             (canonical({**self.fixture_plan, "tasks": {}}), "plan.json: `tasks` is not a list"),
+            (canonical({**self.fixture_plan, "repo": 5}), "`repo` of the plan is not a string"),
+            (canonical(titled), "plan.json: `title` of a task is not a string"),
+            (canonical(referred), "plan.json: `refs` of note `n2` holds 5, not a block id"),
         ):
             with self.subTest(text=text[:40]):
                 self.plan_path.write_text(text)
                 self.assert_refused(
                     "plan", "task", "add", "--id", "t4", "--title", "Bake", says=(says,)
                 )
+                self.assert_refused("plan", "note", "list", says=(says,))
 
 
 class TestPlanNote(PilotCase):
