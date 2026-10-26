@@ -1399,7 +1399,7 @@ class TestTheBlockLock(BlockCase):
                     plan["tasks"].append(
                         {
                             "id": f"o{len(plan['tasks'])}",
-                            "title": "Other",
+                            "title": f"Other {args[0]}",
                             "status": "pending",
                             "notes": [],
                         }
@@ -1411,7 +1411,7 @@ class TestTheBlockLock(BlockCase):
 
                 self.assertEqual(writer.returncode, 0, stderr)
                 self.assertTrue(self.text(relative).endswith(other))
-                self.assertEqual(self.plan()["tasks"][-1]["title"], "Other")
+                self.assertEqual(self.plan()["tasks"][-1]["title"], f"Other {args[0]}")
                 self.assertTrue(landed())
 
 
