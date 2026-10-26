@@ -30,6 +30,8 @@ TREE_FILES = {
 TREE_FOLDERS = ("items/", "inbox/", "attachments/")
 PATH_LIKE = re.compile(r"[^\s/]*(/[^\s/]*)*(\.(md|py|json|yaml|toml)|/)")
 NOT_IN_REPO = {".git", ".venv", "__pycache__", ".ruff_cache"}
+# A fenced block, its fences included: no code span, and its backticks would shift the pairing.
+FENCED = re.compile(r"^[ \t]*```.*?^[ \t]*```[^\n]*$", re.MULTILINE | re.DOTALL)
 
 
 def skill_file(name: str) -> Path:
@@ -50,9 +52,10 @@ def front_matter(text: str) -> tuple[dict, str]:
 
 
 def cited_paths(text: str) -> list[str]:
-    """Every path-like word of the text's code spans: a file name with an extension, or a
-    folder ending in a slash."""
-    words = (word for span in re.findall(r"`([^`]+)`", text) for word in span.split())
+    """Every path-like word of the text's code spans, outside its fenced blocks: a file name
+    with an extension, or a folder ending in a slash."""
+    spans = re.findall(r"`([^`]+)`", FENCED.sub("", text))
+    words = (word for span in spans for word in span.split())
     return [word for word in words if PATH_LIKE.fullmatch(word)]
 
 
@@ -164,6 +167,15 @@ class PathCheckTest(unittest.TestCase):
                 " `owner/Name`, `--project`, `$PILOT_PROJECT`, `<environment>:<path>`"
             ),
             ["rules/grants.md", "tools/pilot.py", "items/"],
+        )
+
+    def test_a_fenced_block_is_taken_out_before_the_code_spans(self) -> None:
+        self.assertEqual(
+            cited_paths(
+                "```text\ncexec python uv run tools/pilot.py answer <file> <block>\n```\n\n"
+                "Read `rules/nothere.md`, then `rules/grants.md`.\n"
+            ),
+            ["rules/nothere.md", "rules/grants.md"],
         )
 
     def test_a_path_is_there_in_the_repo_or_the_project_folder(self) -> None:
