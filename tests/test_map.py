@@ -1,8 +1,10 @@
 """The brain's map as its sessions load it — CLAUDE.md, the rule files and the four skills: each
 skill named as its folder and its brief last, the handbook read first, the format skill cited by
-its name, pilot.py's verbs as its parser has them, and every path the map cites in place."""
+its name, pilot.py's verbs as its parser has them, every pilot.py command line it quotes one the
+parser takes, and every path the map cites in place."""
 
 import importlib.util
+import itertools
 import json
 import os
 import re
@@ -51,12 +53,20 @@ def front_matter(text: str) -> tuple[dict, str]:
     return yaml.safe_load(head), body
 
 
+def code_spans(text: str) -> list[str]:
+    return re.findall(r"`([^`]+)`", FENCED.sub("", text))
+
+
 def cited_paths(text: str) -> list[str]:
     """Every path-like word of the text's code spans, outside its fenced blocks: a file name
     with an extension, or a folder ending in a slash."""
-    spans = re.findall(r"`([^`]+)`", FENCED.sub("", text))
-    words = (word for span in spans for word in span.split())
+    words = (word for span in code_spans(text) for word in span.split())
     return [word for word in words if PATH_LIKE.fullmatch(word)]
+
+
+def quoted_commands(text: str) -> list[str]:
+    """Every code span of the text, outside its fenced blocks, that is a pilot.py command line."""
+    return [span for span in code_spans(text) if span.startswith("pilot.py ")]
 
 
 def repo_names() -> set[str]:
@@ -84,11 +94,38 @@ def first_step(body: str) -> str:
     return match.group(1)
 
 
-def pilot_verbs() -> dict[str, str]:
+def pilot_module():
     spec = importlib.util.spec_from_file_location("pilot", ROOT / "tools" / "pilot.py")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
+    return module
+
+
+def pilot_verbs() -> dict[str, str]:
+    module = pilot_module()
     return {leaf.prog: leaf.description for leaf in module._leaves(module.build_parser())}
+
+
+def pilot_options() -> dict[str, set[str]]:
+    """The options each verb's parser takes, by its prog, and the script's own, `pilot.py`'s."""
+    module = pilot_module()
+    root = module.build_parser()
+    parsers = [root, *module._leaves(root)]
+    return {parser.prog: set(parser._option_string_actions) for parser in parsers}
+
+
+def command_fault(command: str, options: dict[str, set[str]]) -> str | None:
+    """Why a quoted pilot.py command line is not one its parser takes — a word after the
+    script's name that is no verb of it, or an option its verb does not have; None for one it
+    takes. A word after the verb is an option, `--…`, or a placeholder, `<…>`."""
+    words = command.split()
+    verb = max((prog for prog in options if words[: len(prog.split())] == prog.split()), key=len)
+    rest = words[len(verb.split()) :]
+    named = list(itertools.takewhile(lambda word: not word.startswith(("-", "<")), rest))
+    if named:
+        return f"`{verb}` has no verb `{' '.join(named)}`"
+    unknown = [word for word in rest if word.startswith("--") and word not in options[verb]]
+    return f"`{verb}` takes no {', '.join(unknown)}" if unknown else None
 
 
 class SkillsTest(unittest.TestCase):
@@ -147,6 +184,13 @@ class CitationsTest(unittest.TestCase):
         named = set(re.findall(r"`(pilot\.py [a-z ]+)`:", text))
         self.assertEqual(named, set(verbs))
 
+    def test_every_pilot_py_command_the_map_quotes_is_one_its_parser_takes(self) -> None:
+        options = pilot_options()
+        for source, text in the_map().items():
+            for command in quoted_commands(text):
+                with self.subTest(source=source, command=command):
+                    self.assertIsNone(command_fault(command, options))
+
     def test_the_grants_name_every_confirmation_reason_by_its_code(self) -> None:
         reference = json.loads(
             (ROOT / "tests" / "fixtures" / "tree" / "reference.json").read_text()
@@ -197,3 +241,39 @@ class PathCheckTest(unittest.TestCase):
         for path in ("rule/grants.md", ".claude/skill/<name>/SKILL.md", "handbok.md", "tool/"):
             with self.subTest(path):
                 self.assertFalse(is_there(path, names))
+
+
+class CommandCheckTest(unittest.TestCase):
+    """The command check itself: what it takes for a pilot.py command line, and what it refuses."""
+
+    def test_a_command_is_a_code_span_that_opens_with_the_script(self) -> None:
+        self.assertEqual(
+            quoted_commands(
+                "```text\npilot.py plan note strike n1\n```\n\n"
+                "Run `pilot.py plan note strike <id>`, not `cexec python uv run tools/pilot.py"
+                " <verb> …` or `pilot.py`."
+            ),
+            ["pilot.py plan note strike <id>"],
+        )
+
+    def test_a_verb_with_its_own_options_and_placeholders_is_taken(self) -> None:
+        options = pilot_options()
+        for command in (
+            "pilot.py plan note add --task <id> --summary <line> --ref <block id> <content>",
+            "pilot.py answer <file> <block id> --value <option> --note <their words>",
+            "pilot.py items show <id>",
+            "pilot.py --help",
+        ):
+            with self.subTest(command):
+                self.assertIsNone(command_fault(command, options))
+
+    def test_a_word_that_is_no_verb_or_an_option_of_another_verb_is_refused(self) -> None:
+        options = pilot_options()
+        self.assertEqual(
+            command_fault("pilot.py plan note remove <id>", options),
+            "`pilot.py` has no verb `plan note remove`",
+        )
+        self.assertEqual(
+            command_fault("pilot.py answer <file> <block id> --to plan", options),
+            "`pilot.py answer` takes no --to",
+        )

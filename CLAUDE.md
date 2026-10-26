@@ -53,17 +53,19 @@ fails before it runs.
 `pilot-store`, Pilot's MCP server, is the one door to the record beyond the files of the project's
 folder. Every other change to the record goes through its tools, never through Pilot's API:
 
-- `add_item`: an item added — a prose item born with its file, a work item started, a card wait or
-  a timed wait armed — its id and path returned.
+- `add_item`: an item added, in `timeline.json`'s shape — a prose item born with its file, its
+  title in the front matter, or a work item started on add — its id, a prose item's path and a work
+  item's state at the gate returned; a wait is refused for now.
 - `attach_file`: outside material, `<environment>:<path>`, a file or a folder, copied in and hung on
-  the item `to` names; on the draft without one.
+  the item `to` names.
 - `answer`: a person's answer to a block, given in the chat, recorded for them (`for`), their words
-  as the note.
+  as the note; their deferral is `deferred` with `to`.
 - `mark`: Done, Read or Reviewed on an item for the person `for` names; without `for`, Pilot's own
-  Done of a document it settled whole or of a wait it judged over, with a note.
-- `stop_work`: a work item's running session stopped.
+  Done of a document it settled whole.
+- `stop_work`: a work item's session stopped, running, starting or held.
 - `finish`: the project finished, on the operator's Yes to the finish decision.
-- `ask_writer`: a question about one block, to the writer of a registered document.
+- `ask_writer`: a question about one block, to the writer of a registered document; the pre-ruling
+  pass's alone, once a block.
 
 A finished project's chat has none of them: it reads only.
 
