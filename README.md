@@ -8,8 +8,10 @@ its database. The app is `pvginkel/PilotApp`.
 - `CLAUDE.md`: the brain's map, what holds in every session Pilot runs here — who it is, where its
   project's files are, its tools and `pilot.py`'s verbs, the invariants, and how it writes.
 - `.claude/skills/<name>/SKILL.md`: the four skills a brief opens with, `create`, `chat`,
-  `pre-rule` and `plan`, each so far a frame: its frontmatter, its first step, the rule files it
-  applies, and the brief's slot, `## The brief`, last.
+  `pre-rule` and `plan`, each with its frontmatter, its first step, the rule files it applies, and
+  the brief's slot, `## The brief`, last. `chat`'s body, between them, is the project's chat's
+  procedure on Pilot's `pilot-store` tools and the brief the server composes; the other three are
+  still frames.
 - `rules/`: the rules the skills apply, each file the one home of its own — `grants.md` (what goes
   ahead and what asks the operator first), `routing.md` (where an open block goes),
   `placement.md` (a work item's repository, model and effort) and `stages.md` (the workflow's
@@ -44,5 +46,6 @@ The dev image has no uv, so everything runs in the `python` tool container, from
   project folders (`tests/fixtures/tree/`) and a stand-in for `pilot-sync`'s local check, and the
   map's (`tests/test_map.py`), which holds `CLAUDE.md`, the rule files and the skills to their
   shape: the skills named as their folders with the brief last, the format skill cited by its name,
-  the paths they cite there, `CLAUDE.md`'s verb lines equal to `pilot.py`'s own, and the grants
-  naming the confirmation reasons of the fixtures' `reference.json`.
+  the paths they cite there, `CLAUDE.md`'s verb lines equal to `pilot.py`'s own, every `pilot.py`
+  command line they quote a verb and options its parser takes, and the grants naming the
+  confirmation reasons of the fixtures' `reference.json`.
