@@ -1,7 +1,8 @@
 """The brain's map as its sessions load it — CLAUDE.md, the rule files and the four skills: each
 skill named as its folder and its brief last, the handbook read first, the format skill cited by
 its name, pilot.py's verbs as its parser has them, every pilot.py command line it quotes one the
-parser takes, and every path the map cites in place."""
+parser takes, every path the map cites in place, and the chat skill reading a person's message as
+PilotApp's server sends it."""
 
 import importlib.util
 import itertools
@@ -34,6 +35,15 @@ PATH_LIKE = re.compile(r"[^\s/]*(/[^\s/]*)*(\.(md|py|json|yaml|toml)|/)")
 NOT_IN_REPO = {".git", ".venv", "__pycache__", ".ruff_cache"}
 # A fenced block, its fences included: no code span, and its backticks would shift the pairing.
 FENCED = re.compile(r"^[ \t]*```.*?^[ \t]*```[^\n]*$", re.MULTILINE | re.DOTALL)
+# A person's message as PilotApp's server sends it to the chat (its ChatService and BriefService):
+# the line naming its author, a quote's three tags, and the paths a quote by path names.
+NAMING_LINE = '"The message, from <handle> (member|not a member):"'
+QUOTE_TAGS = (
+    '`<quoted_item id="<item id>">…</quoted_item id="<item id>">`',
+    '`<quoted_block id="<item id>/<local id>">…</quoted_block id="<item id>/<local id>">`',
+    '`<quoted_path path="<path>">…</quoted_path path="<path>">`',
+)
+QUOTED_PATHS = ("`handbook.md`", "`project.md`", "`attachments/<batch>/<filename>`")
 
 
 def skill_file(name: str) -> Path:
@@ -158,6 +168,14 @@ class SkillsTest(unittest.TestCase):
         for name in SKILL_NAMES:
             with self.subTest(name):
                 self.assertIn(f"`/{name}`", text)
+
+
+class ChatSkillTest(unittest.TestCase):
+    def test_the_chat_skill_reads_the_naming_line_and_every_quote_tag(self) -> None:
+        text = " ".join(skill_file("chat").read_text().split())
+        for form in (NAMING_LINE, *QUOTE_TAGS, *QUOTED_PATHS):
+            with self.subTest(form):
+                self.assertIn(form, text)
 
 
 class CitationsTest(unittest.TestCase):

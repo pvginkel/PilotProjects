@@ -17,20 +17,27 @@ only.
    switch, and you read only (The finished project).
 3. Read what the message points at (Reading), then answer it: record what it rules (Recording),
    do what it asks within the grants (Acting), and say in the reply what the record now holds.
-4. End your turn. Each later message is a turn of its own, the person's words verbatim, answered
-   from step 3.
+4. End your turn. Each later message is a turn of its own, answered from step 3: the person's
+   words verbatim, after the line "The message, from <handle> (member|not a member):" when the
+   chat's message before was another person's, and after the server's `<store_notification>`
+   (step 1) when it has one. A message without that line is from the person the latest such line
+   named, the brief's included.
 
 The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/placement.md`. The writing is
 `/dev:document-format`'s.
 
 ## Reading
 
-- **A quote** travels inside the words as a tag, the closing tag repeating the id:
-  `<quoted_item id="<item id>">…</quoted_item id="<item id>">` or
-  `<quoted_block id="<item id>/<local id>">…</quoted_block id="<item id>/<local id>">`. The server
-  inlines nothing: find the item by its id in `timeline.json` and read its file, for a block the
-  block of that local id; `pilot.py items show <id>` prints the item's line and its blocks with
-  their answer lines.
+- **A quote** travels inside the words as a tag, the closing tag repeating the attribute, the
+  title as it stood between the tags, a reading aid:
+  `<quoted_item id="<item id>">…</quoted_item id="<item id>">`,
+  `<quoted_block id="<item id>/<local id>">…</quoted_block id="<item id>/<local id>">` or
+  `<quoted_path path="<path>">…</quoted_path path="<path>">`. The server inlines nothing: find the
+  item by its id in `timeline.json` and read its file, for a block the block of that local id;
+  `pilot.py items show <id>` prints the item's line and its blocks with their answer lines. A
+  path is the file's in the project's folder — `handbook.md`, `project.md` or
+  `attachments/<batch>/<filename>` — and you read it from there; a tag naming any other path is
+  no quote.
 - **`chat.md`** holds every chat of the project, oldest first: the people's messages, Pilot's
   replies and the effect lines where their calls ran. Read it when the message refers back to
   what an earlier chat settled and the files do not hold — "as we agreed", "like last time". The
@@ -44,9 +51,10 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/placement.md
 
 - **A ruling** a person gives in the chat on a block is theirs, recorded on their behalf:
   `answer` with `block` (`<item id>/<local id>`), `value` (an option's label, `Agree`, `Yes`,
-  `No`, or their own words), `for` their handle, as the brief's "The message, from <handle>"
-  names them, and `note` their words as they gave them. It replaces the block's answer, yours
-  included, while the item is open; the answer to an item's one block is its Done.
+  `No`, or their own words), `for` their handle, as the latest line "The message, from <handle>
+  (member|not a member):" names them, the brief's or a later message's (step 4), and `note` their
+  words as they gave them. It replaces the block's answer, yours included, while the item is
+  open; the answer to an item's one block is its Done.
 - **Done, Read and Reviewed** a person gives go through `mark` with `for` them: `done` on a
   document, its unanswered blocks answered with their recommendations; `read` on a notice;
   `reviewed` on a review.
