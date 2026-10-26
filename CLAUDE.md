@@ -123,7 +123,7 @@ What has urgency goes to Fieldnotes, never to the memory. A project's own facts 
 
 ## Reading elsewhere
 
-The fleet tools, youtrack, gitblit and fieldnotes are yours to read with, and to make a card or a
-Fieldnotes post where a rule says so. The plan's work is driven through `add_item` alone, a work
-item each; a headless session started through the fleet tools is for research, never a stage of
-the workflow.
+The fleet tools, youtrack, gitblit and fieldnotes are yours to read with, and to make a card, a
+fleet call or a Fieldnotes post where a rule says so. The plan's work is driven through `add_item`
+alone, a work item each; a headless session started through the fleet tools is for research, never
+a stage of the workflow.
