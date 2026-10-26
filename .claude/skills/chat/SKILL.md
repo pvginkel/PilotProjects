@@ -61,8 +61,10 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/placement.md
   `--task` for `plan`, `--ref` the block's `<item id>/<local id>`.
 - **The brief's deferrals without a home** each get their note in this turn, the same way, or the
   block answered anew in a new item, as their line says.
-- **A deferred block the person rules after all** is answered through `answer` like any ruling,
-  and the plan note that pointed at it struck in the same turn, `pilot.py plan note strike <id>`.
+- **A deferred block the person rules after all** is answered through `answer` like any ruling
+  while its item is open; once the item is done, as a deferral's usually is, `answer` refuses it,
+  and the block is answered anew in a new item, as Correcting has it. Either way, the plan note
+  that pointed at it is struck in the same turn, `pilot.py plan note strike <id>`.
 - Each call answers its effect line, `<verb> · <what>` — "Answered · D1 · <title>", "Marked done
   · <title>" — which the chat shows where the call ran; a refused call changes nothing and
   answers why. Say a thing is recorded only once its call answered so.
