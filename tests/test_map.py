@@ -1,8 +1,10 @@
 """The brain's map as its sessions load it — CLAUDE.md, the rule files and the four skills: each
 skill named as its folder and its brief last, the handbook read first, the format skill cited by
 its name, pilot.py's verbs as its parser has them, every pilot.py command line it quotes one the
-parser takes, every path the map cites in place, and the chat skill reading a person's message as
-PilotApp's server sends it."""
+parser takes, every path the map cites in place, the chat skill and the create skill reading a
+person's message as PilotApp's server sends it, the create skill naming a draft's ask and its
+material as pilot-store takes them, and the plan skill's setup reading the draft's sections the
+create skill writes."""
 
 import importlib.util
 import itertools
@@ -51,6 +53,36 @@ LATEST_NAMING = (
     " included.",
     f"`for` their handle, as the latest line {NAMING_LINE} names them",
 )
+# In a draft's definition chat the server's quotes are of the draft alone — an ask of it by
+# `project.md/<local id>`, the id pilot-store's `answer` takes for it, or a file by its path — and
+# its brief names the person who started the draft, the first message's author unless the line
+# names another.
+DRAFT_QUOTE_TAGS = (
+    '`<quoted_block id="project.md/<local id>">…</quoted_block id="project.md/<local id>">`',
+    '`<quoted_path path="<path>">…</quoted_path path="<path>">`',
+)
+DRAFT_QUOTED_PATHS = ("`project.md`", "`attachments/<batch>/<filename>`")
+DRAFT_LATEST_NAMING = (
+    "A message without that line is from the person the latest such line named, the brief's"
+    " included, and with none so far from the person who started the draft.",
+    "`for` their handle, as step 4 names them",
+)
+# pilot-store's `answer` on a draft's ask and `attach_file` hung on nothing (PilotApp's
+# pilot_mcp/tools.py), and the one link the Draft tab opens, relative to the draft's folder.
+DRAFT_CALLS = (
+    "`answer` with `block` `project.md/<local id>`",
+    "`attach_file`: `source` `<environment>:<path>`",
+    "and no `to`, so that it hangs on nothing until Create project hangs it on the opening",
+    "`[words](attachments/<batch>/<filename>)`, relative to the draft's folder",
+)
+# What the create skill never does: Create project is the operator's.
+CREATE_IS_THE_OPERATORS = (
+    "**Create project is the operator's**: never ask for it, and never say the draft is"
+    ' "ready".'
+)
+# The draft's sections the create skill writes and the plan skill's setup reads.
+DRAFT_SECTIONS = ("`## The plan`", "`## Rules`", "`## Context`")
+SETUP_KIND = "`Pilot's brief · the setup · …`"
 
 
 def skill_file(name: str) -> Path:
@@ -189,6 +221,43 @@ class ChatSkillTest(unittest.TestCase):
         for rule in LATEST_NAMING:
             with self.subTest(rule):
                 self.assertIn(rule, text)
+
+
+class CreateSkillTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.text = " ".join(skill_file("create").read_text().split())
+
+    def test_the_create_skill_reads_the_naming_line_and_the_draft_s_quote_tags(self) -> None:
+        for form in (NAMING_LINE, *DRAFT_QUOTE_TAGS, *DRAFT_QUOTED_PATHS):
+            with self.subTest(form):
+                self.assertIn(form, self.text)
+
+    def test_the_create_skill_takes_for_from_the_latest_naming_line_or_the_starter(self) -> None:
+        for rule in DRAFT_LATEST_NAMING:
+            with self.subTest(rule):
+                self.assertIn(rule, self.text)
+
+    def test_the_create_skill_answers_and_attaches_as_pilot_store_takes_a_draft_s(self) -> None:
+        for call in DRAFT_CALLS:
+            with self.subTest(call):
+                self.assertIn(call, self.text)
+
+    def test_the_create_skill_leaves_create_project_to_the_operator(self) -> None:
+        self.assertIn(CREATE_IS_THE_OPERATORS, self.text)
+
+
+class PlanSkillTest(unittest.TestCase):
+    def test_the_plan_skill_names_the_setup_by_its_kind_line(self) -> None:
+        text = " ".join(skill_file("plan").read_text().split())
+        self.assertIn(SETUP_KIND, text)
+        self.assertIn("## The setup", text)
+
+    def test_the_setup_reads_the_sections_the_create_skill_writes(self) -> None:
+        for name in ("create", "plan"):
+            text = skill_file(name).read_text()
+            for section in DRAFT_SECTIONS:
+                with self.subTest(skill=name, section=section):
+                    self.assertIn(section, text)
 
 
 class CitationsTest(unittest.TestCase):

@@ -38,6 +38,8 @@ TIMELINE = "timeline.json"
 REFERENCE = "reference.json"
 TASK_STATUSES = ("pending", "in_progress", "done")
 DRAFT = "project.md"
+# `timeline.json`'s `project.state` while the project is a draft.
+DRAFT_STATE = "draft"
 DOCUMENT_FOLDERS = ("items", "inbox")
 OPENING = "opening"
 # The answer of an action Pilot has claimed (F21.6, D062).
@@ -622,19 +624,22 @@ def _plan_set(project: Project, args: argparse.Namespace) -> int:
 @dataclass(frozen=True)
 class _Document:
     """A document a block verb writes, as it stands on disk: the item whose
-    it is, none for the draft."""
+    it is, none for `project.md`, and whether its project is a draft."""
 
     path: Path
     relative: str
     item: dict[str, Any] | None
+    draft: bool
     text: str
     parsed: dsl.ParsedDocument
 
     @property
     def kind(self) -> dsl.DocumentKind:
-        """What the engine ingests the file as (PilotApp's engine/ingest.py)."""
+        """What the engine ingests the file as (PilotApp's engine/ingest.py):
+        `project.md` the draft while its project is one, and past Create
+        project the handbook's kind, which reads no `slug`."""
         if self.item is None:
-            return dsl.DocumentKind.DRAFT
+            return dsl.DocumentKind.DRAFT if self.draft else dsl.DocumentKind.HANDBOOK
         if self.item["kind"] == OPENING:
             return dsl.DocumentKind.OPENING
         if self.relative.startswith("inbox/"):
@@ -646,7 +651,7 @@ class _Document:
 
 
 def _document(project: Project, name: str) -> _Document:
-    """The document `<file>` names, read whole: the draft, or an item's
+    """The document `<file>` names, read whole: `project.md`, or an item's
     document under `items/` or `inbox/`, which `timeline.json` names."""
     path = project.file(name, "<file>")
     relative = path.relative_to(project.folder).as_posix()
@@ -658,10 +663,10 @@ def _document(project: Project, name: str) -> _Document:
         )
     if not path.is_file():
         raise Refused(f"<file>: no file at {path}")
+    timeline = _timeline(project)
     item = None
     if relative != DRAFT:
-        items = _timeline(project)["items"]
-        item = next((item for item in items if item["path"] == relative), None)
+        item = next((item for item in timeline["items"] if item["path"] == relative), None)
         if item is None:
             raise Refused(
                 f"<file>: no item of {TIMELINE} has the path {relative};"
@@ -675,7 +680,8 @@ def _document(project: Project, name: str) -> _Document:
         raise Refused(
             f"<file>: {relative} is not UTF-8 text, or holds a NUL: the engine would hold the write"
         )
-    return _Document(path, relative, item, text, dsl.parse(text))
+    draft = timeline["project"]["state"] == DRAFT_STATE
+    return _Document(path, relative, item, draft, text, dsl.parse(text))
 
 
 def _spliced(document: _Document, splice: Callable[[str], str]) -> str:
@@ -795,9 +801,8 @@ def _defer(project: Project, args: argparse.Namespace) -> int:
     with _locked(project):
         document = _document(project, args.file)
         if document.item is None:
-            raise Refused(
-                f"<file>: {DRAFT} is the draft, whose blocks no plan note may name (D001)"
-            )
+            what = "the draft" if document.draft else "the project document"
+            raise Refused(f"<file>: {DRAFT} is {what}, whose blocks no plan note may name (D001)")
         plan = _read_plan(project)
         task = None if to == dsl.PLAN else next((t for t in plan["tasks"] if t["id"] == to), None)
         if to != dsl.PLAN and task is None:

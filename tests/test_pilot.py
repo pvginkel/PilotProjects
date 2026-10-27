@@ -884,6 +884,14 @@ class BlockCase(PilotCase):
     def path(self, relative: str) -> Path:
         return self.folder / relative
 
+    def as_draft(self) -> None:
+        """The fixture's project as a draft, its state in `timeline.json`, which
+        decides how the engine reads `project.md`."""
+        timeline_path = self.path("timeline.json")
+        timeline = json.loads(timeline_path.read_text())
+        timeline["project"]["state"] = "draft"
+        timeline_path.write_text(json.dumps(timeline, indent=2) + "\n")
+
     def text(self, relative: str) -> str:
         return self.path(relative).read_bytes().decode()
 
@@ -1025,6 +1033,7 @@ class TestAnswer(BlockCase):
         )
 
     def test_answer_writes_in_the_draft(self) -> None:
+        self.as_draft()
         self.path("project.md").write_text(DRAFT)
 
         completed = self.pilot("answer", "project.md", "D1", "--value", "Fridays")
@@ -1321,7 +1330,7 @@ class TestDefer(BlockCase):
                     [check_of(str(self.plan_path)), check_of(str(self.path(relative)))],
                 )
 
-    def test_defer_is_refused_a_to_the_plan_has_not_a_frozen_block_and_a_draft_s_block(
+    def test_defer_is_refused_a_to_the_plan_has_not_a_frozen_block_and_project_md_s_block(
         self,
     ) -> None:
         self.path("project.md").write_text(DRAFT)
@@ -1339,7 +1348,10 @@ class TestDefer(BlockCase):
             ),
             (
                 ("project.md", "D1", "--to", "plan", "--summary", "Later"),
-                "<file>: project.md is the draft, whose blocks no plan note may name (D001)",
+                (
+                    "<file>: project.md is the project document, whose blocks no plan note may"
+                    " name (D001)"
+                ),
             ),
             (
                 (OLD_PATH, "Q9", "--to", "t3", "--summary", "Later"),
@@ -1353,6 +1365,17 @@ class TestDefer(BlockCase):
         ):
             with self.subTest(args=args):
                 self.assert_refused("defer", *args, says=(says,))
+        self.as_draft()
+        self.assert_refused(
+            "defer",
+            "project.md",
+            "D1",
+            "--to",
+            "plan",
+            "--summary",
+            "Later",
+            says=("<file>: project.md is the draft, whose blocks no plan note may name (D001)",),
+        )
 
 
 class TestTheBlockLock(BlockCase):
@@ -1587,6 +1610,7 @@ class TestTheValidation(BlockCase):
                 ),
             ),
         )
+        self.as_draft()
         self.path("project.md").write_text(DRAFT.replace("slug: soup-club", "slug: Soup_Club"))
         self.assert_refused(
             "answer",
@@ -1601,6 +1625,26 @@ class TestTheValidation(BlockCase):
                 ),
             ),
         )
+
+    def test_project_md_past_create_takes_the_handbook_s_rules_and_reads_no_slug(self) -> None:
+        """Past Create project the engine ingests `project.md` as the handbook's
+        kind (PilotApp's engine/ingest.py): its slug moves nothing, and no
+        slug, however written, holds the write."""
+        self.path("project.md").write_text(DRAFT.replace("slug: soup-club", "slug: Soup_Club"))
+
+        completed = self.pilot("answer", "project.md", "D1", "--value", "Fridays")
+
+        self.assert_block_written(completed, "project.md")
+        self.assertEqual(self.block("project.md", "D1").answer, "Fridays")
+
+    def test_project_md_is_read_as_the_draft_while_its_project_is_one(self) -> None:
+        module = pilot_module()
+        project = module.Project(self.folder)
+        self.path("project.md").write_text(DRAFT)
+        self.assertIs(module._document(project, "project.md").kind, dsl.DocumentKind.HANDBOOK)
+        self.as_draft()
+        self.assertIs(module._document(project, "project.md").kind, dsl.DocumentKind.DRAFT)
+        self.assertIs(module._document(project, OLD_PATH).kind, dsl.DocumentKind.OWN_ITEM)
 
     def test_what_the_tree_does_not_carry_is_left_to_the_check(self) -> None:
         self.edit(OLD_PATH, "step: t2\n", "step: t0\nfor: erin\n")
