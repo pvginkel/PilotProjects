@@ -13,9 +13,9 @@ capabilities:
   capacityExempt: true
 
 # pilot-sync keeps /work/Projects, the record's tree, in step with Pilot's
-# record, and serves the hook's local check (.claude/settings.json) on
-# 127.0.0.1:3510. Its image, Pilot's address and its bearer are the catalog
-# entry's, each stage's own.
+# record, and serves the hook's write lock and its release
+# (.claude/settings.json) on 127.0.0.1:3510. Its image, Pilot's address and
+# its bearer are the catalog entry's, each stage's own.
 services:
   - pilot-sync
 

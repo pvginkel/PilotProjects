@@ -1,6 +1,5 @@
 """tools/pilot.py, run as the brain runs it, on a copy of an invented project folder
-(tests/fixtures/tree, shaped as PilotApp's docs/projection.md has the store's tree) and
-against a stand-in for pilot-sync's local check."""
+(tests/fixtures/tree, shaped as PilotApp's docs/projection.md has the store's tree)."""
 
 import contextlib
 import fcntl
@@ -9,10 +8,10 @@ import io
 import json
 import os
 import shutil
+import socket
 import subprocess
 import sys
 import tempfile
-import threading
 import time
 import unittest
 from collections.abc import Iterator
@@ -21,7 +20,6 @@ from pathlib import Path
 from unittest import mock
 
 import pilot_dsl as dsl
-from stand_in import StandIn, check_of, free_port
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "tools" / "pilot.py"
@@ -66,18 +64,11 @@ class PilotCase(unittest.TestCase):
         self.folder = self.tree / "recipe-box"
         self.plan_path = self.folder / "plan.json"
         self.fixture_plan = json.loads(self.plan_path.read_text())
-        self.sidecar = StandIn()
-        threading.Thread(target=self.sidecar.serve_forever, daemon=True).start()
-        self.addCleanup(self.sidecar.server_close)
-        self.addCleanup(self.sidecar.shutdown)
-        self.addCleanup(self.sidecar.released.set)
-        self.port = self.sidecar.server_address[1]
 
     def environment(self, **overrides: str | None) -> dict[str, str]:
         environment = {
             **os.environ,
             "PILOT_PROJECT": str(self.folder),
-            "PILOT_SYNC_LOCAL_PORT": str(self.port),
             **overrides,
         }
         return {name: value for name, value in environment.items() if value is not None}
@@ -108,22 +99,19 @@ class PilotCase(unittest.TestCase):
         return json.loads(self.plan_path.read_text())
 
     def assert_refused(self, *args: str, says: tuple[str, ...], stdin: str = "") -> None:
-        before, asked = self.files(), list(self.sidecar.asked)
+        before = self.files()
         completed = self.pilot(*args, stdin=stdin)
         self.assertEqual(completed.returncode, 2, completed)
         self.assertEqual(completed.stdout, "")
         for words in says:
             self.assertIn(words, completed.stderr)
         self.assertEqual(self.files(), before)
-        self.assertEqual(self.sidecar.asked, asked)
 
     def assert_written(self, completed: subprocess.CompletedProcess) -> None:
-        """Exit 0, the plan canonical, and its check asked once."""
+        """Exit 0, and the plan canonical."""
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertEqual(completed.stderr, "")
         self.assertEqual(self.plan_path.read_text(), canonical(self.plan()))
-        self.assertEqual(self.sidecar.asked, [check_of(str(self.plan_path))])
-        self.assertTrue(completed.stdout.endswith("checked recipe-box/plan.json: clean\n"))
 
     def put_plan(self, plan: dict) -> None:
         self.plan_path.write_text(canonical(plan))
@@ -208,7 +196,6 @@ class TestTheFrame(PilotCase):
                     "pilot.py defer <file> <block id> --to <task id|plan> --summary <line>"
                     " [--content <text>|-] [--note <text>]"
                 ),
-                "pilot.py check <path>",
                 "pilot.py items list [--open] [--kind <code>]",
                 "pilot.py items show <id|path>",
                 (
@@ -290,165 +277,30 @@ class TestTheWrite(PilotCase):
         )
 
 
-class TestTheCheck(PilotCase):
-    def write(self, **environment: str | None) -> subprocess.CompletedProcess:
-        return self.pilot("plan", "task", "set", "t3", "--status", "in_progress", **environment)
-
-    def test_a_writing_verb_ends_with_the_check_of_the_file_it_wrote(self) -> None:
-        completed = self.write()
-
-        self.assert_written(completed)
-        self.assertEqual(
-            completed.stdout,
-            "task t3: Publish the card view (in_progress)\nchecked recipe-box/plan.json: clean\n",
-        )
-
-    def test_a_save_error_naming_the_file_exits_1(self) -> None:
-        for body in (
-            "recipe-box/plan.json: task `t2` is removed while its notes `n1` are open\n",
-            "recipe-box/plan.json:4: the plan is not JSON: Expecting value\n",
+class TestNoCheck(PilotCase):
+    def test_a_writing_verb_prints_what_it_did_and_opens_no_connection(self) -> None:
+        module = pilot_module()
+        for argv, printed in (
+            (
+                ["plan", "task", "set", "t3", "--status", "in_progress"],
+                "task t3: Publish the card view (in_progress)\n",
+            ),
+            (
+                ["answer", "items/3-old-recipes.md", "Q2", "--value", "Yes"],
+                "block Q2 of items/3-old-recipes.md answered: Yes\n",
+            ),
         ):
-            with self.subTest(body=body):
-                self.sidecar.body = body
-                completed = self.write()
-                self.assertEqual(completed.returncode, 1, completed.stderr)
-                self.assertTrue(
-                    completed.stdout.endswith(
-                        f"checked recipe-box/plan.json: a Save Error names it\n{body}"
-                    )
-                )
-
-    def test_another_file_s_lines_a_local_note_and_the_deferrals_leave_the_exit_0(self) -> None:
-        self.sidecar.body = (
-            "recipe-box/items/3-old-recipes.md:14: block Q1: `to: t9` names neither `plan`"
-            " nor a task in the plan\n"
-            "recipe-box/plan.json.orig: not a document of the record — files are born"
-            " through `add_item`\n"
-            "recipe-box/plan.json: a read-only view; re-projected\n"
-            "Deferrals without a home (no plan note names these blocks):\n"
-            f"- {OLD}/Q1 in recipe-box/items/3-old-recipes.md (Old recipes), to: t2\n"
-        )
-
-        completed = self.write()
-
-        self.assertEqual(completed.returncode, 0, completed.stderr)
-        self.assertTrue(
-            completed.stdout.endswith(
-                "checked recipe-box/plan.json: no Save Error names it; the check says\n"
-                + self.sidecar.body
-            )
-        )
-
-    def test_not_yet_checked_exits_3(self) -> None:
-        self.sidecar.body = "not yet checked: recipe-box/plan.json\n"
-
-        completed = self.write()
-
-        self.assertEqual(completed.returncode, 3, completed.stderr)
-        self.assertTrue(
-            completed.stdout.endswith(
-                "not yet checked: recipe-box/plan.json\n"
-                "the next check shows it: `pilot.py check plan.json`\n"
-            )
-        )
-        self.assertEqual(self.plan()["tasks"][2]["status"], "in_progress")
-
-    def test_a_sidecar_that_does_not_answer_is_not_yet_checked(self) -> None:
-        completed = self.write(PILOT_SYNC_LOCAL_PORT=str(free_port()))
-
-        self.assertEqual(completed.returncode, 3, completed.stderr)
-        self.assertIn(
-            "not yet checked: recipe-box/plan.json (pilot-sync did not answer:", completed.stdout
-        )
-        self.assertEqual(self.plan()["tasks"][2]["status"], "in_progress")
-
-    def test_an_error_status_after_a_write_is_not_yet_checked(self) -> None:
-        self.sidecar.status = 500
-        self.sidecar.body = "cannot check a file of the tree\n"
-
-        completed = self.write()
-
-        self.assertEqual(completed.returncode, 3, completed.stderr)
-        self.assertIn(
-            "not yet checked: recipe-box/plan.json (pilot-sync answered 500:"
-            " cannot check a file of the tree)",
-            completed.stdout,
-        )
-
-    def test_a_sidecar_past_the_5_second_cap_is_not_yet_checked(self) -> None:
-        self.sidecar.hold = True
-        started = time.monotonic()
-
-        completed = self.write()
-
-        elapsed = time.monotonic() - started
-        self.assertEqual(completed.returncode, 3, completed.stderr)
-        self.assertIn("not yet checked: recipe-box/plan.json", completed.stdout)
-        self.assertGreaterEqual(elapsed, 5)
-        self.assertLess(elapsed, 7)
-
-    def test_with_no_port_set_the_check_asks_3510(self) -> None:
-        try:
-            default = StandIn(3510)
-        except OSError as error:
-            self.skipTest(
-                f"127.0.0.1:3510 is taken here, as pilot-sync takes it in the store: {error}"
-            )
-        threading.Thread(target=default.serve_forever, daemon=True).start()
-        self.addCleanup(default.server_close)
-        self.addCleanup(default.shutdown)
-
-        completed = self.write(PILOT_SYNC_LOCAL_PORT=None)
-
-        self.assertEqual(completed.returncode, 0, completed.stderr)
-        self.assertEqual(default.asked, [check_of(str(self.plan_path))])
-
-    def test_check_asks_for_the_file_alone(self) -> None:
-        document = self.folder / "items" / "3-old-recipes.md"
-        for path in ("items/3-old-recipes.md", str(document)):
-            with self.subTest(path=path):
-                self.sidecar.asked.clear()
-                before = self.files()
-                completed = self.pilot("check", path)
-                self.assertEqual(completed.returncode, 0, completed.stderr)
-                self.assertEqual(
-                    completed.stdout, "checked recipe-box/items/3-old-recipes.md: clean\n"
-                )
-                self.assertEqual(self.sidecar.asked, [check_of(str(document))])
-                self.assertEqual(self.files(), before)
-
-    def test_check_exits_by_its_answer(self) -> None:
-        for body, code in (
-            ("recipe-box/items/3-old-recipes.md:14: block Q1: `to: t9` names no task\n", 1),
-            ("recipe-box/plan.json: task `t2` is removed while its notes `n1` are open\n", 0),
-            ("not yet checked: recipe-box/items/3-old-recipes.md\n", 3),
-        ):
-            with self.subTest(body=body):
-                self.sidecar.body = body
-                completed = self.pilot("check", "items/3-old-recipes.md")
-                self.assertEqual(completed.returncode, code, completed.stderr)
-                self.assertIn(body, completed.stdout)
-
-    def test_check_refuses_a_path_outside_the_folder_and_a_file_that_is_not_there(self) -> None:
-        for path, says in (
-            ("../reference.json", "is not in the project's folder"),
-            ("/tmp/notes.md", "is not in the project's folder"),
-            ("items/9-soup.md", "no file at"),
-        ):
-            with self.subTest(path=path):
-                self.assert_refused("check", path, says=("<path>", says))
-
-    def test_check_refuses_a_path_pilot_sync_refuses(self) -> None:
-        for status, body in (
-            (400, 'not a file of the tree /work/Projects: "x"\n'),
-            (404, "no file at x\n"),
-        ):
-            with self.subTest(status=status):
-                self.sidecar.status = status
-                self.sidecar.body = body
-                completed = self.pilot("check", "plan.json")
-                self.assertEqual(completed.returncode, 2)
-                self.assertIn(f"<path>: pilot-sync refused it: {body.strip()}", completed.stderr)
+            with self.subTest(argv=argv):
+                stdout = io.StringIO()
+                with (
+                    mock.patch.dict(os.environ, self.environment()),
+                    mock.patch.object(
+                        socket.socket, "connect", side_effect=AssertionError("a connection")
+                    ),
+                    contextlib.redirect_stdout(stdout),
+                ):
+                    code = module.main(argv)
+                self.assertEqual((code, stdout.getvalue()), (0, printed))
 
 
 class TestItems(PilotCase):
@@ -457,7 +309,6 @@ class TestItems(PilotCase):
 
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertEqual(completed.stdout, "".join(f"{line}\n" for line in LINES.values()))
-        self.assertEqual(self.sidecar.asked, [])
 
     def test_list_open_and_kind(self) -> None:
         for args, seqs in (
@@ -562,7 +413,6 @@ class TestPlanTask(PilotCase):
         ):
             with self.subTest(args=args):
                 self.put_plan(self.fixture_plan)
-                self.sidecar.asked.clear()
                 completed = self.pilot(
                     "plan",
                     "task",
@@ -659,7 +509,6 @@ class TestPlanTask(PilotCase):
             "t2 · in_progress · Import the old recipes · notes n1\n"
             "t3 · pending · Publish the card view\n",
         )
-        self.assertEqual(self.sidecar.asked, [])
 
     def test_a_writer_leaves_a_plan_canonical_in_the_record_s_order(self) -> None:
         shuffled = {
@@ -777,7 +626,6 @@ class TestPlanNote(PilotCase):
         for note_id, owner in (("n1", ("tasks", 1)), ("n2", ("notes",))):
             with self.subTest(note=note_id):
                 self.put_plan(self.fixture_plan)
-                self.sidecar.asked.clear()
                 completed = self.pilot("plan", "note", "strike", note_id)
                 self.assert_written(completed)
                 self.assertTrue(completed.stdout.startswith(f"note {note_id} struck\n"))
@@ -805,7 +653,6 @@ class TestPlanNote(PilotCase):
             "    The layout waits for real recipes; Markdown keeps it simple.\n"
             f"    {STORAGE}/D1 · Storage format · answer: Markdown by dana\n",
         )
-        self.assertEqual(self.sidecar.asked, [])
 
     def test_list_makes_a_stale_note_plain(self) -> None:
         document = self.folder / "items" / "3-old-recipes.md"
@@ -846,7 +693,6 @@ class TestPlanSet(PilotCase):
             (("--no-repo", "--ticket", "RB-41"), "RB-41", None),
         ):
             with self.subTest(args=args):
-                self.sidecar.asked.clear()
                 completed = self.pilot("plan", "set", *args)
                 self.assert_written(completed)
                 self.assertTrue(
@@ -912,19 +758,17 @@ class BlockCase(PilotCase):
         self.assertLessEqual(moment, datetime.now(UTC))
         return moment
 
+    def pilot(self, *args: str, stdin: str = "", **environment: str | None):
+        self.before = self.files()
+        return super().pilot(*args, stdin=stdin, **environment)
+
     def assert_block_written(self, completed: subprocess.CompletedProcess, *relatives: str) -> None:
-        """Exit 0, and the check of each file written, in the order written."""
+        """Exit 0, and the files the run changed those named, and no other."""
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertEqual(completed.stderr, "")
-        self.assertEqual(
-            self.sidecar.asked, [check_of(str(self.path(relative))) for relative in relatives]
-        )
-        self.assertTrue(
-            completed.stdout.endswith(
-                "".join(f"checked recipe-box/{relative}: clean\n" for relative in relatives)
-            ),
-            completed.stdout,
-        )
+        after, before = self.files(), self.before
+        changed = {path for path in after | before if after.get(path) != before.get(path)}
+        self.assertEqual(changed, {f"recipe-box/{relative}" for relative in relatives})
 
 
 class TestAnswer(BlockCase):
@@ -1170,10 +1014,7 @@ class TestDefer(BlockCase):
         self.assert_block_written(completed, "plan.json", OLD_PATH)
         self.assertEqual(
             completed.stdout,
-            f"note n3 added on task t3, refs {OLD}/Q2\n"
-            f"block Q2 of {OLD_PATH} deferred to t3\n"
-            "checked recipe-box/plan.json: clean\n"
-            f"checked recipe-box/{OLD_PATH}: clean\n",
+            f"note n3 added on task t3, refs {OLD}/Q2\nblock Q2 of {OLD_PATH} deferred to t3\n",
         )
         block = self.block(OLD_PATH, "Q2")
         at = self.assert_stamped(block.at)
@@ -1264,7 +1105,6 @@ class TestDefer(BlockCase):
         self.assertEqual(written, [self.plan_path, self.path(OLD_PATH)])
         self.assertEqual(self.plan()["tasks"][2]["notes"][0]["refs"], [f"{OLD}/Q2"])
         self.assertEqual(self.text(OLD_PATH), before)
-        self.assertEqual(self.sidecar.asked, [])
 
     def test_defer_holds_one_lock_over_both_writes(self) -> None:
         module = pilot_module()
@@ -1311,24 +1151,6 @@ class TestDefer(BlockCase):
                 "unlock",
             ],
         )
-
-    def test_defer_exits_by_the_check_of_each_file_it_wrote(self) -> None:
-        old, notes = str(self.path(OLD_PATH)), str(self.path(NOTES_PATH))
-        self.sidecar.answers = {
-            old: (200, f"not yet checked: recipe-box/{OLD_PATH}\n"),
-            notes: (200, f"recipe-box/{NOTES_PATH}:9: block D1: `to: t3` names no task\n"),
-        }
-        for relative, code in ((OLD_PATH, 3), (NOTES_PATH, 1)):
-            with self.subTest(relative=relative):
-                self.sidecar.asked.clear()
-                block = "Q2" if relative == OLD_PATH else "D1"
-                completed = self.pilot("defer", relative, block, "--to", "t3", "--summary", "Later")
-                self.assertEqual(completed.returncode, code, completed.stderr)
-                self.assertIn("checked recipe-box/plan.json: clean\n", completed.stdout)
-                self.assertEqual(
-                    self.sidecar.asked,
-                    [check_of(str(self.plan_path)), check_of(str(self.path(relative)))],
-                )
 
     def test_defer_is_refused_a_to_the_plan_has_not_a_frozen_block_and_project_md_s_block(
         self,
@@ -1663,16 +1485,6 @@ class TestTheValidation(BlockCase):
         self.assert_block_written(completed, OLD_PATH)
         self.assertEqual(self.block(OLD_PATH, "Q1").to, "t2")
         self.assertEqual(self.block(OLD_PATH, "Q2").by, "agent")
-
-        self.sidecar.asked.clear()
-        self.sidecar.body = f"recipe-box/{OLD_PATH}:5: front matter: `for: erin` names no handle\n"
-        completed = self.pilot("answer", OLD_PATH, "Q2", "--value", "No")
-        self.assertEqual(completed.returncode, 1, completed.stderr)
-        self.assertTrue(
-            completed.stdout.endswith(
-                f"checked recipe-box/{OLD_PATH}: a Save Error names it\n{self.sidecar.body}"
-            )
-        )
 
 
 if __name__ == "__main__":

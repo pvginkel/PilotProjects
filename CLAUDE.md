@@ -32,10 +32,14 @@ sends says the handbook changed since your last turn: read `handbook.md` again b
 - **Never edited**, an edit reverted: `timeline.json` (the project and its items, each open or done),
   `attachments/`, `chat.md` (the project's chats so far), and `reference.json` at the tree's root,
   `/work/Projects/reference.json`, which holds every closed list's values.
-- **The check after every edit.** After each `Edit` and `Write` of a file under `/work/Projects/`
-  the sidecar says what the record made of it, in the tool's result: clean, or the lines it
-  reverted, or the faults of a save it holds until you fix them. A file written through Bash has no such check: `pilot.py` checks its
-  own writes, and `pilot.py check` one you wrote by hand.
+- **The check after every writing tool call.** Before each `Edit`, `Write`, `MultiEdit` and
+  `Bash` call your session takes the project's write lock, so that what the call saves is
+  credited to it; a call refused with "another session is writing; try again" did not run. After
+  the call the sidecar sends up what was saved and says, in the tool's result, what the record
+  holds against the project, whichever session's save it came from: the lines it reverted, each
+  said once, the faults of a save it holds until they are fixed, and the deferrals without a
+  home. Nothing said is clean. At your turn's end the same report comes once more when it is not
+  empty, and the turn goes on with it.
 - **This repo**: the skills, `.claude/skills/<name>/SKILL.md`, and the rule files they apply,
   each the one home of its rules: `rules/grants.md` (what goes ahead and what asks the operator
   first), `rules/routing.md` (where an open block goes, deferral, a delegated answer, another
@@ -73,15 +77,13 @@ A finished project's chat has none of them: it reads only.
 `tools/pilot.py` edits the project's structured files, and is preferred to a hand edit of them.
 Run it from this repo's root, `cexec python uv run tools/pilot.py <verb> …`; it works on
 `$PILOT_PROJECT`'s folder, and `pilot.py --help` prints every verb's usage. It writes files and
-never calls the API. Every write holds the folder's lock and ends with the sidecar's check, its
-answer printed and its exit saying how it went: 0 clean, 1 a file it wrote held or a line of it
-reverted, 2 refused with nothing written, 3 not yet checked. Its verbs:
+never calls the API. Every write holds the folder's lock, and the check after its Bash call
+says what the record made of it. It exits 0 done, or 2 refused with nothing written. Its verbs:
 
 - `pilot.py answer`: Pilot's answer to a block, `by: agent`, in place of its own
 - `pilot.py done`: an action's Done by Pilot, one it claimed (`answer: Pilot does it`) or one with
   no answer
 - `pilot.py defer`: defer a block to a task or the plan, with its plan note, written first
-- `pilot.py check`: the check alone, for a file written by hand
 - `pilot.py items list`: the timeline's items, one line each, from timeline.json
 - `pilot.py items show`: the item's line and, for a document, its blocks with their answer lines
 - `pilot.py plan task add`: add a task to the plan, last unless placed

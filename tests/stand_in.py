@@ -1,21 +1,19 @@
-"""A stand-in for pilot-sync's local check, `GET /check?path=` on 127.0.0.1, which the
-tests of the hook and of pilot.py share."""
+"""A stand-in for pilot-sync's local endpoint on 127.0.0.1, `POST /lock` and
+`POST /release`, which the store's hooks call."""
 
 import http.server
+import json
 import socket
 import threading
-import urllib.parse
 
 
 class StandIn(http.server.ThreadingHTTPServer):
-    """The local check: answers each `GET /check` with `status` and `body`, or
-    with the pair `answers` holds for its path, after `released` is set when
-    `hold` is."""
+    """The local endpoint: answers each POST with the pair `answers` holds for
+    its route, 200 and nothing when it holds none, after `released` is set when
+    `hold` is; `asked` has each call's route and JSON body, in order."""
 
     def __init__(self, port: int = 0) -> None:
         super().__init__(("127.0.0.1", port), Handler)
-        self.status = 200
-        self.body = ""
         self.answers: dict[str, tuple[int, str]] = {}
         self.hold = False
         self.released = threading.Event()
@@ -25,27 +23,22 @@ class StandIn(http.server.ThreadingHTTPServer):
 class Handler(http.server.BaseHTTPRequestHandler):
     server: StandIn
 
-    def do_GET(self) -> None:
-        url = urllib.parse.urlsplit(self.path)
-        self.server.asked.append((url.path, urllib.parse.parse_qs(url.query)))
+    def do_POST(self) -> None:
+        body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+        self.server.asked.append((self.path, body))
         if self.server.hold:
             self.server.released.wait(10)
             return
-        path = urllib.parse.parse_qs(url.query).get("path", [""])[0]
-        status, text = self.server.answers.get(path, (self.server.status, self.server.body))
-        body = text.encode()
+        status, text = self.server.answers.get(self.path, (200, ""))
+        answer = text.encode()
         self.send_response(status)
         self.send_header("Content-Type", "text/plain; charset=utf-8")
-        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Content-Length", str(len(answer)))
         self.end_headers()
-        self.wfile.write(body)
+        self.wfile.write(answer)
 
     def log_message(self, format: str, *args: object) -> None:
         pass
-
-
-def check_of(path: str) -> tuple[str, dict]:
-    return "/check", {"path": [path]}
 
 
 def free_port() -> int:

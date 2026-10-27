@@ -1,10 +1,10 @@
 """The brain's map as its sessions load it — CLAUDE.md, the rule files and the four skills: each
 skill named as its folder and its brief last, the handbook read first, the format skill cited by
-its name, pilot.py's verbs as its parser has them, every pilot.py command line it quotes one the
-parser takes, every path the map cites in place, the chat skill and the create skill reading a
-person's message as PilotApp's server sends it, the create skill naming a draft's ask and its
-material as pilot-store takes them, and the plan skill's setup reading the draft's sections the
-create skill writes."""
+its name, pilot.py's verbs as its parser has them, the tool calls the hook locks around, every
+pilot.py command line it quotes one the parser takes, every path the map cites in place, the chat
+skill and the create skill reading a person's message as PilotApp's server sends it, the create
+skill naming a draft's ask and its material as pilot-store takes them, and the plan skill's setup
+reading the draft's sections the create skill writes."""
 
 import importlib.util
 import itertools
@@ -283,6 +283,14 @@ class CitationsTest(unittest.TestCase):
                 self.assertIn(f"`{verb}`: {description}", text)
         named = set(re.findall(r"`(pilot\.py [a-z ]+)`:", text))
         self.assertEqual(named, set(verbs))
+
+    def test_claude_md_names_every_tool_call_the_hook_locks_around(self) -> None:
+        settings = json.loads((ROOT / ".claude" / "settings.json").read_text())
+        (entry,) = settings["hooks"]["PreToolUse"]
+        text = CLAUDE.read_text()
+        for tool in entry["matcher"].split("|"):
+            with self.subTest(tool):
+                self.assertIn(f"`{tool}`", text)
 
     def test_every_pilot_py_command_the_map_quotes_is_one_its_parser_takes(self) -> None:
         options = pilot_options()

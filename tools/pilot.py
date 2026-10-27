@@ -5,13 +5,12 @@ Design 3 §7. One verb per intent, on the folder `$PILOT_PROJECT` names, or
 `--project`. A refusal goes to stderr, naming the flag or the rule, exits 2
 and writes nothing. Every read-modify-write holds an exclusive flock on the
 project folder itself, and every file is replaced whole: written to a
-temporary file in its directory, then renamed over it. Every writing verb
-ends with pilot-sync's local check of each file it wrote and prints its
-answer (PilotApp's docs/sync.md, § The local check).
+temporary file in its directory, then renamed over it. It calls neither
+pilot-sync nor Pilot: the store's hooks hold the tree's write lock around
+the Bash call that runs it, and report what the record made of its writes
+after that call (.claude/hooks/pilot-sync-lock.py).
 
-Exit codes: 0 done, and the check names no file written · 1 a Save Error
-names a file written: its save held, or a line reverted · 2 refused, nothing
-written · 3 not yet checked.
+Exit codes: 0 done · 2 refused, nothing written.
 """
 
 import argparse
@@ -21,9 +20,6 @@ import json
 import os
 import sys
 import tempfile
-import urllib.error
-import urllib.parse
-import urllib.request
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -45,19 +41,7 @@ OPENING = "opening"
 # The answer of an action Pilot has claimed (F21.6, D062).
 CLAIM = "Pilot does it"
 
-DONE, HELD, REFUSED, UNCHECKED = 0, 1, 2, 3
-
-# pilot-sync answers `not yet checked` itself once 2 s of waiting for the
-# file's ingest have passed; the rest of the cap bounds its call to Pilot.
-CHECK_CAP_SECONDS = 5
-NOT_YET_CHECKED = "not yet checked: "
-# The local notes pilot-sync prints as `<path>: <note>`, in the shape of a
-# Save Error without a line (PilotApp's sidecar/internal/sidecar/tree.go).
-LOCAL_NOTES = (
-    "not a document of the record — files are born through `add_item`",
-    "a read-only view; re-projected",
-)
-HOMELESS_HEADING = "Deferrals without a home (no plan note names these blocks):"
+DONE, REFUSED = 0, 2
 
 # plan.json's keys in the record's order (PilotApp's docs/projection.md).
 _PLAN_KEYS = ("ticket", "repo", "tasks", "notes")
@@ -90,16 +74,6 @@ class Project:
     def tree_path(self, path: Path) -> str:
         """The path as pilot-sync names it, from the tree's root."""
         return path.relative_to(self.tree).as_posix()
-
-
-@dataclass(frozen=True)
-class Checked:
-    """pilot-sync's answer on one file: its HTTP status, none when it did not
-    answer, and its text."""
-
-    path: Path
-    status: int | None
-    answer: str
 
 
 # -- the frame -----------------------------------------------------------------
@@ -141,73 +115,6 @@ def _write(path: Path, text: str) -> None:
         with contextlib.suppress(FileNotFoundError):
             os.unlink(temporary)
         raise
-
-
-def _ask(path: Path) -> Checked:
-    """pilot-sync's local check of the file: `GET /check?path=` on
-    127.0.0.1, at the port `$PILOT_SYNC_LOCAL_PORT` names, 3510 when unset."""
-    port = os.environ.get("PILOT_SYNC_LOCAL_PORT", "3510")
-    query = urllib.parse.urlencode({"path": str(path)})
-    try:
-        with urllib.request.urlopen(
-            f"http://127.0.0.1:{port}/check?{query}", timeout=CHECK_CAP_SECONDS
-        ) as response:
-            return Checked(path, response.status, response.read().decode())
-    except urllib.error.HTTPError as error:
-        return Checked(path, error.code, error.read().decode())
-    except OSError as error:
-        return Checked(path, None, f"pilot-sync did not answer: {error}")
-
-
-def _names(line: str, tree_path: str) -> bool:
-    """Whether the answer's line is a Save Error of the file: `<path>:<line>:
-    <message>`, or `<path>: <message>` that is no local note."""
-    if not line.startswith(tree_path):
-        return False
-    rest = line.removeprefix(tree_path)
-    if rest.startswith(": "):
-        return rest.removeprefix(": ") not in LOCAL_NOTES
-    number, colon, _ = rest.removeprefix(":").partition(": ")
-    return rest.startswith(":") and bool(colon) and number.isdigit()
-
-
-def _verdict(project: Project, checked: Checked) -> int:
-    tree_path = project.tree_path(checked.path)
-    if checked.status != 200 or checked.answer.startswith(NOT_YET_CHECKED):
-        return UNCHECKED
-    for line in checked.answer.splitlines():
-        if line == HOMELESS_HEADING:
-            break
-        if _names(line, tree_path):
-            return HELD
-    return DONE
-
-
-def _report(project: Project, checked: Checked) -> int:
-    """Print the check's answer on the file, and return its exit code."""
-    tree_path = project.tree_path(checked.path)
-    verdict = _verdict(project, checked)
-    answer = checked.answer.rstrip("\n")
-    if verdict == UNCHECKED:
-        if not answer.startswith(NOT_YET_CHECKED):
-            status = "" if checked.status is None else f"pilot-sync answered {checked.status}: "
-            answer = f"{NOT_YET_CHECKED}{tree_path} ({status}{answer})"
-        relative = checked.path.relative_to(project.folder).as_posix()
-        print(f"{answer}\nthe next check shows it: `{PROG} check {relative}`")
-    elif verdict == HELD:
-        print(f"checked {tree_path}: a Save Error names it\n{answer}")
-    elif answer:
-        print(f"checked {tree_path}: no Save Error names it; the check says\n{answer}")
-    else:
-        print(f"checked {tree_path}: clean")
-    return verdict
-
-
-def _check_written(project: Project, paths: list[Path]) -> int:
-    """The check of every file a verb wrote, one call each: 1 when a Save
-    Error names one, else 3 when one is not yet checked, else 0."""
-    verdicts = [_report(project, _ask(path)) for path in paths]
-    return HELD if HELD in verdicts else max(verdicts)
 
 
 def _read_json(path: Path, what: str) -> Any:
@@ -357,16 +264,6 @@ def _items_show(project: Project, args: argparse.Namespace) -> int:
     return DONE
 
 
-def _check(project: Project, args: argparse.Namespace) -> int:
-    path = project.file(args.path, "<path>")
-    if not path.is_file():
-        raise Refused(f"<path>: no file at {path}")
-    checked = _ask(path)
-    if checked.status in (400, 404):
-        raise Refused(f"<path>: pilot-sync refused it: {checked.answer.strip()}")
-    return _report(project, checked)
-
-
 # -- plan.json -----------------------------------------------------------------
 
 
@@ -443,14 +340,14 @@ def _all_notes(plan: dict[str, Any]) -> Iterator[tuple[dict[str, Any] | None, di
 
 def _edit_plan(project: Project, edit: Callable[[dict[str, Any]], str]) -> int:
     """Read plan.json, apply `edit`, which refuses or says what it did,
-    write the plan back canonical, and check it."""
+    write the plan back canonical, and say what it did."""
     path = project.folder / PLAN
     with _locked(project):
         plan = _read_plan(project)
         done = edit(plan)
         _write(path, _render_plan(plan))
     print(done)
-    return _check_written(project, [path])
+    return DONE
 
 
 def _task_add(project: Project, args: argparse.Namespace) -> int:
@@ -707,7 +604,7 @@ def _validated(project: Project, document: _Document, text: str) -> None:
     """`validate()` on the text to write, with the facts the tree carries:
     the confirmation reasons, the plan's live tasks, the `to`s the file has.
     It carries no handle and no removed task, so the rules resting on them
-    are left to the check after the write."""
+    are left to the check after the Bash call that runs the verb."""
     reference = _read_json(project.tree / REFERENCE, "the confirmation reasons")
     facts = dsl.Facts(
         document=document.kind,
@@ -759,7 +656,7 @@ def _answer(project: Project, args: argparse.Namespace) -> int:
         _validated(project, document, text)
         _write(document.path, text)
     print(f"block {args.block} of {document.relative} answered: {value}")
-    return _check_written(project, [document.path])
+    return DONE
 
 
 def _done(project: Project, args: argparse.Namespace) -> int:
@@ -789,7 +686,7 @@ def _done(project: Project, args: argparse.Namespace) -> int:
         _validated(project, document, text)
         _write(document.path, text)
     print(f"action {block.local_id} of {document.relative} done at {_utc(at)}")
-    return _check_written(project, [document.path])
+    return DONE
 
 
 def _defer(project: Project, args: argparse.Namespace) -> int:
@@ -833,7 +730,7 @@ def _defer(project: Project, args: argparse.Namespace) -> int:
     on = "the plan" if to == dsl.PLAN else f"task {to}"
     print(f"note {note_id} added on {on}, refs {ref}")
     print(f"block {args.block} of {document.relative} deferred to {to}")
-    return _check_written(project, [plan_path, document.path])
+    return DONE
 
 
 # -- the parser ----------------------------------------------------------------
@@ -891,10 +788,7 @@ def usage_text() -> str:
     lines = [
         f"{PROG} [--project <folder>] <verb> …",
         f"    --project <folder>: {project.help}",
-        (
-            "    exit: 0 done, the check names no file written · 1 a Save Error names a file"
-            " written · 2 refused, nothing written · 3 not yet checked"
-        ),
+        "    exit: 0 done · 2 refused, nothing written",
     ]
     for leaf in _leaves(parser):
         lines.append(leaf.usage or _usage(leaf))
@@ -984,11 +878,6 @@ def build_parser() -> argparse.ArgumentParser:
         help="the plan note's content, - to read it from stdin; its summary when not given",
     )
     defer.add_argument("--note", metavar="<text>", help="the block's note, why it is deferred")
-
-    check = verb(verbs, "check", _check, "the check alone, for a file written by hand")
-    check.add_argument(
-        "path", metavar="<path>", help="the file, relative to the project's folder or absolute"
-    )
 
     items = verbs.add_parser("items", help="the timeline's items").add_subparsers(
         dest="items_verb", required=True, metavar="<verb>"
