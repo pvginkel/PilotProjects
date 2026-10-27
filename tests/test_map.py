@@ -44,6 +44,13 @@ QUOTE_TAGS = (
     '`<quoted_path path="<path>">…</quoted_path path="<path>">`',
 )
 QUOTED_PATHS = ("`handbook.md`", "`project.md`", "`attachments/<batch>/<filename>`")
+# The server names a message's author only when the message before was another person's, so the
+# chat skill takes a message without the line, and a ruling's `for`, from the latest such line.
+LATEST_NAMING = (
+    "A message without that line is from the person the latest such line named, the brief's"
+    " included.",
+    f"`for` their handle, as the latest line {NAMING_LINE} names them",
+)
 
 
 def skill_file(name: str) -> Path:
@@ -176,6 +183,12 @@ class ChatSkillTest(unittest.TestCase):
         for form in (NAMING_LINE, *QUOTE_TAGS, *QUOTED_PATHS):
             with self.subTest(form):
                 self.assertIn(form, text)
+
+    def test_the_chat_skill_takes_for_from_the_latest_naming_line(self) -> None:
+        text = " ".join(skill_file("chat").read_text().split())
+        for rule in LATEST_NAMING:
+            with self.subTest(rule):
+                self.assertIn(rule, text)
 
 
 class CitationsTest(unittest.TestCase):
