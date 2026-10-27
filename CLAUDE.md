@@ -57,7 +57,8 @@ folder. Every other change to the record goes through its tools, never through P
   title in the front matter, or a work item started on add — its id, a prose item's path and a work
   item's state at the gate returned; a wait is refused for now.
 - `attach_file`: outside material, `<environment>:<path>`, a file or a folder, copied in and hung on
-  the item `to` names.
+  the item `to` names; in a draft's definition chat, with no `to`, on nothing until Create project
+  hangs it on the opening.
 - `answer`: a person's answer to a block, given in the chat, recorded for them (`for`), their words
   as the note; their deferral is `deferred` with `to`.
 - `mark`: Done, Read or Reviewed on an item for the person `for` names; without `for`, Pilot's own

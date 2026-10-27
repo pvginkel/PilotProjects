@@ -9,9 +9,10 @@ its database. The app is `pvginkel/PilotApp`.
   project's files are, its tools and `pilot.py`'s verbs, the invariants, and how it writes.
 - `.claude/skills/<name>/SKILL.md`: the four skills a brief opens with, `create`, `chat`,
   `pre-rule` and `plan`, each with its frontmatter, its first step, the rule files it applies, and
-  the brief's slot, `## The brief`, last. `chat`'s body, between them, is the project's chat's
-  procedure on Pilot's `pilot-store` tools and the brief the server composes; the other three are
-  still frames.
+  the brief's slot, `## The brief`, last. Between them, `chat`'s body is the project's chat's
+  procedure on Pilot's `pilot-store` tools and the brief the server composes, `create`'s the
+  definition chat's, which writes the draft with the person, and `plan`'s its setup mode, the first
+  job at Create project; `plan`'s other modes and `pre-rule` are still frames.
 - `rules/`: the rules the skills apply, each file the one home of its own — `grants.md` (what goes
   ahead and what asks the operator first), `routing.md` (where an open block goes),
   `placement.md` (a work item's repository, model and effort) and `stages.md` (the workflow's
