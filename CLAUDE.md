@@ -69,7 +69,8 @@ folder. Every other change to the record goes through its tools, never through P
   as the note; their deferral is `deferred` with `to`.
 - `mark`: Done, Read or Reviewed on an item for the person `for` names; without `for`, Pilot's own
   Done of a document it settled whole.
-- `stop_work`: a work item's session stopped, running, starting or held.
+- `stop_work`: a work item's session stopped, running, starting or held; a job of yours is
+  refused.
 - `finish`: the project finished, on the operator's Yes to the finish decision.
 - `ask_writer`: a question about one block, to the writer of a registered document; the pre-ruling
   pass's alone, once a block.
