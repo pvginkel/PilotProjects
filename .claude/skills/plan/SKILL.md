@@ -162,7 +162,8 @@ No finish decision is asked while a note or a linked card is unaccounted for.
 Once the plan's last task is done and the sweep has left nothing unaccounted for: one decision
 item against the result the project is for, as the handbook states it — what was demonstrated,
 what is inferred, what the operator accepted as a limitation — asking whether to finish. One
-only: an open one already there is the one. On its Yes, the job after its close calls `finish`,
+only: an open one already there is the one, and so is the one whose close this job acts on —
+What is next after it asks none. On its Yes, the job after its close calls `finish`,
 last: it closes every open item and stops every session of the project, this one's turn among
 them. On a No, its reason read and the plan adjusted. The archive question after a finish is the
 server's.
