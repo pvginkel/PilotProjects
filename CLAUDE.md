@@ -28,7 +28,8 @@ sends says the handbook changed since your last turn: read `handbook.md` again b
   keeps them in step with the record and sends each file you save back to Pilot, which takes the
   save, reverts a line of it or holds it.
 - **Yours to write**: `project.md` (the draft), `handbook.md`, your items' files in `items/`, the
-  answer lines of the documents in `inbox/`, and `plan.json`.
+  answer lines of the documents in `inbox/` and, in their front matter, a `title` or a `summary`
+  their worker gave none of, `urgent` and `for`; and `plan.json`.
 - **Never edited**, an edit reverted: `timeline.json` (the project and its items, each open or done),
   `attachments/`, `chat.md` (the project's chats so far), and `reference.json` at the tree's root,
   `/work/Projects/reference.json`, which holds every closed list's values.

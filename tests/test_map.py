@@ -3,8 +3,9 @@ skill named as its folder and its brief last, the handbook read first, the forma
 its name, pilot.py's verbs as its parser has them, the tool calls the hook locks around, every
 pilot.py command line it quotes one the parser takes, every path the map cites in place, the chat
 skill and the create skill reading a person's message as PilotApp's server sends it, the create
-skill naming a draft's ask and its material as pilot-store takes them, and the plan skill's setup
-reading the draft's sections the create skill writes."""
+skill naming a draft's ask and its material as pilot-store takes them, the pre-rule skill reading
+the brief of a worker's turn as PilotApp's server writes it and naming its writes and its hand-on
+to the plan, and the plan skill's setup reading the draft's sections the create skill writes."""
 
 import importlib.util
 import itertools
@@ -83,6 +84,23 @@ CREATE_IS_THE_OPERATORS = (
 # The draft's sections the create skill writes and the plan skill's setup reads.
 DRAFT_SECTIONS = ("`## The plan`", "`## Rules`", "`## Context`")
 SETUP_KIND = "`Pilot's brief · the setup · …`"
+# The brief of the job after a worker's turn as PilotApp's BriefService writes it: its kind line, a
+# registered document's line in each read state, and a run that registered nothing.
+PASS_KIND = "`Pilot's brief · a worker's turn ended · …`"
+PASS_DOCUMENT_LINES = (
+    "`- <path> (<item id>) — published`",
+    "`- <path> (<item id>) — read failed: <reason>`",
+    "`Registered nothing this run.`",
+)
+# The pass's writes and its hand-on: an answer, a deferral with its plan note and an action's Done
+# through pilot.py, Pilot's own Done through pilot-store's `mark` without `for`, then the plan.
+PASS_CALLS = (
+    "`pilot.py answer <file> <block id>",
+    "`pilot.py defer <file> <block id>",
+    "`pilot.py done <file> <block id>",
+    "`mark`, `item` the document's id, `mark` `done`, and no `for`",
+    "run `/plan`, its mode What is next, in this session",
+)
 
 
 def skill_file(name: str) -> Path:
@@ -258,6 +276,26 @@ class PlanSkillTest(unittest.TestCase):
             for section in DRAFT_SECTIONS:
                 with self.subTest(skill=name, section=section):
                     self.assertIn(section, text)
+
+
+class PreRuleSkillTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.text = " ".join(skill_file("pre-rule").read_text().split())
+
+    def test_the_pass_reads_the_brief_as_the_server_writes_it(self) -> None:
+        for form in (PASS_KIND, *PASS_DOCUMENT_LINES):
+            with self.subTest(form):
+                self.assertIn(form, self.text)
+
+    def test_the_pass_routes_by_the_rule_files(self) -> None:
+        for rule in ("`rules/routing.md`", "`rules/grants.md`"):
+            with self.subTest(rule):
+                self.assertIn(rule, self.text)
+
+    def test_the_pass_writes_through_pilot_py_marks_through_pilot_store_and_hands_on(self) -> None:
+        for call in PASS_CALLS:
+            with self.subTest(call):
+                self.assertIn(call, self.text)
 
 
 class CitationsTest(unittest.TestCase):
