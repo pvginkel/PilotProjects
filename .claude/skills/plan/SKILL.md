@@ -38,6 +38,11 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
 - **Work** is a work item, its fields and its brief as `rules/work-items.md` has them: free-form,
   from a brief of yours, since no stage runs from Pilot (`rules/stages.md`), each placed by
   `rules/placement.md` and what the handbook says of the project's repositories.
+- **The bounded check** before an ask you are about to put — a decision, a confirmation, the
+  finish decision — where a survey, an isolated test or a read could change its recommendation:
+  a sub-agent or a fleet read first, with the premise, the check, how each result moves the
+  recommendation and the stop; "would you like me to investigate?" is never asked where the
+  grants already allow it.
 
 ## The setup
 
