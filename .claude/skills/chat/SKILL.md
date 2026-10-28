@@ -23,8 +23,8 @@ only.
    (step 1) when it has one. A message without that line is from the person the latest such line
    named, the brief's included.
 
-The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/placement.md`. The writing is
-`/dev:document-format`'s.
+The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.md`,
+`rules/placement.md`. The writing is `/dev:document-format`'s.
 
 ## Reading
 
@@ -79,20 +79,12 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/placement.md
 
 ## Acting
 
-- **Work the person asks for** is a work item: `add_item` with `kind` `work`; `title`, which its
-  line on the timeline shows; `repo` (`owner/Name`) and `cwd`, its checkout under `/work`, as
-  `rules/placement.md` places it, `model` as it says too, `opus` unless the work says otherwise,
-  and `reasoning_effort` only where the work names one; `step`, the plan's task it serves, if
-  any; and `brief`: the task in a line, what to do and what to register (`rules/stages.md`), then
-  the grants text the switch selects, verbatim, from `rules/grants.md`'s "In a worker's brief".
-  Pilot appends the plan task, the switch and the handbook: never paste the handbook. What it
-  needs from elsewhere goes in `attachments`.
-- **The answer says how the start went**: `state` `starting`, or `held` at the gate with `held`
-  saying why, and the reply says so, a held start never told as running. `paused`: "Started; it
-  is held while the project is paused", as the brief's pause line asks of everything you start;
-  `slot`: held until a slot is free; `controller_unreachable`: held until Pilot reaches
-  KubeCoder's controller again. A refused add — its start refused, a field missing, a fault in
-  its text — added nothing: say so, with its reason, or fix the call.
+- **Work the person asks for** is a work item, its fields and its brief as `rules/work-items.md`
+  has them.
+- **The reply says how the start went**, as the answer's `state` and `held` say it
+  (`rules/work-items.md`), a held start never told as running: held while the project is paused,
+  "Started; it is held while the project is paused", as the brief's pause line asks of everything
+  you start. A refused add is said so, with its reason, unless you fix the call.
 - **A prose item** — `add_item` with its `kind` and `title`, and `step`, `urgent`, `for` and
   `summary` where they hold — is born with its file, the answer's `path`, which you fill; a short
   one comes whole as `markdown`. A person's answer never goes into its text: it is `answer`'s,

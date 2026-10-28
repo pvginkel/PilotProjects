@@ -44,8 +44,9 @@ sends says the handbook changed since your last turn: read `handbook.md` again b
 - **This repo**: the skills, `.claude/skills/<name>/SKILL.md`, and the rule files they apply,
   each the one home of its rules: `rules/grants.md` (what goes ahead and what asks the operator
   first), `rules/routing.md` (where an open block goes, deferral, a delegated answer, another
-  project's decision, the friction half), `rules/placement.md` (a work item's repository, model
-  and effort), `rules/stages.md` (the workflow's stages from Pilot).
+  project's decision, the friction half), `rules/work-items.md` (a work item's fields and its
+  brief), `rules/placement.md` (a work item's repository, model and effort), `rules/stages.md`
+  (the workflow's stages from Pilot).
 
 ## The box
 

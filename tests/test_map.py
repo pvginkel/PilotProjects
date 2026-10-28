@@ -5,7 +5,10 @@ pilot.py command line it quotes one the parser takes, every path the map cites i
 skill and the create skill reading a person's message as PilotApp's server sends it, the create
 skill naming a draft's ask and its material as pilot-store takes them, the pre-rule skill reading
 the brief of a worker's turn as PilotApp's server writes it and naming its writes and its hand-on
-to the plan, and the plan skill's setup reading the draft's sections the create skill writes."""
+to the plan, the plan skill naming each mode by its brief's kind line, reading the brief of an item
+done as the server writes it, naming its writes and copying the draft's prose into the handbook
+without its asks, and a work item's fields and brief in one rule file the chat and plan skills
+cite."""
 
 import importlib.util
 import itertools
@@ -101,6 +104,54 @@ PASS_CALLS = (
     "`mark`, `item` the document's id, `mark` `done`, and no `for`",
     "run `/plan`, its mode What is next, in this session",
 )
+# The brief of the job after a person's close of an item of Pilot's own as PilotApp's BriefService
+# writes it: its kind line and the item's line.
+ITEM_DONE_KIND = "`Pilot's brief · an item of yours is done · …`"
+ITEM_DONE_LINE = '`The item: <path> (<item id>), <kind> "<title>"[, task <id>] — <close>.`'
+# The plan skill's modes, each a section of its own.
+PLAN_MODES = (
+    "## The setup",
+    "## What is next",
+    "## An item done",
+    "## The sweep",
+    "## The finish decision",
+)
+# The modes' writes past the setup: a task's status, a note struck, a homeless deferral's note, and
+# pilot-store's `finish` on the finish decision's Yes.
+PLAN_CALLS = (
+    "`pilot.py plan task set <id> --status done`",
+    "`pilot.py plan note strike <id>`",
+    "`pilot.py plan note add --task <id> --summary <line> --ref <block id> <content>`",
+    "the job after its close calls `finish`",
+)
+# The setup's handbook: the draft's prose without its asks' blocks, a ruled ask's outcome a rule
+# line, and the report after the write read for what it says of the handbook.
+SETUP_HANDBOOK = (
+    "the prose of the draft's `## Rules` and `## Context`, copied, and never an ask's block",
+    "an ask fenced there stays in `project.md`",
+    "a ruled ask's outcome as a plain rule line",
+    "that the write landed is not enough",
+)
+# A work item's add_item fields and its brief, at home in one rule file that the skills starting
+# work cite and none copies.
+WORK_ITEMS = "rules/work-items.md"
+WORK_ITEM_FIELDS = (
+    "`kind` `work`",
+    "`title`",
+    "`repo`",
+    "`cwd`",
+    "`model`",
+    "`reasoning_effort`",
+    "`step`",
+    "`attachments`",
+    "`brief`",
+)
+WORK_ITEM_BRIEF = (
+    "The task in a line.",
+    "copied verbatim from `rules/grants.md`'s \"In a worker's brief\"",
+    "never paste the handbook",
+)
+WORK_ITEM_SKILLS = ("chat", "plan")
 
 
 def skill_file(name: str) -> Path:
@@ -276,6 +327,59 @@ class PlanSkillTest(unittest.TestCase):
             for section in DRAFT_SECTIONS:
                 with self.subTest(skill=name, section=section):
                     self.assertIn(section, text)
+
+    def test_the_setup_copies_the_draft_s_prose_and_none_of_its_asks(self) -> None:
+        text = " ".join(skill_file("plan").read_text().split())
+        for rule in SETUP_HANDBOOK:
+            with self.subTest(rule):
+                self.assertIn(rule, text)
+
+    def test_the_plan_skill_names_each_mode_by_its_kind_line(self) -> None:
+        text = " ".join(skill_file("plan").read_text().split())
+        for form in (SETUP_KIND, PASS_KIND, ITEM_DONE_KIND, "entered from `/pre-rule`"):
+            with self.subTest(form):
+                self.assertIn(form, text)
+
+    def test_each_mode_is_a_section_of_its_own(self) -> None:
+        lines = skill_file("plan").read_text().splitlines()
+        for heading in PLAN_MODES:
+            with self.subTest(heading):
+                self.assertEqual(lines.count(heading), 1)
+
+    def test_an_item_done_reads_the_item_s_line_as_the_server_writes_it(self) -> None:
+        self.assertIn(ITEM_DONE_LINE, " ".join(skill_file("plan").read_text().split()))
+
+    def test_the_plan_skill_applies_every_rule_file(self) -> None:
+        text = skill_file("plan").read_text()
+        for path in sorted((ROOT / "rules").glob("*.md")):
+            with self.subTest(path.name):
+                self.assertIn(f"`{path.relative_to(ROOT)}`", text)
+
+    def test_the_modes_write_through_pilot_py_and_finish_through_pilot_store(self) -> None:
+        text = " ".join(skill_file("plan").read_text().split())
+        for call in PLAN_CALLS:
+            with self.subTest(call):
+                self.assertIn(call, text)
+
+
+class WorkItemRuleTest(unittest.TestCase):
+    def test_the_rule_file_holds_the_fields_and_the_brief(self) -> None:
+        text = " ".join((ROOT / WORK_ITEMS).read_text().split())
+        for form in (*WORK_ITEM_FIELDS, *WORK_ITEM_BRIEF):
+            with self.subTest(form):
+                self.assertIn(form, text)
+
+    def test_the_brief_s_grants_text_is_a_section_of_the_grants(self) -> None:
+        lines = (ROOT / "rules" / "grants.md").read_text().splitlines()
+        self.assertIn("## In a worker's brief", lines)
+
+    def test_the_skills_that_start_work_cite_it_and_carry_no_copy(self) -> None:
+        for name in WORK_ITEM_SKILLS:
+            text = " ".join(skill_file(name).read_text().split())
+            with self.subTest(name):
+                self.assertIn(f"`{WORK_ITEMS}`", text)
+                for form in ("`reasoning_effort`", "In a worker's brief", "paste the handbook"):
+                    self.assertNotIn(form, text)
 
 
 class PreRuleSkillTest(unittest.TestCase):
