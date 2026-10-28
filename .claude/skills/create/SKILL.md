@@ -70,8 +70,10 @@ blocks — is `/dev:document-format`'s.
   relative to the draft's folder, its path as `timeline.json`'s `attachments` lists it, which the
   Draft tab opens in the overlay. A ticket id, a repository, an environment or any other link is
   drawn as plain words: write it as words.
-- **The check** after every save says what the record made of it, in the tool's result: clean,
-  or the faults of a save it holds until you fix them. Fix a held save in the same turn.
+- **The report** after every save says, in the tool's result, what the record holds against the
+  project, whichever session's save it came from: read it for its lines naming the file you
+  saved — a line reverted, the faults of a save it holds until you fix them. Fix a held save in
+  the same turn.
 
 ## Recording
 
@@ -122,8 +124,9 @@ the draft agrees it.
 ## The server's follow-up turn
 
 A turn of Pilot's server that names a save of yours still held — "Your save of `<path>` is held:
-`<path>:<line>: <message>`. Fix it and end your turn." — is no person's: fix the file until its
-check is clean and end the turn. The chat shows your reply to it as the rest of your last one.
+`<path>:<line>: <message>`. Fix it and end your turn." — is no person's: fix the file until the
+report after your write names no line of it, and end the turn. The chat shows your reply to it as
+the rest of your last one.
 
 ## Not this skill's
 

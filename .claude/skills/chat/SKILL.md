@@ -119,8 +119,8 @@ meaning is a new block or a new item.
   is the operator's in general (`CLAUDE.md`'s Memory says what goes there). Nothing else is built
   for the memory: its files are yours.
 - The reply says in one line what was learned, where it applies and whose it is, and "saved" only
-  once the write landed: the handbook's check clean in the tool's result, the memory's file
-  written.
+  once the write landed: the report in the tool's result after the write naming no line of
+  `handbook.md`, the memory's file written.
 - Asked what guidance was applied, where it applies, or to forget it, answer from the files —
   `handbook.md` and the memory — never from an account of your own; forgetting removes the line,
   and the reply says from which file.
@@ -145,8 +145,9 @@ started through them is research, never the work, which is `add_item`'s.
 ## The server's follow-up turn
 
 A turn of Pilot's server that names a save of yours still held — "Your save of `<path>` is held:
-`<path>:<line>: <message>`. Fix it and end your turn." — is no person's: fix the file until its
-check is clean and end the turn. The chat shows your reply to it as the rest of your last one.
+`<path>:<line>: <message>`. Fix it and end your turn." — is no person's: fix the file until the
+report after your write names no line of it, and end the turn. The chat shows your reply to it as
+the rest of your last one.
 
 ## Not this skill's
 
