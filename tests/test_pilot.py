@@ -316,6 +316,7 @@ class TestItems(PilotCase):
             (("--kind", "decision"), [2]),
             (("--kind", "decision", "--open"), []),
             (("--kind", "question", "--open"), [3]),
+            (("--kind", "archive_question"), []),
         ):
             with self.subTest(args=args):
                 completed = self.pilot("items", "list", *args)
@@ -839,6 +840,45 @@ class TestAnswer(BlockCase):
                 via=dsl.AnswerChannel.APP,
             ),
         )
+
+    def test_answer_claims_an_action_its_done_left_to_the_work_that_does_it(self) -> None:
+        before = self.text(KEY_PATH)
+
+        completed = self.pilot(
+            "answer",
+            KEY_PATH,
+            "A1",
+            "--value",
+            "Pilot does it",
+            "--note",
+            "The work item Store the backup key does it.",
+        )
+
+        self.assert_block_written(completed, KEY_PATH)
+        block = self.block(KEY_PATH, "A1")
+        self.assertEqual(
+            (block.answer, block.by, block.done, block.note),
+            ("Pilot does it", "agent", None, "The work item Store the backup key does it."),
+        )
+        self.assertEqual(
+            self.text(KEY_PATH),
+            dsl.write_answer(
+                before,
+                "A1",
+                answer="Pilot does it",
+                by=dsl.AGENT,
+                at=self.assert_stamped(block.at),
+                via=dsl.AnswerChannel.APP,
+                note="The work item Store the backup key does it.",
+            ),
+        )
+
+        completed = self.pilot("done", KEY_PATH, "A1", "--note", "Stored.")
+
+        self.assert_block_written(completed, KEY_PATH)
+        block = self.block(KEY_PATH, "A1")
+        self.assertEqual((block.answer, block.by, block.note), (None, "agent", "Stored."))
+        self.assert_stamped(block.done)
 
     def test_answer_takes_its_note_from_stdin_and_keeps_the_file_s_line_endings(self) -> None:
         crlf = self.text(NOTES_PATH).replace("\n", "\r\n")
@@ -1393,7 +1433,7 @@ class TestTheValidation(BlockCase):
             "\n```decision id=D2\ntype: confirmation\nproposal: Delete the old folder\n"
             "because: {}\n```\n"
         )
-        for because, code in (("hunch", 2), ("irreversible", 0)):
+        for because, code in (("hunch", 2), ("irreversible", 0), ("standing-grant", 0)):
             with self.subTest(because=because):
                 self.path(NOTES_PATH).write_text(
                     (FIXTURE / "recipe-box" / NOTES_PATH).read_text() + confirmation.format(because)
@@ -1409,7 +1449,8 @@ class TestTheValidation(BlockCase):
                             (
                                 f"recipe-box/{NOTES_PATH}:14: block D2: `because: hunch` is not a"
                                 " confirmation reason (auto-pilot-off, irreversible, product-hold,"
-                                " rider, self-approval); the reasons are in `reference.json`"
+                                " rider, self-approval, standing-grant); the reasons are in"
+                                " `reference.json`"
                             ),
                         ),
                     )

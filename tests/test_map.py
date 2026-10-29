@@ -4,11 +4,12 @@ its name, pilot.py's verbs as its parser has them, the tool calls the hook locks
 pilot.py command line it quotes one the parser takes, every path the map cites in place, the chat
 skill and the create skill reading a person's message as PilotApp's server sends it, the create
 skill naming a draft's ask and its material as pilot-store takes them, the pre-rule skill reading
-the brief of a worker's turn as PilotApp's server writes it and naming its writes and its hand-on
-to the plan, the plan skill naming each mode by its brief's kind line, reading the brief of an item
-done as the server writes it, naming its writes and copying the draft's prose into the handbook
-without its asks, and a work item's fields and brief in one rule file the chat and plan skills
-cite."""
+the briefs of a worker's turn and of its writer's answer as PilotApp's server writes them and
+naming its writes — a claim and a question to the writer among them — and its hand-on to the plan,
+the plan skill naming each mode by its brief's kind line, reading the brief of an item done and the
+claimed actions of a worker's turn as the server writes them, naming its writes and copying the
+draft's prose into the handbook without its asks, and a work item's fields and brief in one rule
+file the skills starting work cite."""
 
 import importlib.util
 import itertools
@@ -95,12 +96,29 @@ PASS_DOCUMENT_LINES = (
     "`- <path> (<item id>) — read failed: <reason>`",
     "`Registered nothing this run.`",
 )
-# The pass's writes and its hand-on: an answer, a deferral with its plan note and an action's Done
-# through pilot.py, Pilot's own Done through pilot-store's `mark` without `for`, then the plan.
+# The brief of the job after a clarification run's turn, as BriefService writes it: its kind line,
+# the run's line, a document asked about, and its last words.
+WRITER_ANSWERED_KIND = "`Pilot's brief · the writer answered · …`"
+WRITER_ANSWERED_LINES = (
+    '`The clarification run: "<title>" (<id>), of the work item "<title>" (<id>)…`',
+    "`Asked <stamp> on <path> (<item id>):`",
+    "`This pass asks nothing: …`",
+)
+# pilot-store's ask_writer as it takes its arguments (PilotApp's pilot_mcp/tools.py): the block's
+# id names its document.
+ASK_WRITER = "`ask_writer` with `block`, `<item id>/<local id>`, and `question`"
+# The claim: the block named on the add_item of the work item that does it, then pilot.py's answer
+# with the claim's value, pilot.py's CLAIM.
+CLAIM_NAMED = "its `claims` the block's id, `<item id>/<local id>`"
+# The pass's writes and its hand-on: an answer, a deferral with its plan note, an action's Done and
+# a claim through pilot.py, a question to the writer and Pilot's own Done through pilot-store, then
+# the plan.
 PASS_CALLS = (
     "`pilot.py answer <file> <block id>",
     "`pilot.py defer <file> <block id>",
     "`pilot.py done <file> <block id>",
+    CLAIM_NAMED,
+    ASK_WRITER,
     "`mark`, `item` the document's id, `mark` `done`, and no `for`",
     "run `/plan`, its mode What is next, in this session",
 )
@@ -112,6 +130,7 @@ ITEM_DONE_LINE = '`The item: <path> (<item id>), <kind> "<title>"[, task <id>] �
 PLAN_MODES = (
     "## The setup",
     "## What is next",
+    "## An action of Pilot's done",
     "## An item done",
     "## The sweep",
     "## The finish decision",
@@ -123,7 +142,20 @@ PLAN_CALLS = (
     "`pilot.py plan note strike <id>`",
     "`pilot.py plan note add --task <id> --summary <line> --ref <block id> <content>`",
     "the job after its close calls `finish`",
+    "`pilot.py done <file> <block id> --note <what was done and what was seen>`",
+    "`mark`, `item` the document's id, `mark` `done`, and no `for`",
 )
+# The claimed actions the brief of a worker's turn names, as BriefService writes them, each open or
+# as its close reads.
+CLAIMED_ACTIONS = (
+    '"The claimed actions given to this work item, as they stand:"',
+    (
+        "`- <path> (<item id>) <local id>` followed by `open, claimed`, by `open, its claim gone`,"
+        " or by its close as it reads"
+    ),
+)
+# The routes the pass once left to the operator, now its own: neither is in Not yet the pass's.
+NOT_YET_THE_PASS_S = "## Not yet the pass's"
 # The setup's handbook: the draft's prose without its asks' blocks, a ruled ask's outcome a rule
 # line, and the report after the write read for what it says of the handbook.
 SETUP_HANDBOOK = (
@@ -151,7 +183,7 @@ WORK_ITEM_BRIEF = (
     "copied verbatim from `rules/grants.md`'s \"In a worker's brief\"",
     "never paste the handbook",
 )
-WORK_ITEM_SKILLS = ("chat", "plan")
+WORK_ITEM_SKILLS = ("chat", "plan", "pre-rule")
 
 
 def skill_file(name: str) -> Path:
@@ -336,7 +368,13 @@ class PlanSkillTest(unittest.TestCase):
 
     def test_the_plan_skill_names_each_mode_by_its_kind_line(self) -> None:
         text = " ".join(skill_file("plan").read_text().split())
-        for form in (SETUP_KIND, PASS_KIND, ITEM_DONE_KIND, "entered from `/pre-rule`"):
+        for form in (
+            SETUP_KIND,
+            PASS_KIND,
+            WRITER_ANSWERED_KIND,
+            ITEM_DONE_KIND,
+            "entered from `/pre-rule`",
+        ):
             with self.subTest(form):
                 self.assertIn(form, text)
 
@@ -348,6 +386,14 @@ class PlanSkillTest(unittest.TestCase):
 
     def test_an_item_done_reads_the_item_s_line_as_the_server_writes_it(self) -> None:
         self.assertIn(ITEM_DONE_LINE, " ".join(skill_file("plan").read_text().split()))
+
+    def test_an_action_of_pilot_s_done_reads_the_claimed_actions_as_the_server_writes_them(
+        self,
+    ) -> None:
+        text = " ".join(skill_file("plan").read_text().split())
+        for form in CLAIMED_ACTIONS:
+            with self.subTest(form):
+                self.assertIn(form, text)
 
     def test_the_plan_skill_applies_every_rule_file(self) -> None:
         text = skill_file("plan").read_text()
@@ -401,6 +447,19 @@ class PreRuleSkillTest(unittest.TestCase):
             with self.subTest(call):
                 self.assertIn(call, self.text)
 
+    def test_the_pass_reads_the_writer_answered_brief_as_the_server_writes_it(self) -> None:
+        for form in (WRITER_ANSWERED_KIND, *WRITER_ANSWERED_LINES):
+            with self.subTest(form):
+                self.assertIn(form, self.text)
+
+    def test_asking_the_writer_and_claiming_are_the_pass_s_and_a_wait_is_not_yet(self) -> None:
+        _, _, rest = skill_file("pre-rule").read_text().partition(f"\n{NOT_YET_THE_PASS_S}\n")
+        not_yet, _, _ = rest.partition("\n## ")
+        self.assertIn("**A wait.**", not_yet)
+        for route in ("ask_writer", pilot_module().CLAIM):
+            with self.subTest(route):
+                self.assertNotIn(route, not_yet)
+
 
 class CitationsTest(unittest.TestCase):
     def test_claude_md_and_every_skill_cite_the_format_skill_by_its_name(self) -> None:
@@ -440,6 +499,17 @@ class CitationsTest(unittest.TestCase):
             for command in quoted_commands(text):
                 with self.subTest(source=source, command=command):
                     self.assertIsNone(command_fault(command, options))
+
+    def test_the_claim_is_quoted_with_the_value_pilot_py_reads_as_one(self) -> None:
+        value = f'--value "{pilot_module().CLAIM}"'
+        for path in (skill_file("pre-rule"), skill_file("plan"), ROOT / "rules" / "routing.md"):
+            with self.subTest(path.relative_to(ROOT)):
+                self.assertIn(value, " ".join(path.read_text().split()))
+
+    def test_ask_writer_is_named_by_the_arguments_pilot_store_takes(self) -> None:
+        for path in (skill_file("pre-rule"), ROOT / "rules" / "routing.md"):
+            with self.subTest(path.relative_to(ROOT)):
+                self.assertIn(ASK_WRITER, " ".join(path.read_text().split()))
 
     def test_the_grants_name_every_confirmation_reason_by_its_code(self) -> None:
         reference = json.loads(

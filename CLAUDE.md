@@ -60,20 +60,22 @@ fails before it runs.
 folder. Every other change to the record goes through its tools, never through Pilot's API:
 
 - `add_item`: an item added, in `timeline.json`'s shape — a prose item born with its file, its
-  title in the front matter, or a work item started on add — its id, a prose item's path and a work
-  item's state at the gate returned; a wait is refused for now.
+  title in the front matter, or a work item started on add, `claims` the actions you claimed that
+  it does — its id, a prose item's path and a work item's state at the gate returned; a wait is
+  refused for now.
 - `attach_file`: outside material, `<environment>:<path>`, a file or a folder, copied in and hung on
   the item `to` names; in a draft's definition chat, with no `to`, on nothing until Create project
   hangs it on the opening.
 - `answer`: a person's answer to a block, given in the chat, recorded for them (`for`), their words
   as the note; their deferral is `deferred` with `to`.
 - `mark`: Done, Read or Reviewed on an item for the person `for` names; without `for`, Pilot's own
-  Done of a document it settled whole.
+  Done of a document it settled whole, one of a single block included, a claimed action settled
+  once its `done` is written.
 - `stop_work`: a work item's session stopped, running, starting or held; a job of yours is
   refused.
 - `finish`: the project finished, on the operator's Yes to the finish decision.
-- `ask_writer`: a question about one block, to the writer of a registered document; the pre-ruling
-  pass's alone, once a block.
+- `ask_writer`: a `question` to the writer of a registered document about one of its blocks,
+  `block` its id; the pre-ruling pass's alone, once a block, one round per worker turn.
 
 A finished project's chat has none of them: it reads only.
 

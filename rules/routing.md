@@ -16,9 +16,9 @@ since the block's collapsed line is the operator's first read of it. What the gr
 | a choice wholly another project's | answered with the hand-over (below); never deferred across projects. |
 | a question the record, the handbook or the memory answers | answered. |
 | an action that is the operator's hands alone — a secret, a device, an account | left to the operator, with no edit. |
-| an action Pilot may run under the grants | claimed: `pilot.py answer` with `--value "Pilot does it"`, the note naming the work item added in the same turn; the block stays open, Pilot's, until that work ends and `pilot.py done` writes the paste-back. Done at once, through `pilot.py done`, where Pilot's own hands do it in the pass — a card, a fleet call. |
+| an action Pilot may run under the grants | claimed: the block named in `claims` on the `add_item` of the work item that does it, added in the same turn, then `pilot.py answer` with `--value "Pilot does it"`, the note naming that work item in words; the block stays open, Pilot's, until that work ends and `pilot.py done` writes the paste-back. Done at once, through `pilot.py done`, where Pilot's own hands do it in the pass — a card, a fleet call. |
 | an owed action waiting on an event — "re-run the import once the operator has restored the backup" | a wait through `add_item`, armed on a fresh read of the card it watches; a note on the task the action belongs to; the block answered naming the wait. |
-| a block Pilot cannot read — what it asks, which option the writer means, what a thing it names is — and the record does not answer | asked of its writer, once: `ask_writer`, one question per block. |
+| a block Pilot cannot read — what it asks, which option the writer means, what a thing it names is — and the record does not answer | asked of its writer, once: `ask_writer` with `block`, `<item id>/<local id>`, and `question`, one question per block. |
 | anything with impact now and the operator's | left to the operator, with no edit. |
 
 ## Deferral

@@ -1,22 +1,24 @@
 ---
 name: plan
-description: Pilot's upkeep of a project's plan and its work — the setup from the draft, what is next after a worker's turn or an item of Pilot's own done, placement, the confirmations, the sweep and the finish decision. Run it when Pilot's brief opens with /plan, or when /pre-rule hands on to it.
+description: Pilot's upkeep of a project's plan and its work — the setup from the draft, an action Pilot claimed done when its work ends, what is next after a worker's turn or an item of Pilot's own done, placement, the confirmations, the sweep and the finish decision. Run it when Pilot's brief opens with /plan, or when /pre-rule hands on to it.
 ---
 
 # Plan
 
-The plan's upkeep and the work: the setup from the draft, what is next after a worker's turn and
-after an item of yours is done, the sweep before the finish and the finish decision, in the mode
-the brief names.
+The plan's upkeep and the work: the setup from the draft, an action you claimed done when its
+work ends, what is next after a worker's turn and after an item of yours is done, the sweep before
+the finish and the finish decision, in the mode the brief names.
 
 1. Read `handbook.md` before anything the brief asks; at the setup it is empty, unless the setup
    is a Retry (In every mode).
 2. Read the brief, below: its kind line, `Pilot's brief · <the kind> · …`, names the mode —
-   `Pilot's brief · the setup · …`, The setup; `Pilot's brief · a worker's turn ended · …`, What
-   is next, entered from `/pre-rule` once its pass is done, in the same session, its arguments the
-   brief as the job received it; `Pilot's brief · an item of yours is done · …`, An item done, then
-   What is next —; its switch line, the grants that hold for this session; a pause; the trigger's
-   lines; the plan's open notes, by summary; and the deferrals without a home.
+   `Pilot's brief · the setup · …`, The setup; `Pilot's brief · a worker's turn ended · …` and
+   `Pilot's brief · the writer answered · …`, What is next, entered from `/pre-rule` once its pass
+   is done, in the same session, its arguments the brief as the job received it, An action of
+   Pilot's done first where the brief names claimed actions; `Pilot's brief · an item of yours is
+   done · …`, An item done, then What is next —; its switch line, the grants that hold for this
+   session; a pause; the trigger's lines; the plan's open notes, by summary; and the deferrals
+   without a home.
 3. Do the mode's work, then end your turn with one line saying what it did. A job never waits
    and never asks in its own transcript: a question to a person is an item.
 
@@ -112,8 +114,9 @@ plan brought up to date with what happened, and every piece of work that can go,
    resumes it once the last of them is closed — never you, and never a second work item for its
    task. Nothing that waits on those documents is started; the task a finished document
    unblocks is started at once, whatever other runs still wait on theirs, since each waits only on
-   its own. A one-block document the pass answered or deferred is open still, for a person to
-   confirm: what waits on it waits.
+   its own. A document the pass settled whole closes at its Done, of one block as of more; one
+   with a claimed action open closes once that action's `done` is written (An action of Pilot's
+   done).
 6. **The next human prerequisite**, one boundary ahead — what a person's hands must do before the
    next task can go: an action item, exact, its `step` the task it unblocks; an open one of yours
    already there is updated in its file, never added a second time.
@@ -123,6 +126,32 @@ plan brought up to date with what happened, and every piece of work that can go,
    asked when the act is due, one covering everything due at once. The act waits for its Yes,
    which the job after its close does (An item done).
 8. **The plan's end**: once its last task is done, The sweep, then The finish decision.
+
+## An action of Pilot's done
+
+After the turn of a work item you gave claimed actions to, before What is next: the brief names
+them after the files attached, under "The claimed actions given to this work item, as they
+stand:", a line each, `- <path> (<item id>) <local id>` followed by `open, claimed`, by
+`open, its claim gone`, or by its close as it reads — a person's Done meanwhile, which is theirs
+and leaves you nothing to write.
+
+1. **What the work did**, read from its turn's last line, what it registered and, where those do
+   not say, its session log (`get_session_log`).
+2. **Done**, each open one the work did:
+   `pilot.py done <file> <block id> --note <what was done and what was seen>`, the paste-back the
+   worker reads when it resumes. Then the document is marked Done where that was its last open
+   block, every other one answered, deferred or done: `mark`, `item` the document's id, `mark`
+   `done`, and no `for`, once the report after your last write of it names no line of its path.
+   Its write-back and the worker's continuation are the server's.
+3. **Left undone**, its act refused or never reached: the claim stays and the block open. Either
+   a new work item retries it, the block named again in its `claims`, then the claim written anew
+   naming that one, `pilot.py answer` with `--value "Pilot does it"`; or the operator gets it with
+   the reason: a notice of yours quoting the block's words and naming it, `<item id>/<local id>`,
+   saying why the work left it undone and that its Done, on the block, is theirs.
+
+A run that failed gets no job: its work item waits on a person's Resume, its claims standing and
+their blocks open, and the end of its next turn brings this job. A claimed action whose work item
+is open gets no second.
 
 ## An item done
 
@@ -173,8 +202,6 @@ server's.
 - **A wait's firings**, and a wait: `add_item` refuses `card_wait` and `timed_wait` ("Pilot takes
   no waits yet"). What would wait on an event goes in a note on its task, and no watch is
   promised.
-- **A claimed action**, `Pilot does it`: nothing yet takes a claim up when its work ends, so none
-  is claimed; an act of a tool call is done at once by your own hands.
 
 ## The server's follow-up turn
 

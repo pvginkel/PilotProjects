@@ -42,7 +42,11 @@ An act that asks is a confirmation item, asked when the act is due, one covering
 at once; its `because` names why, by its code in `reference.json`'s `confirmation_reasons`:
 
 - the granted column: `rider` for a push with riders, `auto-pilot-off` for any other act of it;
-- the kept column: `irreversible`, `product-hold`, `self-approval`.
+- the kept column: `irreversible`, `product-hold`, `standing-grant` for a standing grant,
+  `self-approval`.
+
+The code decides what the switch takes: turned on, it may answer Yes, as the person who turned it
+on, every open confirmation whose code is the granted column's, and never one of the kept column's.
 
 ## In a worker's brief
 
