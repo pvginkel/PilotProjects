@@ -163,7 +163,8 @@ CLAIM_CARRIED = (
     "**Still the run's**, never reached in a turn that registered documents",
     "its run waiting on its documents — gets no second",
 )
-# The routes the pass once left to the operator, now its own: neither is in Not yet the pass's.
+# The pre-rule skill's section of the routes that wait on work Pilot has not shipped: it holds a
+# wait, and neither asking the writer nor a claim.
 NOT_YET_THE_PASS_S = "## Not yet the pass's"
 # The setup's handbook: the draft's prose without its asks' blocks, a ruled ask's outcome a rule
 # line, and the report after the write read for what it says of the handbook.
