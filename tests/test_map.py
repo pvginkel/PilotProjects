@@ -154,6 +154,15 @@ CLAIMED_ACTIONS = (
         " or by its close as it reads"
     ),
 )
+# A claimed action its run did not reach in a turn that registered documents: the run goes on as a
+# work item titled as it, whose brief names no claimed actions, so a note carries them to that
+# turn, and nothing retries or hands over an act the run still holds.
+CLAIM_CARRIED = (
+    "or a note of yours carries them to the brief's work item",
+    "After the turn of the work item that continues its run, the brief names none",
+    "**Still the run's**, never reached in a turn that registered documents",
+    "its run waiting on its documents — gets no second",
+)
 # The routes the pass once left to the operator, now its own: neither is in Not yet the pass's.
 NOT_YET_THE_PASS_S = "## Not yet the pass's"
 # The setup's handbook: the draft's prose without its asks' blocks, a ruled ask's outcome a rule
@@ -392,6 +401,14 @@ class PlanSkillTest(unittest.TestCase):
     ) -> None:
         text = " ".join(skill_file("plan").read_text().split())
         for form in CLAIMED_ACTIONS:
+            with self.subTest(form):
+                self.assertIn(form, text)
+
+    def test_a_claimed_action_its_run_still_holds_is_carried_to_the_run_s_next_turn(
+        self,
+    ) -> None:
+        text = " ".join(skill_file("plan").read_text().split())
+        for form in CLAIM_CARRIED:
             with self.subTest(form):
                 self.assertIn(form, text)
 

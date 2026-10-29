@@ -15,10 +15,10 @@ the finish and the finish decision, in the mode the brief names.
    `Pilot's brief · the setup · …`, The setup; `Pilot's brief · a worker's turn ended · …` and
    `Pilot's brief · the writer answered · …`, What is next, entered from `/pre-rule` once its pass
    is done, in the same session, its arguments the brief as the job received it, An action of
-   Pilot's done first where the brief names claimed actions; `Pilot's brief · an item of yours is
-   done · …`, An item done, then What is next —; its switch line, the grants that hold for this
-   session; a pause; the trigger's lines; the plan's open notes, by summary; and the deferrals
-   without a home.
+   Pilot's done first where the brief names claimed actions or a note of yours carries them to the
+   brief's work item; `Pilot's brief · an item of yours is done · …`, An item done, then What is
+   next —; its switch line, the grants that hold for this session; a pause; the trigger's lines;
+   the plan's open notes, by summary; and the deferrals without a home.
 3. Do the mode's work, then end your turn with one line saying what it did. A job never waits
    and never asks in its own transcript: a question to a person is an item.
 
@@ -133,7 +133,9 @@ After the turn of a work item you gave claimed actions to, before What is next: 
 them after the files attached, under "The claimed actions given to this work item, as they
 stand:", a line each, `- <path> (<item id>) <local id>` followed by `open, claimed`, by
 `open, its claim gone`, or by its close as it reads — a person's Done meanwhile, which is theirs
-and leaves you nothing to write.
+and leaves you nothing to write. After the turn of the work item that continues its run, the
+brief names none, the claim naming the first: step 3's note names them, its blocks as they stand
+a read away, `pilot.py plan note list`.
 
 1. **What the work did**, read from its turn's last line, what it registered and, where those do
    not say, its session log (`get_session_log`).
@@ -143,15 +145,22 @@ and leaves you nothing to write.
    block, every other one answered, deferred or done: `mark`, `item` the document's id, `mark`
    `done`, and no `for`, once the report after your last write of it names no line of its path.
    Its write-back and the worker's continuation are the server's.
-3. **Left undone**, its act refused or never reached: the claim stays and the block open. Either
-   a new work item retries it, the block named again in its `claims`, then the claim written anew
-   naming that one, `pilot.py answer` with `--value "Pilot does it"`; or the operator gets it with
-   the reason: a notice of yours quoting the block's words and naming it, `<item id>/<local id>`,
-   saying why the work left it undone and that its Done, on the block, is theirs.
+3. **Still the run's**, never reached in a turn that registered documents, which the run waits
+   on: the claim stays and nothing is written, the run going on once they close as a work item
+   titled as it (What is next, step 5). A note carries them to that turn, one already there
+   kept: `pilot.py plan note add --task <id> --summary <line> --ref <block id> <content>`, on the
+   work item's task, the plan's own where it serves none, a `--ref` each, its summary naming the
+   work item by its title; struck once each is done, retried or handed over.
+4. **Left undone**, its act refused, or never reached in a turn that registered nothing: the claim
+   stays and the block open. Either a new work item retries it, the block named again in its
+   `claims`, then the claim written anew naming that one, `pilot.py answer` with
+   `--value "Pilot does it"`; or the operator gets it with the reason: a notice of yours quoting
+   the block's words and naming it, `<item id>/<local id>`, saying why the work left it undone and
+   that its Done, on the block, is theirs.
 
 A run that failed gets no job: its work item waits on a person's Resume, its claims standing and
-their blocks open, and the end of its next turn brings this job. A claimed action whose work item
-is open gets no second.
+their blocks open, and the end of its next turn brings this job. A claimed action whose work goes
+on — its work item open, or its run waiting on its documents — gets no second.
 
 ## An item done
 
