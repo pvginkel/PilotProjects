@@ -38,8 +38,8 @@ DRAFT = "project.md"
 DRAFT_STATE = "draft"
 DOCUMENT_FOLDERS = ("items", "inbox")
 OPENING = "opening"
-# The answer of an action Pilot has claimed (F21.6, D062).
-CLAIM = "Pilot does it"
+# The answer of an action Pilot has claimed (F21.6, D062), pilot-dsl's.
+CLAIM = dsl.CLAIM
 
 DONE, REFUSED = 0, 2
 
@@ -672,7 +672,7 @@ def _done(project: Project, args: argparse.Namespace) -> int:
         _not_a_persons(block)
         if block.kind is not dsl.BlockKind.ACTION:
             raise Refused(f"<block id>: block {block.local_id} is a {block.kind}, not an action")
-        claimed = block.answer == CLAIM and block.by == dsl.AGENT and block.done is None
+        claimed = block.claimed
         if block.answered and not claimed:
             raise Refused(
                 f"<block id>: action {block.local_id} holds {_answer_line(block)}: `done` takes"

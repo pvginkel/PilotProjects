@@ -6,7 +6,7 @@ requires-python = ">=3.13,<4"
 dependencies = [
     # The engine's own block DSL, from PilotApp (design 3 §7). uv.lock pins the
     # commit; a change to the grammar there moves this pin by hand.
-    "pilot-dsl @ git+https://github.com/pvginkel/PilotApp@406505c4b7ac070a1d5e9e1162619cbe62d7c01d#subdirectory=backend/packages/pilot-dsl",
+    "pilot-dsl @ git+https://github.com/pvginkel/PilotApp@2ecc3e56b1f10855fb16f081c73669311dbab8c1#subdirectory=backend/packages/pilot-dsl",
 ]
 
 # Scripts and tests, nothing to build or install.

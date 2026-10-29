@@ -5,7 +5,7 @@ requires-python = ">=3.13, <4"
 [[package]]
 name = "pilot-dsl"
 version = "0.1.0"
-source = { git = "https://github.com/pvginkel/PilotApp?subdirectory=backend%2Fpackages%2Fpilot-dsl&rev=406505c4b7ac070a1d5e9e1162619cbe62d7c01d#406505c4b7ac070a1d5e9e1162619cbe62d7c01d" }
+source = { git = "https://github.com/pvginkel/PilotApp?subdirectory=backend%2Fpackages%2Fpilot-dsl&rev=2ecc3e56b1f10855fb16f081c73669311dbab8c1#2ecc3e56b1f10855fb16f081c73669311dbab8c1" }
 dependencies = [
     { name = "pyyaml" },
 ]
@@ -19,7 +19,7 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "pilot-dsl", git = "https://github.com/pvginkel/PilotApp?subdirectory=backend%2Fpackages%2Fpilot-dsl&rev=406505c4b7ac070a1d5e9e1162619cbe62d7c01d" }]
+requires-dist = [{ name = "pilot-dsl", git = "https://github.com/pvginkel/PilotApp?subdirectory=backend%2Fpackages%2Fpilot-dsl&rev=2ecc3e56b1f10855fb16f081c73669311dbab8c1" }]
 
 [[package]]
 name = "pyyaml"
