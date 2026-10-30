@@ -19,7 +19,9 @@ $PILOT_PROJECT, "session": $PILOT_SESSION}` and the session's Claude process:
 - Stop, at the turn's end: `/release` with `"all": true`, which gives back every hold of the
   session, so that none outlives its turn. Its check deletes the resets it reads, so a
   non-empty answer goes before the agent, which goes on with it; not when the stop follows
-  one that a stop hook kept going, where the same answer would keep the turn going forever.
+  one that a stop hook kept going, where the same answer would keep the turn going forever:
+  that stop posts `/release?check=false`, which gives back the holds and asks no check, so
+  the resets stay for the next one. A pilot-sync older than the query checks as before.
 
 A session without PILOT_PROJECT, none that Pilot's server created, takes no lock and posts
 nothing. Claude Code lets a call run when its hook fails or passes its timeout, so the lock's
@@ -94,10 +96,10 @@ def lock(call: dict) -> dict | None:
     }
 
 
-def release(event: str, call: dict, folder: str) -> dict | None:
+def release(event: str, call: dict, folder: str, route: str = "/release") -> dict | None:
     """The output of a release hook: its answer before the agent, none when it is empty."""
     try:
-        status, text = post("/release", call, RELEASE_CAP_SECONDS)
+        status, text = post(route, call, RELEASE_CAP_SECONDS)
     except OSError as error:
         text = f"{NOT_YET_CHECKED}{folder}/ (pilot-sync did not answer: {error})\n"
     else:
@@ -118,10 +120,12 @@ def main() -> None:
     event = hook["hook_event_name"]
     if event == "PreToolUse":
         output = lock(call)
+    elif event == "Stop" and hook["stop_hook_active"]:
+        # Its answer reaches no agent, so its release reads nothing a later check would report.
+        release(event, {**call, "all": True}, folder, "/release?check=false")
+        output = None
     elif event == "Stop":
         output = release(event, {**call, "all": True}, folder)
-        if hook["stop_hook_active"]:
-            output = None
     else:
         output = release(event, {**call, "pid": claude_pid()}, folder)
     if output is not None:

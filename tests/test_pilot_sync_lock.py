@@ -304,15 +304,16 @@ class TestTheTurnSEnd(HookCase):
         self.assertIsNone(self.output(self.run_hook(hook_input("Stop"))))
         self.assertEqual(self.sidecar.asked, [RELEASE_ALL])
 
-    def test_a_stop_a_stop_hook_kept_going_gives_back_every_hold_and_lets_the_turn_end(
+    def test_a_stop_a_stop_hook_kept_going_gives_back_every_hold_unchecked_and_lets_the_turn_end(
         self,
     ) -> None:
-        self.sidecar.answers["/release"] = (200, REPORT)
+        # A pilot-sync older than the query checks and answers the report: still dropped.
+        self.sidecar.answers["/release?check=false"] = (200, REPORT)
 
         completed = self.run_hook(hook_input("Stop", stop_hook_active=True))
 
         self.assertIsNone(self.output(completed))
-        self.assertEqual(self.sidecar.asked, [RELEASE_ALL])
+        self.assertEqual(self.sidecar.asked, [("/release?check=false", RELEASE_ALL[1])])
 
 
 class TestTheSession(HookCase):
