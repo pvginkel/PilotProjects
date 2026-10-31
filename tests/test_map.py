@@ -155,14 +155,17 @@ CLAIMED_ACTIONS = (
     ),
 )
 # A claimed action its run did not reach in a turn that registered documents: the run goes on as a
-# work item titled as it, whose brief names no claimed actions, so a note carries them to that
-# turn, and nothing retries or hands over an act the run still holds.
+# work item titled as it, whose brief names the run's claimed actions (PilotApp's D100), so nothing
+# carries them in a note, and nothing retries or hands over an act the run still holds.
 CLAIM_CARRIED = (
-    "or a note of yours carries them to the brief's work item",
-    "After the turn of the work item that continues its run, the brief names none",
+    "After the turn of the work item that continues its run, the brief names the run's claimed"
+    " actions as well",
     "**Still the run's**, never reached in a turn that registered documents",
+    "nothing is written, no note, retry or hand-over",
     "its run waiting on its documents — gets no second",
 )
+# The note that carried them before the brief named them.
+CLAIM_NOTE = "A note carries them to that turn"
 # The pre-rule skill's section of the routes that wait on work Pilot has not shipped: it holds a
 # wait, and neither asking the writer nor a claim.
 NOT_YET_THE_PASS_S = "## Not yet the pass's"
@@ -412,6 +415,7 @@ class PlanSkillTest(unittest.TestCase):
         for form in CLAIM_CARRIED:
             with self.subTest(form):
                 self.assertIn(form, text)
+        self.assertNotIn(CLAIM_NOTE, text)
 
     def test_the_plan_skill_applies_every_rule_file(self) -> None:
         text = skill_file("plan").read_text()
