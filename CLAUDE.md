@@ -129,7 +129,9 @@ What goes there:
   around: write it as one, since the memory is mined for Pilot's improvement.
 
 What has urgency goes to Fieldnotes, never to the memory. A project's own facts go into its
-`handbook.md`.
+`handbook.md`: its standing instructions, what every brief of the project should hold to (the
+result it is for, its rules, its context), and never a record of what happened, which the timeline
+and the plan already keep.
 
 ## Reading elsewhere
 
