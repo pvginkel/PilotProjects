@@ -36,8 +36,9 @@ do:
    naming the slice's folder and its card.
 2. The conversation it files from, verbatim: the opening's words and `project.md` as the setup
    read it, the answers in its blocks included, and which of its asks this slice takes where the
-   plan has more than one slice. The words travel as they stand, since the slice's record quotes
-   them.
+   plan has more than one slice; for a slice asked later in the project's chat, the person's
+   messages that asked it, the cards they named as youtrack reads them and the answers to its
+   asks. The words travel as they stand, since the slice's record quotes them.
 3. `Ticket: <id>` on a line of its own, the plan's ticket, where the plan has one.
 
 Its last line gives the slice's number, which the planning's brief opens with.

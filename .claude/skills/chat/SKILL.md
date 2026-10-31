@@ -24,7 +24,8 @@ only.
    named, the brief's included.
 
 The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.md`,
-`rules/placement.md`. The writing is `/dev:document-format`'s.
+`rules/placement.md`, and `rules/stages.md` for a slice of the workflow. The writing is
+`/dev:document-format`'s.
 
 ## Reading
 
@@ -81,6 +82,14 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
 
 - **Work the person asks for** is a work item, its fields and its brief as `rules/work-items.md`
   has them.
+- **A new slice the person asks for**, a change to a repository onboarded to the workflow, is
+  taken as the definition chat takes one (`/create`'s A slice of the workflow): the asks in their
+  own words, quoted and attributed, a card's text as youtrack reads it; the standing decisions
+  checked against the spec repository's decision record; an ask only the person can answer put
+  first, as a decision or a question item with your recommendation, never a closed question in
+  the reply. Once nothing it needs is open, its three tasks go into the plan, its filing, its
+  planning and its run, in that order, and the filing's work item starts, its brief carrying the
+  person's words as `rules/stages.md` has it.
 - **The reply says how the start went**, as the answer's `state` and `held` say it
   (`rules/work-items.md`), a held start never told as running: held while the project is paused,
   "Started; it is held while the project is paused", as the brief's pause line asks of everything
