@@ -10,7 +10,7 @@ since the block's collapsed line is the operator's first read of it. What the gr
 
 | the block | the route, and what it writes |
 |---|---|
-| a routing ask — card it, close it, fold it, fix it now | routed: the route as the answer, the reason as the note. A card is made in the same turn through youtrack, in the operator's words where the entry carries them, and the note names it. A fold is the worker's own: the answer says fold, and the workflow folds it at its next run. |
+| a routing ask — card it, close it, fold it, fix it now | routed: the route as the answer, the reason as the note. A card is made in the same turn through youtrack, in the operator's words where the entry carries them, and the note names it. A fold is the worker's own: the answer says fold, and the workflow folds it at its next run. In a stage's document the stage carries out every route itself, the card included (`rules/stages.md`). |
 | a choice outside the grants table, or in the granted column with auto pilot on | chosen, the recommendation or not, the note saying what the choice optimised for; first a bounded check where a fact would move it. |
 | a choice in the granted column with auto pilot off, or in the kept column | left to the operator, with no edit — or deferred where it has a home and is not due now (below). |
 | a choice wholly another project's | answered with the hand-over (below); never deferred across projects. |

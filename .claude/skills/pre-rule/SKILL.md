@@ -30,7 +30,8 @@ document, or is put to them as an item.
 
 The rules it applies: `rules/routing.md`, each route and what it writes, deferral, the `Later`
 card, a delegated answer, another project's decision and the friction half; `rules/grants.md`, what
-the switch lets go ahead; `rules/work-items.md` and `rules/placement.md`, the work item that does
+the switch lets go ahead; `rules/stages.md`, what a stage of the workflow registers and what each
+fate in its documents means; `rules/work-items.md` and `rules/placement.md`, the work item that does
 an action you claim. The writing — an answer's note, a missing title or summary — is
 `/dev:document-format`'s.
 

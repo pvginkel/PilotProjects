@@ -25,8 +25,8 @@ draft, records the answers given in the chat to its asks and attaches the materi
    latest such line named, the brief's included, and with none so far from the person who
    started the draft.
 
-The rules it applies: `rules/routing.md`. The writing — the draft, its front matter and its
-blocks — is `/dev:document-format`'s.
+The rules it applies: `rules/routing.md`, and `rules/stages.md` for a slice of the workflow. The
+writing — the draft, its front matter and its blocks — is `/dev:document-format`'s.
 
 ## Reading
 
@@ -74,6 +74,31 @@ blocks — is `/dev:document-format`'s.
   project, whichever session's save it came from: read it for its lines naming the file you
   saved — a line reverted, the faults of a save it holds until you fix them. Fix a held save in
   the same turn.
+
+## A slice of the workflow
+
+Where the work is a change to a repository onboarded to the workflow, one whose root has a
+`.aiworkflowrc` naming its spec repository, the project is one slice of it or more, each filed,
+planned and run as `rules/stages.md` has it. The chat does for a slice what triage does, and the
+draft is what the slice's record is filed from:
+
+- **The asks in their own words.** What is asked — the opening's words, a card's text as youtrack
+  reads it, a person's words in the chat — goes into the draft quoted and attributed, never
+  paraphrased: the slice's record quotes the draft, and a paraphrase can turn an ask around. A
+  card's diagnosis or cause stays the card's claim. Requirements, not solutions: no fix, no
+  phases, no acceptance criteria, which the planning grounds.
+- **The standing decisions, checked.** Read the spec repository's decision record, where its
+  README or its `CLAUDE.md` says it keeps one, and check every ask against it. An ask that
+  contradicts a current decision is an ask of the draft: the decision's id and its ruling quoted,
+  overrule it or drop the ask, with your recommendation. Left open at Create, it holds the
+  slice's filing until it is answered.
+- **The questions first, each with its recommendation.** An ask of the draft is a question the
+  person answers from memory — which screen, which behaviour — never one only the code answers,
+  which the planning grounds and asks itself. Each carries your recommendation, a decision's
+  recommended option or a question's default, and the reply names the open ones first.
+- **`## The plan` names the slices**: per slice, a task for its filing, its planning and its run,
+  in that order; the asks it takes, where there is more than one slice; the cards it absorbs, each
+  with what it is for in a few words; and the slices it must follow, which its record names.
 
 ## Recording
 

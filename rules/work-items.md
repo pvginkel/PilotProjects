@@ -22,10 +22,13 @@ What a work item is given when Pilot starts one, in the chat or in a job: the on
 Its first turn, your text, in this order:
 
 1. The task in a line.
-2. What to do and what to register: free-form work, which the session works out, and never a
-   stage's command (`rules/stages.md`).
+2. What to do and what to register: free-form work, which the session works out.
 3. The grants text the switch selects — the brief's switch line — copied verbatim from
    `rules/grants.md`'s "In a worker's brief".
+
+A stage of the workflow takes a brief of its own shape: its command and the slice's number as the
+first line, then the task in a line, the ticket and the grants text, and nothing of what to do,
+which its skill has (`rules/stages.md`).
 
 Pilot appends the plan task it serves, the switch and the handbook: never paste the handbook.
 

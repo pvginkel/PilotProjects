@@ -37,8 +37,9 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
 - **As lean as the project**: the plan holds the tasks the project needs and no more — a task
   added where the work shows one missing, removed where it turns moot,
   `pilot.py plan task remove <id>` once its notes are struck or moved; no task is a fixture.
-- **Work** is a work item, its fields and its brief as `rules/work-items.md` has them: free-form,
-  from a brief of yours, since no stage runs from Pilot (`rules/stages.md`), each placed by
+- **Work** is a work item, its fields and its brief as `rules/work-items.md` has them: a stage of
+  the workflow for a slice's planning and its run, filed first by a work item of its own
+  (`rules/stages.md`), and free-form from a brief of yours otherwise, each placed by
   `rules/placement.md` and what the handbook says of the project's repositories.
 - **The bounded check** before an ask you are about to put — a decision, a confirmation, the
   finish decision — where a survey, an isolated test or a read could change its recommendation:
