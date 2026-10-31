@@ -25,6 +25,13 @@ services:
 tools:
   - use: python
 
+secrets:
+  # The YouTrack MCP server's bearer, which the shared home's `youtrack` entry
+  # reads as ${YOUTRACK_MCP_TOKEN}: the brain makes a routed card through it.
+  # Production KubeCoder projects it into every environment already;
+  # kubecoder-dev, where the dev stage's store runs, does not.
+  YOUTRACK_MCP_TOKEN: youtrack-mcp-token
+
 preamble:
   instructions: |
     Pilot's store environment: the brain's skills (/work/PilotProjects),
