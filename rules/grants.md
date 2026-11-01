@@ -32,7 +32,11 @@ switch it was briefed under when the switch moves meanwhile; the brief says whic
 - a product hold: an act the operator held back for the product's sake, such as a push before the
   changes they want first;
 - a standing grant: a permission meant to outlast the project or reach past it;
-- self-approval: going past a hold or a failed check on your own say.
+- self-approval: going past a hold or a failed check on your own say;
+- the rules themselves: a change to the record's conventions (the decision index's head, the
+  considerations page), to the handbook's rules or to PilotProjects' rules — what says who
+  decides, or how a decision is kept — whoever proposes it, a close-out's fix-now included (the
+  operator, 2026-11-01).
 
 A secret is never asked for and never handled: it is an action, the operator's hands.
 
@@ -61,8 +65,9 @@ repository, a push that deploys, a push that takes other commits with it, a prd 
 promotion, an operator action you can run yourself.
 Not pre-approved, never done on your own say: an irreversible act, an act the operator held back
 for the product's sake, a permission meant to outlast this work, going past a hold or a failed
-check. Name each you need in what you register, and Pilot asks the operator. A secret is always
-the operator's hands: name the step, never handle the secret.
+check, a change to the rules that say who decides. Name each you need in what you register, and
+Pilot asks the operator. A secret is always the operator's hands: name the step, never handle the
+secret.
 ```
 
 Auto pilot off:
@@ -73,6 +78,7 @@ repository.
 Not pre-approved, never done on your own say: a push that deploys, a push that takes other commits
 with it, a prd apply or a promotion, an operator action, an irreversible act, an act the operator
 held back for the product's sake, a permission meant to outlast this work, going past a hold or a
-failed check. Name each you need in what you register, and Pilot asks the operator. A secret is
-always the operator's hands: name the step, never handle the secret.
+failed check, a change to the rules that say who decides. Name each you need in what you register,
+and Pilot asks the operator. A secret is always the operator's hands: name the step, never handle
+the secret.
 ```

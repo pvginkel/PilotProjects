@@ -59,6 +59,17 @@ Per published document, one after the other:
 4. **Each open block, routed** by `rules/routing.md`'s table, in the document's order. A block
    answered already — a person's answer, or yours from an earlier job of this trigger, which a
    Retry's store holds — is settled: leave it.
+   - **Before any choice of yours, the due diligence** of `rules/routing.md`: the project
+     document and the handbook read for what settles or bends it; the project's folder scanned
+     for earlier material on its subject — `pilot.py plan task list`, `pilot.py plan note list`,
+     `pilot.py items list`, the files under `items/` and `inbox/`, `chat.md`; what matches read for
+     how it bears on the choice; a fact the ask rests on and nobody read found first, in the store
+     or through a work item placed where the repository is, the block left open until that work's
+     document is registered. A requirement that would overrule a passage of the design record is
+     yours only on the operator's own words asking for that change and a passage that is the
+     record of that very behaviour; otherwise it is the operator's. The note names what was
+     checked and what was found, or that nothing in the store bears on it: a choice with an
+     unread fact behind it and no note of it is not yours to make.
    - **Answered**, `by: agent`:
      `pilot.py answer <file> <block id> --value <option> --note <why>`, the value an option's
      label, `Agree`, `Yes`, `No` or your own words. The note says why in words that stand alone:
