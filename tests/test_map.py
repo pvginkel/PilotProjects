@@ -197,6 +197,19 @@ WORK_ITEM_BRIEF = (
     "never paste the handbook",
 )
 WORK_ITEM_SKILLS = ("chat", "plan", "pre-rule")
+# A placed worker's model and effort: Opus at xhigh unless the handbook or the task names another,
+# in the placement rule and in the work item's field line.
+PLACEMENT = "rules/placement.md"
+PLACEMENT_DEFAULTS = (
+    "`model` is `opus` and `reasoning_effort` is `xhigh`",
+    "unless the handbook or the task names another model or level",
+)
+WORK_ITEM_DEFAULTS = (
+    "`model` and `reasoning_effort` as `rules/placement.md` says, `opus` and `xhigh` unless the"
+    " handbook or the task names another"
+)
+# The rule's words while the effort was left unset and the stage could name a model.
+PLACEMENT_RETIRED = ("left unset", "the stage")
 
 
 def skill_file(name: str) -> Path:
@@ -448,6 +461,21 @@ class WorkItemRuleTest(unittest.TestCase):
                 self.assertIn(f"`{WORK_ITEMS}`", text)
                 for form in ("`reasoning_effort`", "In a worker's brief", "paste the handbook"):
                     self.assertNotIn(form, text)
+
+
+class PlacementRuleTest(unittest.TestCase):
+    def test_a_placed_worker_runs_on_opus_at_xhigh_unless_the_work_names_another(self) -> None:
+        text = " ".join((ROOT / PLACEMENT).read_text().split())
+        for form in PLACEMENT_DEFAULTS:
+            with self.subTest(form):
+                self.assertIn(form, text)
+        for form in PLACEMENT_RETIRED:
+            with self.subTest(form):
+                self.assertNotIn(form, text)
+
+    def test_the_work_item_s_field_line_carries_the_defaults(self) -> None:
+        text = " ".join((ROOT / WORK_ITEMS).read_text().split())
+        self.assertIn(WORK_ITEM_DEFAULTS, text)
 
 
 class PreRuleSkillTest(unittest.TestCase):

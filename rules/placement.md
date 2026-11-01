@@ -28,5 +28,5 @@ project's handbook says of its repositories comes before this file's rules.
 
 ## The model and the effort
 
-`model` is `opus`, unless the work says otherwise — the handbook, the task or the stage. The
-reasoning effort is left unset, the session's own default, unless the work names one.
+`model` is `opus` and `reasoning_effort` is `xhigh`, unless the handbook or the task names another
+model or level.

@@ -11,8 +11,8 @@ What a work item is given when Pilot starts one, in the chat or in a job: the on
 - `repo`, `owner/Name`, and `cwd`, its checkout under `/work` — the repository's own,
   `/work/<Name>`, or one its manifest checks out beside it — as `rules/placement.md` places it;
   the environment is Pilot's server's to make, one per work item;
-- `model` as `rules/placement.md` says, `opus` unless the work says otherwise, and
-  `reasoning_effort` only where the work names one;
+- `model` and `reasoning_effort` as `rules/placement.md` says, `opus` and `xhigh` unless the
+  handbook or the task names another;
 - `step`, the plan's task it serves, where it serves one;
 - `attachments`, what it needs from elsewhere;
 - `brief`, below.
