@@ -38,7 +38,11 @@ switch it was briefed under when the switch moves meanwhile; the brief says whic
   decides, or how a decision is kept — whoever proposes it, a close-out's fix-now included (the
   operator, 2026-11-01).
 
-A secret is never asked for and never handled: it is an action, the operator's hands.
+A secret's value is never asked for and never handled: never in a brief, a document, a chat or a
+note. Putting a secret in place is work where a repository's own tooling does it — a new random
+secret at a known OpenBao path is an Ansible work item — and an operator action Pilot can run
+itself, the granted column's, so it asks while auto pilot is off and goes under it; only what no
+repository's tooling can place is the operator's hands (the operator, 2026-11-02).
 
 ## The confirmation reasons
 
@@ -66,8 +70,8 @@ promotion, an operator action you can run yourself.
 Not pre-approved, never done on your own say: an irreversible act, an act the operator held back
 for the product's sake, a permission meant to outlast this work, going past a hold or a failed
 check, a change to the rules that say who decides. Name each you need in what you register, and
-Pilot asks the operator. A secret is always the operator's hands: name the step, never handle the
-secret.
+Pilot asks the operator. A secret's value is never yours to handle: name the step, never the
+value; placing one is work where a repository's tooling does it, Pilot's to start.
 ```
 
 Auto pilot off:
@@ -79,6 +83,6 @@ Not pre-approved, never done on your own say: a push that deploys, a push that t
 with it, a prd apply or a promotion, an operator action, an irreversible act, an act the operator
 held back for the product's sake, a permission meant to outlast this work, going past a hold or a
 failed check, a change to the rules that say who decides. Name each you need in what you register,
-and Pilot asks the operator. A secret is always the operator's hands: name the step, never handle
-the secret.
+and Pilot asks the operator. A secret's value is never yours to handle: name the step, never the
+value; placing one is work where a repository's tooling does it, Pilot's to start.
 ```
