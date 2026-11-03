@@ -61,7 +61,7 @@ writing — the draft, its front matter and its blocks — is `/dev:document-for
 - **The front matter**: `title`, the project's name in the list and the head; `slug`, the
   project's folder once it is created — Pilot's choice, as the format skill has it. Give both
   once the project has a name. The check after the save reports a slug that is no valid one, and
-  Create project stays disabled until it is.
+  Create project shows, at the chat's end, only once it is.
 - **An ask** — a closed question the person answers — is a block in the draft, never a question
   in the chat. In the draft, and only there, a block may be changed or deleted as the project
   moves, answered or not, a deleted block taking its answers with it; a person's answer lines
