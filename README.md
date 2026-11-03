@@ -12,10 +12,12 @@ its database. The app is `pvginkel/PilotApp`.
   the brief's slot, `## The brief`, last. Between them, `chat`'s body is the project's chat's
   procedure on Pilot's `pilot-store` tools and the brief the server composes, `create`'s the
   definition chat's, which writes the draft with the person, `pre-rule`'s the pass over what a
-  worker's turn registered, each open block routed by `rules/routing.md`, its writer asked or an
-  action claimed where the routes say so, and the pass after the writer answered, which asks
+  worker's turn registered, each open block routed by `rules/routing.md`, its writer asked, an
+  action claimed or a fact researched for it where the routes say so, a researched block routed on
+  what its work found, and the pass after the writer answered, which asks
   nothing, and `plan`'s the plan's upkeep in its modes: the setup, the first job at Create project;
-  an action of Pilot's done, the `done` of a claimed action once its work item's turn ends; what is
+  an action of Pilot's done, the `done` of a claimed action after a turn of its run, one Pilot's
+  server hands back left to the operator; what is
   next after the pass and after an item of Pilot's own is done, every task that can start started;
   a wait's firings, each judged on the card read again, the wait closed through `mark` with its
   note once its event came, or left open, with its backstop; the sweep; and the finish decision.
