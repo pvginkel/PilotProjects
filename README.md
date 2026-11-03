@@ -17,7 +17,8 @@ its database. The app is `pvginkel/PilotApp`.
   nothing, and `plan`'s the plan's upkeep in its modes: the setup, the first job at Create project;
   an action of Pilot's done, the `done` of a claimed action once its work item's turn ends; what is
   next after the pass and after an item of Pilot's own is done, every task that can start started;
-  the sweep; and the finish decision.
+  a wait's firings, each judged on the card read again, the wait closed through `mark` with its
+  note once its event came, or left open, with its backstop; the sweep; and the finish decision.
 - `rules/`: the rules the skills apply, each file the one home of its own — `grants.md` (what goes
   ahead and what asks the operator first), `routing.md` (where an open block goes),
   `work-items.md` (a work item's fields and its brief), `placement.md` (a work item's repository,
