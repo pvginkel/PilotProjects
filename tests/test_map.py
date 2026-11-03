@@ -5,11 +5,12 @@ pilot.py command line it quotes one the parser takes, every path the map cites i
 skill and the create skill reading a person's message as PilotApp's server sends it, the create
 skill naming a draft's ask and its material as pilot-store takes them, the pre-rule skill reading
 the briefs of a worker's turn and of its writer's answer as PilotApp's server writes them and
-naming its writes — a claim and a question to the writer among them — and its hand-on to the plan,
-the plan skill naming each mode by its brief's kind line, reading the brief of an item done and the
-claimed actions of a worker's turn as the server writes them, naming its writes and copying the
-draft's prose into the handbook without its asks, and a work item's fields and brief in one rule
-file the skills starting work cite."""
+naming its writes — a claim, a question to the writer and a wait among them — and its hand-on to
+the plan, the plan skill naming each mode by its brief's kind line, reading the brief of an item
+done, the claimed actions of a worker's turn and the brief and the follow-up of a wait's run as the
+server writes them, naming its writes and copying the draft's prose into the handbook without its
+asks, no file of the map refusing a wait, and a work item's fields and brief in one rule file the
+skills starting work cite."""
 
 import importlib.util
 import itertools
@@ -132,6 +133,7 @@ PLAN_MODES = (
     "## What is next",
     "## An action of Pilot's done",
     "## An item done",
+    "## A wait's firings",
     "## The sweep",
     "## The finish decision",
 )
@@ -166,9 +168,48 @@ CLAIM_CARRIED = (
 )
 # The note that carried them before the brief named them.
 CLAIM_NOTE = "A note carries them to that turn"
-# The pre-rule skill's section of the routes that wait on work Pilot has not shipped: it holds a
-# wait, and neither asking the writer nor a claim.
-NOT_YET_THE_PASS_S = "## Not yet the pass's"
+# The words and the sections by which the map refused a wait while pilot-store took none.
+WAIT_REFUSALS = ("Pilot takes no waits yet", "refused for now", "## Not yet the", "No wait")
+# A wait's two kinds as pilot-store's add_item takes them (PilotApp's pilot_mcp/tools.py), named by
+# each skill that adds one, armed as the routing rule arms it: on a fresh read of the card, with a
+# backstop where it outlives the plan's horizon.
+WAIT_KINDS = ("`card_wait`", "`timed_wait`")
+WAIT_ADDING_SKILLS = ("pre-rule", "chat")
+WAIT_ARMED = (
+    "armed as `rules/routing.md` has it, on a fresh read through youtrack of the card it watches"
+)
+ROUTING_WAIT = (
+    "a wait through `add_item`, armed on a fresh read of the card it watches",
+    "a timed wait beside it as a backstop where it outlives the plan's horizon",
+)
+# The brief of a wait's run as PilotApp's BriefService writes it: its kind line, the wait's line of
+# either kind, its pending firings and each firing's line; then the resumed run's one turn, which
+# opens with no slash command and which CLAUDE.md routes.
+WAIT_FIRED_KIND = "`Pilot's brief · a wait fired · …`"
+WAIT_FIRED_LINES = (
+    '`The wait: "<title>" (<id>), a card wait on <cards> for <states>; waiting since <stamp>;'
+    " task <id>.`",
+    "`a timed wait due <stamp>`",
+    "`Firings pending, oldest first:`",
+    "`- <stamp> · <card>: <from> → <to>, by <login>`",
+    "`- <stamp> · due <stamp> — fired at its due time`",
+    "`- <stamp> · the operator's request (Check now), by <handle>`",
+    "`(Skip wait)`",
+)
+WAIT_FOLLOW_UP = '`Another firing of "<title>" since your last run:`'
+WAIT_FOLLOW_UP_ROUTED = "`/plan`'s A wait's firings again"
+# Design 3 §6.5's wait's firings: each judged, the card read again before any act, the wait closed
+# through `mark` with its note or left open, and the backstop.
+WAIT_FIRINGS = (
+    "**Each firing judged** against what the wait waits for",
+    "the operator's request is a read on demand",
+    "**The card read again** through youtrack before any act",
+    "**Over**, its event come: the action after it started",
+    "`mark`, `item` the wait's id, `mark` `done`, no `for`, and `note` what was read and when and"
+    " the action started",
+    "**Not over**: the wait left open",
+    "a wait that outlives the plan's horizon takes a timed wait beside it",
+)
 # The setup's handbook: the draft's prose without its asks' blocks, a ruled ask's outcome a rule
 # line, and the report after the write read for what it says of the handbook.
 SETUP_HANDBOOK = (
@@ -399,6 +440,7 @@ class PlanSkillTest(unittest.TestCase):
             PASS_KIND,
             WRITER_ANSWERED_KIND,
             ITEM_DONE_KIND,
+            WAIT_FIRED_KIND,
             "entered from `/pre-rule`",
         ):
             with self.subTest(form):
@@ -502,13 +544,52 @@ class PreRuleSkillTest(unittest.TestCase):
             with self.subTest(form):
                 self.assertIn(form, self.text)
 
-    def test_asking_the_writer_and_claiming_are_the_pass_s_and_a_wait_is_not_yet(self) -> None:
-        _, _, rest = skill_file("pre-rule").read_text().partition(f"\n{NOT_YET_THE_PASS_S}\n")
-        not_yet, _, _ = rest.partition("\n## ")
-        self.assertIn("**A wait.**", not_yet)
-        for route in ("ask_writer", pilot_module().CLAIM):
-            with self.subTest(route):
-                self.assertNotIn(route, not_yet)
+    def test_the_pass_waits_on_an_event_as_its_own_route_and_holds_none_back(self) -> None:
+        self.assertIn("- **Waited on**, an owed action waiting on an event", self.text)
+        self.assertNotIn("## Not yet the pass's", self.text)
+
+
+class WaitTest(unittest.TestCase):
+    def test_no_file_of_the_map_refuses_a_wait(self) -> None:
+        for source, text in the_map().items():
+            for words in WAIT_REFUSALS:
+                with self.subTest(source=source, words=words):
+                    self.assertNotIn(words, text)
+
+    def test_the_skills_that_add_a_wait_name_its_kinds_and_arm_it_as_routing_does(self) -> None:
+        for name in WAIT_ADDING_SKILLS:
+            text = " ".join(skill_file(name).read_text().split())
+            for form in (*WAIT_KINDS, WAIT_ARMED):
+                with self.subTest(skill=name, form=form):
+                    self.assertIn(form, text)
+        routing = " ".join((ROOT / "rules" / "routing.md").read_text().split())
+        for form in ROUTING_WAIT:
+            with self.subTest(form):
+                self.assertIn(form, routing)
+
+    def test_claude_md_names_both_kinds_and_routes_a_resumed_run_to_the_plan_skill(self) -> None:
+        text = " ".join(CLAUDE.read_text().split())
+        for form in (*WAIT_KINDS, WAIT_FOLLOW_UP, WAIT_FOLLOW_UP_ROUTED):
+            with self.subTest(form):
+                self.assertIn(form, text)
+
+    def test_a_wait_s_firings_read_the_brief_and_the_follow_up_as_the_server_writes_them(
+        self,
+    ) -> None:
+        text = " ".join(skill_file("plan").read_text().split())
+        for form in (WAIT_FIRED_KIND, *WAIT_FIRED_LINES, WAIT_FOLLOW_UP):
+            with self.subTest(form):
+                self.assertIn(form, text)
+
+    def test_a_wait_s_firings_are_judged_read_again_and_closed_with_a_note_or_left_open(
+        self,
+    ) -> None:
+        _, _, rest = skill_file("plan").read_text().partition("\n## A wait's firings\n")
+        mode, _, _ = rest.partition("\n## ")
+        text = " ".join(mode.split())
+        for form in WAIT_FIRINGS:
+            with self.subTest(form):
+                self.assertIn(form, text)
 
 
 class CitationsTest(unittest.TestCase):

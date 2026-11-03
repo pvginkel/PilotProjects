@@ -104,8 +104,9 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
   question in the chat.
 - **A ruling you need** that has impact is a decision item, and the reply says you added it. The
   chat asks no closed question of its own: an ask is an item.
-- **No wait**: `add_item` refuses `card_wait` and `timed_wait` for now ("Pilot takes no waits
-  yet"), so promise no watch: say what would have to be watched, and by whom.
+- **A wait** the person asks for, a card to watch or a time to come back at: `add_item` with
+  `kind` `card_wait` or `timed_wait`, armed as `rules/routing.md` has it, on a fresh read through
+  youtrack of the card it watches.
 
 ## Correcting
 

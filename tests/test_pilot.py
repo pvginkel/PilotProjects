@@ -30,6 +30,9 @@ OLD = "9c1d4f7a-2e8b-4a36-b5c0-3e7f1a9d6b82"
 KEY = "b2e7a3c9-6d14-4f8e-9a2b-5c0d8e1f7a46"
 IMPORTER = "e6f0b9d3-1c7a-4e25-8d3f-7a9b2c6e0d18"
 NOTES = "3b9e6a14-8f2c-4d7b-a1e5-0c4f9b2d8e75"
+CARD_WAIT = "5d2a8f61-9c3e-4b17-a4d8-1e6f0b3c9a52"
+LOOKED = "a7c3e9f2-4b18-4d6a-9e05-3f8b1d2c7a96"
+BACKSTOP = "f3b6d0a8-7e21-4c5f-b9a4-6d2c8e0f1b37"
 
 LINES = {
     1: "1 · opening · Recipe box · done 2026-10-10T08:05:00Z (turn_ended)"
@@ -41,6 +44,13 @@ LINES = {
     f" · items/4-put-the-backup-key-in-the-vault.md · {KEY}",
     5: f"5 · work · Write the importer · open · step t2 · no document · {IMPORTER}",
     6: f"6 · document · Import notes · open · inbox/6-import-notes.md · {NOTES}",
+    7: "7 · card_wait · The importer's card is done · open · step t2 · on RB-14 for Done, Won't fix"
+    f" · 2 firings, 1 pending · no document · {CARD_WAIT}",
+    8: "8 · timed_wait · Look at the import again · done 2026-10-16T09:05:00Z (marked by agent)"
+    " · step t2 · due 2026-10-16T09:00:00Z · 1 firing"
+    f" · note: Read RB-14 at 09:04: In Review; the importer goes on · no document · {LOOKED}",
+    9: "9 · timed_wait · Backstop for the importer's card · open · step t2"
+    f" · due 2026-10-29T09:00:00Z · no firings · no document · {BACKSTOP}",
 }
 
 
@@ -312,8 +322,10 @@ class TestItems(PilotCase):
 
     def test_list_open_and_kind(self) -> None:
         for args, seqs in (
-            (("--open",), [3, 4, 5, 6]),
+            (("--open",), [3, 4, 5, 6, 7, 9]),
             (("--kind", "decision"), [2]),
+            (("--kind", "card_wait"), [7]),
+            (("--kind", "timed_wait", "--open"), [9]),
             (("--kind", "decision", "--open"), []),
             (("--kind", "question", "--open"), [3]),
             (("--kind", "archive_question"), []),
@@ -383,6 +395,85 @@ class TestItems(PilotCase):
 
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertEqual(completed.stdout, f"{LINES[5]}\n")
+
+    def test_show_a_wait_prints_its_line_and_each_firing_with_the_run_that_took_it(self) -> None:
+        for named, printed in (
+            (
+                CARD_WAIT,
+                f"{LINES[7]}\n"
+                "firing 1 · 2026-10-15T10:00:05Z · RB-14: In Review → Done at"
+                " 2026-10-15T10:00:00Z, by dana · run 8f4c1b27-6e3a-4d90-b5f2-0a7d9c3e1b64\n"
+                "firing 2 · 2026-10-15T12:30:00Z · the operator's request (Check now), by dana"
+                " · pending\n",
+            ),
+            (
+                LOOKED,
+                f"{LINES[8]}\n"
+                "firing 1 · 2026-10-16T09:00:04Z · due 2026-10-16T09:00:00Z — fired at its due"
+                " time · run c1e8a4d7-2f6b-4a93-8d05-7b3e9f1a6c28\n",
+            ),
+            (BACKSTOP, f"{LINES[9]}\n"),
+        ):
+            with self.subTest(named=named):
+                completed = self.pilot("items", "show", named)
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+                self.assertEqual(completed.stdout, printed)
+
+    def test_a_done_wait_reads_its_note_on_its_line_and_whole_in_show(self) -> None:
+        """A note on lines of its own is one line in the item's line, and
+        shown as written after the firings; a done wait's firing no run took
+        reads so, and a transition the tracker gave no from and no by reads
+        without them."""
+        timeline_path = self.folder / "timeline.json"
+        timeline = json.loads(timeline_path.read_text())
+        wait = next(item for item in timeline["items"] if item["id"] == CARD_WAIT)
+        wait["done"] = {
+            "at": "2026-10-16T10:00:00Z",
+            "cause": "marked",
+            "by": "agent",
+            "note": "Read RB-14 at 09:58: Done.\nStarted t3's card view.",
+        }
+        wait["firings"][0]["transition"] |= {"from": None, "by": None}
+        timeline_path.write_text(json.dumps(timeline, indent=2) + "\n")
+
+        completed = self.pilot("items", "show", CARD_WAIT)
+
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual(
+            completed.stdout,
+            "7 · card_wait · The importer's card is done · done 2026-10-16T10:00:00Z (marked by"
+            " agent) · step t2 · on RB-14 for Done, Won't fix · 2 firings · note: Read RB-14 at"
+            f" 09:58: Done. Started t3's card view. · no document · {CARD_WAIT}\n"
+            "firing 1 · 2026-10-15T10:00:05Z · RB-14 → Done at 2026-10-15T10:00:00Z"
+            " · run 8f4c1b27-6e3a-4d90-b5f2-0a7d9c3e1b64\n"
+            "firing 2 · 2026-10-15T12:30:00Z · the operator's request (Check now), by dana"
+            " · no run\n"
+            "note:\n"
+            "    Read RB-14 at 09:58: Done.\n"
+            "    Started t3's card view.\n",
+        )
+
+    def test_a_wait_done_by_finish_has_no_note(self) -> None:
+        timeline_path = self.folder / "timeline.json"
+        timeline = json.loads(timeline_path.read_text())
+        wait = next(item for item in timeline["items"] if item["id"] == BACKSTOP)
+        wait["done"] = {
+            "at": "2026-10-20T08:00:00Z",
+            "cause": "finished",
+            "by": "dana",
+            "note": None,
+        }
+        timeline_path.write_text(json.dumps(timeline, indent=2) + "\n")
+
+        completed = self.pilot("items", "show", BACKSTOP)
+
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual(
+            completed.stdout,
+            "9 · timed_wait · Backstop for the importer's card · done 2026-10-20T08:00:00Z"
+            " (finished by dana) · step t2 · due 2026-10-29T09:00:00Z · no firings · no document"
+            f" · {BACKSTOP}\n",
+        )
 
     def test_show_refuses_what_no_item_is(self) -> None:
         for named in ("0b0b0b0b-0000-4000-8000-000000000000", "items/9-soup.md", "handbook.md"):

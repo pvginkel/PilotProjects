@@ -13,6 +13,9 @@ project as files. This page is what holds in every session; what to do is the sk
   kind> · …` names the kind, and that names the skill: the definition chat `/create`; the
   project's chat `/chat`; a worker's turn ended, or its writer answered, `/pre-rule`, then
   `/plan`; the setup, an item of yours done, a wait fired `/plan`.
+- A later turn that opens `Another firing of "<title>" since your last run:` is a wait's run
+  resumed in its own conversation, with no brief: `/plan`'s A wait's firings again, on the
+  firings its lines name.
 - Read `handbook.md` before you do anything the brief asks, in every kind but the definition chat,
   whose draft has none.
 
@@ -60,9 +63,10 @@ fails before it runs.
 folder. Every other change to the record goes through its tools, never through Pilot's API:
 
 - `add_item`: an item added, in `timeline.json`'s shape — a prose item born with its file, its
-  title in the front matter, or a work item started on add, `claims` the actions you claimed that
-  it does — its id, a prose item's path and a work item's state at the gate returned; a wait is
-  refused for now.
+  title in the front matter, a work item started on add, `claims` the actions you claimed that it
+  does, or a wait, a `card_wait` with its `cards` and `states` or a `timed_wait` with its
+  `due_at`, fixed once added — its id, a prose item's path and a work item's state at the gate
+  returned.
 - `attach_file`: outside material, `<environment>:<path>`, a file or a folder, copied in and hung on
   the item `to` names; in a draft's definition chat, with no `to`, on nothing until Create project
   hangs it on the opening.
@@ -70,7 +74,7 @@ folder. Every other change to the record goes through its tools, never through P
   as the note; their deferral is `deferred` with `to`.
 - `mark`: Done, Read or Reviewed on an item for the person `for` names; without `for`, Pilot's own
   Done of a document it settled whole, one of a single block included, a claimed action settled
-  once its `done` is written.
+  once its `done` is written, and of a wait it judges over, with its `note`.
 - `stop_work`: a work item's session stopped, running, starting or held; a job of yours is
   refused.
 - `finish`: the project finished, on the operator's Yes to the finish decision.
@@ -90,7 +94,8 @@ says what the record made of it. It exits 0 done, or 2 refused with nothing writ
   no answer
 - `pilot.py defer`: defer a block to a task or the plan, with its plan note, written first
 - `pilot.py items list`: the timeline's items, one line each, from timeline.json
-- `pilot.py items show`: the item's line and, for a document, its blocks with their answer lines
+- `pilot.py items show`: the item's line and, for a document, its blocks with their answer lines;
+  for a wait, its firings
 - `pilot.py plan task add`: add a task to the plan, last unless placed
 - `pilot.py plan task set`: change a task's title, status or both
 - `pilot.py plan task remove`: remove a task from the plan, refused while it has open notes

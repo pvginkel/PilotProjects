@@ -1,13 +1,13 @@
 ---
 name: plan
-description: Pilot's upkeep of a project's plan and its work — the setup from the draft, an action Pilot claimed done when its work ends, what is next after a worker's turn or an item of Pilot's own done, placement, the confirmations, the sweep and the finish decision. Run it when Pilot's brief opens with /plan, or when /pre-rule hands on to it.
+description: Pilot's upkeep of a project's plan and its work — the setup from the draft, an action Pilot claimed done when its work ends, what is next after a worker's turn or an item of Pilot's own done, a wait's firings, placement, the confirmations, the sweep and the finish decision. Run it when Pilot's brief opens with /plan, or when /pre-rule hands on to it.
 ---
 
 # Plan
 
 The plan's upkeep and the work: the setup from the draft, an action you claimed done when its
-work ends, what is next after a worker's turn and after an item of yours is done, the sweep before
-the finish and the finish decision, in the mode the brief names.
+work ends, what is next after a worker's turn and after an item of yours is done, a wait's
+firings, the sweep before the finish and the finish decision, in the mode the brief names.
 
 1. Read `handbook.md` before anything the brief asks; at the setup it is empty, unless the setup
    is a Retry (In every mode).
@@ -16,9 +16,11 @@ the finish and the finish decision, in the mode the brief names.
    `Pilot's brief · the writer answered · …`, What is next, entered from `/pre-rule` once its pass
    is done, in the same session, its arguments the brief as the job received it, An action of
    Pilot's done first where the brief names claimed actions; `Pilot's brief · an item of yours is
-   done · …`, An item done, then What is next —; its switch line, the grants that hold for this
-   session; a pause; the trigger's lines; the plan's open notes, by summary; and the deferrals
-   without a home.
+   done · …`, An item done, then What is next; `Pilot's brief · a wait fired · …`, A wait's
+   firings —; its switch line, the grants that hold for this session; a pause; the trigger's
+   lines; the plan's open notes, by summary; and the deferrals without a home. A later turn of a
+   wait's run, `Another firing of "<title>" since your last run:` and its lines, has no brief: A
+   wait's firings again, on those firings.
 3. Do the mode's work, then end your turn with one line saying what it did. A job never waits
    and never asks in its own transcript: a question to a person is an item.
 
@@ -177,6 +179,36 @@ line per block after it; the file holds the prose. Act on the close, then What i
 - **A review's Reviewed**: nothing of it waits on you.
 - **The sweep's decision or the finish decision**: as their sections have it.
 
+## A wait's firings
+
+The run of a wait of yours that fired. The brief's wait line, `The wait: "<title>" (<id>), a card
+wait on <cards> for <states>; waiting since <stamp>; task <id>.` — a timed wait's `a timed wait
+due <stamp>` — then `Firings pending, oldest first:`, a line each: `- <stamp> · <card>: <from> →
+<to>, by <login>`, a card's transition; `- <stamp> · due <stamp> — fired at its due time`; or
+`- <stamp> · the operator's request (Check now), by <handle>`, `(Skip wait)` on a timed wait. A
+later firing, while this run's conversation holds, comes as its next turn: `Another firing of
+"<title>" since your last run:` and the same lines.
+
+1. **The wait as the record holds it**: `pilot.py items show <id>` prints what it watches or when
+   it is due, every firing with the run that took it, and its note once done; the note beside it
+   on its task, `pilot.py plan note list --task <id>`, says what was to happen once its event
+   came (`rules/routing.md`).
+2. **Each firing judged** against what the wait waits for: a card entering a state of its list is
+   a firing, its event maybe come; a timed wait's due time is its own; the operator's request is
+   a read on demand, the event come or not.
+3. **The card read again** through youtrack before any act: what you act on is the card as it
+   stands, never the firing's line.
+4. **Over**, its event come: the action after it started — a work item, as What is next starts
+   one, or your own hands' act — and then the wait closed: `mark`, `item` the wait's id, `mark`
+   `done`, no `for`, and `note` what was read and when and the action started, "ANS-312 read at
+   18:39: Done; t7's planning started". The note is shown on the wait's line, whole.
+5. **Not over**: the wait left open, nothing written of it. A wait is never edited: one that must
+   watch another card or state is closed with its note and another added, armed on a fresh read
+   as `rules/routing.md` has it. A timed wait fires once: left open past its firing, only a
+   person's Skip wait fires it again.
+6. **The backstop**: a wait that outlives the plan's horizon takes a timed wait beside it, its
+   `step` the same task, where it has none open (`rules/routing.md`).
+
 ## The sweep
 
 Before the finish decision, in every plan, and at the plan's sweep task where it has one: the
@@ -202,12 +234,6 @@ What is next after it asks none. On its Yes, the job after its close calls `fini
 last: it closes every open item and stops every session of the project, this one's turn among
 them. On a No, its reason read and the plan adjusted. The archive question after a finish is the
 server's.
-
-## Not yet the plan's
-
-- **A wait's firings**, and a wait: `add_item` refuses `card_wait` and `timed_wait` ("Pilot takes
-  no waits yet"). What would wait on an event goes in a note on its task, and no watch is
-  promised.
 
 ## The server's follow-up turn
 

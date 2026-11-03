@@ -38,6 +38,8 @@ DRAFT = "project.md"
 DRAFT_STATE = "draft"
 DOCUMENT_FOLDERS = ("items", "inbox")
 OPENING = "opening"
+# What a person's request is called on each kind of wait (PilotApp's F27.3).
+REQUESTS = {"card_wait": "Check now", "timed_wait": "Skip wait"}
 # The answer of an action Pilot has claimed (F21.6, D062), pilot-dsl's.
 CLAIM = dsl.CLAIM
 
@@ -194,6 +196,53 @@ def _answer_line(block: dsl.Block) -> str:
     return line
 
 
+def _is_wait(item: dict[str, Any]) -> bool:
+    """A wait is the one item `timeline.json` gives its firings."""
+    return "firings" in item
+
+
+def _wait_parts(item: dict[str, Any]) -> list[str]:
+    """A wait's part of its line: what it watches or when it is due, its
+    firings counted, those no run has taken yet among them while it is open,
+    and its note once marked, on one line."""
+    if "due_at" in item:
+        parts = [f"due {item['due_at']}"]
+    else:
+        parts = [f"on {', '.join(item['cards'])} for {', '.join(item['states'])}"]
+    firings = item["firings"]
+    count = f"{len(firings)} firing{'' if len(firings) == 1 else 's'}" if firings else "no firings"
+    pending = sum(firing["job"] is None for firing in firings)
+    if item["done"] is None and pending:
+        count += f", {pending} pending"
+    parts.append(count)
+    note = None if item["done"] is None else item["done"]["note"]
+    if note is not None:
+        parts.append(f"note: {' '.join(note.split())}")
+    return parts
+
+
+def _firing_line(item: dict[str, Any], firing: dict[str, Any]) -> str:
+    """A firing as the wait's run is briefed with it, then the run that took
+    it: `firing 1 · <fired at> · RB-12: In Review → Done at <at>, by ada ·
+    run <id>`."""
+    if firing["cause"] == "transition":
+        transition = firing["transition"]
+        card = transition["card"]
+        moved = card if transition["from"] is None else f"{card}: {transition['from']}"
+        what = f"{moved} → {transition['to']} at {transition['at']}"
+        if transition["by"] is not None:
+            what += f", by {transition['by']}"
+    elif firing["cause"] == "requested":
+        what = f"the operator's request ({REQUESTS[item['kind']]}), by {firing['requested_by']}"
+    else:
+        what = f"due {item['due_at']} — fired at its due time"
+    if firing["job"] is not None:
+        run = f"run {firing['job']}"
+    else:
+        run = "pending" if item["done"] is None else "no run"
+    return f"firing {firing['seq']} · {firing['fired_at']} · {what} · {run}"
+
+
 def _item_line(item: dict[str, Any]) -> str:
     parts = [str(item["seq"]), item["kind"], item["title"] or "(no title)"]
     done = item["done"]
@@ -208,6 +257,8 @@ def _item_line(item: dict[str, Any]) -> str:
         parts.append(f"step {item['step']}")
     if item["urgent"]:
         parts.append("urgent")
+    if _is_wait(item):
+        parts.extend(_wait_parts(item))
     parts.append(item["path"] or "no document")
     parts.append(item["id"])
     return " · ".join(parts)
@@ -243,6 +294,14 @@ def _items_show(project: Project, args: argparse.Namespace) -> int:
     print(_item_line(item))
     if item["summary"] is not None:
         print(f"summary: {item['summary']}")
+    if _is_wait(item):
+        for firing in item["firings"]:
+            print(_firing_line(item, firing))
+        note = None if item["done"] is None else item["done"]["note"]
+        if note is not None and note != " ".join(note.split()):
+            print("note:")
+            for line in note.splitlines():
+                print(f"    {line}")
     document = _parsed(project, item)
     if item["path"] is not None and document is None:
         print(f"its document {item['path']} is not on disk")
@@ -893,7 +952,8 @@ def build_parser() -> argparse.ArgumentParser:
         items,
         "show",
         _items_show,
-        "the item's line and, for a document, its blocks with their answer lines",
+        "the item's line and, for a document, its blocks with their answer lines;"
+        " for a wait, its firings",
     )
     show.add_argument(
         "item", metavar="<id|path>", help=f"the item's id, or its document's path, from {TIMELINE}"

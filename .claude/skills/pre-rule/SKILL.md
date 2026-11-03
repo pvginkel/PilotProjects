@@ -88,6 +88,13 @@ Per published document, one after the other:
      `pilot.py answer <file> <block id> --value "Pilot does it" --note <its work item>`, the note
      naming the work item by its title. The block stays open and yours, out of the badge, until
      `/plan` writes its `done` when that work ends.
+   - **Waited on**, an owed action waiting on an event, or a block deferred to one: the wait
+     first, armed as `rules/routing.md` has it, on a fresh read through youtrack of the card it
+     watches — `add_item` with `kind` `card_wait`, its `title`, `cards` and `states` and `step`
+     the task the action belongs to, or `kind` `timed_wait` with its `due_at` for an event at a
+     time — then the note on that task and the block's answer, both naming the wait:
+     `pilot.py defer <file> <block id> --to <task id> --summary <line> --content <text> --note <why>`
+     where it is deferred, `pilot.py answer` and `pilot.py plan note add` where it is answered.
    - **Asked of its writer**, a block you cannot read — what it asks, which option the writer
      means, what a thing it names is — that the record does not answer: `ask_writer` with `block`,
      `<item id>/<local id>`, and `question`, in the words the writer is to read, one question per
@@ -130,14 +137,6 @@ no text. What the run registered follows, as any run's, then `This pass asks not
 - **The writer's words**: a block you now route on them quotes them in its answer's note, so that
   the operator reads the ask and its reason together; a block still unclear is the operator's,
   with no edit, the clarification beside it on the document.
-
-## Not yet the pass's
-
-One of `rules/routing.md`'s routes waits on work Pilot has not shipped. A block it would take is
-left to the operator, with no edit, and the summary line names it.
-
-- **A wait.** `add_item` refuses `card_wait` and `timed_wait` ("Pilot takes no waits yet"), so
-  neither an owed action waiting on an event nor a deferral to an event has its route.
 
 ## The summary line
 

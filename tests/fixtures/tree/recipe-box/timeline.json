@@ -100,6 +100,97 @@
       "created_at": "2026-10-14T16:20:00Z",
       "done": null,
       "attachments": []
+    },
+    {
+      "id": "5d2a8f61-9c3e-4b17-a4d8-1e6f0b3c9a52",
+      "seq": 7,
+      "kind": "card_wait",
+      "title": "The importer's card is done",
+      "path": null,
+      "step": "t2",
+      "urgent": false,
+      "for": null,
+      "summary": null,
+      "created_at": "2026-10-15T08:00:00Z",
+      "done": null,
+      "attachments": [],
+      "cards": [
+        "RB-14"
+      ],
+      "states": [
+        "Done",
+        "Won't fix"
+      ],
+      "firings": [
+        {
+          "seq": 1,
+          "cause": "transition",
+          "fired_at": "2026-10-15T10:00:05Z",
+          "transition": {
+            "card": "RB-14",
+            "from": "In Review",
+            "to": "Done",
+            "at": "2026-10-15T10:00:00Z",
+            "by": "dana"
+          },
+          "requested_by": null,
+          "job": "8f4c1b27-6e3a-4d90-b5f2-0a7d9c3e1b64"
+        },
+        {
+          "seq": 2,
+          "cause": "requested",
+          "fired_at": "2026-10-15T12:30:00Z",
+          "transition": null,
+          "requested_by": "dana",
+          "job": null
+        }
+      ]
+    },
+    {
+      "id": "a7c3e9f2-4b18-4d6a-9e05-3f8b1d2c7a96",
+      "seq": 8,
+      "kind": "timed_wait",
+      "title": "Look at the import again",
+      "path": null,
+      "step": "t2",
+      "urgent": false,
+      "for": null,
+      "summary": null,
+      "created_at": "2026-10-15T09:00:00Z",
+      "done": {
+        "at": "2026-10-16T09:05:00Z",
+        "cause": "marked",
+        "by": "agent",
+        "note": "Read RB-14 at 09:04: In Review; the importer goes on"
+      },
+      "attachments": [],
+      "due_at": "2026-10-16T09:00:00Z",
+      "firings": [
+        {
+          "seq": 1,
+          "cause": "due",
+          "fired_at": "2026-10-16T09:00:04Z",
+          "transition": null,
+          "requested_by": null,
+          "job": "c1e8a4d7-2f6b-4a93-8d05-7b3e9f1a6c28"
+        }
+      ]
+    },
+    {
+      "id": "f3b6d0a8-7e21-4c5f-b9a4-6d2c8e0f1b37",
+      "seq": 9,
+      "kind": "timed_wait",
+      "title": "Backstop for the importer's card",
+      "path": null,
+      "step": "t2",
+      "urgent": false,
+      "for": null,
+      "summary": null,
+      "created_at": "2026-10-16T09:05:00Z",
+      "done": null,
+      "attachments": [],
+      "due_at": "2026-10-29T09:00:00Z",
+      "firings": []
     }
   ],
   "attachments": []
