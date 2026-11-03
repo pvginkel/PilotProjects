@@ -18,10 +18,11 @@ routes are yours: Pilot's server routes nothing.
    the documents the run registered, in the order registered, each
    `- <path> (<item id>) — published` or `- <path> (<item id>) — read failed: <reason>`, or
    `Registered nothing this run.`; the files attached on the work item; the claimed actions given
-   to the work item, which are `/plan`'s; the plan's open notes by summary; and the deferrals
-   without a home, which are `/plan`'s too.
-3. Pass over each published document, in the brief's order (The pass). A document whose read
-   failed has no text: it is the operator's to mark Reviewed, and the pass writes nothing of it.
+   to the work item, which are `/plan`'s; the blocks it researched, which are the pass's; the
+   plan's open notes by summary; and the deferrals without a home, which are `/plan`'s too.
+3. Pass over each published document, in the brief's order (The pass), then over the blocks the
+   work item researched (A researched block). A document whose read failed has no text: it is the
+   operator's to mark Reviewed, and the pass writes nothing of it.
 4. End the pass with its one line (The summary line), then run `/plan`, its mode What is next, in
    this session, its arguments the brief as you got it.
 
@@ -64,12 +65,13 @@ Per published document, one after the other:
      for earlier material on its subject — `pilot.py plan task list`, `pilot.py plan note list`,
      `pilot.py items list`, the files under `items/` and `inbox/`, `chat.md`; what matches read for
      how it bears on the choice; a fact the ask rests on and nobody read found first, in the store
-     or through a work item placed where the repository is, the block left open until that work's
-     document is registered. A requirement that would overrule a passage of the design record is
-     yours only on the operator's own words asking for that change and a passage that is the
-     record of that very behaviour; otherwise it is the operator's. The note names what was
-     checked and what was found, or that nothing in the store bears on it: a choice with an
-     unread fact behind it and no note of it is not yours to make.
+     or by a work item placed where the repository is, added as `rules/work-items.md` has it with
+     its `researches` the block's id, `<item id>/<local id>`, the block left open and yours until
+     the pass after that work's turn routes it (A researched block). A requirement that would
+     overrule a passage of the design record is yours only on the operator's own words asking
+     for that change and a passage that is the record of that very behaviour; otherwise it is the
+     operator's. The note names what was checked and what was found, or that nothing in the store
+     bears on it: a choice with an unread fact behind it and no note of it is not yours to make.
    - **Answered**, `by: agent`:
      `pilot.py answer <file> <block id> --value <option> --note <why>`, the value an option's
      label, `Agree`, `Yes`, `No` or your own words. The note says why in words that stand alone:
@@ -86,8 +88,9 @@ Per published document, one after the other:
      first, through `add_item` as `rules/work-items.md` has it, its `claims` the block's id,
      `<item id>/<local id>`, beside every other action that work does; then the claim,
      `pilot.py answer <file> <block id> --value "Pilot does it" --note <its work item>`, the note
-     naming the work item by its title. The block stays open and yours, out of the badge, until
-     `/plan` writes its `done` when that work ends.
+     naming the work item by its title. The block stays open and yours, out of the badge, through
+     that work's run: `/plan` writes its `done` once the work did it, and an act the run leaves
+     undone is the operator's again (`/plan`'s An action of Pilot's done).
    - **Waited on**, an owed action waiting on an event, or a block deferred to one: the wait
      first, armed as `rules/routing.md` has it, on a fresh read through youtrack of the card it
      watches — `add_item` with `kind` `card_wait`, its `title`, `cards` and `states` and `step`
@@ -121,6 +124,33 @@ Per published document, one after the other:
    `urgent: true` where it holds up work now, and `for` the one person who can judge it, by handle,
    where the handbook or the record names them; neither where it does not hold.
 
+## A researched block
+
+After the turn of a work item you gave a research, the brief names the blocks it researched after
+the claimed actions, under "The blocks this work item researched, as they stand:", a line each,
+`- <path> (<item id>) <local id>` followed by `open`, by
+`open, handed back to the operator: leave it to them`, by `open, claimed`, or by its answer as it
+reads. Each sits in a document an earlier pass left it open in, not in one the research
+registered. After the turn of the work item that continues its run, the brief names the run's
+researched blocks as well.
+
+1. **What the research found**, read from what the run registered, passed over first, its turn's
+   last line and, where those do not say, its session log (`get_session_log`).
+2. **Routed**, each `open` one whose fact the run found, as The pass's step 4 has it, the fact
+   read and the note naming what was found and where; its document marked Done once settled
+   whole (The pass, step 6).
+3. **Still the run's**, an `open` one whose fact was not found in a turn that registered a
+   document with a block in it, the run asking a person first: nothing is written, the run going
+   on once they close, and the pass after its next turn routes it.
+4. **Not found**, an `open` one whose fact was not found in a turn that registered no document
+   with a block in it: routed now as any block, the note saying the fact stayed unread — a choice
+   that would not move on it made, the question researched anew in a new work item, or left to
+   the operator. Left open, it is theirs once this job ends, unless a new research names it.
+5. **Handed back to the operator** — its line ending
+   `handed back to the operator: leave it to them`, the run's work failed, stopped, taken over
+   or cancelled: theirs; nothing is written.
+6. **Claimed since, or answered**: settled; leave it.
+
 ## The writer answered
 
 The job after the clarification run, which took a pass's questions to their writer: its kind line
@@ -142,8 +172,9 @@ no text. What the run registered follows, as any run's, then `This pass asks not
 
 One line, a part per document in the brief's order, its path short — "Pre-ruled: inbox/7 Done (3
 settled, 1 deferred to t5); inbox/8 open for the operator (D2), A1 claimed for "Rotate the CI
-token", D4 asked of its writer; inbox/9 not read" — or "Pre-ruled: nothing registered". Then
-`/plan`, What is next (step 4).
+token", Q3 researched by "Count the hosts", D4 asked of its writer; inbox/9 not read; inbox/6 Q2
+answered on its research" — or "Pre-ruled: nothing registered". Then `/plan`, What is next
+(step 4).
 
 ## The brief
 

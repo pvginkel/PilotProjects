@@ -5,12 +5,13 @@ pilot.py command line it quotes one the parser takes, every path the map cites i
 skill and the create skill reading a person's message as PilotApp's server sends it, the create
 skill naming a draft's ask and its material as pilot-store takes them, the pre-rule skill reading
 the briefs of a worker's turn and of its writer's answer as PilotApp's server writes them and
-naming its writes — a claim, a question to the writer and a wait among them — and its hand-on to
-the plan, the plan skill naming each mode by its brief's kind line, reading the brief of an item
-done, the claimed actions of a worker's turn and the brief and the follow-up of a wait's run as the
-server writes them, naming its writes and copying the draft's prose into the handbook without its
-asks, no file of the map refusing a wait, and a work item's fields and brief in one rule file the
-skills starting work cite."""
+naming its writes — a claim, a research, a question to the writer and a wait among them — routing
+the blocks a research's brief gives and its hand-on to the plan, the plan skill naming each mode by
+its brief's kind line, reading the brief of an item done, the claimed actions of a worker's turn
+and the brief and the follow-up of a wait's run as the server writes them, a claimed action the
+run's or the operator's where the server's reading draws the line, naming its writes and copying
+the draft's prose into the handbook without its asks, no file of the map refusing a wait, and a
+work item's fields and brief in one rule file the skills starting work cite."""
 
 import importlib.util
 import itertools
@@ -111,6 +112,16 @@ ASK_WRITER = "`ask_writer` with `block`, `<item id>/<local id>`, and `question`"
 # The claim: the block named on the add_item of the work item that does it, then pilot.py's answer
 # with the claim's value, pilot.py's CLAIM.
 CLAIM_NAMED = "its `claims` the block's id, `<item id>/<local id>`"
+# The research: the block left open on a fact named on the add_item of the work item that finds it
+# (PilotApp's pilot_mcp/api.py, `researches`), in CLAUDE.md, the routing rule and the pass.
+RESEARCH_NAMED = {
+    "CLAUDE.md": "`researches` the blocks you left open on a fact it finds",
+    "rules/routing.md": "the block named in `researches` on its `add_item`",
+    ".claude/skills/pre-rule/SKILL.md": "its `researches` the block's id, `<item id>/<local id>`",
+}
+# How BriefService ends a claimed or researched block's line once the server's reading handed it
+# back to the person (PilotApp's brief_service.py, HANDED_BACK): theirs, never done or routed.
+HANDED_BACK = "handed back to the operator: leave it to them"
 # The pass's writes and its hand-on: an answer, a deferral with its plan note, an action's Done and
 # a claim through pilot.py, a question to the writer and Pilot's own Done through pilot-store, then
 # the plan.
@@ -152,19 +163,59 @@ PLAN_CALLS = (
 CLAIMED_ACTIONS = (
     '"The claimed actions given to this work item, as they stand:"',
     (
-        "`- <path> (<item id>) <local id>` followed by `open, claimed`, by `open, its claim gone`,"
-        " or by its close as it reads"
+        "`- <path> (<item id>) <local id>` followed by `open, claimed`, by"
+        f" `open, claimed, {HANDED_BACK}`, by `open, its claim gone`, or by its close as it reads"
     ),
 )
-# A claimed action its run did not reach in a turn that registered documents: the run goes on as a
-# work item titled as it, whose brief names the run's claimed actions (PilotApp's D100), so nothing
-# carries them in a note, and nothing retries or hands over an act the run still holds.
+# A claimed action its run left, refused or not reached, in a turn that registered a document with
+# a block in it: the run goes on as a work item titled as it, whose brief names the run's claimed
+# actions (PilotApp's D100), so nothing carries them in a note, and nothing retries or hands over an
+# act the run still holds.
 CLAIM_CARRIED = (
     "After the turn of the work item that continues its run, the brief names the run's claimed"
     " actions as well",
-    "**Still the run's**, never reached in a turn that registered documents",
+    "**Still the run's**, its act refused or never reached in a turn that registered a document"
+    " with a block in it",
     "nothing is written, no note, retry or hand-over",
     "its run waiting on its documents — gets no second",
+)
+# Where the server's reading hands a claimed action back (PilotApp's working_on.py): left after a
+# turn that registered no document with a block in it, it is the person's once the job after that
+# turn ends, which retries it or sends the notice; one the brief gives as handed back is theirs, and
+# nothing is written of it.
+CLAIM_HANDED_BACK = (
+    "stays the run's until the job after a turn of it that registered no document with a block in"
+    " it ends, or its work fails or is stopped",
+    "**Left undone**, its act refused or never reached in a turn that registered no document with"
+    " a block in it: the claim stays and the block open, the operator's once this job ends",
+    "the operator gets it with the reason: a notice of yours",
+    f"**Handed back to the operator** — its line ending `{HANDED_BACK}`",
+    "nothing is written, no Done, retry or notice",
+)
+# The line the plan skill drew before the server read when a run is done with a block.
+CLAIM_LINE_RETIRED = (
+    "never reached in a turn that registered documents",
+    "never reached in a turn that registered nothing",
+)
+# The blocks the brief of a worker's turn names as researched, as BriefService writes them, and the
+# pass's route for each: on the fact found, still the run's while it asks a person first, routed
+# without the fact otherwise, and left to the person once handed back.
+RESEARCHED_BLOCKS = (
+    '"The blocks this work item researched, as they stand:"',
+    "`- <path> (<item id>) <local id>` followed by `open`, by"
+    f" `open, {HANDED_BACK}`, by `open, claimed`, or by its answer as it reads",
+    "the blocks it researched, which are the pass's",
+    "After the turn of the work item that continues its run, the brief names the run's researched"
+    " blocks as well",
+)
+RESEARCH_ROUTED = (
+    "**Routed**, each `open` one whose fact the run found",
+    "**Still the run's**, an `open` one whose fact was not found in a turn that registered a"
+    " document with a block in it",
+    "**Not found**, an `open` one whose fact was not found in a turn that registered no document"
+    " with a block in it",
+    f"**Handed back to the operator** — its line ending `{HANDED_BACK}`",
+    "**Claimed since, or answered**: settled; leave it.",
 )
 # The note that carried them before the brief named them.
 CLAIM_NOTE = "A note carries them to that turn"
@@ -472,6 +523,17 @@ class PlanSkillTest(unittest.TestCase):
                 self.assertIn(form, text)
         self.assertNotIn(CLAIM_NOTE, text)
 
+    def test_a_claimed_action_is_the_operator_s_where_the_server_s_reading_hands_it_back(
+        self,
+    ) -> None:
+        text = " ".join(skill_file("plan").read_text().split())
+        for form in CLAIM_HANDED_BACK:
+            with self.subTest(form):
+                self.assertIn(form, text)
+        for form in CLAIM_LINE_RETIRED:
+            with self.subTest(form):
+                self.assertNotIn(form, text)
+
     def test_the_plan_skill_applies_every_rule_file(self) -> None:
         text = skill_file("plan").read_text()
         for path in sorted((ROOT / "rules").glob("*.md")):
@@ -547,6 +609,20 @@ class PreRuleSkillTest(unittest.TestCase):
     def test_the_pass_waits_on_an_event_as_its_own_route_and_holds_none_back(self) -> None:
         self.assertIn("- **Waited on**, an owed action waiting on an event", self.text)
         self.assertNotIn("## Not yet the pass's", self.text)
+
+    def test_the_pass_routes_the_researched_blocks_as_the_server_writes_them(self) -> None:
+        lines = skill_file("pre-rule").read_text().splitlines()
+        self.assertEqual(lines.count("## A researched block"), 1)
+        for form in (*RESEARCHED_BLOCKS, *RESEARCH_ROUTED):
+            with self.subTest(form):
+                self.assertIn(form, self.text)
+
+
+class ResearchTest(unittest.TestCase):
+    def test_the_map_names_a_researched_block_in_researches_on_add_item(self) -> None:
+        for source, form in RESEARCH_NAMED.items():
+            with self.subTest(source):
+                self.assertIn(form, " ".join((ROOT / source).read_text().split()))
 
 
 class WaitTest(unittest.TestCase):

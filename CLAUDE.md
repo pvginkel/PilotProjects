@@ -64,9 +64,9 @@ folder. Every other change to the record goes through its tools, never through P
 
 - `add_item`: an item added, in `timeline.json`'s shape — a prose item born with its file, its
   title in the front matter, a work item started on add, `claims` the actions you claimed that it
-  does, or a wait, a `card_wait` with its `cards` and `states` or a `timed_wait` with its
-  `due_at`, fixed once added — its id, a prose item's path and a work item's state at the gate
-  returned.
+  does and `researches` the blocks you left open on a fact it finds, or a wait, a `card_wait`
+  with its `cards` and `states` or a `timed_wait` with its `due_at`, fixed once added — its id, a
+  prose item's path and a work item's state at the gate returned.
 - `attach_file`: outside material, `<environment>:<path>`, a file or a folder, copied in and hung on
   the item `to` names; in a draft's definition chat, with no `to`, on nothing until Create project
   hangs it on the opening.

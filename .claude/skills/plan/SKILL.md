@@ -135,9 +135,12 @@ plan brought up to date with what happened, and every piece of work that can go,
 After the turn of a work item you gave claimed actions to, before What is next: the brief names
 them after the files attached, under "The claimed actions given to this work item, as they
 stand:", a line each, `- <path> (<item id>) <local id>` followed by `open, claimed`, by
-`open, its claim gone`, or by its close as it reads — a person's Done meanwhile, which is theirs
-and leaves you nothing to write. After the turn of the work item that continues its run, the
-brief names the run's claimed actions as well, the work going on in its conversation.
+`open, claimed, handed back to the operator: leave it to them`, by `open, its claim gone`, or by
+its close as it reads — a person's Done meanwhile, which is theirs and leaves you nothing to
+write. After the turn of the work item that continues its run, the brief names the run's claimed
+actions as well, the work going on in its conversation. A claimed action stays the run's until
+the job after a turn of it that registered no document with a block in it ends, or its work fails
+or is stopped: Pilot's server reads that, and nothing you write hands one over.
 
 1. **What the work did**, read from its turn's last line, what it registered and, where those do
    not say, its session log (`get_session_log`).
@@ -147,19 +150,25 @@ brief names the run's claimed actions as well, the work going on in its conversa
    block, every other one answered, deferred or done: `mark`, `item` the document's id, `mark`
    `done`, and no `for`, once the report after your last write of it names no line of its path.
    Its write-back and the worker's continuation are the server's.
-3. **Still the run's**, never reached in a turn that registered documents, which the run waits
-   on: the claim stays and nothing is written, no note, retry or hand-over, the run going on once
-   they close as a work item titled as it (What is next, step 5), whose brief names them.
-4. **Left undone**, its act refused, or never reached in a turn that registered nothing: the claim
-   stays and the block open. Either a new work item retries it, the block named again in its
-   `claims`, then the claim written anew naming that one, `pilot.py answer` with
-   `--value "Pilot does it"`; or the operator gets it with the reason: a notice of yours quoting
-   the block's words and naming it, `<item id>/<local id>`, saying why the work left it undone and
-   that its Done, on the block, is theirs.
+3. **Still the run's**, its act refused or never reached in a turn that registered a document
+   with a block in it, which the run waits on: the claim stays and nothing is written, no note,
+   retry or hand-over, the run going on once they close as a work item titled as it (What is
+   next, step 5), whose brief names them.
+4. **Left undone**, its act refused or never reached in a turn that registered no document with a
+   block in it: the claim stays and the block open, the operator's once this job ends. Either a
+   new work item retries it, the block named again in its `claims`, then the claim written anew
+   naming that one, `pilot.py answer` with `--value "Pilot does it"`, its run holding it then; or
+   the operator gets it with the reason: a notice of yours quoting the block's words and naming
+   it, `<item id>/<local id>`, saying why the work left it undone and that its Done, on the block,
+   is theirs.
+5. **Handed back to the operator** — its line ending
+   `handed back to the operator: leave it to them`, the run's work failed, stopped, taken over or
+   cancelled: theirs; nothing is written, no Done, retry or notice.
 
 A run that failed gets no job: its work item waits on a person's Resume, its claims standing and
-their blocks open, and the end of its next turn brings this job. A claimed action whose work goes
-on — its work item open, or its run waiting on its documents — gets no second.
+their blocks open, the operator's until it resumes, and the end of its next turn brings this job.
+A claimed action whose work goes on — its work item open, or its run waiting on its documents —
+gets no second.
 
 ## An item done
 

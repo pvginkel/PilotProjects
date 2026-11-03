@@ -17,7 +17,7 @@ since the block's collapsed line is the operator's first read of it. What the gr
 | a choice wholly another project's | answered with the hand-over (below); never deferred across projects. |
 | a question the record, the handbook or the memory answers | answered. |
 | an action that is the operator's hands alone — a device, an account, a secret no repository's tooling can place | left to the operator, with no edit. |
-| an action Pilot may run under the grants — a secret placed through a repository's tooling, an Ansible work item, among them | claimed: the block named in `claims` on the `add_item` of the work item that does it, added in the same turn, then `pilot.py answer` with `--value "Pilot does it"`, the note naming that work item in words; the block stays open, Pilot's, until that work ends and `pilot.py done` writes the paste-back. Done at once, through `pilot.py done`, where Pilot's own hands do it in the pass — a card, a fleet call. |
+| an action Pilot may run under the grants — a secret placed through a repository's tooling, an Ansible work item, among them | claimed: the block named in `claims` on the `add_item` of the work item that does it, added in the same turn, then `pilot.py answer` with `--value "Pilot does it"`, the note naming that work item in words; the block stays open and Pilot's through that work's run, until `pilot.py done` writes the paste-back or the run leaves it undone, the operator's again. Done at once, through `pilot.py done`, where Pilot's own hands do it in the pass — a card, a fleet call. |
 | an owed action waiting on an event — "re-run the import once the operator has restored the backup" | a wait through `add_item`, armed on a fresh read of the card it watches, and a timed wait beside it as a backstop where it outlives the plan's horizon; a note on the task the action belongs to; the block answered naming the wait. |
 | a block Pilot cannot read — what it asks, which option the writer means, what a thing it names is — and the record does not answer | asked of its writer, once: `ask_writer` with `block`, `<item id>/<local id>`, and `question`, one question per block. |
 | anything with impact now and the operator's | left to the operator, with no edit. |
@@ -39,8 +39,9 @@ store bears on it.
    grounds say a thing was not checked, or the recommendation rests on a fact nobody read — the
    fact is found before the choice: in the store where it is there; otherwise through a work item
    placed in an environment that has the repository, its brief the question and a document to
-   register with the answer, the block left open meanwhile and routed by the pass after that
-   document. A choice that would not move on the fact is made without it, the note saying so.
+   register with the answer, the block named in `researches` on its `add_item`, left open and
+   Pilot's meanwhile, and routed by the pass after that document, whose brief names it. A choice
+   that would not move on the fact is made without it, the note saying so.
 
 ## Deferral
 
