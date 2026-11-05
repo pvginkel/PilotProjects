@@ -25,6 +25,8 @@ Its first turn, your text, in this order:
 2. What to do and what to register: free-form work, which the session works out.
 3. The grants text the switch selects — the brief's switch line — copied verbatim from
    `rules/grants.md`'s "In a worker's brief".
+4. For a promotion to production, the text of `rules/promote.md`'s "In a promotion's brief",
+   copied verbatim, step 2 naming the application, the commit to promote and what follows it.
 
 A stage of the workflow takes a brief of its own shape: its command and the slice's number as the
 first line, then the task in a line, the ticket and the grants text, and nothing of what to do,

@@ -18,7 +18,8 @@ grants allow is `rules/grants.md`'s; which column holds, the brief's switch line
 | a choice wholly another project's | answered with the hand-over (below); never deferred across projects. |
 | a question the record, the handbook or the memory answers | answered. |
 | an action that is the operator's hands alone — a device, an account, a secret no repository's tooling can place | left to the operator, with no edit. |
-| an action Pilot may run under the grants — a secret placed through a repository's tooling, an Ansible work item, among them | claimed: the block named in `claims` on the `add_item` of the work item that does it, added in the same turn, then `pilot.py answer` with `--value "Pilot does it"`, the note naming that work item in words; the block stays open and Pilot's through that work's run, until `pilot.py done` writes the paste-back or the run leaves it undone, the operator's again. Done at once, through `pilot.py done`, where Pilot's own hands do it in the pass — a card, a fleet call. |
+| an action Pilot may run under the grants — a secret placed through a repository's tooling, an Ansible work item, among them | claimed, unless the row after takes it: the block named in `claims` on the `add_item` of the work item that does it, added in the same turn, then `pilot.py answer` with `--value "Pilot does it"`, the note naming that work item in words; the block stays open and Pilot's through that work's run, until `pilot.py done` writes the paste-back or the run leaves it undone, the operator's again. Done at once, through `pilot.py done`, where Pilot's own hands do it in the pass — a card, a fleet call. |
+| a close-out's promotion Pilot may run under the grants, with the update that follows it, the store's after a PilotApp promotion, and every action the close-out owes after the promotion — a criterion's `Settle <id> after …` | deferred to the running task, never claimed: each through `pilot.py defer`, `--to` the run's own task, so that the close-out closes once its other blocks are answered and the run's continuation goes on. The promotion is due once that continuation has ended, and one work item then does them all, the promotion first (Deferral). |
 | an owed action waiting on an event — "re-run the import once the operator has restored the backup" | a wait through `add_item`, armed on a fresh read of the card it watches, and a timed wait beside it as a backstop where it outlives the plan's horizon, its `step` the same task and its title `Backstop: <the card wait's title>`; a note on the task the action belongs to; the block answered naming the wait. |
 | a block Pilot cannot read — what it asks, which option the writer means, what a thing it names is — and the record does not answer | asked of its writer, once: `ask_writer` with `block`, `<item id>/<local id>`, and `question`, one question per block. |
 | anything with impact now and the operator's | left to the operator, with no edit. |
@@ -54,6 +55,7 @@ decided now, or closed.
 |---|---|
 | a planned task of this project | a note on that task |
 | the running task's next turn: not in this turn | a note on the running task |
+| the run's end: a close-out's promotion and what follows it | a note on the running task, due once the run's continuation has ended |
 | the project's end — a sweep, a follow-up after go-live | a note on the plan, and the `Later` card (below) |
 | an event — a hold lifting, a step the operator runs first | a wait, with a note beside it on the task the action belongs to |
 | another project's work | none: never deferred |
@@ -63,9 +65,16 @@ decided now, or closed.
   comes up, its ref the block. A note points; it does not copy.
 - A deferral to the running task is for an ask the turn should finish without — a clean-up the
   work does not need, a choice better made with its result in hand — never for one that waits on
-  an event, which is a wait: nothing guarantees the task another turn before the event.
-- A deferral from a close-out, the task's last document, goes to the next task or to the end,
-  never to the running task.
+  an event, which is a wait: nothing guarantees the task another turn before the event. A
+  close-out's promotion is the one exception (below): the event it waits on is the end of the
+  run's continuation, whose turn a job of Pilot's follows.
+- A deferral from a close-out, the task's last document, goes to the next task or to the end, but
+  for its promotion: the promotion, the update that follows it and every action the close-out
+  owes after it go to the running task, so that the promotion takes the fixes of the run's
+  continuation. They are due once that continuation has ended, the work item that continues the
+  run done after a turn that registered no document with a block in it; until then their notes
+  stand. One work item then does them all, the promotion first, its brief carrying
+  `rules/promote.md` (`/plan`'s What is next).
 - A deferral never asks the operator, with auto pilot on or off: it reads as its done line, and
   the operator quotes it into the chat to disagree.
 - A person's deferral from the chat is their answer, through `answer` with `deferred` and `to`;

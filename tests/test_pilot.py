@@ -1234,6 +1234,50 @@ class TestDefer(BlockCase):
         note = self.plan()["tasks"][1]["notes"][-1]
         self.assertEqual((note["summary"], note["content"]), ("Photos too", "Photos too"))
 
+    def test_defer_takes_an_action_to_the_running_task_which_answers_the_block(self) -> None:
+        """A close-out's promotion, deferred to the run's own task, t2, the one in progress."""
+        self.assertEqual(self.fixture_plan["tasks"][1]["status"], "in_progress")
+        self.edit(
+            NOTES_PATH,
+            "  - Keep the newer\n```\n",
+            "  - Keep the newer\n```\n\n```action id=A1\ncheck: production runs the build\n```\n",
+        )
+        before = self.text(NOTES_PATH)
+
+        completed = self.pilot(
+            "defer",
+            NOTES_PATH,
+            "A1",
+            "--to",
+            "t2",
+            "--summary",
+            "Promote once the run's continuation has ended",
+            "--note",
+            "The promotion takes the continuation's fixes.",
+        )
+
+        self.assert_block_written(completed, "plan.json", NOTES_PATH)
+        block = self.block(NOTES_PATH, "A1")
+        self.assertEqual(
+            self.text(NOTES_PATH),
+            dsl.write_answer(
+                before,
+                "A1",
+                answer=dsl.DEFERRED,
+                by=dsl.AGENT,
+                at=self.assert_stamped(block.at),
+                via=dsl.AnswerChannel.APP,
+                note="The promotion takes the continuation's fixes.",
+                to="t2",
+            ),
+        )
+        self.assertEqual((block.answered, block.claimed, block.done), (True, False, None))
+        note = self.plan()["tasks"][1]["notes"][-1]
+        self.assertEqual(
+            (note["summary"], note["refs"]),
+            ("Promote once the run's continuation has ended", [f"{NOTES}/A1"]),
+        )
+
     def test_defer_writes_the_note_first_so_a_failure_between_leaves_no_deferral_alone(
         self,
     ) -> None:

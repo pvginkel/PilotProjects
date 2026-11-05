@@ -390,6 +390,61 @@ WORK_ITEM_BRIEF = (
     "never paste the handbook",
 )
 WORK_ITEM_SKILLS = ("chat", "plan", "pre-rule")
+# A promotion's procedure, at home in one rule file whose text a promotion's brief carries, as it
+# carries the grants, since the worker runs outside the store (P-184): the job and its parameter,
+# the wait on the build, production read through `cexec iac`, and what else is running, Pilot's.
+PROMOTE = "rules/promote.md"
+PROMOTE_SECTION = "## In a promotion's brief"
+PROMOTE_TEXT = (
+    "`<App>/Promote-PRD`, in its Jenkins folder beside its build job, `<App>/Build-Main`",
+    "`Jenkinsfile.promote` in the application's deploy repository, whose header names the job on"
+    " its `Job:` line and says what each parameter takes",
+    "PilotApp's is `PilotApp/Promote-PRD`, in PilotDeploy, with one parameter, `commit`",
+    "`timeout 1800 track_build.py <App>/Build-Main --hash <the application's commit> --diagnose`",
+    "`timeout 1800 track_build.py <App>/Promote-PRD --buildnr <n> --diagnose`",
+    "kubectl runs in the `iac` tool container, `cexec iac kubectl …`",
+    "that check is Pilot's, never yours: a session you see running holds nothing",
+)
+PROMOTE_BRIEF = (
+    "For a promotion to production, the text of `rules/promote.md`'s \"In a promotion's brief\","
+    " copied verbatim"
+)
+# A close-out's promotion deferred to the run's own task, never claimed, with what the close-out
+# owes after it, so that the close-out closes on its other blocks and the continuation goes on;
+# the promotion due once that continuation has ended, so that it takes its fixes (P-183, D2).
+PROMOTION_ROUTED = (
+    "| a close-out's promotion Pilot may run under the grants, with the update that follows it",
+    "every action the close-out owes after the promotion — a criterion's `Settle <id> after …`",
+    "deferred to the running task, never claimed: each through `pilot.py defer`, `--to` the run's"
+    " own task, so that the close-out closes once its other blocks are answered and the run's"
+    " continuation goes on",
+    "| the run's end: a close-out's promotion and what follows it | a note on the running task, due"
+    " once the run's continuation has ended |",
+    "A close-out's promotion is the one exception (below): the event it waits on is the end of the"
+    " run's continuation, whose turn a job of Pilot's follows",
+    "A deferral from a close-out, the task's last document, goes to the next task or to the end, but"
+    " for its promotion: the promotion, the update that follows it and every action the close-out"
+    " owes after it go to the running task, so that the promotion takes the fixes of the run's"
+    " continuation",
+    "They are due once that continuation has ended, the work item that continues the run done after"
+    " a turn that registered no document with a block in it; until then their notes stand",
+)
+# The rule's words while a close-out's promotion was claimed and its deferral barred the run.
+PROMOTION_ROUTED_RETIRED = ("goes to the next task or to the end, never to the running task",)
+PROMOTION_DEFERRED = (
+    "a close-out's promotion aside, which is deferred",
+    "A close-out's promotion, the update that follows it and every action the close-out owes after"
+    " it are deferred so, `--to` the run's own task, never claimed",
+)
+PROMOTION_DUE = (
+    "**A close-out's promotion**, deferred to the run's own task with the update that follows it"
+    " and every action the close-out owes after it",
+    "is met only once the run's continuation has ended, the work item that continues the run done"
+    " after a turn that registered no document with a block in it: until then its notes stand,"
+    " neither acted on nor struck",
+    "one work item does them all, its `step` the run's task, the promotion first, its brief"
+    " carrying `rules/promote.md`",
+)
 # A placed worker's model and effort: Opus at xhigh unless the handbook or the task names another,
 # in the placement rule and in the work item's field line.
 PLACEMENT = "rules/placement.md"
@@ -721,8 +776,55 @@ class WorkItemRuleTest(unittest.TestCase):
             text = " ".join(skill_file(name).read_text().split())
             with self.subTest(name):
                 self.assertIn(f"`{WORK_ITEMS}`", text)
-                for form in ("`reasoning_effort`", "In a worker's brief", "paste the handbook"):
+                for form in (
+                    "`reasoning_effort`",
+                    "In a worker's brief",
+                    "In a promotion's brief",
+                    "paste the handbook",
+                ):
                     self.assertNotIn(form, text)
+
+
+class PromoteRuleTest(unittest.TestCase):
+    def test_the_rule_file_holds_what_every_promotion_needs_in_the_text_its_brief_carries(
+        self,
+    ) -> None:
+        text = (ROOT / PROMOTE).read_text()
+        self.assertEqual(text.splitlines().count(PROMOTE_SECTION), 1)
+        _, _, section = text.partition(f"\n{PROMOTE_SECTION}\n")
+        (block,) = re.findall(r"^```text\n(.*?)^```$", section, re.MULTILINE | re.DOTALL)
+        block = " ".join(block.split())
+        for form in PROMOTE_TEXT:
+            with self.subTest(form):
+                self.assertIn(form, block)
+
+    def test_a_promotion_s_brief_carries_the_text_as_it_carries_the_grants(self) -> None:
+        self.assertIn(PROMOTE_BRIEF, " ".join((ROOT / WORK_ITEMS).read_text().split()))
+
+
+class DeferredPromotionTest(unittest.TestCase):
+    def test_routing_defers_a_close_out_s_promotion_to_the_running_task(self) -> None:
+        text = " ".join((ROOT / "rules" / "routing.md").read_text().split())
+        for form in PROMOTION_ROUTED:
+            with self.subTest(form):
+                self.assertIn(form, text)
+        for form in PROMOTION_ROUTED_RETIRED:
+            with self.subTest(form):
+                self.assertNotIn(form, text)
+
+    def test_the_pass_defers_it_and_claims_it_not(self) -> None:
+        text = " ".join(skill_file("pre-rule").read_text().split())
+        for form in PROMOTION_DEFERRED:
+            with self.subTest(form):
+                self.assertIn(form, text)
+
+    def test_what_is_next_starts_it_once_the_run_s_continuation_has_ended(self) -> None:
+        _, _, rest = skill_file("plan").read_text().partition("\n## What is next\n")
+        mode, _, _ = rest.partition("\n## ")
+        text = " ".join(mode.split())
+        for form in PROMOTION_DUE:
+            with self.subTest(form):
+                self.assertIn(form, text)
 
 
 class PlacementRuleTest(unittest.TestCase):

@@ -25,7 +25,8 @@ firings, the sweep before the finish and the finish decision, in the mode the br
    and never asks in its own transcript: a question to a person is an item.
 
 The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement.md`,
-`rules/stages.md`, `rules/routing.md`. The writing — an item, a note — is `/dev:document-format`'s.
+`rules/stages.md`, `rules/routing.md`, `rules/promote.md`. The writing — an item, a note — is
+`/dev:document-format`'s.
 
 ## In every mode
 
@@ -114,6 +115,13 @@ plan brought up to date with what happened, and every piece of work that can go,
    to do done — then struck, `pilot.py plan note strike <id>`; or re-deferred with a reason, a note
    on the task or the plan where it now returns, naming the same blocks and why, the old one
    struck; or struck where its block is no longer deferred, a person having ruled it after all.
+   **A close-out's promotion**, deferred to the run's own task with the update that follows it and
+   every action the close-out owes after it (`rules/routing.md`'s Deferral), is met only once the
+   run's continuation has ended, the work item that continues the run done after a turn that
+   registered no document with a block in it: until then its notes stand, neither acted on nor
+   struck. Then, where the handbook's rules on other work running let it go, one work item does
+   them all, its `step` the run's task, the promotion first, its brief carrying
+   `rules/promote.md` (`rules/work-items.md`), and their notes are struck.
 3. **The deferrals without a home**, the brief's last list, which the pass leaves to you: each
    given its note in this turn, as `rules/routing.md`'s Deferral has it —
    `pilot.py plan note add --task <id> --summary <line> --ref <block id> <content>`, without
