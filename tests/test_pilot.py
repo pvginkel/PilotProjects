@@ -493,6 +493,19 @@ class TestItems(PilotCase):
                     completed.stdout, json.dumps(item, indent=2, ensure_ascii=False) + "\n"
                 )
 
+    def test_get_prints_an_item_s_text_unescaped(self) -> None:
+        timeline_path = self.folder / "timeline.json"
+        timeline = json.loads(timeline_path.read_text())
+        item = next(item for item in timeline["items"] if item["id"] == STORAGE)
+        item["title"] = "Storage format — crème brûlée’s card"
+        timeline_path.write_text(json.dumps(timeline, indent=2) + "\n")
+
+        completed = self.pilot("items", "get", str(item["seq"]))
+
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertIn('"title": "Storage format — crème brûlée’s card",', completed.stdout)
+        self.assertNotIn("\\u", completed.stdout)
+
     def test_get_refuses_a_seq_no_item_has(self) -> None:
         for seq in ("0", "10"):
             with self.subTest(seq=seq):
