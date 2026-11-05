@@ -78,6 +78,19 @@ RULING_ACTS = (
     "its reason read and the plan adjusted",
     "the plan's next step on it — a task started, changed, added or removed as it rules",
 )
+# The job after a close ran What is next once it had acted on the close: the chat that carries the
+# close out takes it whole, so the task an action item unblocks is started and the plan's end is
+# reached with no job after the close.
+RULING_THEN_NEXT = (
+    "then What is next whole, the task's status set and every task whose inputs are now done"
+    " started, up to the plan's end"
+)
+ITEM_DONE_THEN_NEXT = "Act on the close, then What is next:"
+WHAT_IS_NEXT_STEPS = (
+    "1. **The task's status**",
+    "**Every task whose inputs are done, started**",
+    "**The plan's end**",
+)
 RULING_CARRIED_OUT = (
     "**A ruling or a close you record on an item of Pilot's own**",
     "is carried out in this turn: no job of Pilot's follows what the chat records",
@@ -555,6 +568,21 @@ class ChatSkillTest(unittest.TestCase):
         for form in RULING_CARRIED_OUT:
             with self.subTest(form):
                 self.assertIn(form, chat)
+
+    def test_a_close_through_the_chat_goes_on_to_what_is_next(self) -> None:
+        chat = skill_file("chat").read_text()
+        _, _, rest = chat.partition("- **A ruling or a close you record on an item of Pilot's own**")
+        bullet, _, _ = rest.partition("\n## ")
+        self.assertIn(RULING_THEN_NEXT, " ".join(bullet.split()))
+        plan = skill_file("plan").read_text()
+        _, _, rest = plan.partition("\n## An item done\n")
+        item_done, _, _ = rest.partition("\n## ")
+        self.assertIn(ITEM_DONE_THEN_NEXT, " ".join(item_done.split()))
+        _, _, rest = plan.partition("\n## What is next\n")
+        what_is_next, _, _ = rest.partition("\n## ")
+        for step in WHAT_IS_NEXT_STEPS:
+            with self.subTest(step):
+                self.assertIn(step, what_is_next)
 
     def test_the_chat_offers_its_answer_and_what_it_can_do_itself(self) -> None:
         text = " ".join(skill_file("chat").read_text().split())

@@ -80,9 +80,10 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
   answers why. Say a thing is recorded only once its call answered so.
 - **A ruling or a close you record on an item of Pilot's own** — one a job or a chat added, in
   `items/`, never a worker's document in `inbox/`, which its run takes back — is carried out in
-  this turn: no job of Pilot's follows what the chat records, so the acts `/plan`'s An item done
-  takes on a close are yours here, within the grants, and what the turn leaves undone waits for
-  Pilot's next job, the reply saying what is left:
+  this turn: no job of Pilot's follows what the chat records, so `/plan`'s An item done is yours
+  here, within the grants, the acts below on the close, then What is next whole, the task's status
+  set and every task whose inputs are now done started, up to the plan's end; what the turn leaves
+  undone waits for Pilot's next job, the reply saying what is left:
   - a confirmation's Yes: its act, every act it covered — a work item, or your own hands where it
     is a tool call: a card, a fleet call;
   - a No: its reason read and the plan adjusted;
