@@ -148,6 +148,18 @@ PLAN_MODES = (
     "## The sweep",
     "## The finish decision",
 )
+# Pilot's `done` on the last open block of an item of its own is the item's close (PilotApp's
+# RecordService.done_by_its_save), with no `mark` after it; an answer of its own closes nothing,
+# and a registered document, a worker's, still closes by Pilot's own `mark`.
+OWN_ITEM_CLOSED = (
+    "an action of an item you added that is done, by a work item's run or your own hands, takes"
+    " its `done`",
+    "Where that was the item's last open block, every other one answered, deferred or done, that"
+    " `done` is the item's close, yours: no `mark` follows it, and the server refuses one",
+    "An answer of yours closes nothing",
+    "A registered document is a worker's, not yours: its last `done` still takes your own `mark`"
+    " with no `for`",
+)
 # The modes' writes past the setup: a task's status, a note struck, a homeless deferral's note, and
 # pilot-store's `finish` on the finish decision's Yes.
 PLAN_CALLS = (
@@ -230,9 +242,13 @@ WAIT_ADDING_SKILLS = ("pre-rule", "chat")
 WAIT_ARMED = (
     "armed as `rules/routing.md` has it, on a fresh read through youtrack of the card it watches"
 )
+# A backstop's title, by which a card wait's backstop is told from a timed wait a person asked
+# for on the same task.
+BACKSTOP_TITLE = "its title `Backstop: <the card wait's title>`"
 ROUTING_WAIT = (
     "a wait through `add_item`, armed on a fresh read of the card it watches",
-    "a timed wait beside it as a backstop where it outlives the plan's horizon",
+    "a timed wait beside it as a backstop where it outlives the plan's horizon, its `step` the same"
+    f" task and {BACKSTOP_TITLE}",
 )
 # The brief of a wait's run as PilotApp's BriefService writes it: its kind line, the wait's line of
 # either kind, its pending firings and each firing's line; then the resumed run's one turn, which
@@ -251,17 +267,30 @@ WAIT_FIRED_LINES = (
 WAIT_FOLLOW_UP = '`Another firing of "<title>" since your last run:`'
 WAIT_FOLLOW_UP_ROUTED = "`/plan`'s A wait's firings again"
 # Design 3 §6.5's wait's firings: each judged, the card read again before any act, the wait closed
-# through `mark` with its note or left open, and the backstop.
+# through `mark` with its note or left open, and the backstop; a card wait and its backstop, paired
+# by their task and told from a person's timed wait by the backstop's title, closed together
+# whichever fired, and a backstop spent at its due time counted for none (P-176).
 WAIT_FIRINGS = (
+    "**Its pair**, a card wait and its backstop, found by the task they share",
+    "A card wait's backstop is the open timed wait on its task titled as one,"
+    " `Backstop: <the card wait's title>`",
+    "A timed wait a person asked for on the same task is titled otherwise: it is no backstop",
     "**Each firing judged** against what the wait waits for",
+    "but a backstop's, a read on demand of its card wait's card",
     "the operator's request is a read on demand",
     "**The card read again** through youtrack before any act",
     "**Over**, its event come: the action after it started",
     "`mark`, `item` the wait's id, `mark` `done`, no `for`, and `note` what was read and when and"
     " the action started",
+    "A card wait and its backstop close together, whichever fired",
     "**Not over**: the wait left open",
-    "a wait that outlives the plan's horizon takes a timed wait beside it",
+    "its backstop closed with it",
+    "a card wait that outlives the plan's horizon takes a timed wait beside it, its `step` the same"
+    f" task and {BACKSTOP_TITLE}, where it has none open that has not fired at its due time",
+    "A backstop that fired at its due time on an event not come is spent",
 )
+# The words by which the backstop counted an open timed wait that had fired as the card wait's.
+WAIT_FIRINGS_RETIRED = ("where it has none open (",)
 # The setup's handbook: the draft's prose without its asks' blocks, a ruled ask's outcome a rule
 # line, and the report after the write read for what it says of the handbook.
 SETUP_HANDBOOK = (
@@ -547,6 +576,14 @@ class PlanSkillTest(unittest.TestCase):
             with self.subTest(call):
                 self.assertIn(call, text)
 
+    def test_pilot_s_done_on_the_last_open_block_of_an_item_of_its_own_is_its_close(self) -> None:
+        _, _, rest = skill_file("plan").read_text().partition("\n## In every mode\n")
+        mode, _, _ = rest.partition("\n## ")
+        text = " ".join(mode.split())
+        for form in OWN_ITEM_CLOSED:
+            with self.subTest(form):
+                self.assertIn(form, text)
+
 
 class WorkItemRuleTest(unittest.TestCase):
     def test_the_rule_file_holds_the_fields_and_the_brief(self) -> None:
@@ -667,6 +704,9 @@ class WaitTest(unittest.TestCase):
         for form in WAIT_FIRINGS:
             with self.subTest(form):
                 self.assertIn(form, text)
+        for form in WAIT_FIRINGS_RETIRED:
+            with self.subTest(form):
+                self.assertNotIn(form, text)
 
 
 class CitationsTest(unittest.TestCase):

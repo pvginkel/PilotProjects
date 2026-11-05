@@ -39,6 +39,13 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
 - **As lean as the project**: the plan holds the tasks the project needs and no more — a task
   added where the work shows one missing, removed where it turns moot,
   `pilot.py plan task remove <id>` once its notes are struck or moved; no task is a fixture.
+- **An item of yours closed at its last block**: an action of an item you added that is done, by
+  a work item's run or your own hands, takes its `done`,
+  `pilot.py done <file> <block id> --note <what was done and what was seen>`. Where that was the
+  item's last open block, every other one answered, deferred or done, that `done` is the item's
+  close, yours: no `mark` follows it, and the server refuses one. An answer of yours closes
+  nothing. A registered document is a worker's, not yours: its last `done` still takes your own
+  `mark` with no `for` (An action of Pilot's done).
 - **Work** is a work item, its fields and its brief as `rules/work-items.md` has them: a stage of
   the workflow for a slice's planning and its run, filed first by a work item of its own
   (`rules/stages.md`), and free-form from a brief of yours otherwise, each placed by
@@ -204,21 +211,34 @@ later firing, while this run's conversation holds, comes as its next turn: `Anot
    it is due, every firing with the run that took it, and its note once done; the note beside it
    on its task, `pilot.py plan note list --task <id>`, says what was to happen once its event
    came (`rules/routing.md`).
-2. **Each firing judged** against what the wait waits for: a card entering a state of its list is
-   a firing, its event maybe come; a timed wait's due time is its own; the operator's request is
-   a read on demand, the event come or not.
-3. **The card read again** through youtrack before any act: what you act on is the card as it
+2. **Its pair**, a card wait and its backstop, found by the task they share:
+   `pilot.py items list --open` gives each wait its `step`. A card wait's backstop is the open
+   timed wait on its task titled as one, `Backstop: <the card wait's title>` (The backstop,
+   below), and a backstop's card wait the open one on its task that its title names. A timed wait
+   a person asked for on the same task is titled otherwise: it is no backstop, and nothing of the
+   card wait's closes it.
+3. **Each firing judged** against what the wait waits for: a card entering a state of its list is
+   a firing, its event maybe come; a timed wait's due time is its own, but a backstop's, a read
+   on demand of its card wait's card; the operator's request is a read on demand, the event come
+   or not.
+4. **The card read again** through youtrack before any act: what you act on is the card as it
    stands, never the firing's line.
-4. **Over**, its event come: the action after it started — a work item, as What is next starts
+5. **Over**, its event come: the action after it started — a work item, as What is next starts
    one, or your own hands' act — and then the wait closed: `mark`, `item` the wait's id, `mark`
    `done`, no `for`, and `note` what was read and when and the action started, "ANS-312 read at
-   18:39: Done; t7's planning started". The note is shown on the wait's line, whole.
-5. **Not over**: the wait left open, nothing written of it. A wait is never edited: one that must
-   watch another card or state is closed with its note and another added, armed on a fresh read
-   as `rules/routing.md` has it. A timed wait fires once: left open past its firing, only a
-   person's Skip wait fires it again.
-6. **The backstop**: a wait that outlives the plan's horizon takes a timed wait beside it, its
-   `step` the same task, where it has none open (`rules/routing.md`).
+   18:39: Done; t7's planning started". The note is shown on the wait's line, whole. A card wait
+   and its backstop close together, whichever fired: the other one marked the same way in the
+   same turn, its note naming the wait that fired, "Closed with ANS-312's wait: Done at 18:39".
+6. **Not over**: the wait left open, nothing written of it, but a backstop spent at its due time
+   (below). A wait is never edited: one that must watch another card or state is closed with its
+   note and another added, armed on a fresh read as `rules/routing.md` has it, its backstop
+   closed with it. A timed wait fires once: left open past its firing, only a person's Skip wait
+   fires it again.
+7. **The backstop**: a card wait that outlives the plan's horizon takes a timed wait beside it,
+   its `step` the same task and its title `Backstop: <the card wait's title>`, where it has none
+   open that has not fired at its due time (`rules/routing.md`). A backstop that fired at its due
+   time on an event not come is spent: closed with its note, what was read and when, and a fresh
+   one added where the card wait still outlives the plan's horizon.
 
 ## The sweep
 
