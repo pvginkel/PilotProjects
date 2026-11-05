@@ -55,6 +55,12 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
   a sub-agent or a fleet read first, with the premise, the check, how each result moves the
   recommendation and the stop; "would you like me to investigate?" is never asked where the
   grants already allow it.
+- **What the operator reads first is short.** The note on a block you answer or defer is at most
+  two sentences, the choice and its one reason, with no "Checked:" and no bare ids: what you
+  checked and found goes to the session log, said in your turn. A notice is posted only for what
+  the operator must know or do, never one that only says "nothing for you". An item's heading and
+  first paragraph carry its ruling in about 60 words, a confirmation's included, its grounds after
+  them.
 
 ## The setup
 

@@ -3,15 +3,16 @@
 Where an open block goes when Pilot pre-rules what a worker registered, and what each route
 writes. The route is Pilot's own choice: the operator gets a block only where it has impact now
 and is theirs. An answer of Pilot's is `by: agent`, its note saying why in words that stand alone,
-since the block's collapsed line is the operator's first read of it. What the grants allow is
-`rules/grants.md`'s; which column holds, the brief's switch line.
+since the block's collapsed line is the operator's first read of it: at most two sentences, the
+choice and its one reason, with no "Checked:" and no bare ids (the operator, 2026-11-04). What the
+grants allow is `rules/grants.md`'s; which column holds, the brief's switch line.
 
 ## The routes
 
 | the block | the route, and what it writes |
 |---|---|
 | a routing ask — card it, close it, fold it, fix it now | routed: the route as the answer, the reason as the note. A card is made in the same turn through youtrack, in the operator's words where the entry carries them, and the note names it. A fold is the worker's own: the answer says fold, and the workflow folds it at its next run. In a stage's document the stage carries out every route itself, the card included (`rules/stages.md`). |
-| a choice outside the grants table, or in the granted column with auto pilot on | chosen, the recommendation or not, after the due diligence below, the note saying what was checked and what the choice optimised for — unless the row after takes it. |
+| a choice outside the grants table, or in the granted column with auto pilot on | chosen, the recommendation or not, after the due diligence below, the note saying what the choice optimised for — unless the row after takes it. |
 | a requirement whose ruling would overrule a passage of the design record — the ask says which passage or decision | chosen only where the ask carries the operator's own words asking for that change, x into y, and the passage is the record of that very behaviour: a clean match. Left to the operator, with no edit, where the ruling's side effect lands on another passage or decision — the record pins that, as a unit test pins a behaviour — and where the operator's request names no existing behaviour and hits one (the operator, 2026-11-01). |
 | a choice in the granted column with auto pilot off, or in the kept column | left to the operator, with no edit — or deferred where it has a home and is not due now (below). |
 | a choice wholly another project's | answered with the hand-over (below); never deferred across projects. |
@@ -25,8 +26,8 @@ since the block's collapsed line is the operator's first read of it. What the gr
 ## Due diligence
 
 What Pilot does before it chooses, every choice, in the project's folder (the operator,
-2026-11-01); the answer's note names what was checked and what was found, or that nothing in the
-store bears on it.
+2026-11-01). What was checked and what was found, or that nothing in the store bears on the
+choice, goes to the session log, said in Pilot's turn, never into the answer's note.
 
 1. **The project document and the handbook**: a goal, a rule or a standing instruction that
    settles the choice, or bends it.
@@ -34,14 +35,15 @@ store bears on it.
    earlier items and inbox documents, the chat — a cursory scan of the project's folder suffices;
    nothing outside it is owed.
 3. **A match read**: where earlier work touches the choice, how it bears on it — an earlier ruling
-   it follows or contradicts, a plan it was taken under — goes into the note.
+   it follows or contradicts, a plan it was taken under — goes to the session log, and into the
+   note only where it is the choice's one reason.
 4. **A question researched**: where the ask is a question rather than a researched fact — its own
    grounds say a thing was not checked, or the recommendation rests on a fact nobody read — the
    fact is found before the choice: in the store where it is there; otherwise through a work item
    placed in an environment that has the repository, its brief the question and a document to
    register with the answer, the block named in `researches` on its `add_item`, left open and
    Pilot's meanwhile, and routed by the pass after that document, whose brief names it. A choice
-   that would not move on the fact is made without it, the note saying so.
+   that would not move on the fact is made without it, Pilot's turn saying so.
 
 ## Deferral
 

@@ -293,6 +293,31 @@ WAIT_FIRINGS = (
 WAIT_FIRINGS_RETIRED = ("where it has none open (",)
 # The setup's handbook: the draft's prose without its asks' blocks, a ruled ask's outcome a rule
 # line, and the report after the write read for what it says of the handbook.
+# What the operator reads first (the operator's "In full" on session review 2's change 5,
+# 2026-11-04): an answer's note, where the due diligence's findings go, a notice, an item's lead.
+NOTE_RULE = (
+    'at most two sentences, the choice and its one reason, with no "Checked:" and no bare ids'
+)
+NOTE_RULE_FILES = (
+    ".claude/skills/pre-rule/SKILL.md",
+    ".claude/skills/plan/SKILL.md",
+    "rules/routing.md",
+)
+FINDINGS_LOGGED = "goes to the session log"
+NOTICE_RULE = "A notice is posted only for what the operator must know or do"
+ITEM_LEAD = "An item's heading and first paragraph carry its ruling in about 60 words"
+NOTICE_SKILLS = ("pre-rule", "plan")
+# A notice the pass posts on a block left to the operator (P-194's pre-rule half).
+NOTICE_SUGGESTS = "ending with the answer you suggest and the note for it"
+# The operator's rule of 2026-11-01, that the note named what was checked and found.
+FINDINGS_IN_NOTE = (
+    "names what was checked and what was found",
+    "the note saying what was checked",
+    "the note naming what was found",
+    "the note saying the fact stayed unread",
+    "the note saying so",
+)
+
 SETUP_HANDBOOK = (
     "the prose of the draft's `## Rules` and `## Context`, copied, and never an ask's block",
     "an ask fenced there stays in `project.md`",
@@ -654,6 +679,36 @@ class PreRuleSkillTest(unittest.TestCase):
         for form in (*RESEARCHED_BLOCKS, *RESEARCH_ROUTED):
             with self.subTest(form):
                 self.assertIn(form, self.text)
+
+
+class OperatorReadsTest(unittest.TestCase):
+    def test_a_note_is_the_choice_and_its_reason_and_the_findings_go_to_the_session_log(
+        self,
+    ) -> None:
+        for source in NOTE_RULE_FILES:
+            text = " ".join((ROOT / source).read_text().split())
+            for form in (NOTE_RULE, FINDINGS_LOGGED):
+                with self.subTest(source=source, form=form):
+                    self.assertIn(form, text)
+        for source, text in the_map().items():
+            text = " ".join(text.split())
+            for form in FINDINGS_IN_NOTE:
+                with self.subTest(source=source, form=form):
+                    self.assertNotIn(form, text)
+
+    def test_a_notice_is_for_what_the_operator_must_know_or_do_and_an_item_leads_with_its_ruling(
+        self,
+    ) -> None:
+        for name in NOTICE_SKILLS:
+            text = " ".join(skill_file(name).read_text().split())
+            for form in (NOTICE_RULE, ITEM_LEAD):
+                with self.subTest(skill=name, form=form):
+                    self.assertIn(form, text)
+
+    def test_a_notice_on_a_block_left_to_the_operator_ends_with_the_answer_pilot_suggests(
+        self,
+    ) -> None:
+        self.assertIn(NOTICE_SUGGESTS, " ".join(skill_file("pre-rule").read_text().split()))
 
 
 class ResearchTest(unittest.TestCase):

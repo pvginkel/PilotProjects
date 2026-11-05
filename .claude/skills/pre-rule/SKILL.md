@@ -29,6 +29,12 @@ routes are yours: Pilot's server routes nothing.
 A job never waits and never asks in its own transcript: what a person must decide stays open in its
 document, or is put to them as an item.
 
+What the operator reads first is short. The note of an answer of yours — answered, deferred or
+claimed — is at most two sentences, the choice and its one reason, with no "Checked:" and no bare
+ids: what you checked and found goes to the session log, said in your turn. A notice is posted
+only for what the operator must know or do, never one that only says "nothing for you". An item's
+heading and first paragraph carry its ruling in about 60 words, its grounds after them.
+
 The rules it applies: `rules/routing.md`, each route and what it writes, deferral, the `Later`
 card, a delegated answer, another project's decision and the friction half; `rules/grants.md`, what
 the switch lets go ahead; `rules/stages.md`, what a stage of the workflow registers and what each
@@ -53,9 +59,10 @@ Per published document, one after the other:
 3. **Nothing else of the worker's**: not its prose, not a block's definition, not its kind; no
    context added, no ask reframed, no plan condensed. What only Pilot knows — a standing preference
    that settles the need, a later task that makes the ask moot, a collision with another project —
-   goes into your answer's note or, on a block left to the operator, into an item of your own after
-   the document (`add_item`), quoting the block's words and naming it, `<item id>/<local id>`. A
-   document that reads badly is its writer's skill's to fix: the friction half
+   goes into your answer's note or, on a block left to the operator, into a notice of yours after
+   the document (`add_item`), quoting the block's words and naming it, `<item id>/<local id>`, and
+   ending with the answer you suggest and the note for it, as you would answer the block yourself.
+   A document that reads badly is its writer's skill's to fix: the friction half
    (`rules/routing.md`), never a patch here.
 4. **Each open block, routed** by `rules/routing.md`'s table, in the document's order. A block
    answered already — a person's answer, or yours from an earlier job of this trigger, which a
@@ -70,8 +77,9 @@ Per published document, one after the other:
      the pass after that work's turn routes it (A researched block). A requirement that would
      overrule a passage of the design record is yours only on the operator's own words asking
      for that change and a passage that is the record of that very behaviour; otherwise it is the
-     operator's. The note names what was checked and what was found, or that nothing in the store
-     bears on it: a choice with an unread fact behind it and no note of it is not yours to make.
+     operator's. What was checked and what was found, or that nothing in the store bears on it,
+     goes to the session log, said in your turn, never into the note: a choice with an unread fact
+     behind it is yours only where it would not move on that fact, your turn saying so.
    - **Answered**, `by: agent`:
      `pilot.py answer <file> <block id> --value <option> --note <why>`, the value an option's
      label, `Agree`, `Yes`, `No` or your own words. The note says why in words that stand alone:
@@ -137,13 +145,13 @@ researched blocks as well.
 1. **What the research found**, read from what the run registered, passed over first, its turn's
    last line and, where those do not say, its session log (`get_session_log`).
 2. **Routed**, each `open` one whose fact the run found, as The pass's step 4 has it, the fact
-   read and the note naming what was found and where; its document marked Done once settled
-   whole (The pass, step 6).
+   read, what was found and where said in your turn, and the note giving the choice and its one
+   reason; its document marked Done once settled whole (The pass, step 6).
 3. **Still the run's**, an `open` one whose fact was not found in a turn that registered a
    document with a block in it, the run asking a person first: nothing is written, the run going
    on once they close, and the pass after its next turn routes it.
 4. **Not found**, an `open` one whose fact was not found in a turn that registered no document
-   with a block in it: routed now as any block, the note saying the fact stayed unread — a choice
+   with a block in it: routed now as any block, your turn saying the fact stayed unread — a choice
    that would not move on it made, the question researched anew in a new work item, or left to
    the operator. Left open, it is theirs once this job ends, unless a new research names it.
 5. **Handed back to the operator** — its line ending
