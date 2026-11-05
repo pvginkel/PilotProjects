@@ -185,7 +185,8 @@ CLAIM_CARRIED = (
 # nothing is written of it.
 CLAIM_HANDED_BACK = (
     "stays the run's until the job after a turn of it that registered no document with a block in"
-    " it ends, or its work fails or is stopped",
+    " it ends (never a clarification run's turn, which registers nothing), or its work fails or is"
+    " stopped, or a person cancels the run",
     "**Left undone**, its act refused or never reached in a turn that registered no document with"
     " a block in it: the claim stays and the block open, the operator's once this job ends",
     "the operator gets it with the reason: a notice of yours",

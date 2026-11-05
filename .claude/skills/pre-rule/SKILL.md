@@ -148,7 +148,7 @@ researched blocks as well.
    the operator. Left open, it is theirs once this job ends, unless a new research names it.
 5. **Handed back to the operator** — its line ending
    `handed back to the operator: leave it to them`, the run's work failed, stopped, taken over
-   or cancelled: theirs; nothing is written.
+   or cancelled, or an earlier job of the run left it open: theirs; nothing is written.
 6. **Claimed since, or answered**: settled; leave it.
 
 ## The writer answered

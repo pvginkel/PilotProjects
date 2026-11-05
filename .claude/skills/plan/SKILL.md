@@ -139,8 +139,9 @@ stand:", a line each, `- <path> (<item id>) <local id>` followed by `open, claim
 its close as it reads — a person's Done meanwhile, which is theirs and leaves you nothing to
 write. After the turn of the work item that continues its run, the brief names the run's claimed
 actions as well, the work going on in its conversation. A claimed action stays the run's until
-the job after a turn of it that registered no document with a block in it ends, or its work fails
-or is stopped: Pilot's server reads that, and nothing you write hands one over.
+the job after a turn of it that registered no document with a block in it ends (never a
+clarification run's turn, which registers nothing), or its work fails or is stopped, or a person
+cancels the run: Pilot's server reads that, and nothing you write hands one over.
 
 1. **What the work did**, read from its turn's last line, what it registered and, where those do
    not say, its session log (`get_session_log`).
@@ -163,7 +164,8 @@ or is stopped: Pilot's server reads that, and nothing you write hands one over.
    is theirs.
 5. **Handed back to the operator** — its line ending
    `handed back to the operator: leave it to them`, the run's work failed, stopped, taken over or
-   cancelled: theirs; nothing is written, no Done, retry or notice.
+   cancelled, or an earlier job of the run left it undone: theirs; nothing is written, no Done,
+   retry or notice.
 
 A run that failed gets no job: its work item waits on a person's Resume, its claims standing and
 their blocks open, the operator's until it resumes, and the end of its next turn brings this job.
