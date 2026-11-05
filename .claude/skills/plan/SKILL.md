@@ -123,7 +123,9 @@ plan brought up to date with what happened, and every piece of work that can go,
    them all, its `step` the run's task, the promotion first, its brief carrying
    `rules/promote.md` (`rules/work-items.md`) and naming the application's commit read then, its
    `main` as the continuation left it, never the commit or the build the close-out's block names,
-   which predate the continuation's fixes; and their notes are struck.
+   which predate the continuation's fixes — that `main` read on GitHub itself, never through
+   gitblit, a daily mirror that may not hold the continuation's push yet; and their notes are
+   struck.
 3. **The deferrals without a home**, the brief's last list, which the pass leaves to you: each
    given its note in this turn, as `rules/routing.md`'s Deferral has it —
    `pilot.py plan note add --task <id> --summary <line> --ref <block id> <content>`, without

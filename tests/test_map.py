@@ -445,6 +445,8 @@ PROMOTION_DUE = (
     " carrying `rules/promote.md`",
     "and naming the application's commit read then, its `main` as the continuation left it, never"
     " the commit or the build the close-out's block names, which predate the continuation's fixes",
+    "that `main` read on GitHub itself, never through gitblit, a daily mirror that may not hold the"
+    " continuation's push yet",
 )
 # A placed worker's model and effort: Opus at xhigh unless the handbook or the task names another,
 # in the placement rule and in the work item's field line.
