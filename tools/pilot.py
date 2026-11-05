@@ -323,6 +323,15 @@ def _items_show(project: Project, args: argparse.Namespace) -> int:
     return DONE
 
 
+def _items_get(project: Project, args: argparse.Namespace) -> int:
+    items = _timeline(project)["items"]
+    item = next((item for item in items if item["seq"] == args.seq), None)
+    if item is None:
+        raise Refused(f"<seq>: no item of {TIMELINE} has the seq {args.seq}")
+    print(json.dumps(item, indent=2, ensure_ascii=False))
+    return DONE
+
+
 # -- plan.json -----------------------------------------------------------------
 
 
@@ -957,6 +966,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     show.add_argument(
         "item", metavar="<id|path>", help=f"the item's id, or its document's path, from {TIMELINE}"
+    )
+    get = verb(
+        items,
+        "get",
+        _items_get,
+        f"the item's fields as {TIMELINE} has them, by its number on the timeline, its seq",
+    )
+    get.add_argument(
+        "seq", type=int, metavar="<seq>", help=f"the item's number on the timeline, from {TIMELINE}"
     )
 
     plan = verbs.add_parser("plan", help=f"the plan, {PLAN}").add_subparsers(

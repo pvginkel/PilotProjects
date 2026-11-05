@@ -96,6 +96,8 @@ says what the record made of it. It exits 0 done, or 2 refused with nothing writ
 - `pilot.py items list`: the timeline's items, one line each, from timeline.json
 - `pilot.py items show`: the item's line and, for a document, its blocks with their answer lines;
   for a wait, its firings
+- `pilot.py items get`: the item's fields as timeline.json has them, by its number on the
+  timeline, its seq
 - `pilot.py plan task add`: add a task to the plan, last unless placed
 - `pilot.py plan task set`: change a task's title, status or both
 - `pilot.py plan task remove`: remove a task from the plan, refused while it has open notes

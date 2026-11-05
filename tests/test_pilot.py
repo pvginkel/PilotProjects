@@ -186,6 +186,7 @@ class TestTheFrame(PilotCase):
             ),
             (("plan", "set", "--ticket", "RB-1", "--no-ticket"), "--no-ticket"),
             (("items", "list", "--waiting"), "--waiting"),
+            (("items", "get", "120a"), "<seq>"),
         ):
             with self.subTest(args=args):
                 self.assert_refused(*args, says=(flag,))
@@ -208,6 +209,7 @@ class TestTheFrame(PilotCase):
                 ),
                 "pilot.py items list [--open] [--kind <code>]",
                 "pilot.py items show <id|path>",
+                "pilot.py items get <seq>",
                 (
                     "pilot.py plan task add --id <id> --title <text>"
                     " [--status pending|in_progress|done] [--before <id>|--after <id>]"
@@ -479,6 +481,27 @@ class TestItems(PilotCase):
         for named in ("0b0b0b0b-0000-4000-8000-000000000000", "items/9-soup.md", "handbook.md"):
             with self.subTest(named=named):
                 self.assert_refused("items", "show", named, says=("<id|path>: no item",))
+
+    def test_get_prints_the_item_s_fields_as_the_timeline_has_them_by_its_seq(self) -> None:
+        timeline = json.loads((self.folder / "timeline.json").read_text())
+        for item in timeline["items"]:
+            with self.subTest(seq=item["seq"]):
+                completed = self.pilot("items", "get", str(item["seq"]))
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+                self.assertEqual(json.loads(completed.stdout), item)
+                self.assertEqual(
+                    completed.stdout, json.dumps(item, indent=2, ensure_ascii=False) + "\n"
+                )
+
+    def test_get_refuses_a_seq_no_item_has(self) -> None:
+        for seq in ("0", "10"):
+            with self.subTest(seq=seq):
+                self.assert_refused(
+                    "items",
+                    "get",
+                    seq,
+                    says=(f"<seq>: no item of timeline.json has the seq {seq}",),
+                )
 
 
 class TestPlanTask(PilotCase):
