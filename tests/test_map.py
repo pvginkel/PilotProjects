@@ -60,6 +60,39 @@ LATEST_NAMING = (
     " included.",
     f"`for` their handle, as the latest line {NAMING_LINE} names them",
 )
+# "Is it still going?" answered from the tree, as design 3 §6.3 and §11 and D054 have it: the
+# item's line and its session log pointed to, and neither its session's log nor its status read,
+# in How work goes and in Grounding alike (P-186).
+HOW_WORK_GOES = (
+    "say what the tree holds of the work item, open, or done, when and how",
+    "point the person to its line and its session log on the timeline",
+    "no read of its session's log or its session's status to tell how far it got",
+)
+LOG_NOT_FOR_HOW_WORK_GOES = "A session's log is never read to tell how work goes"
+# What `/plan`'s An item done takes on a person's ruling, which the chat carries out in its own
+# turn on a ruling or a close it records on an item of Pilot's own: PilotApp's RecordService
+# places no item_done job for a close through the chat (item 173).
+RULING_ACTS = (
+    "its act, every act it covered — a work item, or your own hands where it is a tool call: a"
+    " card, a fleet call",
+    "its reason read and the plan adjusted",
+    "the plan's next step on it — a task started, changed, added or removed as it rules",
+)
+RULING_CARRIED_OUT = (
+    "**A ruling or a close you record on an item of Pilot's own**",
+    "is carried out in this turn: no job of Pilot's follows what the chat records",
+    "what the turn leaves undone waits for Pilot's next job",
+    "the finish decision's Yes your `finish`, the turn's last call, after your reply",
+)
+# Asked about an open block, the chat offers the answer it would record, and it does or offers
+# what it can do itself rather than adding an ask item (P-194's chat half).
+OFFERED_ANSWER = (
+    "**Asked about an open block**, lead with a short answer, then offer the answer you would"
+    " record: its option and its note",
+    "you do in this turn where the person asked for it, or offer in the reply: never an ask item",
+    "Past an offer of either kind, the chat asks no closed question of its own",
+)
+OFFERED_ANSWER_RETIRED = "you added it. The chat asks no closed question"
 # In a draft's definition chat the server's quotes are of the draft alone — an ask of it by
 # `project.md/<local id>`, the id pilot-store's `answer` takes for it, or a file by its path — and
 # its brief names the person who started the draft, the first message's author unless the line
@@ -495,6 +528,40 @@ class ChatSkillTest(unittest.TestCase):
         for rule in LATEST_NAMING:
             with self.subTest(rule):
                 self.assertIn(rule, text)
+
+    def test_how_work_goes_is_answered_from_the_tree_and_grounding_agrees(self) -> None:
+        text = skill_file("chat").read_text()
+        _, _, rest = text.partition("- **How work goes**")
+        passage, _, _ = rest.partition("\n## ")
+        passage = " ".join(passage.split())
+        for form in HOW_WORK_GOES:
+            with self.subTest(form):
+                self.assertIn(form, passage)
+        _, _, rest = text.partition("\n## Grounding\n")
+        grounding, _, _ = rest.partition("\n## ")
+        self.assertIn(LOG_NOT_FOR_HOW_WORK_GOES, " ".join(grounding.split()))
+
+    def test_a_ruling_on_an_item_of_pilot_s_own_is_carried_out_as_an_item_done_has_it(
+        self,
+    ) -> None:
+        chat = " ".join(skill_file("chat").read_text().split())
+        _, _, rest = skill_file("plan").read_text().partition("\n## An item done\n")
+        mode, _, _ = rest.partition("\n## ")
+        item_done = " ".join(mode.split())
+        for form in RULING_ACTS:
+            with self.subTest(form):
+                self.assertIn(form, chat)
+                self.assertIn(form, item_done)
+        for form in RULING_CARRIED_OUT:
+            with self.subTest(form):
+                self.assertIn(form, chat)
+
+    def test_the_chat_offers_its_answer_and_what_it_can_do_itself(self) -> None:
+        text = " ".join(skill_file("chat").read_text().split())
+        for form in OFFERED_ANSWER:
+            with self.subTest(form):
+                self.assertIn(form, text)
+        self.assertNotIn(OFFERED_ANSWER_RETIRED, text)
 
 
 class CreateSkillTest(unittest.TestCase):

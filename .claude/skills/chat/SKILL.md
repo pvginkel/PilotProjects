@@ -43,10 +43,11 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
   replies and the effect lines where their calls ran. Read it when the message refers back to
   what an earlier chat settled and the files do not hold — "as we agreed", "like last time". The
   brief's line "Earlier chats of this project are in chat.md" says there is one.
-- **How work goes**, asked: say what the timeline shows of the work item — open, or done, when
-  and how, as `pilot.py items show <id>` prints its line — and no more: no estimate, and no read
-  of its session's log to tell how far it got. The person sees its line and its session log on
-  the timeline.
+- **How work goes**, asked — "is it still going?" — is not yours to answer: say what the tree
+  holds of the work item, open, or done, when and how, as `pilot.py items show <id>` prints its
+  line, and point the person to its line and its session log on the timeline. No more: no
+  estimate, and no read of its session's log or its session's status to tell how far it got,
+  since the tree names no session of an item.
 
 ## Recording
 
@@ -77,6 +78,19 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
 - Each call answers its effect line, `<verb> · <what>` — "Answered · D1 · <title>", "Marked done
   · <title>" — which the chat shows where the call ran; a refused call changes nothing and
   answers why. Say a thing is recorded only once its call answered so.
+- **A ruling or a close you record on an item of Pilot's own** — one a job or a chat added, in
+  `items/`, never a worker's document in `inbox/`, which its run takes back — is carried out in
+  this turn: no job of Pilot's follows what the chat records, so the acts `/plan`'s An item done
+  takes on a close are yours here, within the grants, and what the turn leaves undone waits for
+  Pilot's next job, the reply saying what is left:
+  - a confirmation's Yes: its act, every act it covered — a work item, or your own hands where it
+    is a tool call: a card, a fleet call;
+  - a No: its reason read and the plan adjusted;
+  - a decision's or a question's answer: the plan's next step on it — a task started, changed,
+    added or removed as it rules;
+  - an action's Done: the paste-back read, and the check it names run where you can;
+  - the sweep's decision and the finish decision as `/plan`'s sections have them, the finish
+    decision's Yes your `finish`, the turn's last call, after your reply.
 
 ## Acting
 
@@ -102,8 +116,19 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
   (`rules/grants.md`) — is asked as a confirmation item when it is due, a decision whose one
   block is a confirmation with its `because`, one covering everything due at once; never as a
   question in the chat.
-- **A ruling you need** that has impact is a decision item, and the reply says you added it. The
-  chat asks no closed question of its own: an ask is an item.
+- **Asked about an open block**, lead with a short answer, then offer the answer you would
+  record: its option and its note, the note as `rules/routing.md`'s head has an answer's. A yes to
+  it is the person's ruling of that option, recorded as Recording has it, the note the one you
+  offered unless they give words of their own.
+- **What you can do yourself**, an act the grants let you take without asking — a card among
+  them — you do in this turn where the person asked for it, or offer in the reply: never an ask
+  item, which is for what only a person can rule (the operator, 2026-11-05). An action of an item
+  of Pilot's own done so takes its `done`,
+  `pilot.py done <file> <block id> --note <what was done and what was seen>`, which is the item's
+  close where it was its last open block, with no `mark` after it.
+- **A ruling you need** that has impact, past these, is a decision item, and the reply says you
+  added it. Past an offer of either kind, the chat asks no closed question of its own: an ask is
+  an item.
 - **A wait** the person asks for, a card to watch or a time to come back at: `add_item` with
   `kind` `card_wait` or `timed_wait`, armed as `rules/routing.md` has it, on a fresh read through
   youtrack of the card it watches.
@@ -150,7 +175,8 @@ Facts outside the project — a repository's code or history, a card, an environ
 session's log, a Fieldnotes post — are read through the fleet servers, never recalled or guessed:
 the fleet file tools, `get_session_log`, youtrack, gitblit, fieldnotes. They read; a card or a
 post is made only where a rule says so (`CLAUDE.md`'s Reading elsewhere), and a headless session
-started through them is research, never the work, which is `add_item`'s.
+started through them is research, never the work, which is `add_item`'s. A session's log is
+never read to tell how work goes: How work goes answers that from the tree.
 
 ## The server's follow-up turn
 
