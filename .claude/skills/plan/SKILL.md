@@ -121,7 +121,9 @@ plan brought up to date with what happened, and every piece of work that can go,
    registered no document with a block in it: until then its notes stand, neither acted on nor
    struck. Then, where the handbook's rules on other work running let it go, one work item does
    them all, its `step` the run's task, the promotion first, its brief carrying
-   `rules/promote.md` (`rules/work-items.md`), and their notes are struck.
+   `rules/promote.md` (`rules/work-items.md`) and naming the application's commit read then, its
+   `main` as the continuation left it, never the commit or the build the close-out's block names,
+   which predate the continuation's fixes; and their notes are struck.
 3. **The deferrals without a home**, the brief's last list, which the pass leaves to you: each
    given its note in this turn, as `rules/routing.md`'s Deferral has it —
    `pilot.py plan note add --task <id> --summary <line> --ref <block id> <content>`, without

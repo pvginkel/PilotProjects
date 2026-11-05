@@ -444,6 +444,8 @@ PROMOTION_DUE = (
     " neither acted on nor struck",
     "one work item does them all, its `step` the run's task, the promotion first, its brief"
     " carrying `rules/promote.md`",
+    "and naming the application's commit read then, its `main` as the continuation left it, never"
+    " the commit or the build the close-out's block names, which predate the continuation's fixes",
 )
 # A placed worker's model and effort: Opus at xhigh unless the handbook or the task names another,
 # in the placement rule and in the work item's field line.
