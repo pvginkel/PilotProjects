@@ -337,8 +337,6 @@ WAIT_FIRINGS = (
 )
 # The words by which the backstop counted an open timed wait that had fired as the card wait's.
 WAIT_FIRINGS_RETIRED = ("where it has none open (",)
-# The setup's handbook: the draft's prose without its asks' blocks, a ruled ask's outcome a rule
-# line, and the report after the write read for what it says of the handbook.
 # What the operator reads first (the operator's "In full" on session review 2's change 5,
 # 2026-11-04): an answer's note, where the due diligence's findings go, a notice, an item's lead.
 NOTE_RULE = (
@@ -363,7 +361,8 @@ FINDINGS_IN_NOTE = (
     "the note saying the fact stayed unread",
     "the note saying so",
 )
-
+# The setup's handbook: the draft's prose without its asks' blocks, a ruled ask's outcome a rule
+# line, and the report after the write read for what it says of the handbook.
 SETUP_HANDBOOK = (
     "the prose of the draft's `## Rules` and `## Context`, copied, and never an ask's block",
     "an ask fenced there stays in `project.md`",
