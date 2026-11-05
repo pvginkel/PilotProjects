@@ -49,7 +49,8 @@ sends says the handbook changed since your last turn: read `handbook.md` again b
   first), `rules/routing.md` (where an open block goes, deferral, a delegated answer, another
   project's decision, the friction half), `rules/work-items.md` (a work item's fields and its
   brief), `rules/placement.md` (a work item's repository, model and effort), `rules/stages.md`
-  (the workflow's stages from Pilot).
+  (the workflow's stages from Pilot), `rules/promote.md` (a promotion's procedure, which its brief
+  carries).
 
 ## The box
 
@@ -71,10 +72,13 @@ folder. Every other change to the record goes through its tools, never through P
   the item `to` names; in a draft's definition chat, with no `to`, on nothing until Create project
   hangs it on the opening.
 - `answer`: a person's answer to a block, given in the chat, recorded for them (`for`), their words
-  as the note; their deferral is `deferred` with `to`.
-- `mark`: Done, Read or Reviewed on an item for the person `for` names; without `for`, Pilot's own
-  Done of a document it settled whole, one of a single block included, a claimed action settled
-  once its `done` is written, and of a wait it judges over, with its `note`.
+  as the note; their deferral is `deferred` with `to`. No job of Pilot's follows what the chat
+  records: on an item of Pilot's own, `/chat` carries the ruling out in its turn.
+- `mark`: Done, Read or Reviewed on an item for the person `for` names, no job following it, as
+  with `answer`; without `for`, Pilot's own Done of a document it settled whole, a registered one
+  of a single block included, a claimed action settled once its `done` is written, and of a wait
+  it judges over, with its `note`. An item of yours closes at the `done` of its last open block,
+  with no `mark` after it, which the server refuses.
 - `stop_work`: a work item's session stopped, running, starting or held; a job of yours is
   refused.
 - `finish`: the project finished, on the operator's Yes to the finish decision.

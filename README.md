@@ -10,21 +10,26 @@ its database. The app is `pvginkel/PilotApp`.
 - `.claude/skills/<name>/SKILL.md`: the four skills a brief opens with, `create`, `chat`,
   `pre-rule` and `plan`, each with its frontmatter, its first step, the rule files it applies, and
   the brief's slot, `## The brief`, last. Between them, `chat`'s body is the project's chat's
-  procedure on Pilot's `pilot-store` tools and the brief the server composes, `create`'s the
+  procedure on Pilot's `pilot-store` tools and the brief the server composes, a ruling it records
+  on an item of Pilot's own carried out in its own turn, with no job after it, `create`'s the
   definition chat's, which writes the draft with the person, `pre-rule`'s the pass over what a
   worker's turn registered, each open block routed by `rules/routing.md`, its writer asked, an
-  action claimed or a fact researched for it where the routes say so, a researched block routed on
+  action claimed or a fact researched for it where the routes say so, a close-out's promotion
+  deferred to the run's own task, a researched block routed on
   what its work found, and the pass after the writer answered, which asks
   nothing, and `plan`'s the plan's upkeep in its modes: the setup, the first job at Create project;
   an action of Pilot's done, the `done` of a claimed action after a turn of its run, one Pilot's
   server hands back left to the operator; what is
-  next after the pass and after an item of Pilot's own is done, every task that can start started;
-  a wait's firings, each judged on the card read again, the wait closed through `mark` with its
-  note once its event came, or left open, with its backstop; the sweep; and the finish decision.
+  next after the pass and after a person closes an item of Pilot's own in the app, every task that
+  can start started, a close-out's deferred promotion once the run's continuation has ended; a
+  wait's firings, each judged on the card read again, the wait closed through `mark` with its note
+  once its event came, or left open, with its backstop, a card wait and its backstop closed
+  together; the sweep; and the finish decision.
 - `rules/`: the rules the skills apply, each file the one home of its own — `grants.md` (what goes
   ahead and what asks the operator first), `routing.md` (where an open block goes),
   `work-items.md` (a work item's fields and its brief), `placement.md` (a work item's repository,
-  model and effort) and `stages.md` (the workflow's stages from Pilot).
+  model and effort), `stages.md` (the workflow's stages from Pilot) and `promote.md` (a
+  promotion's procedure, which its brief carries).
 - `.kubecoder/config.yaml`: the environment, with the `pilot-sync` service, which keeps
   `/work/Projects` in step with the record, and the catalog's `python` toolchain.
 - `.claude/settings.json` and `.claude/hooks/pilot-sync-lock.py`: the hook that takes the
