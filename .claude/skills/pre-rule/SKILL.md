@@ -78,7 +78,8 @@ Per published document, one after the other:
      overrule a passage of the design record is yours only on the operator's own words asking
      for that change and a passage that is the record of that very behaviour; otherwise it is the
      operator's. What was checked and what was found, or that nothing in the store bears on it,
-     goes to the session log, said in your turn, never into the note: a choice with an unread fact
+     goes to the session log, said in your turn: the note gives no account of the checks, and
+     carries a found fact only where it is the choice's one reason. A choice with an unread fact
      behind it is yours only where it would not move on that fact, your turn saying so.
    - **Answered**, `by: agent`:
      `pilot.py answer <file> <block id> --value <option> --note <why>`, the value an option's

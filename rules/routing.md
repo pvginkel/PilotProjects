@@ -28,7 +28,8 @@ grants allow is `rules/grants.md`'s; which column holds, the brief's switch line
 
 What Pilot does before it chooses, every choice, in the project's folder (the operator,
 2026-11-01). What was checked and what was found, or that nothing in the store bears on the
-choice, goes to the session log, said in Pilot's turn, never into the answer's note.
+choice, goes to the session log, said in Pilot's turn: the answer's note gives no account of the
+checks, and carries a found fact only where it is the choice's one reason (step 3).
 
 1. **The project document and the handbook**: a goal, a rule or a standing instruction that
    settles the choice, or bends it.
