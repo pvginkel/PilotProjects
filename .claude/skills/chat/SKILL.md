@@ -191,7 +191,9 @@ the rest of your last one.
 The draft is the definition chat's, `/create`'s: `project.md` is not rewritten here, and the
 opening — the words that started the project — is never discussed as changeable. By hand the chat
 writes only `handbook.md`, `plan.json` — through `pilot.py` where a verb exists — and the file of
-an item it added, at the `path` `add_item` answered.
+an item it added, at the `path` `add_item` answered. On any item's file it writes, through
+`pilot.py`, a delegated answer (`pilot.py answer`, Recording) and the `done` of an action of an
+item of Pilot's own (`pilot.py done`, Acting).
 
 ## The brief
 
