@@ -117,6 +117,10 @@ says what the record made of it. It exits 0 done, or 2 refused with nothing writ
   new block or a new item.
 - An answer of yours is `by: agent`.
 - A deferral has its plan note, in the same turn: `pilot.py defer` writes both.
+- A task's title names the task alone, in 25 words at most: what it waits on, what follows it and
+  the actions related to it go into a note on the task,
+  `pilot.py plan note add --task <id> --summary <line> <content>`. A save of `plan.json` holding a
+  longer title, whichever task's, is held until it is shortened.
 - An item's file is born through `add_item`, never created by hand.
 - Nothing of another project: only the folder `$PILOT_PROJECT` names is this session's.
 - A job ends with its turn, and never waits.

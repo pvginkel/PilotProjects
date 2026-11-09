@@ -10,8 +10,9 @@ the blocks a research's brief gives and its hand-on to the plan, the plan skill 
 its brief's kind line, reading the brief of an item done, the claimed actions of a worker's turn
 and the brief and the follow-up of a wait's run as the server writes them, a claimed action the
 run's or the operator's where the server's reading draws the line, naming its writes and copying
-the draft's prose into the handbook without its asks, no file of the map refusing a wait, and a
-work item's fields and brief in one rule file the skills starting work cite."""
+the draft's prose into the handbook without its asks, a task's title the task alone and what it
+waits on a note, no file of the map refusing a wait, and a work item's fields and brief in one rule
+file the skills starting work cite."""
 
 import importlib.util
 import itertools
@@ -753,6 +754,26 @@ class PlanSkillTest(unittest.TestCase):
         for call in PLAN_CALLS:
             with self.subTest(call):
                 self.assertIn(call, text)
+
+    def test_a_task_s_title_names_the_task_alone_and_what_it_waits_on_is_a_note(self) -> None:
+        rule = (
+            f"A task's title names the task alone, in {pilot_module().TITLE_WORDS} words at most:"
+            " what it waits on, what follows it and the actions related to it go into a note on"
+            " the task"
+        )
+        self.assertIn(rule, " ".join(CLAUDE.read_text().split()))
+        plan = " ".join(skill_file("plan").read_text().split())
+        for form in (
+            "a task's title naming the task alone",
+            "what a task waits on is a note on it",
+        ):
+            with self.subTest(form):
+                self.assertIn(form, plan)
+        for form in ("a task's title naming what it waits on", "a task's title names what it is"):
+            with self.subTest(form):
+                self.assertNotIn(form, plan)
+        chat = " ".join(skill_file("chat").read_text().split())
+        self.assertIn("each title naming its task alone (`CLAUDE.md`'s invariants)", chat)
 
     def test_pilot_s_done_on_the_last_open_block_of_an_item_of_its_own_is_its_close(self) -> None:
         _, _, rest = skill_file("plan").read_text().partition("\n## In every mode\n")

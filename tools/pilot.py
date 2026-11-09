@@ -45,6 +45,15 @@ CLAIM = dsl.CLAIM
 
 DONE, REFUSED = 0, 2
 
+# The most words a task's title holds, counted as whitespace separates them: PilotApp's engine
+# holds a save of plan.json with a title over it (`TITLE_WORDS`, backend/app/engine/plan.py),
+# and its fault states the rule below.
+TITLE_WORDS = 25
+TITLE_RULE = (
+    "a task's title names the task alone; what it waits on, what follows it and the actions"
+    " related to it go into a note on the task"
+)
+
 # plan.json's keys in the record's order (PilotApp's docs/projection.md).
 _PLAN_KEYS = ("ticket", "repo", "tasks", "notes")
 _TASK_KEYS = ("id", "title", "status", "notes")
@@ -418,12 +427,24 @@ def _edit_plan(project: Project, edit: Callable[[dict[str, Any]], str]) -> int:
     return DONE
 
 
+def _title(value: str) -> str:
+    """A task's title as the record keeps it, refused over its words as the
+    engine holds the save."""
+    title = _text(value, "--title")
+    if len(words := title.split()) > TITLE_WORDS:
+        raise Refused(
+            f"--title: {len(words)} words, over {TITLE_WORDS}: {TITLE_RULE}"
+            f" (`{PROG} plan note add --task <id>`)"
+        )
+    return title
+
+
 def _task_add(project: Project, args: argparse.Namespace) -> int:
     def edit(plan: dict[str, Any]) -> str:
         task_id = _text(args.id, "--id")
         if any(task["id"] == task_id for task in plan["tasks"]):
             raise Refused(f"--id: the plan has a task `{task_id}` already")
-        title = _text(args.title, "--title")
+        title = _title(args.title)
         task = {"id": task_id, "title": title, "status": args.status, "notes": []}
         tasks = plan["tasks"]
         if args.before is not None:
@@ -446,7 +467,7 @@ def _task_set(project: Project, args: argparse.Namespace) -> int:
             raise Refused("--title, --status: nothing to set; give one or both")
         task = _task(plan, args.id, "<id>")
         if args.title is not None:
-            task["title"] = _text(args.title, "--title")
+            task["title"] = _title(args.title)
         if args.status is not None:
             task["status"] = args.status
         return f"task {task['id']}: {task['title']} ({task['status']})"
@@ -985,7 +1006,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     add = verb(task, "add", _task_add, "add a task to the plan, last unless placed")
     add.add_argument("--id", required=True, metavar="<id>", help="the task's id, new to the plan")
-    add.add_argument("--title", required=True, metavar="<text>", help="the task's title")
+    add.add_argument(
+        "--title",
+        required=True,
+        metavar="<text>",
+        help=f"the task's title, the task alone in {TITLE_WORDS} words at most: what it waits on,"
+        " what follows it and the actions related to it go into a note on it, `plan note add`",
+    )
     add.add_argument(
         "--status", choices=TASK_STATUSES, default="pending", help="pending when not given"
     )
@@ -994,7 +1021,12 @@ def build_parser() -> argparse.ArgumentParser:
     place.add_argument("--after", metavar="<id>", help="placed after this task")
     sets = verb(task, "set", _task_set, "change a task's title, status or both")
     sets.add_argument("id", metavar="<id>", help="the task")
-    sets.add_argument("--title", metavar="<text>", help="its new title")
+    sets.add_argument(
+        "--title",
+        metavar="<text>",
+        help=f"its new title, the task alone in {TITLE_WORDS} words at most, as `plan task add`"
+        " has it",
+    )
     sets.add_argument("--status", choices=TASK_STATUSES, help="its new status")
     remove = verb(
         task, "remove", _task_remove, "remove a task from the plan, refused while it has open notes"

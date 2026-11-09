@@ -103,8 +103,9 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
   checked against the spec repository's decision record; an ask only the person can answer put
   first, as a decision or a question item with your recommendation, never a closed question in
   the reply. Once nothing it needs is open, its three tasks go into the plan, its filing, its
-  planning and its run, in that order, and the filing's work item starts, its brief carrying the
-  person's words as `rules/stages.md` has it.
+  planning and its run, in that order, each title naming its task alone (`CLAUDE.md`'s
+  invariants), and the filing's work item starts, its brief carrying the person's words as
+  `rules/stages.md` has it.
 - **The reply says how the start went**, as the answer's `state` and `held` say it
   (`rules/work-items.md`), a held start never told as running: held while the project is paused,
   "Started; it is held while the project is paused", as the brief's pause line asks of everything

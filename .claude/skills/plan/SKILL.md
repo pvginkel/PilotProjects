@@ -84,9 +84,11 @@ draft, and starts the work that can start.
    handbook written again until it names none; that the write landed is not enough.
 3. **The plan**, `plan.json`, through `pilot.py`'s plan verbs: the tasks as the chat agreed
    them, in its order, with ids you give, `t1`, `t2`, … —
-   `pilot.py plan task add --id <id> --title <text>` — a task's title naming what it waits on
-   where the draft agreed an order; and the ticket and the repository where the draft names
-   them, `pilot.py plan set --ticket <id> --repo <owner/Name>`.
+   `pilot.py plan task add --id <id> --title <text>` — a task's title naming the task alone, in
+   25 words at most (`CLAUDE.md`'s invariants), and what it waits on, where the draft agreed an
+   order, a note on it, `pilot.py plan note add --task <id> --summary <line> <content>`; and the
+   ticket and the repository where the draft names them,
+   `pilot.py plan set --ticket <id> --repo <owner/Name>`.
 4. **As lean as the project**: nothing is required of a plan but what the project needs —
    "the build is failing" is a task or two — and no task is a fixture. A sweep task before the
    end only where the project will have something to sweep, an epic with `Later` cards or
@@ -133,11 +135,12 @@ plan brought up to date with what happened, and every piece of work that can go,
    says.
 4. **Every task whose inputs are done, started**, a work item each, in an environment of its own,
    all at once: the gate throttles them, and a held start is a line, never a reason to start less.
-   Held back only what the plan says waits — a task's title names what it is after — and what
-   would collide: two runs on one repository's same files, or work whose input is a run's open
-   document; a task held back for a collision says so in a note on it. One at a time is the
-   exception the plan writes, never the default. A task with an open work item is going already:
-   it gets no second.
+   Held back only what the plan says waits — what a task waits on is a note on it,
+   `pilot.py plan note list --task <id>`, which you strike, `pilot.py plan note strike <id>`, once
+   what it waits on is met — and what would collide: two runs on one repository's same files, or
+   work whose input is a run's open document; a task held back for a collision says so in a note
+   on it. One at a time is the exception the plan writes,
+   never the default. A task with an open work item is going already: it gets no second.
 5. **A run's open documents.** A run waits on the documents it registered, and Pilot's server
    resumes it once the last of them is closed — never you, and never a second work item for its
    task. Nothing that waits on those documents is started; the task a finished document

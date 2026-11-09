@@ -599,6 +599,26 @@ class TestPlanTask(PilotCase):
             says=("<id>: the plan has no task `t9`",),
         )
 
+    def test_add_and_set_take_a_title_of_25_words_and_refuse_one_over_as_the_engine_holds_it(
+        self,
+    ) -> None:
+        """The engine holds a save of plan.json whose task's title is over 25
+        words, counted as whitespace separates them: the title names the task
+        alone, and what it waits on and the actions around it go into a note."""
+        title = " ".join(["Bake"] * 25)
+        self.assert_written(self.pilot("plan", "task", "add", "--id", "t4", "--title", title))
+        self.assert_written(self.pilot("plan", "task", "set", "t2", "--title", f" {title}\n"))
+        self.assertEqual([task["title"] for task in self.plan()["tasks"]][1::2], [title, title])
+        says = (
+            "--title: 26 words, over 25: a task's title names the task alone; what it waits on,"
+            " what follows it and the actions related to it go into a note on the task"
+            " (`pilot.py plan note add --task <id>`)"
+        )
+        long = "Plan slice 067,\tafter t1 " + " ".join(["bake"] * 21)
+        for args in (("add", "--id", "t5", "--title", long), ("set", "t1", "--title", long)):
+            with self.subTest(args=args):
+                self.assert_refused("plan", "task", *args, says=(says,))
+
     def test_remove_takes_the_task_out_of_the_plan(self) -> None:
         completed = self.pilot("plan", "task", "remove", "t3")
 
