@@ -24,7 +24,8 @@ its database. The app is `pvginkel/PilotApp`.
   can start started, a close-out's deferred promotion once the run's continuation has ended; a
   wait's firings, each judged on the card read again, the wait closed through `mark` with its note
   once its event came, or left open, with its backstop, a card wait and its backstop closed
-  together; the sweep; and the finish decision.
+  together; the sweep; and the finish decision, whose Finish and archive calls `finish` with
+  `archive`.
 - `rules/`: the rules the skills apply, each file the one home of its own — `grants.md` (what goes
   ahead and what asks the operator first), `routing.md` (where an open block goes),
   `work-items.md` (a work item's fields and its brief), `placement.md` (a work item's repository,

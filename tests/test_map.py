@@ -9,7 +9,8 @@ naming its writes — a claim, a research, a question to the writer and a wait a
 the blocks a research's brief gives and its hand-on to the plan, the plan skill naming each mode by
 its brief's kind line, reading the brief of an item done, the claimed actions of a worker's turn
 and the brief and the follow-up of a wait's run as the server writes them, a claimed action the
-run's or the operator's where the server's reading draws the line, naming its writes and copying
+run's or the operator's where the server's reading draws the line, naming its writes, the finish
+decision's options and what each calls of pilot-store's `finish`, and copying
 the draft's prose into the handbook without its asks, a task's title the task alone and what it
 waits on a note, no file of the map refusing a wait, and a work item's fields and brief in one rule
 file the skills starting work cite."""
@@ -96,7 +97,8 @@ RULING_CARRIED_OUT = (
     "**A ruling or a close you record on an item of Pilot's own**",
     "is carried out in this turn: no job of Pilot's follows what the chat records",
     "what the turn leaves undone waits for Pilot's next job",
-    "the finish decision's Yes your `finish`, the turn's last call, after your reply",
+    "the finish decision's `Finish` your `finish`, its `Finish and archive` your `finish` with"
+    " `archive` `true`, either the turn's last call, after your reply",
 )
 # Asked about an open block, the chat offers the answer it would record, and it does or offers
 # what it can do itself rather than adding an ask item (P-194's chat half).
@@ -208,7 +210,7 @@ OWN_ITEM_CLOSED = (
     " with no `for`",
 )
 # The modes' writes past the setup: a task's status, a note struck, a homeless deferral's note, and
-# pilot-store's `finish` on the finish decision's Yes.
+# pilot-store's `finish` on the finish decision's Finish.
 PLAN_CALLS = (
     "`pilot.py plan task set <id> --status done`",
     "`pilot.py plan note strike <id>`",
@@ -217,6 +219,23 @@ PLAN_CALLS = (
     "`pilot.py done <file> <block id> --note <what was done and what was seen>`",
     "`mark`, `item` the document's id, `mark` `done`, and no `for`",
 )
+# The finish decision's options by their labels and what each calls: pilot-store's `finish` takes
+# `archive` (PilotApp's pilot_mcp/tools.py), whose description names the option by the words
+# "Finish and archive on that decision", and without it the server asks the archive question.
+FINISH_DECISION = (
+    "asking whether to finish, its options `Finish`, `Finish and archive` and `No`, by those"
+    " labels",
+    "On its `Finish`, the job after its close calls `finish`, last",
+    "the archive question after it is the server's",
+    "On its `Finish and archive`, the same call with `archive` `true`, on that answer alone",
+    "the project is archived with the finish, and no archive question follows",
+    "On a No, its reason read and the plan adjusted",
+)
+FINISH_TOOL = (
+    "- `finish`: the project finished, on the operator's `Finish` on the finish decision; with"
+    " `archive`, on their `Finish and archive`, archived with it, and no archive question asked."
+)
+FINISH_YES_RETIRED = ("On its Yes", "the finish decision's Yes", "Yes to the finish decision")
 # The claimed actions the brief of a worker's turn names, as BriefService writes them, each open or
 # as its close reads.
 CLAIMED_ACTIONS = (
@@ -754,6 +773,21 @@ class PlanSkillTest(unittest.TestCase):
         for call in PLAN_CALLS:
             with self.subTest(call):
                 self.assertIn(call, text)
+
+    def test_the_finish_decision_offers_finish_and_archive_which_calls_finish_with_archive(
+        self,
+    ) -> None:
+        _, _, rest = skill_file("plan").read_text().partition("\n## The finish decision\n")
+        mode, _, _ = rest.partition("\n## ")
+        text = " ".join(mode.split())
+        for form in FINISH_DECISION:
+            with self.subTest(form):
+                self.assertIn(form, text)
+        self.assertIn(FINISH_TOOL, " ".join(CLAUDE.read_text().split()))
+        for source, page in the_map().items():
+            for form in FINISH_YES_RETIRED:
+                with self.subTest(source=source, form=form):
+                    self.assertNotIn(form, " ".join(page.split()))
 
     def test_a_task_s_title_names_the_task_alone_and_what_it_waits_on_is_a_note(self) -> None:
         rule = (

@@ -81,7 +81,8 @@ folder. Every other change to the record goes through its tools, never through P
   with no `mark` after it, which the server refuses.
 - `stop_work`: a work item's session stopped, running, starting or held; a job of yours is
   refused.
-- `finish`: the project finished, on the operator's Yes to the finish decision.
+- `finish`: the project finished, on the operator's `Finish` on the finish decision; with
+  `archive`, on their `Finish and archive`, archived with it, and no archive question asked.
 - `ask_writer`: a `question` to the writer of a registered document about one of its blocks,
   `block` its id; the pre-ruling pass's alone, once a block, one round per worker turn.
 

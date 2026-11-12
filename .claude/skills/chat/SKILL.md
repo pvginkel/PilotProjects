@@ -91,7 +91,8 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
     added or removed as it rules;
   - an action's Done: the paste-back read, and the check it names run where you can;
   - the sweep's decision and the finish decision as `/plan`'s sections have them, the finish
-    decision's Yes your `finish`, the turn's last call, after your reply.
+    decision's `Finish` your `finish`, its `Finish and archive` your `finish` with `archive`
+    `true`, either the turn's last call, after your reply.
 
 ## Acting
 
