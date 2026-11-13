@@ -60,6 +60,15 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
 - **Done, Read and Reviewed** a person gives go through `mark` with `for` them: `done` on a
   document, its unanswered blocks answered with their recommendations; `read` on a notice;
   `reviewed` on a review.
+- **An ask the person calls off** — "never mind that one", "we no longer need this" — is
+  cancelled for them: `cancel_ask` with `item` the ask's id and `for` their handle, on an open ask
+  of Pilot's own, in `items/`: a decision, a confirmation, a question, an action or a document.
+  It is done as cancelled, by them, its line under the cancelled mark, with no undo. That is for
+  an ask that no longer applies, never for an answer: a confirmation they refuse takes its `No`
+  through `answer`, and what they decided or did is recorded as that. Only on their word: an ask
+  you find obsolete yourself you offer to call off in the reply, and their yes is that word. A
+  worker's document in `inbox/` is refused: the person calls it off themselves, with the Cancel
+  on its page, which ends its run, and the reply says so.
 - **A delegation** — "your call", "go with your recommendation" — is no answer of theirs: the
   option you choose is yours, `by: agent`, their words the note,
   `pilot.py answer <file> <block id> --value <option> --note <their words>`. Cite it as
@@ -76,8 +85,8 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
   and the block is answered anew in a new item, as Correcting has it. Either way, the plan note
   that pointed at it is struck in the same turn, `pilot.py plan note strike <id>`.
 - Each call answers its effect line, `<verb> · <what>` — "Answered · D1 · <title>", "Marked done
-  · <title>" — which the chat shows where the call ran; a refused call changes nothing and
-  answers why. Say a thing is recorded only once its call answered so.
+  · <title>", "Cancelled · <title>" — which the chat shows where the call ran; a refused call
+  changes nothing and answers why. Say a thing is recorded only once its call answered so.
 - **A ruling or a close you record on an item of Pilot's own** — one a job or a chat added, in
   `items/`, never a worker's document in `inbox/`, which its run takes back — is carried out in
   this turn: no job of Pilot's follows what the chat records, so `/plan`'s An item done is yours
@@ -90,6 +99,8 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
   - a decision's or a question's answer: the plan's next step on it — a task started, changed,
     added or removed as it rules;
   - an action's Done: the paste-back read, and the check it names run where you can;
+  - an ask called off: none of its acts, and the plan adjusted to its going — a task that waited
+    on its answer changed, removed or started, a note that names its blocks struck;
   - the sweep's decision and the finish decision as `/plan`'s sections have them, the finish
     decision's `Finish` your `finish`, its `Finish and archive` your `finish` with `archive`
     `true`, either the turn's last call, after your reply.
@@ -145,8 +156,13 @@ meaning is a new block or a new item.
   items started — before you say either.
 - Stop or redirect what you may within the grants: `stop_work` on a work item the correction
   makes moot, running, starting or held; a new item for the changed course.
+- A work item the new one replaces is closed for good with it, never left stopped beside it:
+  `stop_work` with `reason`, as `rules/work-items.md`'s A work item replaced has it, one stopped
+  earlier included.
+- An open ask of Pilot's own that the person says the correction makes obsolete is called off
+  for them (Recording's An ask the person calls off).
 - Report the effect the record holds and what still needs a decision; nothing is said stopped
-  before `stop_work` answered its effect.
+  or closed before `stop_work` answered its effect, "Stopped · <title>" or "Closed · <title>".
 - "What if …" is exploration: answer it and change nothing. "Do it instead" is direction: act on
   it.
 

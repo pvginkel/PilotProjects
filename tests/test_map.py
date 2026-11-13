@@ -12,8 +12,10 @@ and the brief and the follow-up of a wait's run as the server writes them, a cla
 run's or the operator's where the server's reading draws the line, naming its writes, the finish
 decision's options and what each calls of pilot-store's `finish`, and copying
 the draft's prose into the handbook without its asks, a task's title the task alone and what it
-waits on a note, no file of the map refusing a wait, and a work item's fields and brief in one rule
-file the skills starting work cite."""
+waits on a note, no file of the map refusing a wait, a work item's fields and brief in one rule
+file the skills starting work cite, the chat's cancel of an ask of Pilot's own by `cancel_ask`'s
+arguments, the chat's alone, and a replaced work item closed through `stop_work`'s `reason`, in
+that rule file, which the chat's correction and the plan's jobs cite."""
 
 import importlib.util
 import itertools
@@ -409,6 +411,70 @@ WORK_ITEM_BRIEF = (
     "never paste the handbook",
 )
 WORK_ITEM_SKILLS = ("chat", "plan", "pre-rule")
+# pilot-store's `cancel_ask` as it takes its arguments (PilotApp's pilot_mcp/tools.py): `item`, the
+# ask's id, and `for`, the handle of the person on whose word it is called off. PilotApp's
+# RecordService.call_off refuses Pilot as that person, a document a work item's run registered,
+# whose page's Cancel ends the run, and a notice (P-233).
+CANCEL_ASK = "`cancel_ask`"
+CANCEL_TOOL = (
+    "- `cancel_ask`: an open ask of Pilot's own, one `add_item` added — a decision, a"
+    " confirmation, a question, an action or a document — called off on the word of the person"
+    " `for` names, given in the chat: `item` its id, done as cancelled, by them, with no undo and"
+    " no job following it. Never on your own word. A document a work item's run registered is"
+    " refused: the Cancel on its page, which ends that run, is the one way to call it off."
+)
+# When the chat cancels for a person, beside the Done, Read and Reviewed it records for them: an
+# ask that no longer applies, on their word alone, never in place of an answer.
+CANCEL_BESIDE = "- **Done, Read and Reviewed** a person gives go through `mark` with `for` them"
+CANCEL_BY_THE_CHAT = (
+    "**An ask the person calls off**",
+    "`cancel_ask` with `item` the ask's id and `for` their handle",
+    "on an open ask of Pilot's own, in `items/`: a decision, a confirmation, a question, an action"
+    " or a document",
+    "an ask that no longer applies, never for an answer: a confirmation they refuse takes its `No`"
+    " through `answer`",
+    "Only on their word: an ask you find obsolete yourself you offer to call off in the reply",
+    "A worker's document in `inbox/` is refused: the person calls it off themselves, with the"
+    " Cancel on its page, which ends its run",
+)
+CANCEL_EFFECT = '"Cancelled · <title>"'
+# No job follows a cancel the chat records, so its turn brings the plan up to date.
+CANCEL_CARRIED_OUT = "an ask called off: none of its acts, and the plan adjusted to its going"
+# The files that name the call: a job has no person's word, so no skill of a job names it.
+CANCEL_FILES = {"CLAUDE.md", ".claude/skills/chat/SKILL.md"}
+# pilot-store's `stop_work` with `reason` (PilotApp's pilot_mcp/tools.py): the work item closed for
+# good in the same act, one stopped earlier included, and a failed one refused (P-201). The rule's
+# one home is the work item's rule file, which the chat's correction and the plan's jobs cite.
+STOP_TOOL = (
+    "- `stop_work`: a work item's session stopped, running, starting or held, for a person to"
+    " resume; a job of yours is refused. With `reason`, a line its done line carries, the work"
+    " item is closed for good in the same act, for one you replaced with another"
+    " (`rules/work-items.md`): stopped where it was not, one stopped earlier included, and done as"
+    " cancelled, with no Resume and no undo; one that failed is refused."
+)
+REPLACED_SECTION = "## A work item replaced"
+REPLACED_RULE = (
+    "is closed for good in the turn that adds the other: `stop_work` with `item` its id and"
+    " `reason`, a line saying what replaced it and why",
+    "It is stopped where it was not, one stopped earlier included, and done as cancelled",
+    "takes no Resume and no undo",
+    '"Closed · <title>"',
+    "The documents its run put to a person stay open and theirs",
+    'Without `reason`, `stop_work` only stops, "Stopped · <title>"',
+    'One that failed is refused, "it has failed, and keeps its Resume"',
+)
+REPLACED_CITED = "`stop_work` with `reason`, as `rules/work-items.md`'s A work item replaced has it"
+REPLACED_BY_THE_CHAT = (
+    "A work item the new one replaces is closed for good with it, never left stopped beside it",
+    "nothing is said stopped or closed before `stop_work` answered its effect,"
+    ' "Stopped · <title>" or "Closed · <title>"',
+)
+REPLACED_BY_A_JOB = (
+    "A work item you replace with another, its task changed by a ruling or its brief outdated, is"
+    " closed for good with it, never left stopped beside it"
+)
+# The map's line while `stop_work` took no reason.
+STOP_TOOL_RETIRED = "running, starting or held; a job of yours is refused"
 # A promotion's procedure, at home in one rule file whose text a promotion's brief carries, as it
 # carries the grants, since the worker runs outside the store (P-184): the job and its parameter,
 # the wait on the build, production read through `cexec iac`, and what else is running, Pilot's.
@@ -669,6 +735,27 @@ class ChatSkillTest(unittest.TestCase):
                 self.assertIn(form, text)
         self.assertNotIn(OFFERED_ANSWER_RETIRED, text)
 
+    def test_the_chat_calls_off_an_ask_of_pilot_s_own_for_the_person_who_says_so(self) -> None:
+        _, _, rest = skill_file("chat").read_text().partition("\n## Recording\n")
+        recording, _, _ = rest.partition("\n## ")
+        _, beside, after = recording.partition(CANCEL_BESIDE)
+        self.assertTrue(beside)
+        _, _, following = after.partition("\n- ")
+        bullet, _, _ = following.partition("\n- ")
+        bullet = " ".join(bullet.split())
+        for form in CANCEL_BY_THE_CHAT:
+            with self.subTest(form):
+                self.assertIn(form, bullet)
+        recording = " ".join(recording.split())
+        for form in (CANCEL_EFFECT, CANCEL_CARRIED_OUT):
+            with self.subTest(form):
+                self.assertIn(form, recording)
+        self.assertIn(CANCEL_TOOL, " ".join(CLAUDE.read_text().split()))
+
+    def test_cancel_ask_is_named_by_the_map_and_the_chat_skill_alone(self) -> None:
+        named = {source for source, text in the_map().items() if CANCEL_ASK in text}
+        self.assertEqual(named, CANCEL_FILES)
+
 
 class CreateSkillTest(unittest.TestCase):
     def setUp(self) -> None:
@@ -841,6 +928,39 @@ class WorkItemRuleTest(unittest.TestCase):
                     "paste the handbook",
                 ):
                     self.assertNotIn(form, text)
+
+    def test_a_replaced_work_item_is_closed_through_stop_work_with_its_reason(self) -> None:
+        _, heading, rest = (ROOT / WORK_ITEMS).read_text().partition(f"\n{REPLACED_SECTION}\n")
+        self.assertTrue(heading)
+        section, _, _ = rest.partition("\n## ")
+        section = " ".join(section.split())
+        for form in REPLACED_RULE:
+            with self.subTest(form):
+                self.assertIn(form, section)
+        claude = " ".join(CLAUDE.read_text().split())
+        self.assertIn(STOP_TOOL, claude)
+        self.assertNotIn(STOP_TOOL_RETIRED, claude)
+
+    def test_the_chat_s_correction_and_the_plan_s_jobs_close_what_they_replace_by_the_rule(
+        self,
+    ) -> None:
+        _, _, rest = skill_file("chat").read_text().partition("\n## Correcting\n")
+        correcting, _, _ = rest.partition("\n## ")
+        correcting = " ".join(correcting.split())
+        for form in (REPLACED_CITED, *REPLACED_BY_THE_CHAT):
+            with self.subTest(skill="chat", form=form):
+                self.assertIn(form, correcting)
+        _, _, rest = skill_file("plan").read_text().partition("\n## In every mode\n")
+        every_mode, _, _ = rest.partition("\n## ")
+        every_mode = " ".join(every_mode.split())
+        for form in (REPLACED_CITED, REPLACED_BY_A_JOB):
+            with self.subTest(skill="plan", form=form):
+                self.assertIn(form, every_mode)
+        for name in WORK_ITEM_SKILLS:
+            with self.subTest(name):
+                self.assertNotIn(
+                    "a line saying what replaced it", " ".join(skill_file(name).read_text().split())
+                )
 
 
 class PromoteRuleTest(unittest.TestCase):

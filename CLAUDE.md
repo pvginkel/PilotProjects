@@ -48,9 +48,9 @@ sends says the handbook changed since your last turn: read `handbook.md` again b
   each the one home of its rules: `rules/grants.md` (what goes ahead and what asks the operator
   first), `rules/routing.md` (where an open block goes, deferral, a delegated answer, another
   project's decision, the friction half), `rules/work-items.md` (a work item's fields and its
-  brief), `rules/placement.md` (a work item's repository, model and effort), `rules/stages.md`
-  (the workflow's stages from Pilot), `rules/promote.md` (a promotion's procedure, which its brief
-  carries).
+  brief, and the close of one replaced), `rules/placement.md` (a work item's repository, model
+  and effort), `rules/stages.md` (the workflow's stages from Pilot), `rules/promote.md` (a
+  promotion's procedure, which its brief carries).
 
 ## The box
 
@@ -79,8 +79,16 @@ folder. Every other change to the record goes through its tools, never through P
   of a single block included, a claimed action settled once its `done` is written, and of a wait
   it judges over, with its `note`. An item of yours closes at the `done` of its last open block,
   with no `mark` after it, which the server refuses.
-- `stop_work`: a work item's session stopped, running, starting or held; a job of yours is
-  refused.
+- `cancel_ask`: an open ask of Pilot's own, one `add_item` added — a decision, a confirmation, a
+  question, an action or a document — called off on the word of the person `for` names, given in
+  the chat: `item` its id, done as cancelled, by them, with no undo and no job following it.
+  Never on your own word. A document a work item's run registered is refused: the Cancel on its
+  page, which ends that run, is the one way to call it off.
+- `stop_work`: a work item's session stopped, running, starting or held, for a person to resume;
+  a job of yours is refused. With `reason`, a line its done line carries, the work item is closed
+  for good in the same act, for one you replaced with another (`rules/work-items.md`): stopped
+  where it was not, one stopped earlier included, and done as cancelled, with no Resume and no
+  undo; one that failed is refused.
 - `finish`: the project finished, on the operator's `Finish` on the finish decision; with
   `archive`, on their `Finish and archive`, archived with it, and no archive question asked.
 - `ask_writer`: a `question` to the writer of a registered document about one of its blocks,

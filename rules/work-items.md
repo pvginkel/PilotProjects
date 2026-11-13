@@ -1,7 +1,8 @@
 # A work item
 
 What a work item is given when Pilot starts one, in the chat or in a job: the one home of its
-`add_item` fields and its brief's shape, which the skills that start work cite.
+`add_item` fields, its brief's shape and the close of one another replaces, which the skills that
+start work cite.
 
 ## The fields
 
@@ -42,3 +43,15 @@ Pilot appends the plan task it serves, the switch and the handbook: never paste 
 line of its own, never told as running and never a reason to start less. A refused add — its
 start refused, a field missing, a fault in its text — added nothing: fix the call, or say why it
 was refused.
+
+## A work item replaced
+
+A work item another takes the place of — the same work started anew, on a brief a correction or a
+ruling changed — is closed for good in the turn that adds the other: `stop_work` with `item` its
+id and `reason`, a line saying what replaced it and why, which its done line carries. It is
+stopped where it was not, one stopped earlier included, and done as cancelled, yours: it waits on
+nobody and takes no Resume and no undo, its effect line "Closed · <title>". The documents its run
+put to a person stay open and theirs, and answering them continues nothing. Without `reason`,
+`stop_work` only stops, "Stopped · <title>": that is for work a person may resume, never for one
+replaced, which would wait on them with a Resume that runs the outdated brief. One that failed is
+refused, "it has failed, and keeps its Resume": it stays open, the person's.

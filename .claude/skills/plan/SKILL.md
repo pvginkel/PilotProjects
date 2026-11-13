@@ -50,7 +50,10 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
 - **Work** is a work item, its fields and its brief as `rules/work-items.md` has them: a stage of
   the workflow for a slice's planning and its run, filed first by a work item of its own
   (`rules/stages.md`), and free-form from a brief of yours otherwise, each placed by
-  `rules/placement.md` and what the handbook says of the project's repositories.
+  `rules/placement.md` and what the handbook says of the project's repositories. A work item you
+  replace with another, its task changed by a ruling or its brief outdated, is closed for good
+  with it, never left stopped beside it: `stop_work` with `reason`, as `rules/work-items.md`'s A
+  work item replaced has it.
 - **The bounded check** before an ask you are about to put — a decision, a confirmation, the
   finish decision — where a survey, an isolated test or a read could change its recommendation:
   a sub-agent or a fleet read first, with the premise, the check, how each result moves the
