@@ -18,7 +18,8 @@ its database. The app is `pvginkel/PilotApp`.
   worker's turn registered, each open block routed by `rules/routing.md`, its writer asked, an
   action claimed or a fact researched for it where the routes say so, a close-out's promotion
   deferred to the run's own task, a researched block routed on
-  what its work found, and the pass after the writer answered, which asks
+  what its work found, the stage session's debrief, where the brief carries one, left or made a
+  notice, a card or a fieldnote, and the pass after the writer answered, which asks
   nothing, and `plan`'s the plan's upkeep in its modes: the setup, the first job at Create project;
   an action of Pilot's done, the `done` of a claimed action after a turn of its run, one Pilot's
   server hands back left to the operator; what is
@@ -71,6 +72,8 @@ The dev image has no uv, so everything runs in the `python` tool container, from
   the hook locks around, every `pilot.py` command line they quote a verb and options its parser
   takes, the grants naming the confirmation reasons of the fixtures' `reference.json`, the brief
   lines and the `ask_writer` and `add_item` calls the pre-rule and plan skills quote as the server
-  writes and takes them, `cancel_ask` by its arguments in `CLAUDE.md` and the chat skill and
-  nowhere else, `stop_work`'s `reason` in `CLAUDE.md`, and a work item's fields, its brief and
-  the close of one replaced in `rules/work-items.md` alone, which the chat and plan skills cite.
+  writes and takes them, what the pass may make of the stage session's debrief, a card on it the
+  one exception `rules/stages.md` makes to a stage's documents, `cancel_ask` by its arguments in
+  `CLAUDE.md` and the chat skill and nowhere else, `stop_work`'s `reason` in `CLAUDE.md`, and a
+  work item's fields, its brief and the close of one replaced in `rules/work-items.md` alone,
+  which the chat and plan skills cite.

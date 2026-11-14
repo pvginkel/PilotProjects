@@ -6,16 +6,18 @@ skill and the create skill reading a person's message as PilotApp's server sends
 skill naming a draft's ask and its material as pilot-store takes them, the pre-rule skill reading
 the briefs of a worker's turn and of its writer's answer as PilotApp's server writes them and
 naming its writes — a claim, a research, a question to the writer and a wait among them — routing
-the blocks a research's brief gives and its hand-on to the plan, the plan skill naming each mode by
-its brief's kind line, reading the brief of an item done, the claimed actions of a worker's turn
-and the brief and the follow-up of a wait's run as the server writes them, a claimed action the
-run's or the operator's where the server's reading draws the line, naming its writes, the finish
-decision's options and what each calls of pilot-store's `finish`, and copying
-the draft's prose into the handbook without its asks, a task's title the task alone and what it
-waits on a note, no file of the map refusing a wait, a work item's fields and brief in one rule
-file the skills starting work cite, the chat's cancel of an ask of Pilot's own by `cancel_ask`'s
-arguments, the chat's alone, and a replaced work item closed through `stop_work`'s `reason`, in
-that rule file, which the chat's correction and the plan's jobs cite."""
+the blocks a research's brief gives and its hand-on to the plan, making nothing, a notice, a card
+or a fieldnote of the stage session's debrief they carry, a card on it the one exception
+rules/stages.md makes to a stage's documents, whose brief says nothing of it, the plan skill naming
+each mode by its brief's kind line, reading the brief of an item done, the claimed actions of a
+worker's turn and the brief and the follow-up of a wait's run as the server writes them, a claimed
+action the run's or the operator's where the server's reading draws the line, naming its writes, the
+finish decision's options and what each calls of pilot-store's `finish`, and copying the draft's
+prose into the handbook without its asks, a task's title the task alone and what it waits on a note,
+no file of the map refusing a wait, a work item's fields and brief in one rule file the skills
+starting work cite, the chat's cancel of an ask of Pilot's own by `cancel_ask`'s arguments, the
+chat's alone, and a replaced work item closed through `stop_work`'s `reason`, in that rule file,
+which the chat's correction and the plan's jobs cite."""
 
 import importlib.util
 import itertools
@@ -158,6 +160,38 @@ WRITER_ANSWERED_LINES = (
     "`Asked <stamp> on <path> (<item id>):`",
     "`This pass asks nothing: …`",
 )
+# The stage session's debrief as BriefService writes it after the turn its loop completed in
+# (PilotApp's brief_service.py, `_debriefed`): its line, then its words, after what is attached and
+# before the claimed actions, and last in the brief after the writer answered.
+DEBRIEF_LINE = "`The stage session's debrief, as given:`"
+DEBRIEF_IN_THE_BRIEF = (
+    "the files attached on the work item; the stage session's debrief, where it gave one,"
+    f" {DEBRIEF_LINE} and its words on the lines after it; the claimed actions given",
+    "and last the stage session's debrief, where it gave one, in the lines The debrief reads",
+)
+# A brief without it, a Pilot's that carries no debrief among them, leaves the pass nothing to do;
+# and the debrief is no document, so nothing of it is answered, marked or written.
+DEBRIEF_ABSENT = "A brief without that line has none"
+DEBRIEF_NO_DOCUMENT = "The debrief is no document: it has no block, and nothing is answered"
+# What the pass makes of it (F52.4): nothing; a notice, only where the operator must know or do
+# something, ending with its suggestion (D142, D144); a card, none of a finding a stage's document
+# holds; or a fieldnote, one already there for the same friction fine.
+DEBRIEF_FATES = (
+    "- **Nothing**, where it holds nothing the operator must know or do and nothing to change.",
+    "- **A notice**, only where the operator must know or do something",
+    "and ending with what you suggest",
+    "- **A card**, for a change the debrief shows is needed",
+    "a close-out's among them, is that document's, its fate the stage's to carry out:"
+    " no card of it",
+    "- **A fieldnote**, for friction the debrief names in an environment or in tooling",
+    "one already there for the same friction, that one is fine",
+)
+# A stage's documents get no card and no fold of the pass's, the stage's continuation carrying out
+# their fates; a card on the stage session's debrief is the one exception; and the stage's brief
+# says nothing of its debrief or of notices.
+STAGE_DOCUMENTS_NO_CARD = "you make no card and fold nothing, or it is done twice"
+STAGE_DEBRIEF_CARD = "is no document of the stage's, and a card on it is yours: the one exception"
+STAGE_BRIEF_SILENT = "no list of what to register, and nothing on its debrief or on notices"
 # pilot-store's ask_writer as it takes its arguments (PilotApp's pilot_mcp/tools.py): the block's
 # id names its document.
 ASK_WRITER = "`ask_writer` with `block`, `<item id>/<local id>`, and `question`"
@@ -1055,6 +1089,31 @@ class PreRuleSkillTest(unittest.TestCase):
         for form in (*RESEARCHED_BLOCKS, *RESEARCH_ROUTED):
             with self.subTest(form):
                 self.assertIn(form, self.text)
+
+    def test_the_pass_reads_the_debrief_as_the_server_writes_it_or_finds_none(self) -> None:
+        lines = skill_file("pre-rule").read_text().splitlines()
+        self.assertEqual(lines.count("## The debrief"), 1)
+        for form in (*DEBRIEF_IN_THE_BRIEF, DEBRIEF_ABSENT, DEBRIEF_NO_DOCUMENT):
+            with self.subTest(form):
+                self.assertIn(form, self.text)
+
+    def test_the_pass_makes_nothing_a_notice_a_card_or_a_fieldnote_of_the_debrief(self) -> None:
+        for form in DEBRIEF_FATES:
+            with self.subTest(form):
+                self.assertIn(form, self.text)
+
+
+class StagesRuleTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.text = " ".join((ROOT / "rules" / "stages.md").read_text().split())
+
+    def test_a_card_on_the_debrief_is_the_one_exception_to_a_stage_s_documents(self) -> None:
+        for form in (STAGE_DOCUMENTS_NO_CARD, STAGE_DEBRIEF_CARD):
+            with self.subTest(form):
+                self.assertIn(form, self.text)
+
+    def test_the_stage_s_brief_says_nothing_of_its_debrief_or_of_notices(self) -> None:
+        self.assertIn(STAGE_BRIEF_SILENT, self.text)
 
 
 class OperatorReadsTest(unittest.TestCase):

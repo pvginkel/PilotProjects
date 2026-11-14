@@ -1,6 +1,6 @@
 ---
 name: pre-rule
-description: Pilot's pass over what a worker's turn registered — each document's open blocks routed by the routing rules, answered, deferred, claimed or asked of their writer by Pilot or left to the operator, in the order the brief lists them, a document Pilot settled whole marked Done; and the pass after the writer answered, asking nothing — then /plan for what is next. Run it when Pilot's brief opens with /pre-rule.
+description: Pilot's pass over what a worker's turn registered — each document's open blocks routed by the routing rules, answered, deferred, claimed or asked of their writer by Pilot or left to the operator, in the order the brief lists them, a document Pilot settled whole marked Done, the stage session's debrief, where the brief carries one, left or made a notice, a card or a fieldnote; and the pass after the writer answered, asking nothing — then /plan for what is next. Run it when Pilot's brief opens with /pre-rule.
 ---
 
 # Pre-rule
@@ -17,12 +17,15 @@ routes are yours: Pilot's server routes nothing.
    its task, its repository, its environment and session, its turn's end and its last line; then
    the documents the run registered, in the order registered, each
    `- <path> (<item id>) — published` or `- <path> (<item id>) — read failed: <reason>`, or
-   `Registered nothing this run.`; the files attached on the work item; the claimed actions given
-   to the work item, which are `/plan`'s; the blocks it researched, which are the pass's; the
-   plan's open notes by summary; and the deferrals without a home, which are `/plan`'s too.
+   `Registered nothing this run.`; the files attached on the work item; the stage session's
+   debrief, where it gave one, `The stage session's debrief, as given:` and its words on the lines
+   after it; the claimed actions given to the work item, which are `/plan`'s; the blocks it
+   researched, which are the pass's; the plan's open notes by summary; and the deferrals without a
+   home, which are `/plan`'s too.
 3. Pass over each published document, in the brief's order (The pass), then over the blocks the
-   work item researched (A researched block). A document whose read failed has no text: it is the
-   operator's to mark Reviewed, and the pass writes nothing of it.
+   work item researched (A researched block), then over the stage session's debrief, where the
+   brief carries one (The debrief). A document whose read failed has no text: it is the operator's
+   to mark Reviewed, and the pass writes nothing of it.
 4. End the pass with its one line (The summary line), then run `/plan`, its mode What is next, in
    this session, its arguments the brief as you got it.
 
@@ -163,6 +166,30 @@ researched blocks as well.
    or cancelled, or an earlier job of the run left it open: theirs; nothing is written.
 6. **Claimed since, or answered**: settled; leave it.
 
+## The debrief
+
+After the turn its loop completed in, a stage's brief carries the stage session's debrief after the
+files attached: the line `The stage session's debrief, as given:`, then its words, on how it feels
+the loop went. A brief without that line has none, a turn that ended on a hand-back among them, and
+the pass has nothing of it to do. The debrief is no document: it has no block, and nothing is
+answered, marked or written of it; the operator reads it on the done work item, behind its Debrief.
+
+Read it against the run — the work item's line, what it registered and your pass over that — then
+do with it what you do with the rest, one of these, or more where it holds more than one thing:
+
+- **Nothing**, where it holds nothing the operator must know or do and nothing to change.
+- **A notice**, only where the operator must know or do something: through `add_item`, quoting the
+  debrief's words it rests on, and ending with what you suggest. Never one that retells the
+  debrief or says the loop went well: the operator reads it behind the Debrief.
+- **A card**, for a change the debrief shows is needed, in the work's repository or in the
+  workflow: made through youtrack in your turn, in the project of what it is about, AIWorkflow's
+  own for the workflow, its text the debrief's words it rests on, quoted, and what is to change. A
+  finding a document of the stage holds already, a close-out's among them, is that document's, its
+  fate the stage's to carry out: no card of it (`rules/stages.md`).
+- **A fieldnote**, for friction the debrief names in an environment or in tooling, posted to
+  Fieldnotes as routing's friction half has it (`rules/routing.md`); where the post answers with
+  one already there for the same friction, that one is fine: react to it.
+
 ## The writer answered
 
 The job after the clarification run, which took a pass's questions to their writer: its kind line
@@ -171,11 +198,13 @@ The job after the clarification run, which took a pass's questions to their writ
 document asked about, `Asked <stamp> on <path> (<item id>):`, a question a line after its block's
 local id, then the writer's answer as the document records it: a line per block, or the reply
 whole, quoted, where it did not keep the asked headings, or none, where the run's turn ended with
-no text. What the run registered follows, as any run's, then `This pass asks nothing: …`.
+no text. What the run registered follows, as any run's, then `This pass asks nothing: …`, and
+last the stage session's debrief, where it gave one, in the lines The debrief reads.
 
 - **The pass** goes over each document asked about, in the brief's order, then each the run
   registered, as The pass has it.
 - **It asks nothing**: no `ask_writer`, which the server refuses here.
+- **The debrief**, where the brief carries one, after the documents, as The debrief has it.
 - **The writer's words**: a block you now route on them quotes them in its answer's note, so that
   the operator reads the ask and its reason together; a block still unclear is the operator's,
   with no edit, the clarification beside it on the document.
@@ -185,8 +214,9 @@ no text. What the run registered follows, as any run's, then `This pass asks not
 One line, a part per document in the brief's order, its path short — "Pre-ruled: inbox/7 Done (3
 settled, 1 deferred to t5); inbox/8 open for the operator (D2), A1 claimed for "Rotate the CI
 token", Q3 researched by "Count the hosts", D4 asked of its writer; inbox/9 not read; inbox/6 Q2
-answered on its research" — or "Pre-ruled: nothing registered". Then `/plan`, What is next
-(step 4).
+answered on its research" — or "Pre-ruled: nothing registered"; where the brief carries a
+debrief, a last part says what came of it: "the debrief: nothing", or the notice, the card by its
+id or the post. Then `/plan`, What is next (step 4).
 
 ## The brief
 

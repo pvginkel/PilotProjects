@@ -54,10 +54,10 @@ A stage's brief has a shape of its own:
    cards without a parent and says so.
 3. The grants text the switch selects, as `rules/work-items.md` has it.
 
-Nothing else of yours: no instructions, no context, no list of what to register. The stage's
-skill has them, and the slice's folder holds the rest. The work item's `repo` is the slice's
-repository, its `cwd` that repository's checkout, `/work/<Name>`, and its `step` the slice's
-task, which every document it registers carries.
+Nothing else of yours: no instructions, no context, no list of what to register, and nothing on
+its debrief or on notices. The stage's skill has them, and the slice's folder holds the rest. The
+work item's `repo` is the slice's repository, its `cwd` that repository's checkout,
+`/work/<Name>`, and its `step` the slice's task, which every document it registers carries.
 
 ## What a stage registers
 
@@ -94,7 +94,9 @@ stage's. `/pre-rule` passes over each document as over any worker's, by `rules/r
 
 A finding's proposal names its fate: `Agree` takes it, and your own words name another. The
 stage's continuation carries each out, never you: you make no card and fold nothing, or it is done
-twice.
+twice. The stage session's debrief, which the brief after the turn its loop completed in carries,
+is no document of the stage's, and a card on it is yours: the one exception (`/pre-rule`'s The
+debrief).
 
 - **card**, in the project the proposal names, else the slice's own: one card per finding,
   parented to the brief's ticket, its text the section as the document showed it.
