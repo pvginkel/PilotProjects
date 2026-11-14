@@ -212,8 +212,8 @@ def _is_wait(item: dict[str, Any]) -> bool:
 
 def _wait_parts(item: dict[str, Any]) -> list[str]:
     """A wait's part of its line: what it watches or when it is due, its
-    firings counted, those no run has taken yet among them while it is open,
-    and its note once marked, on one line."""
+    firings counted, and those no run has taken yet among them while it is
+    open."""
     if "due_at" in item:
         parts = [f"due {item['due_at']}"]
     else:
@@ -224,10 +224,13 @@ def _wait_parts(item: dict[str, Any]) -> list[str]:
     if item["done"] is None and pending:
         count += f", {pending} pending"
     parts.append(count)
-    note = None if item["done"] is None else item["done"]["note"]
-    if note is not None:
-        parts.append(f"note: {' '.join(note.split())}")
     return parts
+
+
+def _note(item: dict[str, Any]) -> str | None:
+    """The words a done item's close holds: a wait's, its `mark`'s, and a
+    work item's, Pilot's reason for closing it for good; None on any other."""
+    return None if item["done"] is None else item["done"].get("note")
 
 
 def _firing_line(item: dict[str, Any], firing: dict[str, Any]) -> str:
@@ -268,6 +271,9 @@ def _item_line(item: dict[str, Any]) -> str:
         parts.append("urgent")
     if _is_wait(item):
         parts.extend(_wait_parts(item))
+    note = _note(item)
+    if note is not None:
+        parts.append(f"note: {' '.join(note.split())}")
     parts.append(item["path"] or "no document")
     parts.append(item["id"])
     return " · ".join(parts)
@@ -306,11 +312,11 @@ def _items_show(project: Project, args: argparse.Namespace) -> int:
     if _is_wait(item):
         for firing in item["firings"]:
             print(_firing_line(item, firing))
-        note = None if item["done"] is None else item["done"]["note"]
-        if note is not None and note != " ".join(note.split()):
-            print("note:")
-            for line in note.splitlines():
-                print(f"    {line}")
+    note = _note(item)
+    if note is not None and note != " ".join(note.split()):
+        print("note:")
+        for line in note.splitlines():
+            print(f"    {line}")
     document = _parsed(project, item)
     if item["path"] is not None and document is None:
         print(f"its document {item['path']} is not on disk")

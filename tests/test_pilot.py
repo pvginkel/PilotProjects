@@ -455,6 +455,46 @@ class TestItems(PilotCase):
             "    Started t3's card view.\n",
         )
 
+    def test_a_work_item_pilot_closed_reads_its_reason_on_its_line_and_whole_in_show(
+        self,
+    ) -> None:
+        """Pilot's reason for closing a work item for good is its note, read
+        as a wait's is; a work item a person closed has none."""
+        timeline_path = self.folder / "timeline.json"
+        timeline = json.loads(timeline_path.read_text())
+        work = next(item for item in timeline["items"] if item["id"] == IMPORTER)
+        work["done"] = {
+            "at": "2026-10-17T11:00:00Z",
+            "cause": "cancelled",
+            "by": "agent",
+            "note": "Replaced by the card view.\nThe importer is t3's now.",
+        }
+        timeline_path.write_text(json.dumps(timeline, indent=2) + "\n")
+
+        completed = self.pilot("items", "show", IMPORTER)
+
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual(
+            completed.stdout,
+            "5 · work · Write the importer · done 2026-10-17T11:00:00Z (cancelled by agent)"
+            " · step t2 · note: Replaced by the card view. The importer is t3's now."
+            f" · no document · {IMPORTER}\n"
+            "note:\n"
+            "    Replaced by the card view.\n"
+            "    The importer is t3's now.\n",
+        )
+
+        work["done"] |= {"by": "dana", "note": None}
+        timeline_path.write_text(json.dumps(timeline, indent=2) + "\n")
+        completed = self.pilot("items", "list")
+
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertIn(
+            "5 · work · Write the importer · done 2026-10-17T11:00:00Z (cancelled by dana)"
+            f" · step t2 · no document · {IMPORTER}\n",
+            completed.stdout,
+        )
+
     def test_a_wait_done_by_finish_has_no_note(self) -> None:
         timeline_path = self.folder / "timeline.json"
         timeline = json.loads(timeline_path.read_text())
