@@ -54,6 +54,10 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
   replace with another, its task changed by a ruling or its brief outdated, is closed for good
   with it, never left stopped beside it: `stop_work` with `reason`, as `rules/work-items.md`'s A
   work item replaced has it.
+- **An action of yours a work item does**, an open action of an item you added that you hand to a
+  work item, one you put to the operator among them, is claimed on that work item's `add_item`,
+  as `rules/routing.md`'s An action of an item of yours has it, so that its `done` after the
+  work's turn closes the item and it leaves the operator's queue (An action of Pilot's done).
 - **The bounded check** before an ask you are about to put — a decision, a confirmation, the
   finish decision — where a survey, an isolated test or a read could change its recommendation:
   a sub-agent or a fleet read first, with the premise, the check, how each result moves the
@@ -168,8 +172,9 @@ them after the files attached, under "The claimed actions given to this work ite
 stand:", a line each, `- <path> (<item id>) <local id>` followed by `open, claimed`, by
 `open, claimed, handed back to the operator: leave it to them`, by `open, its claim gone`, or by
 its close as it reads — a person's Done meanwhile, which is theirs and leaves you nothing to
-write. After the turn of the work item that continues its run, the brief names the run's claimed
-actions as well, the work going on in its conversation. A claimed action stays the run's until
+write. Its path is a worker's document's, in `inbox/`, or an item of yours, in `items/`. After
+the turn of the work item that continues its run, the brief names the run's claimed actions as
+well, the work going on in its conversation. A claimed action stays the run's until
 the job after a turn of it that registered no document with a block in it ends (never a
 clarification run's turn, which registers nothing), or its work fails or is stopped, or a person
 cancels the run: Pilot's server reads that, and nothing you write hands one over.
@@ -177,11 +182,14 @@ cancels the run: Pilot's server reads that, and nothing you write hands one over
 1. **What the work did**, read from its turn's last line, what it registered and, where those do
    not say, its session log (`get_session_log`).
 2. **Done**, each open one the work did:
-   `pilot.py done <file> <block id> --note <what was done and what was seen>`, the paste-back the
-   worker reads when it resumes. Then the document is marked Done where that was its last open
+   `pilot.py done <file> <block id> --note <what was done and what was seen>`, the paste-back: on
+   a worker's document what the worker reads when it resumes, on an item of yours what the
+   operator reads of it. Then a worker's document is marked Done where that was its last open
    block, every other one answered, deferred or done: `mark`, `item` the document's id, `mark`
    `done`, and no `for`, once the report after your last write of it names no line of its path.
-   Its write-back and the worker's continuation are the server's.
+   Its write-back and the worker's continuation are the server's. An item of yours takes no
+   `mark`: the `done` of its last open block is its close, with no undo, and it leaves the
+   operator's queue (In every mode).
 3. **Still the run's**, its act refused or never reached in a turn that registered a document
    with a block in it, which the run waits on: the claim stays and nothing is written, no note,
    retry or hand-over, the run going on once they close as a work item titled as it (What is

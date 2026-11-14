@@ -1,11 +1,13 @@
 # Routing
 
 Where an open block goes when Pilot pre-rules what a worker registered, and what each route
-writes. The route is Pilot's own choice: the operator gets a block only where it has impact now
-and is theirs. An answer of Pilot's is `by: agent`, its note saying why in words that stand alone,
-since the block's collapsed line is the operator's first read of it: at most two sentences, the
-choice and its one reason, with no "Checked:" and no bare ids (the operator, 2026-11-04). What the
-grants allow is `rules/grants.md`'s; which column holds, the brief's switch line.
+writes; the claim route also takes an open action of an item of Pilot's own that a work item does
+(An action of an item of yours). The route is Pilot's own choice: the operator gets a block only
+where it has impact now and is theirs. An answer of Pilot's is `by: agent`, its note saying why
+in words that stand alone, since the block's collapsed line is the operator's first read of it: at
+most two sentences, the choice and its one reason, with no "Checked:" and no bare ids (the
+operator, 2026-11-04). What the grants allow is `rules/grants.md`'s; which column holds, the
+brief's switch line.
 
 ## The routes
 
@@ -23,6 +25,20 @@ grants allow is `rules/grants.md`'s; which column holds, the brief's switch line
 | an owed action waiting on an event — "re-run the import once the operator has restored the backup" | a wait through `add_item`, armed on a fresh read of the card it watches, and a timed wait beside it as a backstop where it outlives the plan's horizon, its `step` the same task and its title `Backstop: <the card wait's title>`; a note on the task the action belongs to; the block answered naming the wait. |
 | a block Pilot cannot read — what it asks, which option the writer means, what a thing it names is — and the record does not answer | asked of its writer, once: `ask_writer` with `block`, `<item id>/<local id>`, and `question`, one question per block. |
 | anything with impact now and the operator's | left to the operator, with no edit. |
+
+## An action of an item of yours
+
+An open action of an item you added, in `items/`, that a work item does — one you put to the
+operator and find a work item can do under the grants, or one a person hands to a worker in the
+chat — is claimed as a worker's document's is: the block named in `claims` on the `add_item` of
+the work item that does it, added in the same turn, then `pilot.py answer` with
+`--value "Pilot does it"`, the note naming that work item in words. It stays open and Pilot's
+through that work's run, and the job after the work's turn writes its `done` (`/plan`'s An action
+of Pilot's done). Where that was the item's last open block, its `done` is the item's close, with
+no `mark` after it and no undo, so that the item leaves the operator's queue once the work has done
+it; a work item that does it unclaimed leaves it open there. An act the run leaves undone is the
+operator's again, as a worker's document's is. An action a person answered or did is theirs, and
+`researches` names a worker's document's blocks alone.
 
 ## Due diligence
 

@@ -11,9 +11,10 @@ its database. The app is `pvginkel/PilotApp`.
   `pre-rule` and `plan`, each with its frontmatter, its first step, the rule files it applies, and
   the brief's slot, `## The brief`, last. Between them, `chat`'s body is the project's chat's
   procedure on Pilot's `pilot-store` tools and the brief the server composes, a ruling it records
-  on an item of Pilot's own carried out in its own turn, with no job after it, an ask of Pilot's
-  own called off through `cancel_ask` for the person who says it is obsolete, a work item a
-  correction replaces closed through `stop_work` with its reason, `create`'s the
+  on an item of Pilot's own carried out in its own turn, with no job after it, an action of one
+  the person hands to a worker claimed for that work item, an ask of Pilot's own called off
+  through `cancel_ask` for the person who says it is obsolete, a work item a correction replaces
+  closed through `stop_work` with its reason, `create`'s the
   definition chat's, which writes the draft with the person, `pre-rule`'s the pass over what a
   worker's turn registered, each open block routed by `rules/routing.md`, its writer asked, an
   action claimed or a fact researched for it where the routes say so, a close-out's promotion
@@ -21,8 +22,9 @@ its database. The app is `pvginkel/PilotApp`.
   what its work found, the stage session's debrief, where the brief carries one, left or made a
   notice, a card or a fieldnote, and the pass after the writer answered, which asks
   nothing, and `plan`'s the plan's upkeep in its modes: the setup, the first job at Create project;
-  an action of Pilot's done, the `done` of a claimed action after a turn of its run, one Pilot's
-  server hands back left to the operator; what is
+  an action of Pilot's done, the `done` of a claimed action after a turn of its run, of a worker's
+  document or of an item of Pilot's own, which that `done` closes on its last open block, one
+  Pilot's server hands back left to the operator; what is
   next after the pass and after a person closes an item of Pilot's own in the app, every task that
   can start started, a close-out's deferred promotion once the run's continuation has ended; a
   wait's firings, each judged on the card read again, the wait closed through `mark` with its note
@@ -30,10 +32,11 @@ its database. The app is `pvginkel/PilotApp`.
   together; the sweep; and the finish decision, whose Finish and archive calls `finish` with
   `archive`.
 - `rules/`: the rules the skills apply, each file the one home of its own — `grants.md` (what goes
-  ahead and what asks the operator first), `routing.md` (where an open block goes),
-  `work-items.md` (a work item's fields and its brief, and the close of one replaced),
-  `placement.md` (a work item's repository, model and effort), `stages.md` (the workflow's stages
-  from Pilot) and `promote.md` (a promotion's procedure, which its brief carries).
+  ahead and what asks the operator first), `routing.md` (where an open block goes, an action of an
+  item of Pilot's own that a work item does among them), `work-items.md` (a work item's fields and
+  its brief, and the close of one replaced), `placement.md` (a work item's repository, model and
+  effort), `stages.md` (the workflow's stages from Pilot) and `promote.md` (a promotion's
+  procedure, which its brief carries).
 - `.kubecoder/config.yaml`: the environment, with the `pilot-sync` service, which keeps
   `/work/Projects` in step with the record, and the catalog's `python` toolchain.
 - `.claude/settings.json` and `.claude/hooks/pilot-sync-lock.py`: the hook that takes the
@@ -73,7 +76,9 @@ The dev image has no uv, so everything runs in the `python` tool container, from
   takes, the grants naming the confirmation reasons of the fixtures' `reference.json`, the brief
   lines and the `ask_writer` and `add_item` calls the pre-rule and plan skills quote as the server
   writes and takes them, what the pass may make of the stage session's debrief, a card on it the
-  one exception `rules/stages.md` makes to a stage's documents, `cancel_ask` by its arguments in
+  one exception `rules/stages.md` makes to a stage's documents, an action of an item of Pilot's own
+  that a work item does claimed by `rules/routing.md`'s one section, which `CLAUDE.md` and the chat
+  and plan skills cite, its `done` the item's close, `cancel_ask` by its arguments in
   `CLAUDE.md` and the chat skill and nowhere else, `stop_work`'s `reason` in `CLAUDE.md`, and a
   work item's fields, its brief and the close of one replaced in `rules/work-items.md` alone,
   which the chat and plan skills cite.

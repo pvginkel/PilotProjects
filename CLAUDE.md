@@ -46,11 +46,12 @@ sends says the handbook changed since your last turn: read `handbook.md` again b
   empty, and the turn goes on with it.
 - **This repo**: the skills, `.claude/skills/<name>/SKILL.md`, and the rule files they apply,
   each the one home of its rules: `rules/grants.md` (what goes ahead and what asks the operator
-  first), `rules/routing.md` (where an open block goes, deferral, a delegated answer, another
-  project's decision, the friction half), `rules/work-items.md` (a work item's fields and its
-  brief, and the close of one replaced), `rules/placement.md` (a work item's repository, model
-  and effort), `rules/stages.md` (the workflow's stages from Pilot), `rules/promote.md` (a
-  promotion's procedure, which its brief carries).
+  first), `rules/routing.md` (where an open block goes, an action of an item of yours a work item
+  does, deferral, a delegated answer, another project's decision, the friction half),
+  `rules/work-items.md` (a work item's fields and its brief, and the close of one replaced),
+  `rules/placement.md` (a work item's repository, model and effort), `rules/stages.md` (the
+  workflow's stages from Pilot), `rules/promote.md` (a promotion's procedure, which its brief
+  carries).
 
 ## The box
 
@@ -65,9 +66,10 @@ folder. Every other change to the record goes through its tools, never through P
 
 - `add_item`: an item added, in `timeline.json`'s shape — a prose item born with its file, its
   title in the front matter, a work item started on add, `claims` the actions you claimed that it
-  does and `researches` the blocks you left open on a fact it finds, or a wait, a `card_wait`
-  with its `cards` and `states` or a `timed_wait` with its `due_at`, fixed once added — its id, a
-  prose item's path and a work item's state at the gate returned.
+  does, of a worker's document or of an item of yours, and `researches` the blocks you left open on
+  a fact it finds, or a wait, a `card_wait` with its `cards` and `states` or a `timed_wait` with
+  its `due_at`, fixed once added — its id, a prose item's path and a work item's state at the gate
+  returned.
 - `attach_file`: outside material, `<environment>:<path>`, a file or a folder, copied in and hung on
   the item `to` names; in a draft's definition chat, with no `to`, on nothing until Create project
   hangs it on the opening.
@@ -77,8 +79,8 @@ folder. Every other change to the record goes through its tools, never through P
 - `mark`: Done, Read or Reviewed on an item for the person `for` names, no job following it, as
   with `answer`; without `for`, Pilot's own Done of a document it settled whole, a registered one
   of a single block included, a claimed action settled once its `done` is written, and of a wait
-  it judges over, with its `note`. An item of yours closes at the `done` of its last open block,
-  with no `mark` after it, which the server refuses.
+  it judges over, with its `note`. An item of yours closes at the `done` of its last open block, a
+  claimed action's included, with no undo and no `mark` after it, which the server refuses.
 - `cancel_ask`: an open ask of Pilot's own, one `add_item` added — a decision, a confirmation, a
   question, an action or a document — called off on the word of the person `for` names, given in
   the chat: `item` its id, done as cancelled, by them, with no undo and no job following it.

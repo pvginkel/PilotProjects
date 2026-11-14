@@ -11,8 +11,10 @@ or a fieldnote of the stage session's debrief they carry, a card on it the one e
 rules/stages.md makes to a stage's documents, whose brief says nothing of it, the plan skill naming
 each mode by its brief's kind line, reading the brief of an item done, the claimed actions of a
 worker's turn and the brief and the follow-up of a wait's run as the server writes them, a claimed
-action the run's or the operator's where the server's reading draws the line, naming its writes, the
-finish decision's options and what each calls of pilot-store's `finish`, and copying the draft's
+action the run's or the operator's where the server's reading draws the line, an open action of an
+item of Pilot's own that a work item does claimed by the routing rule's one section, which
+CLAUDE.md, the chat and the plan cite, its done the item's close with no mark, naming its writes,
+the finish decision's options and what each calls of pilot-store's `finish`, and copying the draft's
 prose into the handbook without its asks, a task's title the task alone and what it waits on a note,
 no file of the map refusing a wait, a work item's fields and brief in one rule file the skills
 starting work cite, the chat's cancel of an ask of Pilot's own by `cancel_ask`'s arguments, the
@@ -245,6 +247,60 @@ OWN_ITEM_CLOSED = (
     "An answer of yours closes nothing",
     "A registered document is a worker's, not yours: its last `done` still takes your own `mark`"
     " with no `for`",
+)
+# An open action of an item of Pilot's own that a work item does takes the claim route (PilotApp's
+# RecordService.claimable, widened by its slice 046's D4): named in `claims`, then the claim, and
+# its `done` after the work's turn the item's close on its last open block, with no `mark` and no
+# undo (RecordService.done_by_its_save), so that the item leaves the operator's queue. The routing
+# rule's section is its one home, which the rule's head names and CLAUDE.md, the chat and the plan
+# cite; a research stays on a worker's document.
+OWN_ACTION_SECTION = "## An action of an item of yours"
+OWN_ACTION_SCOPE = (
+    "the claim route also takes an open action of an item of Pilot's own that a work item does"
+    " (An action of an item of yours)"
+)
+OWN_ACTION_RULE = (
+    "An open action of an item you added, in `items/`, that a work item does",
+    "is claimed as a worker's document's is: the block named in `claims` on the `add_item` of the"
+    ' work item that does it, added in the same turn, then `pilot.py answer` with `--value "Pilot'
+    ' does it"`, the note naming that work item in words',
+    "the job after the work's turn writes its `done` (`/plan`'s An action of Pilot's done)",
+    "Where that was the item's last open block, its `done` is the item's close, with no `mark`"
+    " after it and no undo, so that the item leaves the operator's queue once the work has done it",
+    "a work item that does it unclaimed leaves it open there",
+    "An act the run leaves undone is the operator's again",
+    "`researches` names a worker's document's blocks alone",
+)
+# The rule's head while it routed what a worker registered alone.
+OWN_ACTION_SCOPE_RETIRED = "and what each route writes. The route is"
+OWN_ACTION_CITED = "as `rules/routing.md`'s An action of an item of yours has it"
+OWN_ACTION_CITING_SKILLS = ("chat", "plan")
+OWN_ACTION_IN_CLAUDE = (
+    "`rules/routing.md` (where an open block goes, an action of an item of yours a work item does,",
+    "`claims` the actions you claimed that it does, of a worker's document or of an item of yours,",
+    "An item of yours closes at the `done` of its last open block, a claimed action's included,"
+    " with no undo and no `mark` after it, which the server refuses.",
+)
+# After the work's turn, the plan writes the `done` and marks a worker's document Done; an item of
+# its own takes no `mark`, its `done` its close.
+OWN_ACTION_DONE = (
+    "Its path is a worker's document's, in `inbox/`, or an item of yours, in `items/`.",
+    "Then a worker's document is marked Done where that was its last open block",
+    "An item of yours takes no `mark`: the `done` of its last open block is its close, with no"
+    " undo, and it leaves the operator's queue",
+)
+# The plan's every mode and the chat's work claim it on the work item's add_item.
+OWN_ACTION_BY_A_JOB = (
+    "- **An action of yours a work item does**, an open action of an item you added that you hand"
+    " to a work item, one you put to the operator among them, is claimed on that work item's"
+    " `add_item`"
+)
+OWN_ACTION_BY_THE_CHAT = (
+    "Work that does an open action of an item of Pilot's own, one the person hands to a worker,"
+    " claims it on its `add_item`",
+    CLAIM_NAMED.removeprefix("its "),
+    "the claim of an action of an item of Pilot's own that a work item does (`pilot.py answer`,"
+    " Acting)",
 )
 # The modes' writes past the setup: a task's status, a note struck, a homeless deferral's note, and
 # pilot-store's `finish` on the finish decision's Finish.
@@ -1146,6 +1202,49 @@ class OperatorReadsTest(unittest.TestCase):
         self.assertIn(NOTICE_SUGGESTS, " ".join(skill_file("pre-rule").read_text().split()))
 
 
+class OwnActionClaimTest(unittest.TestCase):
+    def test_routing_claims_an_open_action_of_an_item_of_pilot_s_own_that_a_work_item_does(
+        self,
+    ) -> None:
+        text = (ROOT / "rules" / "routing.md").read_text()
+        self.assertEqual(text.splitlines().count(OWN_ACTION_SECTION), 1)
+        _, _, rest = text.partition(f"\n{OWN_ACTION_SECTION}\n")
+        section, _, _ = rest.partition("\n## ")
+        section = " ".join(section.split())
+        for form in OWN_ACTION_RULE:
+            with self.subTest(form):
+                self.assertIn(form, section)
+        text = " ".join(text.split())
+        self.assertIn(OWN_ACTION_SCOPE, text)
+        self.assertNotIn(OWN_ACTION_SCOPE_RETIRED, text)
+
+    def test_claude_md_names_it_among_the_claims_and_its_done_as_the_item_s_close(self) -> None:
+        text = " ".join(CLAUDE.read_text().split())
+        for form in OWN_ACTION_IN_CLAUDE:
+            with self.subTest(form):
+                self.assertIn(form, text)
+
+    def test_the_chat_and_the_plan_claim_it_by_the_rule(self) -> None:
+        for name in OWN_ACTION_CITING_SKILLS:
+            with self.subTest(name):
+                self.assertIn(OWN_ACTION_CITED, " ".join(skill_file(name).read_text().split()))
+        _, _, rest = skill_file("plan").read_text().partition("\n## In every mode\n")
+        every_mode, _, _ = rest.partition("\n## ")
+        self.assertIn(OWN_ACTION_BY_A_JOB, " ".join(every_mode.split()))
+        chat = " ".join(skill_file("chat").read_text().split())
+        for form in OWN_ACTION_BY_THE_CHAT:
+            with self.subTest(form):
+                self.assertIn(form, chat)
+
+    def test_an_action_of_pilot_s_done_closes_an_item_of_its_own_with_no_mark(self) -> None:
+        _, _, rest = skill_file("plan").read_text().partition("\n## An action of Pilot's done\n")
+        mode, _, _ = rest.partition("\n## ")
+        text = " ".join(mode.split())
+        for form in OWN_ACTION_DONE:
+            with self.subTest(form):
+                self.assertIn(form, text)
+
+
 class ResearchTest(unittest.TestCase):
     def test_the_map_names_a_researched_block_in_researches_on_add_item(self) -> None:
         for source, form in RESEARCH_NAMED.items():
@@ -1240,7 +1339,12 @@ class CitationsTest(unittest.TestCase):
 
     def test_the_claim_is_quoted_with_the_value_pilot_py_reads_as_one(self) -> None:
         value = f'--value "{pilot_module().CLAIM}"'
-        for path in (skill_file("pre-rule"), skill_file("plan"), ROOT / "rules" / "routing.md"):
+        for path in (
+            skill_file("pre-rule"),
+            skill_file("plan"),
+            skill_file("chat"),
+            ROOT / "rules" / "routing.md",
+        ):
             with self.subTest(path.relative_to(ROOT)):
                 self.assertIn(value, " ".join(path.read_text().split()))
 

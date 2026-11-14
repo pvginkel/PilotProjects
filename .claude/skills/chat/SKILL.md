@@ -108,7 +108,11 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
 ## Acting
 
 - **Work the person asks for** is a work item, its fields and its brief as `rules/work-items.md`
-  has them.
+  has them. Work that does an open action of an item of Pilot's own, one the person hands to a
+  worker, claims it on its `add_item`, as `rules/routing.md`'s An action of an item of yours has
+  it: `claims` the block's id, `<item id>/<local id>`, then
+  `pilot.py answer <file> <block id> --value "Pilot does it" --note <its work item>`, so that the
+  `done` the job after the work's turn writes closes the item.
 - **A new slice the person asks for**, a change to a repository onboarded to the workflow, is
   taken as the definition chat takes one (`/create`'s A slice of the workflow): the asks in their
   own words, quoted and attributed, a card's text as youtrack reads it; the standing decisions
@@ -211,7 +215,8 @@ The draft is the definition chat's, `/create`'s: `project.md` is not rewritten h
 opening — the words that started the project — is never discussed as changeable. By hand the chat
 writes only `handbook.md`, `plan.json` — through `pilot.py` where a verb exists — and the file of
 an item it added, at the `path` `add_item` answered. On any item's file it writes, through
-`pilot.py`, a delegated answer (`pilot.py answer`, Recording) and the `done` of an action of an
+`pilot.py`, a delegated answer (`pilot.py answer`, Recording), the claim of an action of an item
+of Pilot's own that a work item does (`pilot.py answer`, Acting) and the `done` of an action of an
 item of Pilot's own (`pilot.py done`, Acting).
 
 ## The brief
