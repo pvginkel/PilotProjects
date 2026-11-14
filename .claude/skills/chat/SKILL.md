@@ -141,8 +141,9 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
   `pilot.py done <file> <block id> --note <what was done and what was seen>`, which is the item's
   close where it was its last open block, with no `mark` after it.
 - **A ruling you need** that has impact, past these, is a decision item, and the reply says you
-  added it. Past an offer of either kind, the chat asks no closed question of its own: an ask is
-  an item.
+  added it. Past an offer of either kind, or of calling off an ask you find obsolete yourself
+  (Recording's An ask the person calls off), the chat asks no closed question of its own: an ask
+  is an item.
 - **A wait** the person asks for, a card to watch or a time to come back at: `add_item` with
   `kind` `card_wait` or `timed_wait`, armed as `rules/routing.md` has it, on a fresh read through
   youtrack of the card it watches.

@@ -108,7 +108,8 @@ OFFERED_ANSWER = (
     "**Asked about an open block**, lead with a short answer, then offer the answer you would"
     " record: its option and its note",
     "you do in this turn where the person asked for it, or offer in the reply: never an ask item",
-    "Past an offer of either kind, the chat asks no closed question of its own",
+    "Past an offer of either kind, or of calling off an ask you find obsolete yourself"
+    " (Recording's An ask the person calls off), the chat asks no closed question of its own",
 )
 OFFERED_ANSWER_RETIRED = "you added it. The chat asks no closed question"
 # In a draft's definition chat the server's quotes are of the draft alone — an ask of it by
