@@ -309,6 +309,20 @@ STAGE_DEBRIEF_CARD = (
     " (`rules/routing.md`'s The `Later` card)",
 )
 STAGE_BRIEF_SILENT = "no list of what to register, and nothing on its debrief or on notices"
+# A hand-over to another project in a stage's document is the answer's card fate naming it, and the
+# stage's continuation makes the card (consolidation review R4.3's hand-over, the operator's "The
+# stage", 2026-11-15).
+HAND_OVER_IN_A_STAGE = (
+    "In a stage's document the stage makes it: the hand-over is the answer's `card` fate naming the"
+    " other project, and the stage's continuation makes the card, carrying the section's text, marked"
+    " chosen by Pilot where Pilot chose (`rules/stages.md`'s A fate in a stage's document; the"
+    ' operator, 2026-11-15: "The stage", to "Pilot answers with the card fate, the continuation'
+    ' makes the card").'
+)
+HAND_OVER_CARD_FATE = (
+    "- **card**, in the project the proposal or your answer names — a hand-over to another project"
+    " among them (`rules/routing.md`'s Another project's decision) — else the slice's own"
+)
 # Taking a slice: triage's rules for a slice, the definition chat's and the project's chat's alike,
 # in the stages' rule file, which both chats cite, create keeping the draft's part, the chat its
 # items, its three tasks and a note for the slices it must follow.
@@ -2085,6 +2099,14 @@ class StagesRuleTest(unittest.TestCase):
         for form in DATABASE_CORRECTION_ROUTED:
             with self.subTest(form):
                 self.assertIn(form, routing)
+
+    def test_a_hand_over_in_a_stage_s_document_is_the_card_fate_the_stage_makes(self) -> None:
+        self.assertIn(HAND_OVER_CARD_FATE, self.text)
+        _, _, rest = (ROOT / "rules" / "routing.md").read_text().partition(
+            "\n## Another project's decision\n"
+        )
+        section, _, _ = rest.partition("\n## ")
+        self.assertIn(HAND_OVER_IN_A_STAGE, " ".join(section.split()))
 
     def test_the_stage_s_brief_says_nothing_of_its_debrief_or_of_notices(self) -> None:
         self.assertIn(STAGE_BRIEF_SILENT, self.text)

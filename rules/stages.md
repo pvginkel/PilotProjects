@@ -138,8 +138,9 @@ turn its loop completed in carries, is no document of the stage's, and a card on
 (`/pre-rule`'s The debrief); and a finding you defer to the project's end takes its `Later` card,
 yours too (`rules/routing.md`'s The `Later` card).
 
-- **card**, in the project the proposal names, else the slice's own: one card per finding,
-  parented to the brief's ticket, its text the section as the document showed it.
+- **card**, in the project the proposal or your answer names — a hand-over to another project
+  among them (`rules/routing.md`'s Another project's decision) — else the slice's own: one card per
+  finding, parented to the brief's ticket, its text the section as the document showed it.
 - **fold into <NNN>**: the finding added as an ask to that slice's record, a slice not yet
   planned; one planned or running refuses it.
 - **fix now**: made in the stage's fixes pass, once your answers are in: the run's wrap-up makes

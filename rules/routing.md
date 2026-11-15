@@ -183,7 +183,11 @@ A decision is never deferred into another project: it is this project's, decided
 through a deferral within the plan, and its ruling may produce work elsewhere — a task card in the
 other project, in the operator's words, marked delegated where it was. A choice wholly another
 project's is answered with the hand-over: a task card in that project, in the operator's words,
-named in the answer's note, marked delegated where it was.
+named in the answer's note, marked delegated where it was. In a stage's document the stage makes
+it: the hand-over is the answer's `card` fate naming the other project, and the stage's
+continuation makes the card, carrying the section's text, marked chosen by Pilot where Pilot chose
+(`rules/stages.md`'s A fate in a stage's document; the operator, 2026-11-15: "The stage", to
+"Pilot answers with the card fate, the continuation makes the card").
 
 ## The friction half
 
