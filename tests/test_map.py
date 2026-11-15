@@ -85,7 +85,7 @@ LOG_NOT_FOR_HOW_WORK_GOES = "A session's log is never read to tell how work goes
 # places no item_done job for a close through the chat (item 173).
 RULING_ACTS = (
     "its act, every act it covered — a work item, or your own hands where it is a tool call: a"
-    " card, a fleet call",
+    " fleet call;",
     "its reason read and the plan adjusted",
     "the plan's next step on it — a task started, changed, added or removed as it rules",
 )
@@ -224,6 +224,19 @@ COMMENT_GRANT = (
     "yours to read with, and to make a card, comment on an open card or close one, make a fleet call"
     " or post to Fieldnotes, where a rule says so"
 )
+# Pilot's own acts on the tracker and on Fieldnotes are never asked, a fleet call keeping its act's
+# column, so no confirmation covers a card (consolidation review R1.2, the operator's "Never
+# asked", 2026-11-15).
+TRACKER_NEVER_ASKED = (
+    "- Pilot's own acts on the tracker and on Fieldnotes: a card made, a comment on one, a card's"
+    ' close and a Fieldnotes post (the operator, 2026-11-15: "Never asked", to "The tracker and'
+    ' Fieldnotes acts join the never-asked list"). A fleet call keeps the column its act falls in.'
+)
+TRACKER_DONE_AT_ONCE = (
+    "where Pilot's own hands do it in the pass — a card, never asked (`rules/grants.md`), or a fleet"
+    " call its column lets go. |"
+)
+TRACKER_CONFIRMED_RETIRED = "a tool call: a card, a fleet call"
 # A stage's documents get no card and no fold of the pass's, the stage's continuation carrying out
 # their fates; a card on the stage session's debrief is the one exception; and the stage's brief
 # says nothing of its debrief or of notices.
@@ -1725,6 +1738,16 @@ class PlacementRuleTest(unittest.TestCase):
         for form in INFRA_PLACED:
             with self.subTest(form):
                 self.assertIn(form, placement)
+
+    def test_pilot_s_tracker_and_fieldnotes_acts_are_never_asked(self) -> None:
+        grants = (ROOT / "rules" / "grants.md").read_text()
+        never, _, _ = grants.partition("**Granted**")
+        self.assertIn(TRACKER_NEVER_ASKED, " ".join(never.split()))
+        routing = " ".join((ROOT / "rules" / "routing.md").read_text().split())
+        self.assertIn(TRACKER_DONE_AT_ONCE, routing)
+        for source, text in the_map().items():
+            with self.subTest(source):
+                self.assertNotIn(TRACKER_CONFIRMED_RETIRED, " ".join(text.split()))
 
     def test_the_grants_name_their_lists_and_placement_scopes_the_handbook(self) -> None:
         grants = " ".join((ROOT / "rules" / "grants.md").read_text().split())

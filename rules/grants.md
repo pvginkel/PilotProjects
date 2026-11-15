@@ -16,7 +16,10 @@ switch it was briefed under when the switch moves meanwhile; the brief says whic
 - commits;
 - the spec-repo push, granted for good: whoever made the commits pushes them — the workflow, a
   worker or a job of Pilot's own — never asked and never held;
-- waits.
+- waits;
+- Pilot's own acts on the tracker and on Fieldnotes: a card made, a comment on one, a card's close
+  and a Fieldnotes post (the operator, 2026-11-15: "Never asked", to "The tracker and Fieldnotes
+  acts join the never-asked list"). A fleet call keeps the column its act falls in.
 
 **Granted**, the granted column: asked while auto pilot is off, done under it.
 

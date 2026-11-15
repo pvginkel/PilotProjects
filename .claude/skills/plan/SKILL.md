@@ -161,8 +161,8 @@ The brief's item line names the item of yours a person closed and how —
 line per block after it; the file holds the prose. Act on the close, then What is next:
 
 - **A confirmation's Yes**: its act, every act it covered — a work item, or your own hands where it
-  is a tool call: a card, a fleet call; a worker's block it names, a held push above all, claimed on
-  that work item's `add_item` (`rules/routing.md`'s The claim).
+  is a tool call: a fleet call; a worker's block it names, a held push above all, claimed on that
+  work item's `add_item` (`rules/routing.md`'s The claim).
 - **A No**: its reason read and the plan adjusted; the person told through an item only where
   something else now waits on them.
 - **A decision's or a question's answer**: the plan's next step on it — a task started, changed,
