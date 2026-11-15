@@ -223,7 +223,7 @@ def _item(
 def _block_of(
     project: Project, items: list[dict[str, Any]], ref: str
 ) -> tuple[dict[str, Any], dsl.ParsedDocument, dsl.Block] | None:
-    """The item, document and block a ref names, `<item id>/<local id>`, as
+    """The item, document and block a ref names, `<item id>/<block id>`, as
     the folder holds them; none where it names no block of an item's."""
     item_id, _, local_id = ref.partition("/")
     item = next((item for item in items if item["id"] == item_id), None)
@@ -505,7 +505,7 @@ def _title(value: str) -> str:
     if len(words := title.split()) > TITLE_WORDS:
         raise Refused(
             f"--title: {len(words)} words, over {TITLE_WORDS}: {TITLE_RULE}"
-            f" (`{PROG} plan note add --task <id>`)"
+            f" (`{PROG} plan note add --task <task id>`)"
         )
     return title
 
@@ -536,7 +536,7 @@ def _task_set(project: Project, args: argparse.Namespace) -> int:
     def edit(plan: dict[str, Any]) -> str:
         if args.title is None and args.status is None:
             raise Refused("--title, --status: nothing to set; give one or both")
-        task = _task(plan, args.id, "<id>")
+        task = _task(plan, args.id, "<task id>")
         if args.title is not None:
             task["title"] = _title(args.title)
         if args.status is not None:
@@ -548,12 +548,12 @@ def _task_set(project: Project, args: argparse.Namespace) -> int:
 
 def _task_remove(project: Project, args: argparse.Namespace) -> int:
     def edit(plan: dict[str, Any]) -> str:
-        task = _task(plan, args.id, "<id>")
+        task = _task(plan, args.id, "<task id>")
         if task["notes"]:
             notes = ", ".join(f"`{note['id']}`" for note in task["notes"])
             raise Refused(
-                f"<id>: task `{task['id']}` has the open notes {notes}: strike them first"
-                f" (`{PROG} plan note strike <id>`), or move them to another task in {PLAN}"
+                f"<task id>: task `{task['id']}` has the open notes {notes}: strike them first"
+                f" (`{PROG} plan note strike <note id>`), or move them to another task in {PLAN}"
             )
         plan["tasks"].remove(task)
         return f"task {task['id']} removed"
@@ -574,7 +574,7 @@ def _task_list(project: Project, args: argparse.Namespace) -> int:
 
 
 def _note_add(project: Project, args: argparse.Namespace) -> int:
-    content = _words(args.content, "<content|->", True)
+    content = _words(args.content, "<text>|-", True)
 
     def edit(plan: dict[str, Any]) -> str:
         owner, on = _home(plan, args.task, "--task")
@@ -584,7 +584,7 @@ def _note_add(project: Project, args: argparse.Namespace) -> int:
             if _block_of(project, items, ref) is None:
                 raise Refused(
                     f"--ref: `{ref}` names no block of this project's items"
-                    f" (`<item id>/<local id>`, the item's id from {TIMELINE})"
+                    f" (`<item id>/<block id>`, the item's id from {TIMELINE})"
                 )
         summary = _text(args.summary, "--summary")
         note_id = _new_note(plan, owner, summary, content, refs, datetime.now(UTC))
@@ -625,7 +625,7 @@ def _note_strike(project: Project, args: argparse.Namespace) -> int:
     def edit(plan: dict[str, Any]) -> str:
         found = next(((task, n) for task, n in _all_notes(plan) if n["id"] == args.id), None)
         if found is None:
-            raise Refused(f"<id>: the plan has no open note `{args.id}`")
+            raise Refused(f"<note id>: the plan has no open note `{args.id}`")
         task, note = found
         (plan["notes"] if task is None else task["notes"]).remove(note)
         return f"note {note['id']} struck"
@@ -1085,7 +1085,9 @@ def build_parser() -> argparse.ArgumentParser:
         dest="task_verb", required=True, metavar="<verb>"
     )
     add = verb(task, "add", _task_add, "add a task to the plan, last unless placed")
-    add.add_argument("--id", required=True, metavar="<id>", help="the task's id, new to the plan")
+    add.add_argument(
+        "--id", required=True, metavar="<task id>", help="the task's id, new to the plan"
+    )
     add.add_argument(
         "--title",
         required=True,
@@ -1097,10 +1099,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--status", choices=TASK_STATUSES, default="pending", help="pending when not given"
     )
     place = add.add_mutually_exclusive_group()
-    place.add_argument("--before", metavar="<id>", help="placed before this task")
-    place.add_argument("--after", metavar="<id>", help="placed after this task")
+    place.add_argument("--before", metavar="<task id>", help="placed before this task")
+    place.add_argument("--after", metavar="<task id>", help="placed after this task")
     sets = verb(task, "set", _task_set, "change a task's title, status or both")
-    sets.add_argument("id", metavar="<id>", help="the task")
+    sets.add_argument("id", metavar="<task id>", help="the task")
     sets.add_argument(
         "--title",
         metavar="<text>",
@@ -1111,7 +1113,7 @@ def build_parser() -> argparse.ArgumentParser:
     remove = verb(
         task, "remove", _task_remove, "remove a task from the plan, refused while it has open notes"
     )
-    remove.add_argument("id", metavar="<id>", help="the task")
+    remove.add_argument("id", metavar="<task id>", help="the task")
     verb(task, "list", _task_list, "the plan's tasks in order, with their open notes' ids")
 
     note = plan.add_parser("note", help="the plan's notes").add_subparsers(
@@ -1121,32 +1123,32 @@ def build_parser() -> argparse.ArgumentParser:
         note, "add", _note_add, "add a note on a task or on the plan; its id is the next n<number>"
     )
     note_add.add_argument(
-        "--task", metavar="<id>", help="the task the note is on; the plan's own when not given"
+        "--task", metavar="<task id>", help="the task the note is on; the plan's own when not given"
     )
     note_add.add_argument("--summary", required=True, metavar="<line>", help="the note's summary")
     note_add.add_argument(
         "--ref",
         action="append",
         default=[],
-        metavar="<block id>",
-        help=f"a block the note is about, `<item id>/<local id>`, the item's id from {TIMELINE}",
+        metavar="<item id>/<block id>",
+        help=f"a block the note is about, the item's id from {TIMELINE} and the block's id",
     )
     note_add.add_argument(
-        "content", metavar="<content|->", help="the note's content, - to read it from stdin"
+        "content", metavar="<text>|-", help="the note's content, - to read it from stdin"
     )
     strike = verb(note, "strike", _note_strike, "strike an open note")
-    strike.add_argument("id", metavar="<id>", help="the note")
+    strike.add_argument("id", metavar="<note id>", help="the note")
     note_list = verb(
         note, "list", _note_list, "the open notes, each with its refs' blocks as they stand"
     )
-    note_list.add_argument("--task", metavar="<id>", help="only the notes on this task")
+    note_list.add_argument("--task", metavar="<task id>", help="only the notes on this task")
 
     plan_set = verb(plan, "set", _plan_set, "set or clear the plan's ticket and repo")
     ticket = plan_set.add_mutually_exclusive_group()
-    ticket.add_argument("--ticket", metavar="<id>", help="the ticket the work is tracked on")
+    ticket.add_argument("--ticket", metavar="<ticket>", help="the ticket the work is tracked on")
     ticket.add_argument("--no-ticket", action="store_true", help="no ticket")
     repo = plan_set.add_mutually_exclusive_group()
-    repo.add_argument("--repo", metavar="owner/Name", help="the repository the work is in")
+    repo.add_argument("--repo", metavar="<owner/Name>", help="the repository the work is in")
     repo.add_argument("--no-repo", action="store_true", help="no repository")
 
     for leaf in _leaves(parser):

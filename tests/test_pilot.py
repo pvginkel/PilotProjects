@@ -216,19 +216,19 @@ class TestTheFrame(PilotCase):
                 "pilot.py items show <id|path|seq>",
                 "pilot.py items get <seq>",
                 (
-                    "pilot.py plan task add --id <id> --title <text>"
-                    " [--status pending|in_progress|done] [--before <id>|--after <id>]"
+                    "pilot.py plan task add --id <task id> --title <text>"
+                    " [--status pending|in_progress|done] [--before <task id>|--after <task id>]"
                 ),
-                "pilot.py plan task set <id> [--title <text>] [--status pending|in_progress|done]",
-                "pilot.py plan task remove <id>",
+                "pilot.py plan task set <task id> [--title <text>] [--status pending|in_progress|done]",
+                "pilot.py plan task remove <task id>",
                 "pilot.py plan task list",
                 (
-                    "pilot.py plan note add [--task <id>] --summary <line> [--ref <block id>]..."
-                    " <content|->"
+                    "pilot.py plan note add [--task <task id>] --summary <line>"
+                    " [--ref <item id>/<block id>]... <text>|-"
                 ),
-                "pilot.py plan note strike <id>",
-                "pilot.py plan note list [--task <id>]",
-                "pilot.py plan set [--ticket <id>|--no-ticket] [--repo owner/Name|--no-repo]",
+                "pilot.py plan note strike <note id>",
+                "pilot.py plan note list [--task <task id>]",
+                "pilot.py plan set [--ticket <ticket>|--no-ticket] [--repo <owner/Name>|--no-repo]",
             ],
         )
         for usage in usages[1:]:
@@ -685,7 +685,7 @@ class TestPlanTask(PilotCase):
             "t9",
             "--status",
             "done",
-            says=("<id>: the plan has no task `t9`",),
+            says=("<task id>: the plan has no task `t9`",),
         )
 
     def test_add_and_set_take_a_title_of_25_words_and_refuse_one_over_as_the_engine_holds_it(
@@ -701,7 +701,7 @@ class TestPlanTask(PilotCase):
         says = (
             "--title: 26 words, over 25: a task's title names the task alone; what it waits on,"
             " what follows it and the actions related to it go into a note on the task"
-            " (`pilot.py plan note add --task <id>`)"
+            " (`pilot.py plan note add --task <task id>`)"
         )
         long = "Plan slice 067,\tafter t1 " + " ".join(["bake"] * 21)
         for args in (("add", "--id", "t5", "--title", long), ("set", "t1", "--title", long)):
@@ -733,7 +733,7 @@ class TestPlanTask(PilotCase):
             "plan", "task", "remove", "t2", says=("task `t2` has the open notes `n1`, `n7`",)
         )
         self.assert_refused(
-            "plan", "task", "remove", "t9", says=("<id>: the plan has no task `t9`",)
+            "plan", "task", "remove", "t9", says=("<task id>: the plan has no task `t9`",)
         )
 
     def test_list_prints_the_tasks_in_order(self) -> None:
@@ -854,7 +854,7 @@ class TestPlanNote(PilotCase):
             ),
             (("--summary", "Units", "--ref", "Q1", "Grams."), "--ref: `Q1`"),
             (("--summary", " ", "Grams."), "--summary: blank"),
-            (("--summary", "Units", " "), "<content|->: blank"),
+            (("--summary", "Units", " "), "<text>|-: blank"),
         ):
             with self.subTest(args=args):
                 self.assert_refused("plan", "note", "add", *args, says=(says,))
@@ -874,7 +874,7 @@ class TestPlanNote(PilotCase):
                 self.assertEqual(self.plan(), expected)
 
         self.assert_refused(
-            "plan", "note", "strike", "n9", says=("<id>: the plan has no open note `n9`",)
+            "plan", "note", "strike", "n9", says=("<note id>: the plan has no open note `n9`",)
         )
 
     def test_list_shows_each_note_with_its_refs_blocks_as_they_stand(self) -> None:

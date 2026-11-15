@@ -96,7 +96,7 @@ draft, and starts the work that can start.
    25 words at most (`CLAUDE.md`'s invariants), and what it waits on, where the draft agreed an
    order, a note on it, `pilot.py plan note add --task <id> --summary <line> <content>`; and the
    ticket and the repository where the draft names them,
-   `pilot.py plan set --ticket <id> --repo <owner/Name>`.
+   `pilot.py plan set --ticket <ticket> --repo <owner/Name>`.
 4. **As lean as the project**: nothing is required of a plan but what the project needs —
    "the build is failing" is a task or two — and no task is a fixture. A sweep task before the
    end only where the project will have something to sweep, an epic with `Later` cards or
