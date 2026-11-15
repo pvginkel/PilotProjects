@@ -1,17 +1,18 @@
 # Placement
 
-Where a work item runs and on what: Pilot's judgment, guided by this file and the project's own
-facts in its `handbook.md`, enforced nowhere. A work item names the repository its work belongs
-to, `owner/Name`; the environment is Pilot's server's to make. The plan's `repo` is a label for the
-project's header and binds no work item.
+Where a work item runs and on what. A work item names the repository its work belongs to,
+`owner/Name`: Pilot's judgment, guided by the two sections below and the project's own facts in its
+`handbook.md`, enforced nowhere, and what the project's handbook says of its repositories comes
+before their rules. The environment is Pilot's server's to make. The plan's `repo` is a label for
+the project's header and binds no work item. A design is placed as any other work (A design), and
+the model and the effort are no judgment of Pilot's (The model and the effort).
 
 ## The repository, by project key
 
 A tracker project names an application, not one repository: the application and the repositories
 it is developed with. Its repository is the project's name as the tracker lists it, owner
-`pvginkel` — `DI (DockerImages)` is `pvginkel/DockerImages` — and a card's work runs there even
-where the card's text names another repository of the application: the fix may land in any of
-them. Where the key's own repository is not the answer:
+`pvginkel` — `P (PilotApp)` is `pvginkel/PilotApp` — and a card's work runs there even where the
+card's text names another repository of the application: the fix may land in any of them. Where the key's own repository is not the answer:
 
 - `DI`: `pvginkel/Ansible`.
 - A deploy repository, `<App>Deploy`, lives with the application it deploys: work on it is placed
@@ -25,8 +26,13 @@ them. Where the key's own repository is not the answer:
 The work belongs where it changes things, whatever card or project raised it: an Ansible slice in
 `pvginkel/Ansible`; a change to ArgoCDTools in `pvginkel/Ansible`, its cards in `ANS`; an operator
 action that needs infrastructure access Pilot's environments lack in `pvginkel/Ansible`, its `cwd`
-`/work/Ansible` (`rules/grants.md`). What the project's handbook says of its repositories comes
-before this file's rules.
+`/work/Ansible` (`rules/grants.md`). That work item's brief gives the exact command and says not
+to work around a failure; what needs another environment checked, Pilot checks itself, since an
+Ansible environment reads no other. For a secret, the brief names its OpenBao path and key,
+`kv/eso/<stage>/<app>/<stage>/<leaf>`, and the agent mints the value and writes it on stdin,
+`bao kv put -mount=kv <leaf> <key>=-`. The Ansible runbooks' "every OpenBao write is the
+operator's keystroke" is their convention for a person at a terminal: for Pilot's work the ruling
+`rules/grants.md`'s An operator action Pilot can run itself quotes stands.
 
 ## A design
 

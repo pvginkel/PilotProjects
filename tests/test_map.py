@@ -789,23 +789,43 @@ DESIGN_ROUTED = (
     " design), among them |",
 )
 # An operator action that needs infrastructure access Pilot's environments lack is an Ansible
-# work item, the granted column's, never a new capability; its brief's command, and a secret by
-# its path and key, minted on stdin (P-353, the store's memory note infra-through-ansible; the
-# operator, 2026-11-03, generalising D121 of 2026-11-02).
+# work item, the granted column's, never a new capability, in the grants' section on an operator
+# action Pilot can run itself; its brief's command, and a secret by its path and key, minted on
+# stdin, in placement's section on the work's nature (P-353, the store's memory note
+# infra-through-ansible; the operator, 2026-11-03, generalising D121 of 2026-11-02).
+OPERATOR_ACTION_SECTION = "## An operator action Pilot can run itself"
 INFRA_THROUGH_ANSIBLE = (
     "Infrastructure access Pilot's environments lack — `kubectl exec` or a write on prd, an OpenBao"
     " leaf, a host change — is the same: a work item in `pvginkel/Ansible`, `/work/Ansible`",
     "an operator action Pilot can run itself, the granted column's, and never a new capability for"
     " the app's environments",
-    "Its brief gives the exact command and says not to work around a failure",
-    "what needs another environment checked, Pilot checks itself",
-    "For a secret, the brief names its OpenBao path and key, `kv/eso/<stage>/<app>/<stage>/<leaf>`,"
-    " and the agent mints the value and writes it on stdin, `bao kv put -mount=kv <leaf> <key>=-`",
-    "is their convention for a person at a terminal: for Pilot's work this ruling stands",
+    "Its brief, a secret's included, is `rules/placement.md`'s The repository, by the work's"
+    " nature.",
 )
 INFRA_PLACED = (
     "an operator action that needs infrastructure access Pilot's environments lack in"
-    " `pvginkel/Ansible`, its `cwd` `/work/Ansible` (`rules/grants.md`)"
+    " `pvginkel/Ansible`, its `cwd` `/work/Ansible` (`rules/grants.md`)",
+    "That work item's brief gives the exact command and says not to work around a failure",
+    "what needs another environment checked, Pilot checks itself",
+    "For a secret, the brief names its OpenBao path and key, `kv/eso/<stage>/<app>/<stage>/<leaf>`,"
+    " and the agent mints the value and writes it on stdin, `bao kv put -mount=kv <leaf> <key>=-`",
+    "is their convention for a person at a terminal: for Pilot's work the ruling"
+    " `rules/grants.md`'s An operator action Pilot can run itself quotes stands",
+)
+# The grants' lists by their names, the spec-repo push granted for good where "a standing grant"
+# is the kept column's alone.
+GRANTS_LISTS = (
+    "**Never asked**, outside the table's two columns:",
+    "**Granted**, the granted column: asked while auto pilot is off, done under it.",
+    "**Kept**, the kept column: always asked, auto pilot on or off.",
+    "the spec-repo push, granted for good",
+)
+# The repository's pick is the judgment the handbook bends, and its example a key that is its own.
+PLACEMENT_SCOPE = (
+    "`owner/Name`: Pilot's judgment, guided by the two sections below and the project's own facts in"
+    " its `handbook.md`, enforced nowhere, and what the project's handbook says of its repositories"
+    " comes before their rules",
+    "`P (PilotApp)` is `pvginkel/PilotApp`",
 )
 # The rule's words while the effort was left unset and the stage could name a model, and while a
 # handbook or a task could name another model, or Pilot a lower one.
@@ -1363,11 +1383,30 @@ class PlacementRuleTest(unittest.TestCase):
                 self.assertIn(form, routing)
 
     def test_infrastructure_access_is_an_ansible_work_item_never_a_new_capability(self) -> None:
-        grants = " ".join((ROOT / "rules" / "grants.md").read_text().split())
+        grants = (ROOT / "rules" / "grants.md").read_text()
+        self.assertEqual(grants.splitlines().count(OPERATOR_ACTION_SECTION), 1)
+        _, _, rest = grants.partition(f"\n{OPERATOR_ACTION_SECTION}\n")
+        section, _, _ = rest.partition("\n## ")
+        section = " ".join(section.split())
         for form in INFRA_THROUGH_ANSIBLE:
             with self.subTest(form):
+                self.assertIn(form, section)
+        self.assertNotIn("bao kv put", grants)
+        placement = " ".join((ROOT / PLACEMENT).read_text().split())
+        for form in INFRA_PLACED:
+            with self.subTest(form):
+                self.assertIn(form, placement)
+
+    def test_the_grants_name_their_lists_and_placement_scopes_the_handbook(self) -> None:
+        grants = " ".join((ROOT / "rules" / "grants.md").read_text().split())
+        for form in GRANTS_LISTS:
+            with self.subTest(form):
                 self.assertIn(form, grants)
-        self.assertIn(INFRA_PLACED, " ".join((ROOT / PLACEMENT).read_text().split()))
+        placement = " ".join((ROOT / PLACEMENT).read_text().split())
+        for form in PLACEMENT_SCOPE:
+            with self.subTest(form):
+                self.assertIn(form, placement)
+        self.assertNotIn("this file's rules", placement)
 
     def test_the_work_item_s_field_line_carries_the_defaults(self) -> None:
         text = " ".join((ROOT / WORK_ITEMS).read_text().split())

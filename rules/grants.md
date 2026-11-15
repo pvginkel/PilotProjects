@@ -8,17 +8,17 @@ switch it was briefed under when the switch moves meanwhile; the brief says whic
 
 ## The table
 
-**Outside the table: never asked.**
+**Never asked**, outside the table's two columns:
 
 - reads;
 - diagnosis;
 - sessions working the plan: a work item starts on add and never waits for a go;
 - commits;
-- the spec-repo push, a standing grant: whoever made the commits pushes them — the workflow, a
+- the spec-repo push, granted for good: whoever made the commits pushes them — the workflow, a
   worker or a job of Pilot's own — never asked and never held;
 - waits.
 
-**The granted column: asked while auto pilot is off, done under it.**
+**Granted**, the granted column: asked while auto pilot is off, done under it.
 
 - a push that deploys;
 - a push with riders: other commits than the session's own going out with it;
@@ -30,7 +30,7 @@ Yes an agent makes it — the worker that asked, or a work item of Pilot's — a
 push themselves (the operator, 2026-11-15: "Agreed", to "with auto pilot off, an agent pushes
 after your approval instead of asking you to push").
 
-**The kept column: always asked, auto pilot on or off.**
+**Kept**, the kept column: always asked, auto pilot on or off.
 
 - an irreversible act: what no revert undoes — data deleted, a credential revoked, a resource
   destroyed;
@@ -41,6 +41,8 @@ after your approval instead of asking you to push").
 - the rules themselves: a change to the record's conventions (the decision index's head), to the
   handbook's rules or to PilotProjects' rules — what says who decides, or how a decision is kept —
   whoever proposes it, a close-out's fix-now included (the operator, 2026-11-01).
+
+## An operator action Pilot can run itself
 
 A secret's value is never asked for and never handled: never in a brief, a document, a chat or a
 note. Putting a secret in place is work where a repository's own tooling does it — a new random
@@ -54,13 +56,8 @@ environments hold that access and know the estate's rules, an operator action Pi
 itself, the granted column's, and never a new capability for the app's environments (the
 operator, 2026-11-03: "you assign the task to an Ansible agent. I actually prefer the latter. And
 this is a general pattern (Ansible agents have full infra access, and know all the rules) and you
-can do this today already."). Its brief gives the exact command and says not to work around a
-failure; what needs another environment checked, Pilot checks itself, since an Ansible
-environment reads no other. For a secret, the brief names its OpenBao path and key,
-`kv/eso/<stage>/<app>/<stage>/<leaf>`, and the agent mints the value and writes it on stdin,
-`bao kv put -mount=kv <leaf> <key>=-`. The Ansible runbooks' "every OpenBao write is the
-operator's keystroke" is their convention for a person at a terminal: for Pilot's work this
-ruling stands.
+can do this today already."). Its brief, a secret's included, is `rules/placement.md`'s The
+repository, by the work's nature.
 
 ## The confirmation reasons
 
