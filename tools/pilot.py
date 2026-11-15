@@ -300,12 +300,22 @@ def _items_list(project: Project, args: argparse.Namespace) -> int:
 
 def _items_show(project: Project, args: argparse.Namespace) -> int:
     items = _timeline(project)["items"]
+    if args.item.isdigit():
+        # No id or path is a bare integer: it is the seq `items list` prints first.
+        item = next((item for item in items if item["seq"] == int(args.item)), None)
+        if item is None:
+            raise Refused(f"<id|path|seq>: no item of {TIMELINE} has the seq {args.item}")
+        return _show(project, item)
     item = next((item for item in items if item["id"] == args.item), None)
     if item is None:
-        path = project.file(args.item, "<id|path>").relative_to(project.folder).as_posix()
+        path = project.file(args.item, "<id|path|seq>").relative_to(project.folder).as_posix()
         item = next((item for item in items if item["path"] == path), None)
     if item is None:
-        raise Refused(f"<id|path>: no item of {TIMELINE} has the id or the path {args.item}")
+        raise Refused(f"<id|path|seq>: no item of {TIMELINE} has the id or the path {args.item}")
+    return _show(project, item)
+
+
+def _show(project: Project, item: dict[str, Any]) -> int:
     print(_item_line(item))
     if item["summary"] is not None:
         print(f"summary: {item['summary']}")
@@ -992,7 +1002,9 @@ def build_parser() -> argparse.ArgumentParser:
         " for a wait, its firings",
     )
     show.add_argument(
-        "item", metavar="<id|path>", help=f"the item's id, or its document's path, from {TIMELINE}"
+        "item",
+        metavar="<id|path|seq>",
+        help="the item's id, its document's path or its seq, as `items list` prints them",
     )
     get = verb(
         items,

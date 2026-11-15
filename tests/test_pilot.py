@@ -208,7 +208,7 @@ class TestTheFrame(PilotCase):
                     " [--content <text>|-] [--note <text>]"
                 ),
                 "pilot.py items list [--open] [--kind <code>]",
-                "pilot.py items show <id|path>",
+                "pilot.py items show <id|path|seq>",
                 "pilot.py items get <seq>",
                 (
                     "pilot.py plan task add --id <id> --title <text>"
@@ -520,7 +520,27 @@ class TestItems(PilotCase):
     def test_show_refuses_what_no_item_is(self) -> None:
         for named in ("0b0b0b0b-0000-4000-8000-000000000000", "items/9-soup.md", "handbook.md"):
             with self.subTest(named=named):
-                self.assert_refused("items", "show", named, says=("<id|path>: no item",))
+                self.assert_refused("items", "show", named, says=("<id|path|seq>: no item",))
+
+    def test_show_takes_the_seq_items_list_prints_as_it_takes_the_id(self) -> None:
+        timeline = json.loads((self.folder / "timeline.json").read_text())
+        for item in timeline["items"]:
+            with self.subTest(seq=item["seq"]):
+                by_seq = self.pilot("items", "show", str(item["seq"]))
+                by_id = self.pilot("items", "show", item["id"])
+                self.assertEqual(by_seq.returncode, 0, by_seq.stderr)
+                self.assertEqual(by_seq.stdout, by_id.stdout)
+                self.assertTrue(by_seq.stdout.startswith(f"{item['seq']} · "))
+
+    def test_show_refuses_a_seq_no_item_has(self) -> None:
+        for seq in ("0", "10"):
+            with self.subTest(seq=seq):
+                self.assert_refused(
+                    "items",
+                    "show",
+                    seq,
+                    says=(f"<id|path|seq>: no item of timeline.json has the seq {seq}",),
+                )
 
     def test_get_prints_the_item_s_fields_as_the_timeline_has_them_by_its_seq(self) -> None:
         timeline = json.loads((self.folder / "timeline.json").read_text())
