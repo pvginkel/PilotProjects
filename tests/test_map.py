@@ -283,29 +283,35 @@ OWN_ITEM_CLOSED = (
 # undo (RecordService.done_by_its_save), so that the item leaves the operator's queue. The routing
 # rule's section is its one home, which the rule's head names and CLAUDE.md, the chat and the plan
 # cite; a research stays on a worker's document.
-OWN_ACTION_SECTION = "## An action of an item of yours"
+OWN_ACTION_SECTION = "## The claim"
 OWN_ACTION_SCOPE = (
     "the claim route also takes an open action of an item of Pilot's own that a work item does"
-    " (An action of an item of yours)"
+    " (The claim)"
 )
 OWN_ACTION_RULE = (
-    "An open action of an item you added, in `items/`, that a work item does",
-    "is claimed as a worker's document's is: the block named in `claims` on the `add_item` of the"
-    ' work item that does it, added in the same turn, then `pilot.py answer` with `--value "Pilot'
-    ' does it"`, the note naming that work item in words',
-    "the job after the work's turn writes its `done` (`/plan`'s An action of Pilot's done)",
-    "Where that was the item's last open block, its `done` is the item's close, with no `mark`"
+    "An action Pilot may run under the grants that a work item does is claimed: a worker's"
+    " document's, as the routes have it, or an open action of an item you added, in `items/`, that"
+    " a work item does",
+    "The block is named in `claims` on the `add_item` of the work item that does it, added in the"
+    ' same turn, then `pilot.py answer` with `--value "Pilot does it"`, the note naming that work'
+    " item in words",
+    "the job after the work's turn writes its `done`, the paste-back (`/plan`'s An action of"
+    " Pilot's done)",
+    "where that was the item's last open block, its `done` is the item's close, with no `mark`"
     " after it and no undo, so that the item leaves the operator's queue once the work has done it",
     "a work item that does it unclaimed leaves it open there",
-    "An act the run leaves undone is the operator's again",
+    "an act the run leaves undone is the operator's again",
     "`researches` names a worker's document's blocks alone",
 )
+# The claim route's row, which points at the section and writes the claim out no more.
+OWN_ACTION_ROW = "claimed, unless the row after takes it (The claim). Done at once"
 # The rule's head while it routed what a worker registered alone.
 OWN_ACTION_SCOPE_RETIRED = "and what each route writes. The route is"
-OWN_ACTION_CITED = "as `rules/routing.md`'s An action of an item of yours has it"
+OWN_ACTION_CITED = "as `rules/routing.md`'s The claim has it"
 OWN_ACTION_CITING_SKILLS = ("chat", "plan")
 OWN_ACTION_IN_CLAUDE = (
-    "`rules/routing.md` (where an open block goes, an action of an item of yours a work item does,",
+    "`rules/routing.md` (where an open block goes, the claim, of a worker's document or of an item"
+    " of yours, a block a run holds,",
     "`claims` the actions you claimed that it does, of a worker's document or of an item of yours,",
     "An item of yours closes at the `done` of its last open block, a claimed action's included,"
     " with no undo and no `mark` after it, which the server refuses.",
@@ -383,10 +389,23 @@ CLAIM_CARRIED = (
 # turn that registered no document with a block in it, it is the person's once the job after that
 # turn ends, which retries it or sends the notice; one the brief gives as handed back is theirs, and
 # nothing is written of it.
+# How long a run holds a block, claimed or researched, and a failed run's: one routing section,
+# which the plan's An action of Pilot's done and the pass's A researched block cite.
+HELD_SECTION = "## A block a run holds"
+HELD_RULE = (
+    "A claimed action, or a block left open on a research (Due diligence, step 4), stays the run's"
+    " until the job after a turn of it that registered no document with a block in it ends (never a"
+    " clarification run's turn, which registers nothing), or its work fails or is stopped, or a"
+    " person cancels the run: Pilot's server reads that, and nothing Pilot writes hands one over",
+    "A run that failed gets no job: its work item waits on a person's Resume, the blocks it holds"
+    " standing open",
+)
+HELD_CITED = "`rules/routing.md`'s A block a run holds"
+HELD_CITING = (
+    ("plan", "## An action of Pilot's done"),
+    ("pre-rule", "## A researched block"),
+)
 CLAIM_HANDED_BACK = (
-    "stays the run's until the job after a turn of it that registered no document with a block in"
-    " it ends (never a clarification run's turn, which registers nothing), or its work fails or is"
-    " stopped, or a person cancels the run",
     "**Left undone**, its act refused or never reached in a turn that registered no document with"
     " a block in it: the claim stays and the block open, the operator's once this job ends",
     "the operator gets it with the reason: a notice of yours",
@@ -484,11 +503,10 @@ WAIT_FIRINGS_RETIRED = ("where it has none open (",)
 NOTE_RULE = (
     'at most two sentences, the choice and its one reason, with no "Checked:" and no bare ids'
 )
-NOTE_RULE_FILES = (
-    ".claude/skills/pre-rule/SKILL.md",
-    ".claude/skills/plan/SKILL.md",
-    "rules/routing.md",
-)
+NOTE_RULE_FILES = ("rules/routing.md",)
+# The skills that write a note cite the routing rule's head for it, as the chat does.
+NOTE_RULE_CITED = "`rules/routing.md`'s head has"
+NOTE_RULE_CITING = ("pre-rule", "plan", "chat")
 FINDINGS_LOGGED = "goes to the session log"
 NOTICE_RULE = "A notice is posted only for what the operator must know or do"
 ITEM_LEAD = "An item's heading and first paragraph carry its ruling in about 60 words"
@@ -1441,6 +1459,11 @@ class OperatorReadsTest(unittest.TestCase):
             for form in (NOTE_RULE, FINDINGS_LOGGED):
                 with self.subTest(source=source, form=form):
                     self.assertIn(form, text)
+        for name in NOTE_RULE_CITING:
+            text = " ".join(skill_file(name).read_text().split())
+            with self.subTest(skill=name):
+                self.assertIn(NOTE_RULE_CITED, text)
+                self.assertNotIn(NOTE_RULE, text)
         for source, text in the_map().items():
             text = " ".join(text.split())
             for form in FINDINGS_IN_NOTE:
@@ -1476,7 +1499,25 @@ class OwnActionClaimTest(unittest.TestCase):
                 self.assertIn(form, section)
         text = " ".join(text.split())
         self.assertIn(OWN_ACTION_SCOPE, text)
+        self.assertIn(OWN_ACTION_ROW, text)
         self.assertNotIn(OWN_ACTION_SCOPE_RETIRED, text)
+
+    def test_routing_says_how_long_a_run_holds_a_block_and_the_skills_cite_it(self) -> None:
+        text = (ROOT / "rules" / "routing.md").read_text()
+        self.assertEqual(text.splitlines().count(HELD_SECTION), 1)
+        _, _, rest = text.partition(f"\n{HELD_SECTION}\n")
+        section, _, _ = rest.partition("\n## ")
+        section = " ".join(section.split())
+        for form in HELD_RULE:
+            with self.subTest(form):
+                self.assertIn(form, section)
+        for name, heading in HELD_CITING:
+            _, found, rest = skill_file(name).read_text().partition(f"\n{heading}\n")
+            cited, _, _ = rest.partition("\n## ")
+            with self.subTest(name):
+                self.assertTrue(found)
+                self.assertIn(HELD_CITED, " ".join(cited.split()))
+                self.assertNotIn(HELD_RULE[0], " ".join(cited.split()))
 
     def test_claude_md_names_it_among_the_claims_and_its_done_as_the_item_s_close(self) -> None:
         text = " ".join(CLAUDE.read_text().split())

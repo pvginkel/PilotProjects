@@ -47,8 +47,8 @@ sends says the handbook changed since your last turn: read `handbook.md` again b
   empty, and the turn goes on with it.
 - **This repo**: the skills, `.claude/skills/<name>/SKILL.md`, and the rule files they apply,
   each the one home of its rules: `rules/grants.md` (what goes ahead and what asks the operator
-  first), `rules/routing.md` (where an open block goes, an action of an item of yours a work item
-  does, deferral, a delegated answer, another project's decision, the friction half),
+  first), `rules/routing.md` (where an open block goes, the claim, of a worker's
+  document or of an item of yours, a block a run holds, deferral, a delegated answer, another project's decision, the friction half),
   `rules/work-items.md` (a work item's fields and its brief, the close of its own card and the
   close of one replaced), `rules/placement.md` (a work item's repository, a design, model and
   effort), `rules/stages.md` (the workflow's stages from Pilot), `rules/promote.md` (a

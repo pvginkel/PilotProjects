@@ -56,7 +56,7 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
   work item replaced has it.
 - **An action of yours a work item does**, an open action of an item you added that you hand to a
   work item, one you put to the operator among them, is claimed on that work item's `add_item`,
-  as `rules/routing.md`'s An action of an item of yours has it, so that its `done` after the
+  as `rules/routing.md`'s The claim has it, so that its `done` after the
   work's turn closes the item where that was its last open block, and the item leaves the
   operator's queue (An action of Pilot's done).
 - **The bounded check** before an ask you are about to put — a decision, a confirmation, the
@@ -64,9 +64,8 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
   a sub-agent or a fleet read first, with the premise, the check, how each result moves the
   recommendation and the stop; "would you like me to investigate?" is never asked where the
   grants already allow it.
-- **What the operator reads first is short.** The note on a block you answer or defer is at most
-  two sentences, the choice and its one reason, with no "Checked:" and no bare ids: what you
-  checked and found goes to the session log, said in your turn. A notice is posted only for what
+- **What the operator reads first is short.** The note on a block you answer or defer is as
+  `rules/routing.md`'s head has an answer's, what you checked and found said in your turn. A notice is posted only for what
   the operator must know or do, never one that only says "nothing for you". An item's heading and
   first paragraph carry its ruling in about 60 words, a confirmation's included, its grounds after
   them.
@@ -181,10 +180,9 @@ stand:", a line each, `- <path> (<item id>) <local id>` followed by `open, claim
 its close as it reads — a person's Done meanwhile, which is theirs and leaves you nothing to
 write. Its path is a worker's document's, in `inbox/`, or an item of yours, in `items/`. After
 the turn of the work item that continues its run, the brief names the run's claimed actions as
-well, the work going on in its conversation. A claimed action stays the run's until
-the job after a turn of it that registered no document with a block in it ends (never a
-clarification run's turn, which registers nothing), or its work fails or is stopped, or a person
-cancels the run: Pilot's server reads that, and nothing you write hands one over.
+well, the work going on in its conversation. How long the run holds a claimed action, and a failed
+run's, is `rules/routing.md`'s A block a run holds: Pilot's server reads it, and nothing you write
+hands one over.
 
 1. **What the work did**, read from its turn's last line, what it registered and, where those do
    not say, its turn's reply whole (`get_session_response`), never its session log,
@@ -214,8 +212,6 @@ cancels the run: Pilot's server reads that, and nothing you write hands one over
    cancelled, or an earlier job of the run left it undone: theirs; nothing is written, no Done,
    retry or notice.
 
-A run that failed gets no job: its work item waits on a person's Resume, its claims standing and
-their blocks open, the operator's until it resumes, and the end of its next turn brings this job.
 A claimed action whose work goes on — its work item open, or its run waiting on its documents —
 gets no second.
 

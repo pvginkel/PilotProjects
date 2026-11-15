@@ -2,11 +2,13 @@
 
 Where an open block goes when Pilot pre-rules what a worker registered, and what each route
 writes; the claim route also takes an open action of an item of Pilot's own that a work item does
-(An action of an item of yours). The route is Pilot's own choice: the operator gets a block only
-where it has impact now and is theirs. An answer of Pilot's is `by: agent`, its note saying why
-in words that stand alone, since the block's collapsed line is the operator's first read of it: at
-most two sentences, the choice and its one reason, with no "Checked:" and no bare ids (the
-operator, 2026-11-04). What the grants allow is `rules/grants.md`'s; which column holds, the
+(The claim). The route is Pilot's own choice: the operator gets a block only where it has impact
+now and is theirs. An answer of Pilot's — answered, deferred or claimed — is `by: agent`, its note
+saying why in words that stand alone, since the block's collapsed line is the operator's first
+read of it: at most two sentences, the choice and its one reason, with no "Checked:" and no bare
+ids (the operator, 2026-11-04). What Pilot checked and what it found goes to the session log, said
+in its turn: the note gives no account of the checks, and carries a found fact only where it is
+the choice's one reason. What the grants allow is `rules/grants.md`'s; which column holds, the
 brief's switch line.
 
 ## The routes
@@ -20,32 +22,43 @@ brief's switch line.
 | a choice wholly another project's | answered with the hand-over (below); never deferred across projects. |
 | a question the record, the handbook or the memory answers | answered. |
 | an action that is the operator's hands alone — a device, an account, a secret no repository's tooling can place, a mockup, which they make themselves | left to the operator, with no edit. |
-| an action Pilot may run under the grants — a secret placed through a repository's tooling, an Ansible work item, a design, a design session or an arch design (`rules/placement.md`'s A design), among them | claimed, unless the row after takes it: the block named in `claims` on the `add_item` of the work item that does it, added in the same turn, then `pilot.py answer` with `--value "Pilot does it"`, the note naming that work item in words; the block stays open and Pilot's through that work's run, until `pilot.py done` writes the paste-back or the run leaves it undone, the operator's again. Done at once, through `pilot.py done`, where Pilot's own hands do it in the pass — a card, a fleet call. |
+| an action Pilot may run under the grants — a secret placed through a repository's tooling, an Ansible work item, a design, a design session or an arch design (`rules/placement.md`'s A design), among them | claimed, unless the row after takes it (The claim). Done at once, through `pilot.py done`, where Pilot's own hands do it in the pass — a card, a fleet call. |
 | a close-out's promotion Pilot may run under the grants, with what follows it | deferred to the running task, never claimed (A close-out's promotion). |
 | an owed action waiting on an event — "re-run the import once the operator has restored the backup" | a wait through `add_item`, armed on a fresh read of the card it watches, and a timed wait beside it as a backstop where it outlives the plan's horizon, its `step` the same task and its title `Backstop: <the card wait's title>`; a note on the task the action belongs to; the block answered naming the wait. |
 | a block Pilot cannot read — what it asks, which option the writer means, what a thing it names is — and the record does not answer | asked of its writer, once: `ask_writer` with `block`, `<item id>/<local id>`, and `question`, one question per block. |
 | anything with impact now and the operator's | left to the operator, with no edit. |
 
-## An action of an item of yours
+## The claim
 
-An open action of an item you added, in `items/`, that a work item does — one you put to the
-operator and find a work item can do under the grants, or one a person hands to a worker in the
-chat — is claimed as a worker's document's is: the block named in `claims` on the `add_item` of
-the work item that does it, added in the same turn, then `pilot.py answer` with
-`--value "Pilot does it"`, the note naming that work item in words. It stays open and Pilot's
-through that work's run, and the job after the work's turn writes its `done` (`/plan`'s An action
-of Pilot's done). Where that was the item's last open block, its `done` is the item's close, with
-no `mark` after it and no undo, so that the item leaves the operator's queue once the work has done
-it; a work item that does it unclaimed leaves it open there. An act the run leaves undone is the
-operator's again, as a worker's document's is. An action a person answered or did is theirs, and
-`researches` names a worker's document's blocks alone.
+An action Pilot may run under the grants that a work item does is claimed: a worker's document's,
+as the routes have it, or an open action of an item you added, in `items/`, that a work item does
+— one you put to the operator and find a work item can do under the grants, or one a person hands
+to a worker in the chat. The block is named in `claims` on the `add_item` of the work item that
+does it, added in the same turn, then `pilot.py answer` with `--value "Pilot does it"`, the note
+naming that work item in words. It stays open and Pilot's, out of the badge, through that work's
+run (A block a run holds), and the job after the work's turn writes its `done`, the paste-back
+(`/plan`'s An action of Pilot's done); an act the run leaves undone is the operator's again.
+
+On an item of yours, where that was the item's last open block, its `done` is the item's close,
+with no `mark` after it and no undo, so that the item leaves the operator's queue once the work has
+done it; a work item that does it unclaimed leaves it open there. An action a person answered or
+did is theirs, and `researches` names a worker's document's blocks alone.
+
+## A block a run holds
+
+A claimed action, or a block left open on a research (Due diligence, step 4), stays the run's
+until the job after a turn of it that registered no document with a block in it ends (never a
+clarification run's turn, which registers nothing), or its work fails or is stopped, or a person
+cancels the run: Pilot's server reads that, and nothing Pilot writes hands one over. A run that
+failed gets no job: its work item waits on a person's Resume, the blocks it holds standing open,
+a claim with its answer, the operator's until it resumes, and the end of its next turn brings the
+job after it.
 
 ## Due diligence
 
 What Pilot does before it chooses, every choice, in the project's folder (the operator,
 2026-11-01). What was checked and what was found, or that nothing in the store bears on the
-choice, goes to the session log, said in Pilot's turn: the answer's note gives no account of the
-checks, and carries a found fact only where it is the choice's one reason (step 3).
+choice, is said in Pilot's turn and kept from the note as the head has it.
 
 1. **The project document and the handbook**: a goal, a rule or a standing instruction that
    settles the choice, or bends it.
@@ -53,8 +66,7 @@ checks, and carries a found fact only where it is the choice's one reason (step 
    earlier items and inbox documents, the chat — a cursory scan of the project's folder suffices;
    nothing outside it is owed.
 3. **A match read**: where earlier work touches the choice, how it bears on it — an earlier ruling
-   it follows or contradicts, a plan it was taken under — goes to the session log, and into the
-   note only where it is the choice's one reason.
+   it follows or contradicts, a plan it was taken under — said as the head has it.
 4. **A question researched**: where the ask is a question rather than a researched fact — its own
    grounds say a thing was not checked, or the recommendation rests on a fact nobody read — the
    fact is found before the choice: in the store where it is there; otherwise through a work item

@@ -33,9 +33,8 @@ A job never waits and never asks in its own transcript: what a person must decid
 document, or is put to them as an item.
 
 What the operator reads first is short. The note of an answer of yours — answered, deferred or
-claimed — is at most two sentences, the choice and its one reason, with no "Checked:" and no bare
-ids: what you checked and found goes to the session log, said in your turn. A notice is posted
-only for what the operator must know or do, never one that only says "nothing for you". An item's
+claimed — is as `rules/routing.md`'s head has it, what you checked and found said in your turn. A
+notice is posted only for what the operator must know or do, never one that only says "nothing for you". An item's
 heading and first paragraph carry its ruling in about 60 words, its grounds after them.
 
 The rules it applies: `rules/routing.md`, each route and what it writes, deferral, the `Later`
@@ -80,15 +79,12 @@ Per published document, one after the other:
      the pass after that work's turn routes it (A researched block). A requirement that would
      overrule a passage of the design record is yours only on the operator's own words asking
      for that change and a passage that is the record of that very behaviour; otherwise it is the
-     operator's. What was checked and what was found, or that nothing in the store bears on it,
-     goes to the session log, said in your turn: the note gives no account of the checks, and
-     carries a found fact only where it is the choice's one reason. A choice with an unread fact
+     operator's. What was checked and what was found is said as routing's head has it. A choice
+     with an unread fact
      behind it is yours only where it would not move on that fact, your turn saying so.
    - **Answered**, `by: agent`:
      `pilot.py answer <file> <block id> --value <option> --note <why>`, the value an option's
-     label, `Agree`, `Yes`, `No` or your own words. The note says why in words that stand alone:
-     the block's collapsed line, its heading, the answer and the note, is the operator's first read
-     of it.
+     label, `Agree`, `Yes`, `No` or your own words, the note as routing's head has it.
    - **Deferred**, where it has a home and is not due now, as routing's Deferral has it:
      `pilot.py defer <file> <block id> --to <task id> --summary <line> --content <text> --note <why>`,
      `--to plan` for the project's end, writes the block's `answer: deferred`, its `to` and its
@@ -98,14 +94,12 @@ Per published document, one after the other:
      run's own task, never claimed (`rules/routing.md`'s A close-out's promotion).
    - **Done at once**, an action your own hands do in the pass — a card, a fleet call: do it, then
      `pilot.py done <file> <block id> --note <what was done and what was seen>`.
-   - **Claimed**, an action Pilot may run under the grants that a work item does: the work item
-     first, through `add_item` as
+   - **Claimed**, an action Pilot may run under the grants that a work item does, as
+     `rules/routing.md`'s The claim has it: the work item first, through `add_item` as
      `rules/work-items.md` has it, its `claims` the block's id, `<item id>/<local id>`, beside
      every other action that work does; then the claim,
      `pilot.py answer <file> <block id> --value "Pilot does it" --note <its work item>`, the note
-     naming the work item by its title. The block stays open and yours, out of the badge, through
-     that work's run: `/plan` writes its `done` once the work did it, and an act the run leaves
-     undone is the operator's again (`/plan`'s An action of Pilot's done).
+     naming the work item by its title.
    - **Waited on**, an owed action waiting on an event, or a block deferred to one: the wait
      first, armed as `rules/routing.md` has it, on a fresh read through youtrack of the card it
      watches — `add_item` with `kind` `card_wait`, its `title`, `cards` and `states` and `step`
@@ -147,7 +141,8 @@ the claimed actions, under "The blocks this work item researched, as they stand:
 `open, handed back to the operator: leave it to them`, by `open, claimed`, or by its answer as it
 reads. Each sits in a document an earlier pass left it open in, not in one the research
 registered. After the turn of the work item that continues its run, the brief names the run's
-researched blocks as well.
+researched blocks as well. How long the run holds one, and a failed run's, is `rules/routing.md`'s
+A block a run holds.
 
 1. **What the research found**, read from what the run registered, passed over first, its turn's
    last line and, where those do not say, its turn's reply whole (`get_session_response`),
