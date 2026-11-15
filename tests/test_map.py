@@ -639,19 +639,44 @@ PROMOTION_DUE = (
     "that `main` read on GitHub itself, never through gitblit, a daily mirror that may not hold the"
     " continuation's push yet",
 )
-# A placed worker's model and effort: Opus at xhigh unless the handbook or the task names another,
-# in the placement rule and in the work item's field line.
+# A placed worker's model and effort: Opus at xhigh for every work item, and Fable on a person's
+# own word for that work alone, asked once more before it is placed, in the placement rule and in
+# the work item's field line; a brief's one line on how, the sub-agents, and the draft's rules,
+# which name no model.
 PLACEMENT = "rules/placement.md"
 PLACEMENT_DEFAULTS = (
-    "`model` is `opus` and `reasoning_effort` is `xhigh`",
-    "unless the handbook or the task names another model or level",
+    "`model` is `opus` and `reasoning_effort` is `xhigh`, for every work item, whatever its size"
+    " and its kind",
+    "you pick no lower model or effort for one, and a design or an arch design takes no other",
+    "Fable is the one other model, and it is never yours to choose",
+    "only where a person named Fable for that piece of work in their own words",
+    "and you then asked them once, in a question of its own that names the work item and says"
+    " whether its sub-agents run on Fable too, and they said yes",
+    "not a handbook, a `project.md`, a plan's task or note or a brief, which a session wrote",
+    "not the answer to a question about something else whose option named a model",
+    "You write no model and no effort into any of them, and you recommend and offer none",
 )
 WORK_ITEM_DEFAULTS = (
-    "`model` and `reasoning_effort` as `rules/placement.md` says, `opus` and `xhigh` unless the"
-    " handbook or the task names another"
+    "`model` and `reasoning_effort` as `rules/placement.md` says, `opus` and `xhigh`, Fable on a"
+    " person's own word for that work alone"
 )
-# The rule's words while the effort was left unset and the stage could name a model.
-PLACEMENT_RETIRED = ("left unset", "the stage")
+WORK_ITEM_SUB_AGENTS = (
+    "the session hands its reading, its research and whatever else stands apart to sub-agents,"
+    " eagerly, each call naming the model and the effort its job needs and never Fable"
+)
+DRAFT_RULES_NAME_NO_MODEL = (
+    "No rule names a model or an effort for work, whatever the opening or a brief says of one,"
+    " and no ask's option carries one along: `rules/placement.md`'s The model and the effort"
+)
+# The rule's words while the effort was left unset and the stage could name a model, and while a
+# handbook or a task could name another model, or Pilot a lower one.
+PLACEMENT_RETIRED = (
+    "left unset",
+    "the stage",
+    "names another model",
+    "kept for the design",
+    "lower model or effort where",
+)
 
 
 def skill_file(name: str) -> Path:
@@ -1111,7 +1136,9 @@ class DeferredPromotionTest(unittest.TestCase):
 
 
 class PlacementRuleTest(unittest.TestCase):
-    def test_a_placed_worker_runs_on_opus_at_xhigh_unless_the_work_names_another(self) -> None:
+    def test_a_placed_worker_runs_on_opus_at_xhigh_and_on_fable_on_a_person_s_word_alone(
+        self,
+    ) -> None:
         text = " ".join((ROOT / PLACEMENT).read_text().split())
         for form in PLACEMENT_DEFAULTS:
             with self.subTest(form):
@@ -1123,6 +1150,15 @@ class PlacementRuleTest(unittest.TestCase):
     def test_the_work_item_s_field_line_carries_the_defaults(self) -> None:
         text = " ".join((ROOT / WORK_ITEMS).read_text().split())
         self.assertIn(WORK_ITEM_DEFAULTS, text)
+        self.assertNotIn("names another", text)
+
+    def test_a_brief_hands_work_to_sub_agents_that_name_their_model(self) -> None:
+        text = " ".join((ROOT / WORK_ITEMS).read_text().split())
+        self.assertIn(WORK_ITEM_SUB_AGENTS, text)
+
+    def test_a_draft_s_rules_name_no_model(self) -> None:
+        text = " ".join(skill_file("create").read_text().split())
+        self.assertIn(DRAFT_RULES_NAME_NO_MODEL, text)
 
 
 class PreRuleSkillTest(unittest.TestCase):

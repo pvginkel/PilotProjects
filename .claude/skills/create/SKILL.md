@@ -54,8 +54,10 @@ writing — the draft, its front matter and its blocks — is `/dev:document-for
     project has them; what the setup starts — work in a repository, an action for someone's
     hands, or nothing yet — agreed here, which nothing in the app fixes.
   - `## Rules`: the rules the chat agrees on for the project — how its work goes, what is asked
-    first, what is never done. The handbook is not the draft's: the setup copies this section
-    into `handbook.md`.
+    first, what is never done. No rule names a model or an effort for work, whatever the opening
+    or a brief says of one, and no ask's option carries one along: `rules/placement.md`'s The
+    model and the effort. The handbook is not the draft's: the setup copies this section into
+    `handbook.md`.
   - `## Context`: what a session working the project needs to know — its repositories, its
     environments, its people, where its material is. The setup copies it into `handbook.md` too.
 - **The front matter**: `title`, the project's name in the list and the head; `slug`, the

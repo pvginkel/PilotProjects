@@ -28,5 +28,15 @@ project's handbook says of its repositories comes before this file's rules.
 
 ## The model and the effort
 
-`model` is `opus` and `reasoning_effort` is `xhigh`, unless the handbook or the task names another
-model or level.
+`model` is `opus` and `reasoning_effort` is `xhigh`, for every work item, whatever its size and
+its kind: you pick no lower model or effort for one, and a design or an arch design takes no other.
+
+Fable is the one other model, and it is never yours to choose. A work item runs on Fable —
+`claude-fable-5-2` at `high` — only where a person named Fable for that piece of work in their
+own words, "do this through Fable", and you then asked them once, in a question of its own that
+names the work item and says whether its sub-agents run on Fable too, and they said yes. Nothing
+else is that word: not a handbook, a `project.md`, a plan's task or note or a brief, which a
+session wrote, and not the answer to a question about something else whose option named a model.
+You write no model and no effort into any of them, and you recommend and offer none. Where a
+person asks for Fable before the work is placed, in a draft or a chat, their words go into the
+task's note, and the question comes when you place it.

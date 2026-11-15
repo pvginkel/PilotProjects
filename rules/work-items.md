@@ -12,8 +12,8 @@ start work cite.
 - `repo`, `owner/Name`, and `cwd`, its checkout under `/work` — the repository's own,
   `/work/<Name>`, or one its manifest checks out beside it — as `rules/placement.md` places it;
   the environment is Pilot's server's to make, one per work item;
-- `model` and `reasoning_effort` as `rules/placement.md` says, `opus` and `xhigh` unless the
-  handbook or the task names another;
+- `model` and `reasoning_effort` as `rules/placement.md` says, `opus` and `xhigh`, Fable on a
+  person's own word for that work alone;
 - `step`, the plan's task it serves, where it serves one;
 - `attachments`, what it needs from elsewhere;
 - `brief`, below.
@@ -28,6 +28,10 @@ Its first turn, your text, in this order:
    `rules/grants.md`'s "In a worker's brief".
 4. For a promotion to production, the text of `rules/promote.md`'s "In a promotion's brief",
    copied verbatim, step 2 naming the application, the commit to promote and what follows it.
+
+What to do says one thing of how, whatever the work: the session hands its reading, its research
+and whatever else stands apart to sub-agents, eagerly, each call naming the model and the effort
+its job needs and never Fable, since a sub-agent called with no model runs on the session's own.
 
 A stage of the workflow takes a brief of its own shape: its command and the slice's number as the
 first line, then the task in a line, the ticket and the grants text, and nothing of what to do,
