@@ -27,7 +27,8 @@ Its first turn, your text, in this order:
 3. The grants text the switch selects — the brief's switch line — copied verbatim from
    `rules/grants.md`'s "In a worker's brief".
 4. For a promotion to production, the text of `rules/promote.md`'s "In a promotion's brief",
-   copied verbatim, step 2 naming the application, the commit to promote and what follows it.
+   copied verbatim, step 2 naming the application, its commit, the application's alone, never the
+   deploy repository's, which the promotion takes from the build, and what follows it.
 
 What to do says one thing of how, whatever the work: the session hands its reading, its research
 and whatever else stands apart to sub-agents, eagerly, each call naming the model and the effort

@@ -4,7 +4,7 @@ What a promotion to production needs, the same in every project: the job and its
 wait on the build, the read of production through `cexec iac`, and the check for what else is
 running. The worker runs outside the store, so a promotion's brief carries the text below,
 copied verbatim, as it carries the grants (`rules/work-items.md`); the brief names the rest, the
-application, the commit and what the close-out owes after it.
+application, its commit and what the close-out owes after it.
 
 Pilot starts a promotion's work item where the handbook's rules on other work running let it,
 and a close-out's promotion besides only once the run's continuation has ended
@@ -26,6 +26,14 @@ A promotion to production, the same in every project:
   `timeout 1800 track_build.py <App>/Build-Main --hash <the application's commit> --diagnose`
   (in `~/.local/bin`), whose summary and exit status say how each went. A build that failed is
   reported, never promoted.
+- The deploy commit, from the build: the brief names the application's commit alone, and the job's
+  `commit` takes the deploy repository's, which exists only once the build has pinned it. The
+  build's console names it on its pin line, PilotApp's `pvginkel/PilotDeploy <sha> pins
+  config/dev/values.yaml, …`: `curl -fsS -u "$JENKINS_USER:$JENKINS_TOKEN"
+  "$JENKINS_URL/job/<App>/job/Build-Main/<n>/consoleText"`, `<n>` the build track_build.py's
+  summary names. Pass that commit: never the application's, which the job refuses as not on
+  `main`, and never none, which promotes the deploy repository's tip, which a later build may
+  have moved past.
 - What else is running: Pilot started this work where the project's rules on other work running
   let it, and that check is Pilot's, never yours: a session you see running holds nothing. The
   job's own builds are yours to read: `curl -fsS -u "$JENKINS_USER:$JENKINS_TOKEN"
@@ -35,7 +43,8 @@ A promotion to production, the same in every project:
 - The start and its wait: the job's `nextBuildNumber`, read as above, is the build your start
   makes. Start it through Jenkins's API, a `--data-urlencode` for each parameter its header names;
   PilotApp's: `curl -fsS -X POST -u "$JENKINS_USER:$JENKINS_TOKEN"
-  "$JENKINS_URL/job/<App>/job/Promote-PRD/buildWithParameters" --data-urlencode "commit=<commit>"`.
+  "$JENKINS_URL/job/<App>/job/Promote-PRD/buildWithParameters"
+  --data-urlencode "commit=<the deploy commit>"`.
   Then wait on it through production's roll:
   `timeout 1800 track_build.py <App>/Promote-PRD --buildnr <n> --diagnose`.
 - Production, read: kubectl runs in the `iac` tool container, `cexec iac kubectl …`, on the

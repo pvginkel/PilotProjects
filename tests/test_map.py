@@ -608,6 +608,21 @@ PROMOTE_BRIEF = (
     "For a promotion to production, the text of `rules/promote.md`'s \"In a promotion's brief\","
     " copied verbatim"
 )
+# The brief names the application's commit alone, and the procedure takes the deploy repository's
+# from the build's pin line, since it exists only once the build has pinned it (P-216).
+PROMOTE_DEPLOY_COMMIT = (
+    "The deploy commit, from the build: the brief names the application's commit alone, and the"
+    " job's `commit` takes the deploy repository's, which exists only once the build has pinned it",
+    "PilotApp's `pvginkel/PilotDeploy <sha> pins config/dev/values.yaml, …`",
+    "`<n>` the build track_build.py's summary names",
+    "never the application's, which the job refuses as not on `main`, and never none, which"
+    " promotes the deploy repository's tip, which a later build may have moved past",
+    '--data-urlencode "commit=<the deploy commit>"',
+)
+PROMOTE_BRIEF_COMMIT = (
+    "step 2 naming the application, its commit, the application's alone, never the deploy"
+    " repository's, which the promotion takes from the build, and what follows it"
+)
 # A close-out's promotion deferred to the run's own task, never claimed, with what the close-out
 # owes after it, so that the close-out closes on its other blocks and the continuation goes on;
 # the promotion due once that continuation has ended, so that it takes its fixes (P-183, D2).
@@ -1125,6 +1140,19 @@ class PromoteRuleTest(unittest.TestCase):
 
     def test_a_promotion_s_brief_carries_the_text_as_it_carries_the_grants(self) -> None:
         self.assertIn(PROMOTE_BRIEF, " ".join((ROOT / WORK_ITEMS).read_text().split()))
+
+    def test_the_brief_names_the_application_s_commit_and_the_build_the_deploy_commit(
+        self,
+    ) -> None:
+        _, _, section = (ROOT / PROMOTE).read_text().partition(f"\n{PROMOTE_SECTION}\n")
+        (block,) = re.findall(r"^```text\n(.*?)^```$", section, re.MULTILINE | re.DOTALL)
+        block = " ".join(block.split())
+        for form in PROMOTE_DEPLOY_COMMIT:
+            with self.subTest(form):
+                self.assertIn(form, block)
+        work_items = " ".join((ROOT / WORK_ITEMS).read_text().split())
+        self.assertIn(PROMOTE_BRIEF_COMMIT, work_items)
+        self.assertNotIn("the commit to promote", work_items)
 
 
 class DeferredPromotionTest(unittest.TestCase):
