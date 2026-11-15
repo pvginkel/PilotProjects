@@ -183,9 +183,12 @@ do with it what you do with the rest, one of these, or more where it holds more 
   debrief or says the loop went well: the operator reads it behind the Debrief.
 - **A card**, for a change the debrief shows is needed, in the work's repository or in the
   workflow: made through youtrack in your turn, in the project of what it is about, AIWorkflow's
-  own for the workflow, its text the debrief's words it rests on, quoted, and what is to change. A
-  finding a document of the stage holds already, a close-out's among them, is that document's, its
-  fate the stage's to carry out: no card of it (`rules/stages.md`).
+  own for the workflow, its text the debrief's words it rests on, quoted, and what is to change.
+  Before you make it, search that project through youtrack for an open card on the same change:
+  where one is open, add the debrief's words it rests on to that card as a comment, quoted, and
+  make no card, so that a friction that comes back run after run stays one card that records each
+  return. A finding a document of the stage holds already, a close-out's among them, is that
+  document's, its fate the stage's to carry out: no card of it (`rules/stages.md`).
 - **A fieldnote**, for friction the debrief names in an environment or in tooling, posted to
   Fieldnotes as routing's friction half has it (`rules/routing.md`); where the post answers with
   one already there for the same friction, that one is fine: react to it.
@@ -216,7 +219,7 @@ settled, 1 deferred to t5); inbox/8 open for the operator (D2), A1 claimed for "
 token", Q3 researched by "Count the hosts", D4 asked of its writer; inbox/9 not read; inbox/6 Q2
 answered on its research" — or "Pre-ruled: nothing registered"; where the brief carries a
 debrief, a last part says what came of it: "the debrief: nothing", or the notice, the card by its
-id or the post. Then `/plan`, What is next (step 4).
+id, the comment by its card's id, or the post. Then `/plan`, What is next (step 4).
 
 ## The brief
 

@@ -7,7 +7,8 @@ skill naming a draft's ask and its material as pilot-store takes them, the pre-r
 the briefs of a worker's turn and of its writer's answer as PilotApp's server writes them and
 naming its writes — a claim, a research, a question to the writer and a wait among them — routing
 the blocks a research's brief gives and its hand-on to the plan, making nothing, a notice, a card
-or a fieldnote of the stage session's debrief they carry, a card on it the one exception
+or a fieldnote of the stage session's debrief they carry, an open card on the same change
+commented on rather than a card made, a card on it the one exception
 rules/stages.md makes to a stage's documents, whose brief says nothing of it, the plan skill naming
 each mode by its brief's kind line, reading the brief of an item done, the claimed actions of a
 worker's turn and the brief and the follow-up of a wait's run as the server writes them, a claimed
@@ -187,6 +188,19 @@ DEBRIEF_FATES = (
     " no card of it",
     "- **A fieldnote**, for friction the debrief names in an environment or in tooling",
     "one already there for the same friction, that one is fine",
+)
+# A card from a debrief is looked for first (slice 043's close-out I1, the operator's Agree,
+# 2026-11-15): an open card on the same change in that project takes the debrief's words as a
+# comment and no card is made; CLAUDE.md grants that comment, and the summary line names it.
+DEBRIEF_OPEN_CARD = (
+    "Before you make it, search that project through youtrack for an open card on the same change:"
+    " where one is open, add the debrief's words it rests on to that card as a comment, quoted,"
+    " and make no card",
+    "the comment by its card's id",
+)
+COMMENT_GRANT = (
+    "yours to read with, and to make a card, a comment on an open card, a fleet call or a"
+    " Fieldnotes post where a rule says so"
 )
 # A stage's documents get no card and no fold of the pass's, the stage's continuation carrying out
 # their fates; a card on the stage session's debrief is the one exception; and the stage's brief
@@ -1157,6 +1171,12 @@ class PreRuleSkillTest(unittest.TestCase):
         for form in DEBRIEF_FATES:
             with self.subTest(form):
                 self.assertIn(form, self.text)
+
+    def test_a_card_from_the_debrief_comments_on_an_open_card_on_the_same_change(self) -> None:
+        for form in DEBRIEF_OPEN_CARD:
+            with self.subTest(form):
+                self.assertIn(form, self.text)
+        self.assertIn(COMMENT_GRANT, " ".join(CLAUDE.read_text().split()))
 
 
 class StagesRuleTest(unittest.TestCase):

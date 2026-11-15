@@ -20,7 +20,8 @@ its database. The app is `pvginkel/PilotApp`.
   action claimed or a fact researched for it where the routes say so, a close-out's promotion
   deferred to the run's own task, a researched block routed on
   what its work found, the stage session's debrief, where the brief carries one, left or made a
-  notice, a card or a fieldnote, and the pass after the writer answered, which asks
+  notice, a card, a comment on an open card on the same change, or a fieldnote, and the pass after
+  the writer answered, which asks
   nothing, and `plan`'s the plan's upkeep in its modes: the setup, the first job at Create project;
   an action of Pilot's done, the `done` of a claimed action after a turn of its run, of a worker's
   document or of an item of Pilot's own, which that `done` closes on its last open block, one
