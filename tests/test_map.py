@@ -378,6 +378,20 @@ ROUTES_NAMED = (
     " block answered naming the wait (A wait). |",
     "| confirmed first: no answer line,",
 )
+# A requirement Pilot rules only where it can rule it safely: one it cannot, one the due diligence
+# leaves in doubt among them, is the operator's, in routing's choice row, which stages cite
+# (consolidation review R4.2 and R1.14, the operator's "A condition", 2026-11-15).
+REQUIREMENT_SAFELY = (
+    "A slice's requirement only where Pilot can rule it safely (the operator, 2026-10-31: \"If it can"
+    " rule safely, let it.\"): one Pilot cannot rule safely, one the due diligence leaves in doubt"
+    " among them, is left to the operator, with no edit (the operator, 2026-11-15: \"A condition\","
+    " to \"A requirement Pilot cannot rule safely is left to you\"). |"
+)
+REQUIREMENT_SAFELY_CITED = (
+    "and left to them where you cannot, one the due diligence leaves in doubt among them, as"
+    " routing's choice row has it"
+)
+REQUIREMENT_SAFELY_RETIRED = "where it is theirs, as routing's last row has it"
 # A close-out's ask to correct design/database.md to what was built is Pilot's to accept, auto
 # pilot on or off, on the operator's standing word of 2026-11-07, and the stages' rule that keeps
 # such an edit for the operator's word names it as its one exception (P-353, the store's memory
@@ -1974,6 +1988,17 @@ class StagesRuleTest(unittest.TestCase):
         for form in (STAGE_DOCUMENTS_NO_CARD, *STAGE_DEBRIEF_CARD):
             with self.subTest(form):
                 self.assertIn(form, self.text)
+
+    def test_a_requirement_is_pilot_s_only_where_it_can_rule_it_safely(self) -> None:
+        self.assertIn(REQUIREMENT_SAFELY_CITED, self.text)
+        self.assertNotIn(REQUIREMENT_SAFELY_RETIRED, self.text)
+        routing = (ROOT / "rules" / "routing.md").read_text()
+        (row,) = [
+            line
+            for line in routing.splitlines()
+            if line.startswith("| a choice outside the grants table,")
+        ]
+        self.assertIn(REQUIREMENT_SAFELY, row)
 
     def test_a_database_md_correction_is_pilot_s_to_accept_the_one_exception_to_fix_now(
         self,

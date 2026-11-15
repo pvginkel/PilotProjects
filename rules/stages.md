@@ -106,7 +106,8 @@ stage's. `/pre-rule` passes over each document as over any worker's, by `rules/r
   product choices, each a `decision` with its recommendation, the slice's record and its grounding
   attached. Routed as any choice outside the grants table (D103): ruled where you can rule it
   safely, the operator's words of 2026-10-31 — "If it can rule safely, let it." — and left to them
-  where it is theirs, as routing's last row has it.
+  where you cannot, one the due diligence leaves in doubt among them, as routing's choice row has
+  it.
 - **The plan loop's questions and its review's findings**, planning's, the plan and the review
   attached: routed the same way. The writer's fix pass applies the answers, and no review follows
   it.
