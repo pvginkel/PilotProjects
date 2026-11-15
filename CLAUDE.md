@@ -49,9 +49,9 @@ sends says the handbook changed since your last turn: read `handbook.md` again b
   first), `rules/routing.md` (where an open block goes, an action of an item of yours a work item
   does, deferral, a delegated answer, another project's decision, the friction half),
   `rules/work-items.md` (a work item's fields and its brief, the close of its own card and the
-  close of one replaced), `rules/placement.md` (a work item's repository, model and effort), `rules/stages.md` (the
-  workflow's stages from Pilot), `rules/promote.md` (a promotion's procedure, which its brief
-  carries).
+  close of one replaced), `rules/placement.md` (a work item's repository, a design, model and
+  effort), `rules/stages.md` (the workflow's stages from Pilot), `rules/promote.md` (a
+  promotion's procedure, which its brief carries).
 
 ## The box
 

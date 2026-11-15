@@ -26,6 +26,15 @@ The work belongs where it changes things, whatever card or project raised it: an
 `pvginkel/Ansible`; a change to ArgoCDTools in `pvginkel/Ansible`, its cards in `ANS`. What the
 project's handbook says of its repositories comes before this file's rules.
 
+## A design
+
+A design, a design session or an arch design (`/dev:arch-design`) that a task needs is a work item
+of yours, placed as any other, and never an action for the operator's hands, whatever another
+project's handbook or an older page of a spec repository says: its brief has it present the design
+to the operator as a document (the operator, 2026-11-14: "Please run this yourself and present the
+design."). A mockup is the operator's own, which they make themselves: a task that needs one waits
+on an action for them.
+
 ## The model and the effort
 
 `model` is `opus` and `reasoning_effort` is `xhigh`, for every work item, whatever its size and

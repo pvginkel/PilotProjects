@@ -39,8 +39,8 @@ its database. The app is `pvginkel/PilotApp`.
   ahead and what asks the operator first), `routing.md` (where an open block goes, an action of an
   item of Pilot's own that a work item does among them), `work-items.md` (a work item's fields and
   its brief, the close of its own card and the close of one replaced), `placement.md` (a work
-  item's repository, model and effort), `stages.md` (the workflow's stages from Pilot) and `promote.md` (a promotion's
-  procedure, which its brief carries).
+  item's repository, a design, model and effort), `stages.md` (the workflow's stages from Pilot)
+  and `promote.md` (a promotion's procedure, which its brief carries).
 - `.kubecoder/config.yaml`: the environment, with the `pilot-sync` service, which keeps
   `/work/Projects` in step with the record, and the catalog's `python` toolchain.
 - `.claude/settings.json` and `.claude/hooks/pilot-sync-lock.py`: the hook that takes the

@@ -732,6 +732,23 @@ DRAFT_RULES_NAME_NO_MODEL = (
     "No rule names a model or an effort for work, whatever the opening or a brief says of one,"
     " and no ask's option carries one along: `rules/placement.md`'s The model and the effort"
 )
+# A design, a design session or an arch design is a work item of Pilot's that presents the design
+# as a document, never an action for the operator's hands; a mockup is theirs (P-353, the store's
+# memory note design-through-pilot; the operator, 2026-11-14).
+DESIGN_SECTION = "## A design"
+DESIGN_THROUGH_PILOT = (
+    "A design, a design session or an arch design (`/dev:arch-design`) that a task needs is a work"
+    " item of yours, placed as any other, and never an action for the operator's hands",
+    "its brief has it present the design to the operator as a document",
+    "A mockup is the operator's own, which they make themselves: a task that needs one waits on an"
+    " action for them.",
+)
+DESIGN_ROUTED = (
+    "a secret no repository's tooling can place, a mockup, which they make themselves | left to the"
+    " operator, with no edit. |",
+    "an Ansible work item, a design, a design session or an arch design (`rules/placement.md`'s A"
+    " design), among them |",
+)
 # The rule's words while the effort was left unset and the stage could name a model, and while a
 # handbook or a task could name another model, or Pilot a lower one.
 PLACEMENT_RETIRED = (
@@ -1259,6 +1276,19 @@ class PlacementRuleTest(unittest.TestCase):
         for form in PLACEMENT_RETIRED:
             with self.subTest(form):
                 self.assertNotIn(form, text)
+
+    def test_a_design_is_a_work_item_of_pilot_s_and_a_mockup_the_operator_s(self) -> None:
+        _, heading, rest = (ROOT / PLACEMENT).read_text().partition(f"\n{DESIGN_SECTION}\n")
+        self.assertTrue(heading)
+        section, _, _ = rest.partition("\n## ")
+        section = " ".join(section.split())
+        for form in DESIGN_THROUGH_PILOT:
+            with self.subTest(form):
+                self.assertIn(form, section)
+        routing = " ".join((ROOT / "rules" / "routing.md").read_text().split())
+        for form in DESIGN_ROUTED:
+            with self.subTest(form):
+                self.assertIn(form, routing)
 
     def test_the_work_item_s_field_line_carries_the_defaults(self) -> None:
         text = " ".join((ROOT / WORK_ITEMS).read_text().split())
