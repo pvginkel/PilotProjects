@@ -671,6 +671,16 @@ PROMOTION_DUE = (
     "that `main` read on GitHub itself, never through gitblit, a daily mirror that may not hold the"
     " continuation's push yet",
 )
+# Where a run's turn and what it registered do not say, its reply is read whole, through
+# `get_session_response`, never the session log, whose lines are cut (P-291's PilotProjects half).
+REPLY_READ = (
+    "its turn's reply whole (`get_session_response`), never its session log, `get_session_log`,"
+    " which cuts every line at about 80 characters"
+)
+REPLY_READ_SECTIONS = (
+    ("plan", "## An action of Pilot's done"),
+    ("pre-rule", "## A researched block"),
+)
 # A cancelled run's deferred promotion: no continuation comes, so it is never started, and the
 # operator gets a notice naming it (P-215, the operator's "Agreed", 2026-11-12, to "The card has
 # Pilot send you a notice naming the promotion and start nothing").
@@ -1218,6 +1228,16 @@ class DeferredPromotionTest(unittest.TestCase):
         for form in PROMOTION_CANCELLED_DUE:
             with self.subTest(form):
                 self.assertIn(form, text)
+
+
+class ReplyReadTest(unittest.TestCase):
+    def test_the_fallback_reads_the_reply_whole_through_get_session_response(self) -> None:
+        for name, heading in REPLY_READ_SECTIONS:
+            _, found, rest = skill_file(name).read_text().partition(f"\n{heading}\n")
+            section, _, _ = rest.partition("\n## ")
+            with self.subTest(name):
+                self.assertTrue(found)
+                self.assertIn(REPLY_READ, " ".join(first_step(section).split()))
 
 
 class PlacementRuleTest(unittest.TestCase):

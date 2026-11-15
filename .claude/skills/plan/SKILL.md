@@ -188,7 +188,8 @@ clarification run's turn, which registers nothing), or its work fails or is stop
 cancels the run: Pilot's server reads that, and nothing you write hands one over.
 
 1. **What the work did**, read from its turn's last line, what it registered and, where those do
-   not say, its session log (`get_session_log`).
+   not say, its turn's reply whole (`get_session_response`), never its session log,
+   `get_session_log`, which cuts every line at about 80 characters.
 2. **Done**, each open one the work did:
    `pilot.py done <file> <block id> --note <what was done and what was seen>`, the paste-back: on
    a worker's document what the worker reads when it resumes, on an item of yours what the

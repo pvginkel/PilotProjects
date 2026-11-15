@@ -150,7 +150,8 @@ registered. After the turn of the work item that continues its run, the brief na
 researched blocks as well.
 
 1. **What the research found**, read from what the run registered, passed over first, its turn's
-   last line and, where those do not say, its session log (`get_session_log`).
+   last line and, where those do not say, its turn's reply whole (`get_session_response`),
+   never its session log, `get_session_log`, which cuts every line at about 80 characters.
 2. **Routed**, each `open` one whose fact the run found, as The pass's step 4 has it, the fact
    read, what was found and where said in your turn, and the note giving the choice and its one
    reason; its document marked Done once settled whole (The pass, step 6).
