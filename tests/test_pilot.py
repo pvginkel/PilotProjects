@@ -542,6 +542,23 @@ class TestItems(PilotCase):
                     says=(f"<id|path|seq>: no item of timeline.json has the seq {seq}",),
                 )
 
+    def test_show_takes_only_decimal_digits_as_a_seq(self) -> None:
+        # `²` is a digit `int()` cannot read and `+7` a number it can: neither is a seq to `show`,
+        # which takes them for an id or a path; the Arabic-Indic `٣٣` is decimal, a seq.
+        for named in ("²", "+7"):
+            with self.subTest(named=named):
+                self.assert_refused(
+                    "items",
+                    "show",
+                    named,
+                    says=(
+                        f"<id|path|seq>: no item of timeline.json has the id or the path {named}",
+                    ),
+                )
+        self.assert_refused(
+            "items", "show", "٣٣", says=("<id|path|seq>: no item of timeline.json has the seq ٣٣",)
+        )
+
     def test_get_prints_the_item_s_fields_as_the_timeline_has_them_by_its_seq(self) -> None:
         timeline = json.loads((self.folder / "timeline.json").read_text())
         for item in timeline["items"]:

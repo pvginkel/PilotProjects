@@ -162,27 +162,58 @@ def _timeline(project: Project) -> dict[str, Any]:
     return timeline
 
 
-def _parsed(project: Project, item: dict[str, Any]) -> dsl.ParsedDocument | None:
-    """The item's document as it stands on disk; none without one."""
+def _parsed(project: Project, item: dict[str, Any]) -> tuple[str, dsl.ParsedDocument] | None:
+    """The item's document as it stands on disk, its text and what parses of
+    it; none without one."""
     if item["path"] is None:
         return None
     try:
         text = (project.folder / item["path"]).read_text(errors="replace")
     except FileNotFoundError:
         return None
-    return dsl.parse(text)
+    return text, dsl.parse(text)
+
+
+def _item(
+    project: Project,
+    items: list[dict[str, Any]],
+    named: str | int,
+    what: str,
+    *,
+    arms: tuple[str, ...] = ("seq", "id", "path"),
+    tail: str = "",
+) -> dict[str, Any]:
+    """The item `named` names, by the arms given: its seq, as decimal digits
+    alone (an int is one), else its id, else its document's path. No id or
+    path is a bare integer: a seq is the number `items list` prints first.
+    Refused naming `what`, the arms the lookup tried and `tail`."""
+    found = None
+    if "seq" in arms and (isinstance(named, int) or named.isdecimal()):
+        said = "the seq"
+        found = next((item for item in items if item["seq"] == int(named)), None)
+    else:
+        said = "the " + " or the ".join(arm for arm in arms if arm != "seq")
+        if "id" in arms:
+            found = next((item for item in items if item["id"] == named), None)
+        if found is None and "path" in arms:
+            path = project.file(str(named), what).relative_to(project.folder).as_posix()
+            found = next((item for item in items if item["path"] == path), None)
+    if found is None:
+        raise Refused(f"{what}: no item of {TIMELINE} has {said} {named}{tail}")
+    return found
 
 
 def _block_of(
-    project: Project, ref: str
+    project: Project, items: list[dict[str, Any]], ref: str
 ) -> tuple[dict[str, Any], dsl.ParsedDocument, dsl.Block] | None:
     """The item, document and block a ref names, `<item id>/<local id>`, as
     the folder holds them; none where it names no block of an item's."""
     item_id, _, local_id = ref.partition("/")
-    item = next((item for item in _timeline(project)["items"] if item["id"] == item_id), None)
-    document = None if item is None else _parsed(project, item)
-    if document is None:
+    item = next((item for item in items if item["id"] == item_id), None)
+    parsed = None if item is None else _parsed(project, item)
+    if parsed is None:
         return None
+    document = parsed[1]
     block = next((block for block in document.blocks if block.local_id == local_id), None)
     return None if block is None else (item, document, block)
 
@@ -255,8 +286,18 @@ def _firing_line(item: dict[str, Any], firing: dict[str, Any]) -> str:
     return f"firing {firing['seq']} · {firing['fired_at']} · {what} · {run}"
 
 
+def _one_line(text: str) -> str:
+    """The words of a note on one line."""
+    return " ".join(text.split())
+
+
+def _title_of(item: dict[str, Any], document: dsl.ParsedDocument | None = None) -> str:
+    """The item's title, else its document's, else `(no title)`."""
+    return item["title"] or (None if document is None else document.title) or "(no title)"
+
+
 def _item_line(item: dict[str, Any]) -> str:
-    parts = [str(item["seq"]), item["kind"], item["title"] or "(no title)"]
+    parts = [str(item["seq"]), item["kind"], _title_of(item)]
     done = item["done"]
     if done is None:
         parts.append("open")
@@ -273,7 +314,7 @@ def _item_line(item: dict[str, Any]) -> str:
         parts.extend(_wait_parts(item))
     note = _note(item)
     if note is not None:
-        parts.append(f"note: {' '.join(note.split())}")
+        parts.append(f"note: {_one_line(note)}")
     parts.append(item["path"] or "no document")
     parts.append(item["id"])
     return " · ".join(parts)
@@ -300,19 +341,7 @@ def _items_list(project: Project, args: argparse.Namespace) -> int:
 
 def _items_show(project: Project, args: argparse.Namespace) -> int:
     items = _timeline(project)["items"]
-    if args.item.isdigit():
-        # No id or path is a bare integer: it is the seq `items list` prints first.
-        item = next((item for item in items if item["seq"] == int(args.item)), None)
-        if item is None:
-            raise Refused(f"<id|path|seq>: no item of {TIMELINE} has the seq {args.item}")
-        return _show(project, item)
-    item = next((item for item in items if item["id"] == args.item), None)
-    if item is None:
-        path = project.file(args.item, "<id|path|seq>").relative_to(project.folder).as_posix()
-        item = next((item for item in items if item["path"] == path), None)
-    if item is None:
-        raise Refused(f"<id|path|seq>: no item of {TIMELINE} has the id or the path {args.item}")
-    return _show(project, item)
+    return _show(project, _item(project, items, args.item, "<id|path|seq>"))
 
 
 def _show(project: Project, item: dict[str, Any]) -> int:
@@ -323,16 +352,17 @@ def _show(project: Project, item: dict[str, Any]) -> int:
         for firing in item["firings"]:
             print(_firing_line(item, firing))
     note = _note(item)
-    if note is not None and note != " ".join(note.split()):
+    if note is not None and note != _one_line(note):
         print("note:")
         for line in note.splitlines():
             print(f"    {line}")
-    document = _parsed(project, item)
-    if item["path"] is not None and document is None:
+    parsed = _parsed(project, item)
+    if item["path"] is not None and parsed is None:
         print(f"its document {item['path']} is not on disk")
-    if document is None:
+    if parsed is None:
         return DONE
-    lines = (project.folder / item["path"]).read_text(errors="replace").splitlines()
+    text, document = parsed
+    lines = text.splitlines()
     for block in document.blocks:
         heading = "" if block.section is None else f" · {block.section.heading}"
         print(f"{block.local_id} · {block.kind}{heading}")
@@ -350,9 +380,7 @@ def _show(project: Project, item: dict[str, Any]) -> int:
 
 def _items_get(project: Project, args: argparse.Namespace) -> int:
     items = _timeline(project)["items"]
-    item = next((item for item in items if item["seq"] == args.seq), None)
-    if item is None:
-        raise Refused(f"<seq>: no item of {TIMELINE} has the seq {args.seq}")
+    item = _item(project, items, args.seq, "<seq>", arms=("seq",))
     print(json.dumps(item, indent=2, ensure_ascii=False))
     return DONE
 
@@ -524,8 +552,9 @@ def _note_add(project: Project, args: argparse.Namespace) -> int:
     def edit(plan: dict[str, Any]) -> str:
         owner = plan["notes"] if args.task is None else _task(plan, args.task, "--task")["notes"]
         refs = list(dict.fromkeys(ref.strip() for ref in args.ref))
+        items = _timeline(project)["items"] if refs else []
         for ref in refs:
-            if _block_of(project, ref) is None:
+            if _block_of(project, items, ref) is None:
                 raise Refused(
                     f"--ref: `{ref}` names no block of this project's items"
                     f" (`<item id>/<local id>`, the item's id from {TIMELINE})"
@@ -587,18 +616,18 @@ def _note_list(project: Project, args: argparse.Namespace) -> int:
         for task, note in _all_notes(plan)
         if args.task is None or (task is not None and task["id"] == args.task)
     ]
+    items = _timeline(project)["items"] if any(note["refs"] for _, note in notes) else []
     for task, note in notes:
         print(f"{note['id']} · {'plan' if task is None else task['id']} · {note['summary']}")
         for line in (note["content"] or "").splitlines():
             print(f"    {line}")
         for ref in note["refs"]:
-            found = _block_of(project, ref)
+            found = _block_of(project, items, ref)
             if found is None:
                 print(f"    {ref} · no block of this project's items")
                 continue
             item, document, block = found
-            title = item["title"] or document.title or "(no title)"
-            print(f"    {ref} · {title} · {_answer_line(block)}")
+            print(f"    {ref} · {_title_of(item, document)} · {_answer_line(block)}")
     if not notes:
         print("no open notes")
     return DONE
@@ -668,12 +697,14 @@ def _document(project: Project, name: str) -> _Document:
     timeline = _timeline(project)
     item = None
     if relative != DRAFT:
-        item = next((item for item in timeline["items"] if item["path"] == relative), None)
-        if item is None:
-            raise Refused(
-                f"<file>: no item of {TIMELINE} has the path {relative};"
-                " an item's file is born through `add_item`"
-            )
+        item = _item(
+            project,
+            timeline["items"],
+            relative,
+            "<file>",
+            arms=("path",),
+            tail="; an item's file is born through `add_item`",
+        )
     try:
         text: str | None = path.read_bytes().decode()
     except UnicodeDecodeError:
