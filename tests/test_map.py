@@ -591,6 +591,14 @@ REPLACED_BY_THE_CHAT = (
     "nothing is said stopped or closed before `stop_work` answered its effect,"
     ' "Stopped · <title>" or "Closed · <title>"',
 )
+# A work item the person drops in the chat, with nothing in its place, closed for good on their
+# word, their words the reason (P-298, the operator's "Agreed", 2026-11-15, widening "Pilot closes
+# what it replaces, with its reason" to what a person drops).
+DROPPED_BY_THE_CHAT = (
+    "A work item the person drops, its work no longer wanted with nothing in its place",
+    "is closed for good on their word: `stop_work` with `reason` their words, never left stopped"
+    " for them to close",
+)
 REPLACED_BY_A_JOB = (
     "A work item you replace with another, its task changed by a ruling or its brief outdated, is"
     " closed for good with it, never left stopped beside it"
@@ -1149,7 +1157,7 @@ class WorkItemRuleTest(unittest.TestCase):
         _, _, rest = skill_file("chat").read_text().partition("\n## Correcting\n")
         correcting, _, _ = rest.partition("\n## ")
         correcting = " ".join(correcting.split())
-        for form in (REPLACED_CITED, *REPLACED_BY_THE_CHAT):
+        for form in (REPLACED_CITED, *REPLACED_BY_THE_CHAT, *DROPPED_BY_THE_CHAT):
             with self.subTest(skill="chat", form=form):
                 self.assertIn(form, correcting)
         _, _, rest = skill_file("plan").read_text().partition("\n## In every mode\n")

@@ -164,6 +164,10 @@ meaning is a new block or a new item.
 - A work item the new one replaces is closed for good with it, never left stopped beside it:
   `stop_work` with `reason`, as `rules/work-items.md`'s A work item replaced has it, one stopped
   earlier included.
+- A work item the person drops, its work no longer wanted with nothing in its place — "drop that,
+  we no longer need it" — is closed for good on their word: `stop_work` with `reason` their words,
+  never left stopped for them to close. Only on their word that it is dropped for good: a stop
+  they may resume takes no `reason`.
 - An open ask of Pilot's own that the person says the correction makes obsolete is called off
   for them (Recording's An ask the person calls off).
 - Report the effect the record holds and what still needs a decision; nothing is said stopped

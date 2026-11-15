@@ -14,7 +14,8 @@ its database. The app is `pvginkel/PilotApp`.
   on an item of Pilot's own carried out in its own turn, with no job after it, an action of one
   the person hands to a worker claimed for that work item, an ask of Pilot's own called off
   through `cancel_ask` for the person who says it is obsolete, a work item a correction replaces
-  closed through `stop_work` with its reason, `create`'s the
+  closed through `stop_work` with its reason, and one the person drops with their words as it,
+  `create`'s the
   definition chat's, which writes the draft with the person, `pre-rule`'s the pass over what a
   worker's turn registered, each open block routed by `rules/routing.md`, its writer asked, an
   action claimed or a fact researched for it where the routes say so, a close-out's promotion
