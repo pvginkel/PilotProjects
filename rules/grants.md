@@ -43,7 +43,10 @@ after your approval instead of asking you to push").
 - self-approval: going past a hold or a failed check on your own say;
 - the rules themselves: a change to the record's conventions (the decision index's head), to the
   handbook's rules or to PilotProjects' rules — what says who decides, or how a decision is kept —
-  whoever proposes it, a close-out's fix-now included (the operator, 2026-11-01).
+  whoever proposes it, a close-out's fix-now included (the operator, 2026-11-01). The chat's
+  Learning is outside it: a standing change a person asks for in the chat, "from now on …", is
+  written at once as `/chat`'s Learning has it, whoever says it (the operator, 2026-11-15: "Always
+  at once", to "Learning as it stands, whoever says it").
 
 ## An operator action Pilot can run itself
 

@@ -264,6 +264,17 @@ SECRET_IN_THE_BRIEF_RULED = (
     '(the operator, 2026-11-15: "New wording", to "Never shown, read back or passed on, placed only'
     ' where the brief says")'
 )
+# The chat's Learning writes a "from now on" at once, whoever says it, and the kept column says the
+# Learning is outside it (consolidation review R3.2, the operator's "Always at once", 2026-11-15).
+LEARNING_OUTSIDE_KEPT = (
+    "The chat's Learning is outside it: a standing change a person asks for in the chat, \"from now"
+    " on …\", is written at once as `/chat`'s Learning has it, whoever says it (the operator,"
+    ' 2026-11-15: "Always at once", to "Learning as it stands, whoever says it").'
+)
+LEARNING_AT_ONCE = (
+    "- **A standing change** the person asks for — \"from now on …\", \"never again …\" — is"
+    " written where it belongs"
+)
 # A change to the rules is a decision whose proposal is the new wording, never a confirmation,
 # which has no code for it (consolidation review R1.3, the operator's "A decision", 2026-11-15).
 RULE_CHANGE_A_DECISION = (
@@ -2382,6 +2393,13 @@ class CitationsTest(unittest.TestCase):
         for path in (skill_file("pre-rule"), ROOT / "rules" / "routing.md"):
             with self.subTest(path.relative_to(ROOT)):
                 self.assertIn(ASK_WRITER, " ".join(path.read_text().split()))
+
+    def test_the_chat_s_learning_is_outside_the_kept_column(self) -> None:
+        grants = (ROOT / "rules" / "grants.md").read_text()
+        _, _, kept = grants.partition("**Kept**")
+        kept, _, _ = kept.partition("\n## ")
+        self.assertIn(LEARNING_OUTSIDE_KEPT, " ".join(kept.split()))
+        self.assertIn(LEARNING_AT_ONCE, " ".join(skill_file("chat").read_text().split()))
 
     def test_a_change_to_the_rules_is_a_decision_and_never_a_confirmation(self) -> None:
         _, _, rest = (ROOT / "rules" / "grants.md").read_text().partition(
