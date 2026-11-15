@@ -224,6 +224,18 @@ COMMENT_GRANT = (
     "yours to read with, and to make a card, comment on an open card or close one, make a fleet call"
     " or post to Fieldnotes, where a rule says so"
 )
+# A worker's brief on a secret: never shown, read back or passed on, and placed only where the brief
+# says, so that the worker the grants send to place one is not told it must not handle one
+# (consolidation review R1.4, the operator's "New wording", 2026-11-15).
+SECRET_IN_THE_BRIEF = (
+    "A secret's value is never shown, read back or passed on; you place one only where this brief"
+    " says, through the repository's tooling."
+)
+SECRET_IN_THE_BRIEF_RETIRED = "never yours to handle"
+SECRET_IN_THE_BRIEF_RULED = (
+    '(the operator, 2026-11-15: "New wording", to "Never shown, read back or passed on, placed only'
+    ' where the brief says")'
+)
 # A change to the rules is a decision whose proposal is the new wording, never a confirmation,
 # which has no code for it (consolidation review R1.3, the operator's "A decision", 2026-11-15).
 RULE_CHANGE_A_DECISION = (
@@ -1569,6 +1581,10 @@ class WorkItemRuleTest(unittest.TestCase):
         self.assertIn(PUSH_AFTER_APPROVAL, " ".join(text.split()))
         self.assertIn(PUSH_AFTER_APPROVAL_BRIEF, " ".join(off.split()))
         self.assertNotIn(PUSH_AFTER_APPROVAL_BRIEF, " ".join(on.split()))
+        for block in (on, off):
+            self.assertIn(SECRET_IN_THE_BRIEF, " ".join(block.split()))
+        self.assertNotIn(SECRET_IN_THE_BRIEF_RETIRED, text)
+        self.assertIn(SECRET_IN_THE_BRIEF_RULED, " ".join(text.split()))
 
     def test_the_skills_that_start_work_cite_it_and_carry_no_copy(self) -> None:
         for name in WORK_ITEM_SKILLS:

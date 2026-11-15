@@ -83,7 +83,10 @@ on, every open confirmation whose code is the granted column's, and never one of
 ## In a worker's brief
 
 A work item's brief carries the text below that the switch selects, copied verbatim, so that the
-session knows what is pre-approved and acts on it.
+session knows what is pre-approved and acts on it. Its sentence on a secret lets the worker the
+brief sends to place one do so, as An operator action Pilot can run itself has it, and no other
+(the operator, 2026-11-15: "New wording", to "Never shown, read back or passed on, placed only
+where the brief says").
 
 Auto pilot on:
 
@@ -94,8 +97,8 @@ promotion, an operator action you can run yourself.
 Not pre-approved, never done on your own say: an irreversible act, an act the operator held back
 for the product's sake, a permission meant to outlast this work, going past a hold or a failed
 check, a change to the rules that say who decides. Name each you need in what you register, and
-Pilot asks the operator. A secret's value is never yours to handle: name the step, never the
-value; placing one is work where a repository's tooling does it, Pilot's to start.
+Pilot asks the operator. A secret's value is never shown, read back or passed on; you place one
+only where this brief says, through the repository's tooling.
 ```
 
 Auto pilot off:
@@ -108,6 +111,6 @@ with it, a prd apply or a promotion, an operator action, an irreversible act, an
 held back for the product's sake, a permission meant to outlast this work, going past a hold or a
 failed check, a change to the rules that say who decides. Name each you need in what you register,
 and Pilot asks the operator. A push they approve is yours to make, never theirs. A secret's value
-is never yours to handle: name the step, never the value; placing one is work where a repository's
-tooling does it, Pilot's to start.
+is never shown, read back or passed on; you place one only where this brief says, through the
+repository's tooling.
 ```
