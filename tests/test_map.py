@@ -430,9 +430,9 @@ OWN_ACTION_BY_THE_CHAT = (
 # The modes' writes past the setup: a task's status, a note struck, a homeless deferral's note, and
 # pilot-store's `finish` on the finish decision's Finish.
 PLAN_CALLS = (
-    "`pilot.py plan task set <id> --status done`",
-    "`pilot.py plan note strike <id>`",
-    "`pilot.py plan note add --task <id> --summary <line> --ref <block id> <content>`",
+    "`pilot.py plan task set <task id> --status done`",
+    "`pilot.py plan note strike <note id>`",
+    "`pilot.py plan note add --task <task id> --summary <line> --ref <item id>/<block id> <content>`",
     "the job after its close calls `finish`",
     "`pilot.py done <file> <block id> --note <what was done and what was seen>`",
     "`mark`, `item` the document's id, `mark` `done`, and no `for`",
@@ -1903,6 +1903,15 @@ class CitationsTest(unittest.TestCase):
         for tool in entry["matcher"].split("|"):
             with self.subTest(tool):
                 self.assertIn(f"`{tool}`", text)
+
+    def test_a_task_or_a_note_is_quoted_by_the_metavar_pilot_py_gives_it(self) -> None:
+        for source, text in the_map().items():
+            for command in quoted_commands(text):
+                if not command.startswith("pilot.py plan "):
+                    continue
+                with self.subTest(source=source, command=command):
+                    self.assertNotIn("<id>", command)
+                    self.assertNotIn("--ref <block id>", command)
 
     def test_every_pilot_py_command_the_map_quotes_is_one_its_parser_takes(self) -> None:
         options = pilot_options()

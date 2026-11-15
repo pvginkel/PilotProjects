@@ -77,14 +77,15 @@ promotion What is next starts. The writing is
 - **A deferral** the person asks for — "defer this to t3", "leave it for the end" — is their
   answer too: `answer` for them, with `value` `deferred` and `to` the task's id, or `plan` for
   the project's end. Its plan note is yours, in the same turn, as `rules/routing.md`'s Deferral has
-  it: `pilot.py plan note add --task <id> --summary <line> --ref <block id> <content>`, without
-  `--task` for `plan`, `--ref` the block's `<item id>/<local id>`.
+  it:
+  `pilot.py plan note add --task <task id> --summary <line> --ref <item id>/<block id> <content>`,
+  without `--task` for `plan`.
 - **The brief's deferrals without a home** each get their note in this turn, the same way, or the
   block answered anew in a new item, as their line says.
 - **A deferred block the person rules after all** is answered through `answer` like any ruling
   while its item is open; once the item is done, as a deferral's usually is, `answer` refuses it,
   and the block is answered anew in a new item, as Correcting has it. Either way, the plan note
-  that pointed at it is struck in the same turn, `pilot.py plan note strike <id>`.
+  that pointed at it is struck in the same turn, `pilot.py plan note strike <note id>`.
 - Each call answers its effect line, as `CLAUDE.md`'s The tools and the scripts has it.
 - **A ruling or a close you record on an item of Pilot's own** — one a job or a chat added, in
   `items/`, never a worker's document in `inbox/`, which its run takes back — is carried out in

@@ -39,7 +39,7 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
   is there, and never add a second of it.
 - **As lean as the project**: the plan holds the tasks the project needs and no more — "the
   build is failing" is a task or two — a task added where the work shows one missing, removed
-  where it turns moot, `pilot.py plan task remove <id>` once its notes are struck or moved; no
+  where it turns moot, `pilot.py plan task remove <task id>` once its notes are struck or moved; no
   task is a fixture.
 - **Work** is a work item, its fields and its brief as `rules/work-items.md` has them: a stage of
   the workflow for a slice's planning and its run, filed first by a work item of its own
@@ -90,9 +90,9 @@ draft, and starts the work that can start.
    handbook written again until it names none; that the write landed is not enough.
 3. **The plan**, `plan.json`, through `pilot.py`'s plan verbs: the tasks as the chat agreed
    them, in its order, with ids you give, `t1`, `t2`, … —
-   `pilot.py plan task add --id <id> --title <text>` — a task's title naming the task alone, in
+   `pilot.py plan task add --id <task id> --title <text>` — a task's title naming the task alone, in
    25 words at most (`CLAUDE.md`'s invariants), and what it waits on, where the draft agreed an
-   order, a note on it, `pilot.py plan note add --task <id> --summary <line> <content>`, as is a
+   order, a note on it, `pilot.py plan note add --task <task id> --summary <line> <content>`, as is a
    person's request for Fable the draft quotes on a task's line (`rules/placement.md`'s The model
    and the effort); and the
    ticket and the repository where the draft names them,
@@ -105,7 +105,7 @@ draft, and starts the work that can start.
    the task); where none does, the plan goes on without it.
 6. **Every task that can start, started**: each whose inputs are there and that waits on no
    other task gets its first work item, and the task is set going,
-   `pilot.py plan task set <id> --status in_progress`. A task with no repository to work in
+   `pilot.py plan task set <task id> --status in_progress`. A task with no repository to work in
    places no work item: an act of a person's hands is an action item for them, exact; a task
    that waits stays pending.
 
@@ -177,15 +177,15 @@ item done; and in the chat, which carries out in its own turn a close it records
 plan brought up to date with what happened, and every piece of work that can go, going.
 
 1. **The task's status**, from what the run or the close did — the task the brief's work item or
-   item names: `pilot.py plan task set <id> --status done` where its work is done, nothing of it
+   item names: `pilot.py plan task set <task id> --status done` where its work is done, nothing of it
    left and no document its runs registered open; `in_progress` while it has a run going or one
    waiting on a person. A free-form work item's own card is closed then, as `rules/work-items.md`'s
    Its own card has it.
 2. **A deferral's notes**, the task's and those of each task you start below, each naming the blocks
-   deferred to it, the content and blocks a read away, `pilot.py plan note list --task <id>`; the
+   deferred to it, the content and blocks a read away, `pilot.py plan note list --task <task id>`; the
    plan's own at the plan's end (The sweep). Each is met and acted on — what it says to ask asked,
    in the work item's brief or as an item, what it says to do done — then struck,
-   `pilot.py plan note strike <id>`; or re-deferred with a reason, a note on the task or the plan
+   `pilot.py plan note strike <note id>`; or re-deferred with a reason, a note on the task or the plan
    where it now returns, naming the same blocks and why, the old one struck; or struck where its
    block is no longer deferred, a person having ruled it after all. A close-out's promotion's notes
    are step 3's, and a note on what a task waits on, on a collision or on a wait's event is no
@@ -205,13 +205,13 @@ plan brought up to date with what happened, and every piece of work that can go,
    promotion and the cancelled run it was owed after, and strikes the notes.
 4. **The deferrals without a home**, the brief's last list, which the pass leaves to you: each
    given its note in this turn, as `rules/routing.md`'s Deferral has it —
-   `pilot.py plan note add --task <id> --summary <line> --ref <block id> <content>`, without
-   `--task` for one deferred to the plan — or its block answered anew in a new item, as their line
-   says.
+   `pilot.py plan note add --task <task id> --summary <line> --ref <item id>/<block id> <content>`,
+   without `--task` for one deferred to the plan — or its block answered anew in a new item, as
+   their line says.
 5. **Every task whose inputs are done, started**, a work item each, in an environment of its own,
    all at once: the gate throttles them, and a held start is a line, never a reason to start less.
    Held back only what the plan says waits — what a task waits on is a note on it,
-   `pilot.py plan note list --task <id>`, which you strike, `pilot.py plan note strike <id>`, once
+   `pilot.py plan note list --task <task id>`, which you strike, `pilot.py plan note strike <note id>`, once
    what it waits on is met — and what would collide: two runs on one repository's same files, or
    work whose input is a run's open document; a task held back for a collision says so in a note
    on it. Each run waits only on its own documents: the task a finished document unblocks is
@@ -243,7 +243,7 @@ later firing, while this run's conversation holds, comes as its next turn: `Anot
 
 1. **The wait as the record holds it**: `pilot.py items show <id>` prints what it watches or when
    it is due, every firing with the run that took it, and its note once done; the note beside it
-   on its task, `pilot.py plan note list --task <id>`, says what was to happen once its event
+   on its task, `pilot.py plan note list --task <task id>`, says what was to happen once its event
    came (`rules/routing.md`).
 2. **Its pair**, a card wait and its backstop, found by the task they share:
    `pilot.py items list --open` gives each wait its `step`. A card wait's backstop is the open timed
