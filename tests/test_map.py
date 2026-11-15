@@ -125,6 +125,12 @@ OFFERED_ANSWER = (
     "Past an offer of either kind, or of calling off an ask you find obsolete yourself"
     " (Recording's An ask the person calls off), the chat asks no closed question of its own",
 )
+# A small correction the chat makes unasked and says so (P-353, the store's memory note
+# small-corrections-unasked; P-194's chat half without it).
+SMALL_CORRECTION = (
+    "A small correction — to your own wording, a typo, an obvious fix to what you just wrote — you"
+    " make in the turn, unasked, and say so in the reply"
+)
 OFFERED_ANSWER_RETIRED = "you added it. The chat asks no closed question"
 # In a draft's definition chat the server's quotes are of the draft alone — an ask of it by
 # `project.md/<local id>`, the id pilot-store's `answer` takes for it, or a file by its path — and
@@ -964,6 +970,7 @@ class ChatSkillTest(unittest.TestCase):
             with self.subTest(form):
                 self.assertIn(form, text)
         self.assertNotIn(OFFERED_ANSWER_RETIRED, text)
+        self.assertIn(SMALL_CORRECTION, text)
 
     def test_the_chat_calls_off_an_ask_of_pilot_s_own_for_the_person_who_says_so(self) -> None:
         _, _, rest = skill_file("chat").read_text().partition("\n## Recording\n")

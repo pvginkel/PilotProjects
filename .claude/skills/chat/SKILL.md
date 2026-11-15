@@ -143,7 +143,9 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
   item, which is for what only a person can rule (the operator, 2026-11-05). An action of an item
   of Pilot's own done so takes its `done`,
   `pilot.py done <file> <block id> --note <what was done and what was seen>`, which is the item's
-  close where it was its last open block, with no `mark` after it.
+  close where it was its last open block, with no `mark` after it. A small correction — to your
+  own wording, a typo, an obvious fix to what you just wrote — you make in the turn, unasked, and
+  say so in the reply (the operator, 2026-11-05: "Small corrections are generally ok.").
 - **A ruling you need** that has impact, past these, is a decision item, and the reply says you
   added it. Past an offer of either kind, or of calling off an ask you find obsolete yourself
   (Recording's An ask the person calls off), the chat asks no closed question of its own: an ask
