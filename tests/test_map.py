@@ -668,6 +668,14 @@ CLAIM_HANDED_BACK = (
     f"**Handed back to the operator** — its line ending `{HANDED_BACK}`",
     "nothing is written, no Done, retry or notice",
 )
+# A claimed action whose claim is gone was taken back by whoever took the claim off: the operator's,
+# nothing written (consolidation review R2.2, the operator's "Yours, nothing written", 2026-11-15).
+CLAIM_GONE = (
+    "6. **Its claim gone** — its line ending `open, its claim gone`, open with no answer at all now:"
+    " no step of yours takes a claim off, so whoever did took the action back. It is the operator's,"
+    " and nothing is written, no Done, retry, notice or new claim (the operator, 2026-11-15: \"Yours,"
+    ' nothing written", to "No retry, no notice, no new claim").'
+)
 # The line the plan skill drew before the server read when a run is done with a block.
 CLAIM_LINE_RETIRED = (
     "never reached in a turn that registered documents",
@@ -1614,7 +1622,7 @@ class PlanSkillTest(unittest.TestCase):
         self,
     ) -> None:
         text = " ".join(skill_file("plan").read_text().split())
-        for form in CLAIM_HANDED_BACK:
+        for form in (*CLAIM_HANDED_BACK, CLAIM_GONE):
             with self.subTest(form):
                 self.assertIn(form, text)
         for form in CLAIM_LINE_RETIRED:

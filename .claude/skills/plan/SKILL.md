@@ -171,6 +171,10 @@ Over started, by the note standing on its task (`rules/routing.md`'s A wait).
    `handed back to the operator: leave it to them`, the run's work failed, stopped, taken over or
    cancelled, or an earlier job of the run left it undone: theirs; nothing is written, no Done,
    retry or notice.
+6. **Its claim gone** — its line ending `open, its claim gone`, open with no answer at all now: no
+   step of yours takes a claim off, so whoever did took the action back. It is the operator's, and
+   nothing is written, no Done, retry, notice or new claim (the operator, 2026-11-15: "Yours,
+   nothing written", to "No retry, no notice, no new claim").
 
 A claimed action whose work goes on — its work item open, or its run waiting on its documents —
 gets no second.
