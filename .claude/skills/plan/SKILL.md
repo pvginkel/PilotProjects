@@ -164,7 +164,10 @@ plan brought up to date with what happened, and every piece of work that can go,
    confirmation with its `because`, by its code in `rules/grants.md`'s "The confirmation reasons",
    asked when the act is due, one covering everything due at once. The act waits for its Yes,
    which the job after its close does (An item done).
-8. **The plan's end**: once its last task is done, The sweep, then The finish decision.
+8. **The plan's end**: once its last task is done, the handbook's result checked first, the result
+   the project is for as the handbook states it. Where it is not reached and the handbook adds the
+   plan's steps in the chat, the next prerequisite is the operator naming the next step, asked as
+   an item, with no sweep and no finish decision; otherwise The sweep, then The finish decision.
 
 ## An action of Pilot's done
 

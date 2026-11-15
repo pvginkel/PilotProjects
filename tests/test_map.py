@@ -100,6 +100,15 @@ WHAT_IS_NEXT_STEPS = (
     "**Every task whose inputs are done, started**",
     "**The plan's end**",
 )
+# The plan's end checks the handbook's result first: in a project whose handbook grows the plan a
+# step at a time in the chat, the operator is asked for the next step, with no sweep and no finish
+# decision (P-204, the operator's note of 2026-11-05).
+PLAN_END_RESULT_FIRST = (
+    "**The plan's end**: once its last task is done, the handbook's result checked first",
+    "Where it is not reached and the handbook adds the plan's steps in the chat, the next"
+    " prerequisite is the operator naming the next step, asked as an item, with no sweep and no"
+    " finish decision; otherwise The sweep, then The finish decision.",
+)
 RULING_CARRIED_OUT = (
     "**A ruling or a close you record on an item of Pilot's own**",
     "is carried out in this turn: no job of Pilot's follows what the chat records",
@@ -947,6 +956,14 @@ class PlanSkillTest(unittest.TestCase):
         for heading in PLAN_MODES:
             with self.subTest(heading):
                 self.assertEqual(lines.count(heading), 1)
+
+    def test_the_plan_s_end_checks_the_handbook_s_result_first(self) -> None:
+        _, _, rest = skill_file("plan").read_text().partition("\n## What is next\n")
+        mode, _, _ = rest.partition("\n## ")
+        text = " ".join(mode.split())
+        for form in PLAN_END_RESULT_FIRST:
+            with self.subTest(form):
+                self.assertIn(form, text)
 
     def test_an_item_done_reads_the_item_s_line_as_the_server_writes_it(self) -> None:
         self.assertIn(ITEM_DONE_LINE, " ".join(skill_file("plan").read_text().split()))
