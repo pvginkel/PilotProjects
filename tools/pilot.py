@@ -157,6 +157,12 @@ def _stdin_or(value: str) -> str:
 # -- the timeline and the documents -------------------------------------------
 
 
+def _reference(project: Project) -> dict[str, Any]:
+    """reference.json at the tree's root, which holds the record's closed lists."""
+    reference: dict[str, Any] = _read_json(project.tree / REFERENCE, REFERENCE)
+    return reference
+
+
 def _timeline(project: Project) -> dict[str, Any]:
     timeline: dict[str, Any] = _read_json(project.folder / TIMELINE, "the timeline")
     return timeline
@@ -323,8 +329,7 @@ def _item_line(item: dict[str, Any]) -> str:
 def _items_list(project: Project, args: argparse.Namespace) -> int:
     items = _timeline(project)["items"]
     if args.kind is not None:
-        reference = _read_json(project.tree / REFERENCE, "--kind")
-        codes = [kind["code"] for kind in reference["item_kinds"]]
+        codes = [kind["code"] for kind in _reference(project)["item_kinds"]]
         if args.kind not in codes:
             raise Refused(
                 f"--kind: `{args.kind}` is no item kind; {REFERENCE} has {', '.join(codes)}"
@@ -736,18 +741,18 @@ def _not_a_persons(block: dsl.Block) -> None:
         )
 
 
-def _validated(project: Project, document: _Document, text: str) -> None:
+def _validated(project: Project, document: _Document, text: str, plan: dict[str, Any]) -> None:
     """`validate()` on the text to write, with the facts the tree carries:
     the confirmation reasons, the plan's live tasks, the `to`s the file has.
     It carries no handle and no removed task, so the rules resting on them
     are left to the check after the Bash call that runs the verb."""
-    reference = _read_json(project.tree / REFERENCE, "the confirmation reasons")
+    reasons = _reference(project)["confirmation_reasons"]
     facts = dsl.Facts(
         document=document.kind,
         handles=None,
-        plan_task_ids={task["id"] for task in _read_plan(project)["tasks"]},
+        plan_task_ids={task["id"] for task in plan["tasks"]},
         removed_task_ids=None,
-        confirmation_reasons=[reason["code"] for reason in reference["confirmation_reasons"]],
+        confirmation_reasons=[reason["code"] for reason in reasons],
         taken_slugs=frozenset(),
         published_to={
             block.local_id: block.to for block in document.parsed.blocks if block.to is not None
@@ -789,7 +794,7 @@ def _answer(project: Project, args: argparse.Namespace) -> int:
             ),
         )
         _not_a_persons(document.block(args.block))
-        _validated(project, document, text)
+        _validated(project, document, text, _read_plan(project))
         _write(document.path, text)
     print(f"block {args.block} of {document.relative} answered: {value}")
     return DONE
@@ -822,7 +827,7 @@ def _done(project: Project, args: argparse.Namespace) -> int:
                 f"<block id>: action {block.local_id} has options:"
                 f" it is answered with one of them (`{PROG} answer`)"
             )
-        _validated(project, document, text)
+        _validated(project, document, text, _read_plan(project))
         _write(document.path, text)
     print(f"action {block.local_id} of {document.relative} done at {_utc(at)}")
     return DONE
@@ -858,7 +863,7 @@ def _defer(project: Project, args: argparse.Namespace) -> int:
             ),
         )
         _not_a_persons(document.block(args.block))
-        _validated(project, document, text)
+        _validated(project, document, text, plan)
         ref = f"{document.item['id']}/{args.block}"
         owner = plan["notes"] if task is None else task["notes"]
         note_id = _new_note(plan, owner, summary, content, [ref], at)

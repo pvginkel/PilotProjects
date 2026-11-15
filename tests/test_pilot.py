@@ -191,6 +191,11 @@ class TestTheFrame(PilotCase):
             with self.subTest(args=args):
                 self.assert_refused(*args, says=(flag,))
 
+    def test_a_task_status_is_one_of_the_closed_list_reference_json_holds(self) -> None:
+        reference = json.loads((FIXTURE / "reference.json").read_text())
+
+        self.assertEqual(list(pilot_module().TASK_STATUSES), reference["task_statuses"])
+
     def test_the_help_is_every_verb_s_usage_rendered_from_the_one_parser(self) -> None:
         completed = self.pilot("--help")
 
@@ -342,6 +347,13 @@ class TestItems(PilotCase):
     def test_list_refuses_a_kind_reference_json_has_not(self) -> None:
         self.assert_refused(
             "items", "list", "--kind", "recipe", says=("--kind: `recipe` is no item kind", "work")
+        )
+
+    def test_list_refuses_a_kind_with_no_reference_json_in_the_file_s_name(self) -> None:
+        (self.folder.parent / "reference.json").unlink()
+
+        self.assert_refused(
+            "items", "list", "--kind", "work", says=("refused: reference.json: no reference.json",)
         )
 
     def test_show_prints_the_item_s_line_and_its_blocks_with_their_answer_lines(self) -> None:
