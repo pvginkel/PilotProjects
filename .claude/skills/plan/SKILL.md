@@ -135,7 +135,11 @@ plan brought up to date with what happened, and every piece of work that can go,
    `main` as the continuation left it, never the commit or the build the close-out's block names,
    which predate the continuation's fixes — that `main` read on GitHub itself, never through
    gitblit, a daily mirror that may not hold the continuation's push yet; and their notes are
-   struck.
+   struck. **A run a person cancelled**, its documents closed by the Cancel, their `done` `cause`
+   `cancelled` in `timeline.json`, has no continuation to end: its promotion and what follows it
+   are never started, since a person who cancelled may not want it promoted. The job that meets
+   their notes starts nothing of them, posts the operator a notice naming the promotion and the
+   cancelled run it was owed after, and strikes the notes.
 3. **The deferrals without a home**, the brief's last list, which the pass leaves to you: each
    given its note in this turn, as `rules/routing.md`'s Deferral has it —
    `pilot.py plan note add --task <id> --summary <line> --ref <block id> <content>`, without

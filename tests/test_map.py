@@ -663,6 +663,20 @@ PROMOTION_DUE = (
     "that `main` read on GitHub itself, never through gitblit, a daily mirror that may not hold the"
     " continuation's push yet",
 )
+# A cancelled run's deferred promotion: no continuation comes, so it is never started, and the
+# operator gets a notice naming it (P-215, the operator's "Agreed", 2026-11-12, to "The card has
+# Pilot send you a notice naming the promotion and start nothing").
+PROMOTION_CANCELLED_ROUTED = (
+    "A run a person cancels has no continuation: its promotion and what follows it are never"
+    " started, and go to the operator as a notice naming the promotion, the notes struck"
+)
+PROMOTION_CANCELLED_DUE = (
+    "**A run a person cancelled**, its documents closed by the Cancel, their `done` `cause`"
+    " `cancelled` in `timeline.json`, has no continuation to end: its promotion and what follows it"
+    " are never started",
+    "The job that meets their notes starts nothing of them, posts the operator a notice naming the"
+    " promotion and the cancelled run it was owed after, and strikes the notes.",
+)
 # A placed worker's model and effort: Opus at xhigh for every work item, and Fable on a person's
 # own word for that work alone, asked once more before it is placed, in the placement rule and in
 # the work item's field line; a brief's one line on how, the sub-agents, and the draft's rules,
@@ -1176,6 +1190,16 @@ class DeferredPromotionTest(unittest.TestCase):
         mode, _, _ = rest.partition("\n## ")
         text = " ".join(mode.split())
         for form in PROMOTION_DUE:
+            with self.subTest(form):
+                self.assertIn(form, text)
+
+    def test_a_cancelled_run_s_promotion_is_started_never_and_goes_to_the_operator(self) -> None:
+        routing = " ".join((ROOT / "rules" / "routing.md").read_text().split())
+        self.assertIn(PROMOTION_CANCELLED_ROUTED, routing)
+        _, _, rest = skill_file("plan").read_text().partition("\n## What is next\n")
+        mode, _, _ = rest.partition("\n## ")
+        text = " ".join(mode.split())
+        for form in PROMOTION_CANCELLED_DUE:
             with self.subTest(form):
                 self.assertIn(form, text)
 

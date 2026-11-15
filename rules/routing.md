@@ -91,7 +91,9 @@ decided now, or closed.
   continuation. They are due once that continuation has ended, the work item that continues the
   run done after a turn that registered no document with a block in it; until then their notes
   stand. One work item then does them all, the promotion first, its brief carrying
-  `rules/promote.md` (`/plan`'s What is next).
+  `rules/promote.md` (`/plan`'s What is next). A run a person cancels has no continuation: its
+  promotion and what follows it are never started, and go to the operator as a notice naming the
+  promotion, the notes struck (`/plan`'s What is next).
 - A deferral never asks the operator, with auto pilot on or off: it reads as its done line, and
   the operator quotes it into the chat to disagree.
 - A person's deferral from the chat is their answer, through `answer` with `deferred` and `to`;
