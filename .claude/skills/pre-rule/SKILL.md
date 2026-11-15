@@ -95,11 +95,11 @@ Per published document, one after the other:
      note, and the plan note on that task, in one call: the note's summary the question in a line,
      its content what to ask and how when the task comes up. A close-out's promotion, the update
      that follows it and every action the close-out owes after it are deferred so, `--to` the
-     run's own task, never claimed (`rules/routing.md`).
+     run's own task, never claimed (`rules/routing.md`'s A close-out's promotion).
    - **Done at once**, an action your own hands do in the pass — a card, a fleet call: do it, then
      `pilot.py done <file> <block id> --note <what was done and what was seen>`.
-   - **Claimed**, an action Pilot may run under the grants that a work item does, a close-out's
-     promotion aside, which is deferred: the work item first, through `add_item` as
+   - **Claimed**, an action Pilot may run under the grants that a work item does: the work item
+     first, through `add_item` as
      `rules/work-items.md` has it, its `claims` the block's id, `<item id>/<local id>`, beside
      every other action that work does; then the claim,
      `pilot.py answer <file> <block id> --value "Pilot does it" --note <its work item>`, the note

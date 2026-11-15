@@ -647,37 +647,43 @@ PROMOTE_BRIEF_COMMIT = (
 )
 # A close-out's promotion deferred to the run's own task, never claimed, with what the close-out
 # owes after it, so that the close-out closes on its other blocks and the continuation goes on;
-# the promotion due once that continuation has ended, so that it takes its fixes (P-183, D2).
+# the promotion due once that continuation has ended, so that it takes its fixes (P-183, D2). Its
+# one home is the routing rule's section, which the routes, Deferral, the pass and the plan cite.
+PROMOTION_SECTION = "## A close-out's promotion"
 PROMOTION_ROUTED = (
-    "| a close-out's promotion Pilot may run under the grants, with the update that follows it",
-    "every action the close-out owes after the promotion — a criterion's `Settle <id> after …`",
+    "A close-out's promotion Pilot may run under the grants goes with the update that follows it,"
+    " the store's after a PilotApp promotion, and every action the close-out owes after the"
+    " promotion — a criterion's `Settle <id> after …`",
     "deferred to the running task, never claimed: each through `pilot.py defer`, `--to` the run's"
     " own task, so that the close-out closes once its other blocks are answered and the run's"
-    " continuation goes on",
-    "| the run's end: a close-out's promotion and what follows it | a note on the running task, due"
-    " once the run's continuation has ended |",
-    "A close-out's promotion is the one exception (below): the event it waits on is the end of the"
-    " run's continuation, whose turn a job of Pilot's follows",
-    "A deferral from a close-out, the task's last document, goes to the next task or to the end, but"
-    " for its promotion: the promotion, the update that follows it and every action the close-out"
-    " owes after it go to the running task, so that the promotion takes the fixes of the run's"
-    " continuation",
+    " continuation goes on, and so that the promotion takes the fixes of the run's continuation",
+    "the event it waits on is the end of the run's continuation, whose turn a job of Pilot's"
+    " follows",
     "They are due once that continuation has ended, the work item that continues the run done after"
     " a turn that registered no document with a block in it; until then their notes stand",
+    "One work item then does them all, the promotion first, its brief carrying `rules/promote.md`",
 )
+PROMOTION_POINTED = (
+    "| a close-out's promotion Pilot may run under the grants, with what follows it | deferred to"
+    " the running task, never claimed (A close-out's promotion). |",
+    "| the run's end: a close-out's promotion and what follows it | a note on the running task, due"
+    " once the run's continuation has ended (A close-out's promotion) |",
+    "A close-out's promotion is the one exception (A close-out's promotion).",
+    "A deferral from a close-out, the task's last document, goes to the next task or to the end, but"
+    " for its promotion and what follows it, which go to the running task (A close-out's"
+    " promotion).",
+)
+PROMOTION_CITED = "`rules/routing.md`'s A close-out's promotion"
 # The rule's words while a close-out's promotion was claimed and its deferral barred the run.
 PROMOTION_ROUTED_RETIRED = ("goes to the next task or to the end, never to the running task",)
 PROMOTION_DEFERRED = (
-    "a close-out's promotion aside, which is deferred",
     "A close-out's promotion, the update that follows it and every action the close-out owes after"
-    " it are deferred so, `--to` the run's own task, never claimed",
+    f" it are deferred so, `--to` the run's own task, never claimed ({PROMOTION_CITED})"
 )
 PROMOTION_DUE = (
-    "**A close-out's promotion**, deferred to the run's own task with the update that follows it"
-    " and every action the close-out owes after it",
-    "is met only once the run's continuation has ended, the work item that continues the run done"
-    " after a turn that registered no document with a block in it: until then its notes stand,"
-    " neither acted on nor struck",
+    "**A close-out's promotion**, deferred to the run's own task with what follows it, is met only"
+    f" once it is due, as {PROMOTION_CITED} has it: until then its notes stand, neither acted on"
+    " nor struck",
     "one work item does them all, its `step` the run's task, the promotion first, its brief"
     " carrying `rules/promote.md`",
     "and naming the application's commit read then, its `main` as the continuation left it, never"
@@ -1265,8 +1271,16 @@ class PromoteRuleTest(unittest.TestCase):
 
 class DeferredPromotionTest(unittest.TestCase):
     def test_routing_defers_a_close_out_s_promotion_to_the_running_task(self) -> None:
-        text = " ".join((ROOT / "rules" / "routing.md").read_text().split())
-        for form in PROMOTION_ROUTED:
+        text = (ROOT / "rules" / "routing.md").read_text()
+        self.assertEqual(text.splitlines().count(PROMOTION_SECTION), 1)
+        _, _, rest = text.partition(f"\n{PROMOTION_SECTION}\n")
+        section, _, _ = rest.partition("\n## ")
+        section = " ".join(section.split())
+        for form in (*PROMOTION_ROUTED, PROMOTION_CANCELLED_ROUTED):
+            with self.subTest(form):
+                self.assertIn(form, section)
+        text = " ".join(text.split())
+        for form in PROMOTION_POINTED:
             with self.subTest(form):
                 self.assertIn(form, text)
         for form in PROMOTION_ROUTED_RETIRED:
@@ -1275,9 +1289,8 @@ class DeferredPromotionTest(unittest.TestCase):
 
     def test_the_pass_defers_it_and_claims_it_not(self) -> None:
         text = " ".join(skill_file("pre-rule").read_text().split())
-        for form in PROMOTION_DEFERRED:
-            with self.subTest(form):
-                self.assertIn(form, text)
+        self.assertIn(PROMOTION_DEFERRED, text)
+        self.assertNotIn("a close-out's promotion aside", text)
 
     def test_what_is_next_starts_it_once_the_run_s_continuation_has_ended(self) -> None:
         _, _, rest = skill_file("plan").read_text().partition("\n## What is next\n")
@@ -1288,8 +1301,6 @@ class DeferredPromotionTest(unittest.TestCase):
                 self.assertIn(form, text)
 
     def test_a_cancelled_run_s_promotion_is_started_never_and_goes_to_the_operator(self) -> None:
-        routing = " ".join((ROOT / "rules" / "routing.md").read_text().split())
-        self.assertIn(PROMOTION_CANCELLED_ROUTED, routing)
         _, _, rest = skill_file("plan").read_text().partition("\n## What is next\n")
         mode, _, _ = rest.partition("\n## ")
         text = " ".join(mode.split())

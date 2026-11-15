@@ -125,27 +125,26 @@ plan brought up to date with what happened, and every piece of work that can go,
    to do done — then struck, `pilot.py plan note strike <id>`; or re-deferred with a reason, a note
    on the task or the plan where it now returns, naming the same blocks and why, the old one
    struck; or struck where its block is no longer deferred, a person having ruled it after all.
-   **A close-out's promotion**, deferred to the run's own task with the update that follows it and
-   every action the close-out owes after it (`rules/routing.md`'s Deferral), is met only once the
-   run's continuation has ended, the work item that continues the run done after a turn that
-   registered no document with a block in it: until then its notes stand, neither acted on nor
-   struck. Then, where the handbook's rules on other work running let it go, one work item does
-   them all, its `step` the run's task, the promotion first, its brief carrying
-   `rules/promote.md` (`rules/work-items.md`) and naming the application's commit read then, its
-   `main` as the continuation left it, never the commit or the build the close-out's block names,
-   which predate the continuation's fixes — that `main` read on GitHub itself, never through
-   gitblit, a daily mirror that may not hold the continuation's push yet; and their notes are
-   struck. **A run a person cancelled**, its documents closed by the Cancel, their `done` `cause`
-   `cancelled` in `timeline.json`, has no continuation to end: its promotion and what follows it
-   are never started, since a person who cancelled may not want it promoted. The job that meets
-   their notes starts nothing of them, posts the operator a notice naming the promotion and the
-   cancelled run it was owed after, and strikes the notes.
-3. **The deferrals without a home**, the brief's last list, which the pass leaves to you: each
+   A close-out's promotion's notes are step 3's.
+3. **A close-out's promotion**, deferred to the run's own task with what follows it, is met only
+   once it is due, as `rules/routing.md`'s A close-out's promotion has it: until then its notes
+   stand, neither acted on nor struck. Then, where the handbook's rules on other work running let
+   it go, one work item does them all, its `step` the run's task, the promotion first, its brief
+   carrying `rules/promote.md` (`rules/work-items.md`) and naming the application's commit read
+   then, its `main` as the continuation left it, never the commit or the build the close-out's
+   block names, which predate the continuation's fixes — that `main` read on GitHub itself, never
+   through gitblit, a daily mirror that may not hold the continuation's push yet; and their notes
+   are struck. **A run a person cancelled**, its documents closed by the Cancel, their `done`
+   `cause` `cancelled` in `timeline.json`, has no continuation to end: its promotion and what
+   follows it are never started, since a person who cancelled may not want it promoted. The job
+   that meets their notes starts nothing of them, posts the operator a notice naming the
+   promotion and the cancelled run it was owed after, and strikes the notes.
+4. **The deferrals without a home**, the brief's last list, which the pass leaves to you: each
    given its note in this turn, as `rules/routing.md`'s Deferral has it —
    `pilot.py plan note add --task <id> --summary <line> --ref <block id> <content>`, without
    `--task` for one deferred to the plan — or its block answered anew in a new item, as their line
    says.
-4. **Every task whose inputs are done, started**, a work item each, in an environment of its own,
+5. **Every task whose inputs are done, started**, a work item each, in an environment of its own,
    all at once: the gate throttles them, and a held start is a line, never a reason to start less.
    Held back only what the plan says waits — what a task waits on is a note on it,
    `pilot.py plan note list --task <id>`, which you strike, `pilot.py plan note strike <id>`, once
@@ -153,22 +152,22 @@ plan brought up to date with what happened, and every piece of work that can go,
    work whose input is a run's open document; a task held back for a collision says so in a note
    on it. One at a time is the exception the plan writes,
    never the default. A task with an open work item is going already: it gets no second.
-5. **A run's open documents.** A run waits on the documents it registered, and Pilot's server
+6. **A run's open documents.** A run waits on the documents it registered, and Pilot's server
    resumes it once the last of them is closed — never you, and never a second work item for its
    task. Nothing that waits on those documents is started; the task a finished document
    unblocks is started at once, whatever other runs still wait on theirs, since each waits only on
    its own. A document the pass settled whole closes at its Done, of one block as of more; one
    with a claimed action open closes once that action's `done` is written (An action of Pilot's
    done).
-6. **The next human prerequisite**, one boundary ahead — what a person's hands must do before the
+7. **The next human prerequisite**, one boundary ahead — what a person's hands must do before the
    next task can go: an action item, exact, its `step` the task it unblocks; an open one of yours
    already there is updated in its file, never added a second time.
-7. **A confirmation**, where the grants hold the next act — the granted column with the brief's
+8. **A confirmation**, where the grants hold the next act — the granted column with the brief's
    switch line off, or the kept column (`rules/grants.md`): a decision whose one block is a
    confirmation with its `because`, by its code in `rules/grants.md`'s "The confirmation reasons",
    asked when the act is due, one covering everything due at once. The act waits for its Yes,
    which the job after its close does (An item done).
-8. **The plan's end**: once its last task is done, the handbook's result checked first, the result
+9. **The plan's end**: once its last task is done, the handbook's result checked first, the result
    the project is for as the handbook states it. Where it is not reached and the handbook adds the
    plan's steps in the chat, the next prerequisite is the operator naming the next step, asked as
    an item, with no sweep and no finish decision; otherwise The sweep, then The finish decision.
@@ -202,7 +201,7 @@ cancels the run: Pilot's server reads that, and nothing you write hands one over
 3. **Still the run's**, its act refused or never reached in a turn that registered a document
    with a block in it, which the run waits on: the claim stays and nothing is written, no note,
    retry or hand-over, the run going on once they close as a work item titled as it (What is
-   next, step 5), whose brief names them.
+   next, step 6), whose brief names them.
 4. **Left undone**, its act refused or never reached in a turn that registered no document with a
    block in it: the claim stays and the block open, the operator's once this job ends. Either a
    new work item retries it, the block named again in its `claims`, then the claim written anew
@@ -232,7 +231,7 @@ line per block after it; the file holds the prose. Act on the close, then What i
   something else now waits on them.
 - **A decision's or a question's answer**: the plan's next step on it — a task started, changed,
   added or removed as it rules; an answer `deferred`, its note as the deferrals without a home
-  have theirs (What is next, step 3).
+  have theirs (What is next, step 4).
 - **An action's Done**: the paste-back read, and the check it names run where you can.
 - **A document of yours Done**: each of its answers acted on, as above.
 - **A review's Reviewed**: nothing of it waits on you.

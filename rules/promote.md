@@ -8,7 +8,7 @@ application, its commit and what the close-out owes after it.
 
 Pilot starts a promotion's work item where the handbook's rules on other work running let it,
 and a close-out's promotion besides only once the run's continuation has ended
-(`rules/routing.md`'s Deferral): what else of the project runs is Pilot's check, made before the
+(`rules/routing.md`'s A close-out's promotion): what else of the project runs is Pilot's check, made before the
 start, never the worker's.
 
 ## In a promotion's brief
