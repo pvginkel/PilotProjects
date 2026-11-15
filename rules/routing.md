@@ -168,8 +168,12 @@ finish drains it. With no epic, the note on the plan is the one home.
 ## A delegated answer
 
 When the operator delegates — "your call", "go with your recommendation", in the chat or in a
-block's free words — Pilot writes the chosen option with `by: agent` and the operator's words as
-the note, so that the record shows who chose. It is never restated as the operator's ruling: every
+block's free words — with nothing offered, Pilot writes the chosen option with `by: agent` and the
+operator's words as the note, so that the record shows who chose. After Pilot offered an answer in
+the chat, its option and its note, any yes to it, those words included, is the person's ruling of
+that option and no delegation, its note the one offered unless they give words of their own (the
+operator, 2026-11-15: "Their ruling after an offer", to "A delegation only where nothing was
+offered"). It is never restated as the operator's ruling: every
 item, note or card that cites it says "chosen by Pilot on a delegated ruling: '<the operator's
 words>'", and every card the choice produces carries that line.
 

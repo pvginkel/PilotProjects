@@ -56,7 +56,8 @@ promotion What is next starts. The writing is
   `answer` with `block` (`<item id>/<local id>`), `value` (an option's label, `Agree`, `Yes`,
   `No`, or their own words), `for` their handle, as the latest line "The message, from <handle>
   (member|not a member):" names them, the brief's or a later message's (step 4), and `note` their
-  words as they gave them. It replaces the block's answer, yours included, while the item is
+  words as they gave them, or, on a yes to an answer you offered, the note you offered unless they
+  give words of their own (Acting's Asked about an open block). It replaces the block's answer, yours included, while the item is
   open; the answer to an item's one block is its Done.
 - **Done, Read and Reviewed** a person gives go through `mark` with `for` them: `done` on a
   document, its unanswered blocks answered with their recommendations; `read` on a notice;
@@ -70,10 +71,11 @@ promotion What is next starts. The writing is
   you find obsolete yourself you offer to call off in the reply, and their yes is that word. A
   worker's document in `inbox/` is refused: the person calls it off themselves, with the Cancel
   on its page, which ends its run, and the reply says so.
-- **A delegation** — "your call", "go with your recommendation" — is no answer of theirs: the
-  option you choose is yours, `by: agent`, their words the note,
+- **A delegation** — "your call", "go with your recommendation" — where you offered no answer, is
+  no answer of theirs: the option you choose is yours, `by: agent`, their words the note,
   `pilot.py answer <file> <block id> --value <option> --note <their words>`. Cite it as
-  `rules/routing.md`'s "A delegated answer" says, never as their ruling.
+  `rules/routing.md`'s "A delegated answer" says, never as their ruling. After you offered one, the
+  same words are a yes to it, their ruling, as that section has it.
 - **A deferral** the person asks for — "defer this to t3", "leave it for the end" — is their
   answer too: `answer` for them, with `value` `deferred` and `to` the task's id, or `plan` for
   the project's end. Its plan note is yours, in the same turn, as `rules/routing.md`'s Deferral has

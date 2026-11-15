@@ -130,6 +130,34 @@ OFFERED_ANSWER = (
     " item where a change needs no slice (A change the person asks for) — the chat asks no closed"
     " question of its own",
 )
+# "Go with your recommendation" is a delegation only where nothing was offered: after Pilot offered
+# an answer, a yes to it, those words included, is the person's ruling, its note the one offered,
+# in routing's A delegated answer, which the chat and the create skill cite (consolidation review
+# R3.1, the operator's "Their ruling after an offer", 2026-11-15).
+DELEGATION_AFTER_AN_OFFER = (
+    "with nothing offered, Pilot writes the chosen option with `by: agent`",
+    "After Pilot offered an answer in the chat, its option and its note, any yes to it, those words"
+    " included, is the person's ruling of that option and no delegation, its note the one offered"
+    " unless they give words of their own (the operator, 2026-11-15: \"Their ruling after an"
+    ' offer", to "A delegation only where nothing was offered").',
+)
+DELEGATION_CITED = {
+    "chat": (
+        '- **A delegation** — "your call", "go with your recommendation" — where you offered no'
+        " answer, is no answer of theirs",
+        "After you offered one, the same words are a yes to it, their ruling, as that section has"
+        " it.",
+        "or, on a yes to an answer you offered, the note you offered unless they give words of their"
+        " own (Acting's Asked about an open block)",
+    ),
+    "create": (
+        '- **A delegation** — "your call", "go with your recommendation" — where you offered no'
+        " answer, is no answer of theirs",
+        "After you offered one, its option and its note, the same words are a yes to it, their"
+        " ruling, its note the one you offered unless they give words of their own, as that section"
+        " has it.",
+    ),
+}
 # A small correction the chat makes unasked and says so (P-353, the store's memory note
 # small-corrections-unasked; P-194's chat half without it).
 SMALL_CORRECTION = (
@@ -1467,6 +1495,20 @@ class ChatSkillTest(unittest.TestCase):
                 self.assertIn(form, text)
         self.assertNotIn(OFFERED_ANSWER_RETIRED, text)
         self.assertIn(SMALL_CORRECTION, text)
+
+    def test_go_with_your_recommendation_after_an_offer_is_the_person_s_ruling(self) -> None:
+        _, _, rest = (ROOT / "rules" / "routing.md").read_text().partition(
+            "\n## A delegated answer\n"
+        )
+        section, _, _ = rest.partition("\n## ")
+        for form in DELEGATION_AFTER_AN_OFFER:
+            with self.subTest(form):
+                self.assertIn(form, " ".join(section.split()))
+        for name, forms in DELEGATION_CITED.items():
+            text = " ".join(skill_file(name).read_text().split())
+            for form in forms:
+                with self.subTest(skill=name, form=form):
+                    self.assertIn(form, text)
 
     def test_the_chat_calls_off_an_ask_of_pilot_s_own_for_the_person_who_says_so(self) -> None:
         _, _, rest = skill_file("chat").read_text().partition("\n## Recording\n")

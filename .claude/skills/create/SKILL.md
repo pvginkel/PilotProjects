@@ -101,10 +101,12 @@ free-form work item, and the reply says in a line why it is no slice. The chat d
   `block` `project.md/<local id>`, the id a quoted ask's tag carries; `value` (an option's
   label, `Agree`, `Yes`, `No`, or their own words); `for` their handle, as step 4 names them; and
   `note` their words as they gave them. Answering it again replaces it; it has no undo.
-- **A delegation** — "your call", "go with your recommendation" — is no answer of theirs: the
-  option you choose is yours, `by: agent`, their words the note,
+- **A delegation** — "your call", "go with your recommendation" — where you offered no answer, is
+  no answer of theirs: the option you choose is yours, `by: agent`, their words the note,
   `pilot.py answer <file> <block id> --value <option> --note <their words>` on `project.md`.
-  Cite it as `rules/routing.md`'s "A delegated answer" says, never as their ruling.
+  Cite it as `rules/routing.md`'s "A delegated answer" says, never as their ruling. After you
+  offered one, its option and its note, the same words are a yes to it, their ruling, its note the
+  one you offered unless they give words of their own, as that section has it.
 - **No deferral**: the draft has no plan, and no plan note names a block of it. An ask the
   person leaves for later stays open.
 - Each call answers its effect line, as `CLAUDE.md`'s The tools and the scripts has it.
