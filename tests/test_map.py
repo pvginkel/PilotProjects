@@ -749,6 +749,25 @@ DESIGN_ROUTED = (
     "an Ansible work item, a design, a design session or an arch design (`rules/placement.md`'s A"
     " design), among them |",
 )
+# An operator action that needs infrastructure access Pilot's environments lack is an Ansible
+# work item, the granted column's, never a new capability; its brief's command, and a secret by
+# its path and key, minted on stdin (P-353, the store's memory note infra-through-ansible; the
+# operator, 2026-11-03, generalising D121 of 2026-11-02).
+INFRA_THROUGH_ANSIBLE = (
+    "Infrastructure access Pilot's environments lack — `kubectl exec` or a write on prd, an OpenBao"
+    " leaf, a host change — is the same: a work item in `pvginkel/Ansible`, `/work/Ansible`",
+    "an operator action Pilot can run itself, the granted column's, and never a new capability for"
+    " the app's environments",
+    "Its brief gives the exact command and says not to work around a failure",
+    "what needs another environment checked, Pilot checks itself",
+    "For a secret, the brief names its OpenBao path and key, `kv/eso/<stage>/<app>/<stage>/<leaf>`,"
+    " and the agent mints the value and writes it on stdin, `bao kv put -mount=kv <leaf> <key>=-`",
+    "is their convention for a person at a terminal: for Pilot's work this ruling stands",
+)
+INFRA_PLACED = (
+    "an operator action that needs infrastructure access Pilot's environments lack in"
+    " `pvginkel/Ansible`, its `cwd` `/work/Ansible` (`rules/grants.md`)"
+)
 # The rule's words while the effort was left unset and the stage could name a model, and while a
 # handbook or a task could name another model, or Pilot a lower one.
 PLACEMENT_RETIRED = (
@@ -1289,6 +1308,13 @@ class PlacementRuleTest(unittest.TestCase):
         for form in DESIGN_ROUTED:
             with self.subTest(form):
                 self.assertIn(form, routing)
+
+    def test_infrastructure_access_is_an_ansible_work_item_never_a_new_capability(self) -> None:
+        grants = " ".join((ROOT / "rules" / "grants.md").read_text().split())
+        for form in INFRA_THROUGH_ANSIBLE:
+            with self.subTest(form):
+                self.assertIn(form, grants)
+        self.assertIn(INFRA_PLACED, " ".join((ROOT / PLACEMENT).read_text().split()))
 
     def test_the_work_item_s_field_line_carries_the_defaults(self) -> None:
         text = " ".join((ROOT / WORK_ITEMS).read_text().split())

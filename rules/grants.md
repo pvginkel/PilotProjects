@@ -44,6 +44,20 @@ secret at a known OpenBao path is an Ansible work item — and an operator actio
 itself, the granted column's, so it asks while auto pilot is off and goes under it; only what no
 repository's tooling can place is the operator's hands (the operator, 2026-11-02).
 
+Infrastructure access Pilot's environments lack — `kubectl exec` or a write on prd, an OpenBao
+leaf, a host change — is the same: a work item in `pvginkel/Ansible`, `/work/Ansible`, whose
+environments hold that access and know the estate's rules, an operator action Pilot can run
+itself, the granted column's, and never a new capability for the app's environments (the
+operator, 2026-11-03: "you assign the task to an Ansible agent. I actually prefer the latter. And
+this is a general pattern (Ansible agents have full infra access, and know all the rules) and you
+can do this today already."). Its brief gives the exact command and says not to work around a
+failure; what needs another environment checked, Pilot checks itself, since an Ansible
+environment reads no other. For a secret, the brief names its OpenBao path and key,
+`kv/eso/<stage>/<app>/<stage>/<leaf>`, and the agent mints the value and writes it on stdin,
+`bao kv put -mount=kv <leaf> <key>=-`. The Ansible runbooks' "every OpenBao write is the
+operator's keystroke" is their convention for a person at a terminal: for Pilot's work this
+ruling stands.
+
 ## The confirmation reasons
 
 An act that asks is a confirmation item, asked when the act is due, one covering everything due

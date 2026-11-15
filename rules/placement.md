@@ -23,8 +23,10 @@ them. Where the key's own repository is not the answer:
 ## The repository, by the work's nature
 
 The work belongs where it changes things, whatever card or project raised it: an Ansible slice in
-`pvginkel/Ansible`; a change to ArgoCDTools in `pvginkel/Ansible`, its cards in `ANS`. What the
-project's handbook says of its repositories comes before this file's rules.
+`pvginkel/Ansible`; a change to ArgoCDTools in `pvginkel/Ansible`, its cards in `ANS`; an operator
+action that needs infrastructure access Pilot's environments lack in `pvginkel/Ansible`, its `cwd`
+`/work/Ansible` (`rules/grants.md`). What the project's handbook says of its repositories comes
+before this file's rules.
 
 ## A design
 
