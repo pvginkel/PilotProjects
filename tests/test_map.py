@@ -320,6 +320,7 @@ PASS_ROUTES = (
     "a routing ask's fate as `rules/stages.md`'s A fate in a stage's document names it",
     "- **Deferred**,",
     "- **Done at once**,",
+    "- **Confirmed first**,",
     "- **Claimed**,",
     "- **Researched**, a block whose choice waits on a fact nobody read that the store does not"
     " hold (`rules/routing.md`'s Due diligence, step 4)",
@@ -340,6 +341,7 @@ ROUTES_NAMED = (
     "| answered, Pilot's choice, the recommendation or not,",
     "| answered, Pilot's choice, only where",
     "| waited on: a wait through `add_item`,",
+    "| confirmed first: no answer line,",
 )
 # A close-out's ask to correct design/database.md to what was built is Pilot's to accept, auto
 # pilot on or off, on the operator's standing word of 2026-11-07, and the stages' rule that keeps
@@ -457,6 +459,34 @@ OWN_ACTION_RULE = (
     "an act the run leaves undone is the operator's again",
     "`researches` names a worker's document's blocks alone",
 )
+# With auto pilot off, an action of the granted column, a run's held push above all, goes to the
+# operator as a confirmation, and on their Yes Pilot claims it for the work item that does it; a
+# close-out's promotion stays deferred, its confirmation asked when it is due (consolidation review
+# R1.1 and R4.1, the operator's "Confirmation, then an agent", 2026-11-15).
+HELD_PUSH_ROUTED = (
+    "| an action of the granted column while auto pilot is off — a run's held push above all |"
+    " confirmed first: no answer line, and a confirmation item asked for it, `because`"
+    " `auto-pilot-off` (`rules/grants.md`'s The confirmation reasons), naming the block,"
+    " `<item id>/<local id>`; on its Yes, claimed for the work item that does it (The claim), never"
+    ' left for the operator\'s hands (the operator, 2026-11-15: "Confirmation, then an agent", to "On'
+    ' your Yes Pilot claims the action and a work item does it").',
+    "A close-out's promotion takes its own row, its confirmation asked when it is due. |",
+)
+HELD_PUSH_STAGES = (
+    "the close-out carries each held push as an action, the granted column's: put to the operator as"
+    " a confirmation and, on their Yes, made by a work item of Pilot's, never by them",
+    "An `action` is one only a person's hands do, or a held push (above)",
+)
+HELD_PUSH_PASS = (
+    "- **Confirmed first**, an action of the granted column while auto pilot is off, a run's held"
+    " push above all: no answer line, and a confirmation item through `add_item`",
+    "the job after its close claims it on its Yes (`/plan`'s An item done)",
+)
+HELD_PUSH_CLAIMED = (
+    "a worker's block it names, a held push above all, claimed on that work item's `add_item`"
+    " (`rules/routing.md`'s The claim)"
+)
+HELD_PUSH_RETIRED = "the close-out carries each held push as an action."
 # The claim route's row, which points at the section and writes the claim out no more.
 OWN_ACTION_ROW = "claimed, unless the row after takes it (The claim). Done at once"
 # The rule's head while it routed what a worker registered alone.
@@ -840,9 +870,10 @@ PROMOTE_BRIEF_COMMIT = (
 # one home is the routing rule's section, which the routes, Deferral, the pass and the plan cite.
 PROMOTION_SECTION = "## A close-out's promotion"
 PROMOTION_ROUTED = (
-    "A close-out's promotion Pilot may run under the grants goes with the update that follows it,"
-    " the store's after a PilotApp promotion, and every action the close-out owes after the"
-    " promotion — a criterion's `Settle <id> after …`",
+    "A close-out's promotion, auto pilot on or off, goes with the update that follows it, the"
+    " store's after a PilotApp promotion, and every action the close-out owes after the promotion —"
+    " a criterion's `Settle <id> after …`",
+    "with auto pilot off, its confirmation is asked then, and the work item starts on its Yes.",
     "deferred to the running task, never claimed: each through `pilot.py defer`, `--to` the run's"
     " own task, so that the close-out closes once its other blocks are answered and the run's"
     " continuation goes on, and so that the promotion takes the fixes of the run's continuation",
@@ -854,8 +885,9 @@ PROMOTION_ROUTED = (
     " promotion first, its brief carrying `rules/promote.md`",
 )
 PROMOTION_POINTED = (
-    "| a close-out's promotion Pilot may run under the grants, with what follows it | deferred to"
-    " the running task, never claimed (A close-out's promotion). |",
+    "| a close-out's promotion, with what follows it, auto pilot on or off | deferred to the running"
+    " task, never claimed, its confirmation, with auto pilot off, asked when it is due (A close-out's"
+    " promotion). |",
     "| the run's end: a close-out's promotion and what follows it | a note on the running task, due"
     " once the run's continuation has ended (A close-out's promotion) |",
     "A close-out's promotion is the one exception (A close-out's promotion).",
@@ -909,7 +941,8 @@ PROMOTION_ON_EVERY_TASK = (
     "is read on every task of the plan, never the brief's task alone, the brief's open notes by"
     " summary naming each",
     "Then, as soon as the handbook's rules on other work running let it go, whichever task this"
-    " job's brief names, one work item does them all",
+    " job's brief names — with auto pilot off, on its confirmation's Yes (step 7) — one work item"
+    " does them all",
     "Held by other work, its notes stand, and the first What is next after the handbook lets it go"
     ' starts it (the operator, 2026-11-15: "Every task", to "What is next reads every task\'s owed'
     ' promotions and starts one once the handbook lets it go")',
@@ -1895,6 +1928,24 @@ class OwnActionClaimTest(unittest.TestCase):
         self.assertIn(OWN_ACTION_SCOPE, text)
         self.assertIn(OWN_ACTION_ROW, text)
         self.assertNotIn(OWN_ACTION_SCOPE_RETIRED, text)
+
+    def test_with_auto_pilot_off_a_held_push_is_confirmed_then_claimed(self) -> None:
+        routing = " ".join((ROOT / "rules" / "routing.md").read_text().split())
+        for form in HELD_PUSH_ROUTED:
+            with self.subTest(form):
+                self.assertIn(form, routing)
+        stages = " ".join((ROOT / "rules" / "stages.md").read_text().split())
+        for form in HELD_PUSH_STAGES:
+            with self.subTest(form):
+                self.assertIn(form, stages)
+        self.assertNotIn(HELD_PUSH_RETIRED, stages)
+        pre_rule = " ".join(skill_file("pre-rule").read_text().split())
+        for form in HELD_PUSH_PASS:
+            with self.subTest(form):
+                self.assertIn(form, pre_rule)
+        _, _, rest = skill_file("plan").read_text().partition("\n## An item done\n")
+        item_done, _, _ = rest.partition("\n## ")
+        self.assertIn(HELD_PUSH_CLAIMED, " ".join(item_done.split()))
 
     def test_routing_says_how_long_a_run_holds_a_block_and_the_skills_cite_it(self) -> None:
         text = (ROOT / "rules" / "routing.md").read_text()

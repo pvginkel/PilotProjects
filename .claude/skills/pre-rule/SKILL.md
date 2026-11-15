@@ -89,6 +89,11 @@ Per published document, one after the other:
      `pilot.py done <file> <block id> --note <what was done and what was seen>`; a criterion the
      close-out owes after that act is settled in the same turn (`rules/routing.md`'s A close-out's
      promotion).
+   - **Confirmed first**, an action of the granted column while auto pilot is off, a run's held
+     push above all: no answer line, and a confirmation item through `add_item`, asked as
+     `rules/grants.md`'s The confirmation reasons has it, `because` `auto-pilot-off`, naming the
+     block, `<item id>/<local id>`, one covering every such block due at once; the job after its
+     close claims it on its Yes (`/plan`'s An item done).
    - **Claimed**, an action Pilot may run under the grants that a work item does, as
      `rules/routing.md`'s The claim has it: the work item first, through `add_item` as
      `rules/work-items.md` has it, its `claims` the block's id, `<item id>/<local id>`, beside

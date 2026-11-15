@@ -116,11 +116,15 @@ stage's. `/pre-rule` passes over each document as over any worker's, by `rules/r
 - **The run's pushes**, the run's first document while the switch is off and a push of its
   repositories deploys: one `decision`, whose Agree lets the run push as it goes. It is the granted
   column's, the operator's while auto pilot is off. Any other answer holds the pushes, and the
-  close-out carries each held push as an action.
+  close-out carries each held push as an action, the granted column's: put to the operator as a
+  confirmation and, on their Yes, made by a work item of Pilot's, never by them
+  (`rules/routing.md`'s routes; the operator, 2026-11-15: "Confirmation, then an agent", to "On
+  your Yes Pilot claims the action and a work item does it").
 - **The run's question**, mid-run: a block the run waits on, the plan attached, routed as any
   block.
 - **The close-out**, the run's last document: what the run hands over beyond its scope, a section
-  each. An `action` is one only a person's hands do, a `decision` a product choice, and every
+  each. An `action` is one only a person's hands do, or a held push (above), a `decision` a
+  product choice, and every
   other finding a `decision` whose proposal is its fate (below). The run's record, the plan and
   its verification are attached. A run with nothing to ask registers none and is done.
 

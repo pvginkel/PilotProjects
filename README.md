@@ -17,18 +17,19 @@ its database. The app is `pvginkel/PilotApp`.
   with its reason, and one the person drops with their words as it, both by `rules/work-items.md`,
   `create`'s the definition chat's, which writes the draft with the person, `pre-rule`'s the pass
   over what a worker's turn registered, each open block routed by `rules/routing.md`, its writer
-  asked, an action claimed or a fact researched for it where the routes say so, a close-out's
-  promotion deferred to the run's own task, a researched block routed on what its work found, the
-  stage session's debrief, where the brief carries one, left or made a notice, a card, a comment on
-  an open card on the same change, or a fieldnote, and the pass after the writer answered, which
-  asks nothing, and `plan`'s the plan's upkeep in its modes, in the order a job meets them: the
-  setup, the first job at Create project; an action of Pilot's done, the `done` of a claimed action
-  after a turn of its run, of a worker's document or of an item of Pilot's own, which that `done`
-  closes on its last open block, one Pilot's server hands back left to the operator; an item of
-  Pilot's own a person closed in the app; what is next after the pass, after that close and in the
-  chat, every task that can start started, a close-out's deferred promotion once the run's
-  continuation has ended, read on every task of the plan and started once the handbook lets it go,
-  a criterion owed after an act of Pilot's own in the store settled by the
+  asked, an action claimed or a fact researched for it where the routes say so, an action of the
+  granted column with auto pilot off, a held push above all, confirmed first and claimed on the
+  operator's Yes, a close-out's promotion deferred to the run's own task, a researched block routed
+  on what its work found, the stage session's debrief, where the brief carries one, left or made a
+  notice, a card, a comment on an open card on the same change, or a fieldnote, and the pass after
+  the writer answered, which asks nothing, and `plan`'s the plan's upkeep in its modes, in the order
+  a job meets them: the setup, the first job at Create project; an action of Pilot's done, the
+  `done` of a claimed action after a turn of its run, of a worker's document or of an item of
+  Pilot's own, which that `done` closes on its last open block, one Pilot's server hands back left
+  to the operator; an item of Pilot's own a person closed in the app; what is next after the pass,
+  after that close and in the chat, every task that can start started, a close-out's deferred
+  promotion once the run's continuation has ended, read on every task of the plan and started once
+  the handbook lets it go, a criterion owed after an act of Pilot's own in the store settled by the
   job that does the act, a cancelled run's a notice to the operator and nothing started, the
   handbook's result checked at the plan's end, the operator asked for the next step where the
   handbook grows the plan in the chat; a wait's firings, each judged on the card read again, the

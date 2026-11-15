@@ -23,8 +23,9 @@ brief's switch line.
 | a choice wholly another project's | answered with the hand-over (below); never deferred across projects. |
 | a question the record, the handbook or the memory answers | answered. |
 | an action that is the operator's hands alone — a device, an account, a secret no repository's tooling can place, a mockup, which they make themselves | left to the operator, with no edit. |
+| an action of the granted column while auto pilot is off — a run's held push above all | confirmed first: no answer line, and a confirmation item asked for it, `because` `auto-pilot-off` (`rules/grants.md`'s The confirmation reasons), naming the block, `<item id>/<local id>`; on its Yes, claimed for the work item that does it (The claim), never left for the operator's hands (the operator, 2026-11-15: "Confirmation, then an agent", to "On your Yes Pilot claims the action and a work item does it"). A close-out's promotion takes its own row, its confirmation asked when it is due. |
 | an action Pilot may run under the grants — a secret placed through a repository's tooling, an Ansible work item, a design, a design session or an arch design (`rules/placement.md`'s A design), among them | claimed, unless the row after takes it (The claim). Done at once, through `pilot.py done`, where Pilot's own hands do it in the pass — a card, a fleet call. |
-| a close-out's promotion Pilot may run under the grants, with what follows it | deferred to the running task, never claimed (A close-out's promotion). |
+| a close-out's promotion, with what follows it, auto pilot on or off | deferred to the running task, never claimed, its confirmation, with auto pilot off, asked when it is due (A close-out's promotion). |
 | an owed action waiting on an event — "re-run the import once the operator has restored the backup" | waited on: a wait through `add_item`, armed on a fresh read of the card it watches, and a timed wait beside it as a backstop where it outlives the plan's horizon, its `step` the same task and its title `Backstop: <the card wait's title>`; a note on the task the action belongs to; the block answered naming the wait. |
 | a block Pilot cannot read — what it asks, which option the writer means, what a thing it names is — and the record does not answer | asked of its writer, once: `ask_writer` with `block`, `<item id>/<local id>`, and `question`, one question per block. |
 | anything with impact now and the operator's | left to the operator, with no edit. |
@@ -106,8 +107,8 @@ decided now, or closed.
 
 ## A close-out's promotion
 
-A close-out's promotion Pilot may run under the grants goes with the update that follows it, the
-store's after a PilotApp promotion, and every action the close-out owes after the promotion — a
+A close-out's promotion, auto pilot on or off, goes with the update that follows it, the store's
+after a PilotApp promotion, and every action the close-out owes after the promotion — a
 criterion's `Settle <id> after …`. Each is deferred to the running task, never claimed: each
 through `pilot.py defer`, `--to` the run's own task, so that the close-out closes once its other
 blocks are answered and the run's continuation goes on, and so that the promotion takes the fixes
@@ -118,7 +119,8 @@ Pilot's follows.
 They are due once that continuation has ended, the work item that continues the run done after a
 turn that registered no document with a block in it; until then their notes stand. One work item
 then does them all but a criterion owed after an act of Pilot's own (below), the promotion first,
-its brief carrying `rules/promote.md` (`/plan`'s What is next). A run a person cancels has no
+its brief carrying `rules/promote.md` (`/plan`'s What is next); with auto pilot off, its
+confirmation is asked then, and the work item starts on its Yes. A run a person cancels has no
 continuation: its promotion and what follows it are never started, and go to the operator as a
 notice naming the promotion, the notes struck (`/plan`'s What is next).
 
