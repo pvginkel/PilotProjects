@@ -53,7 +53,7 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
   `rules/placement.md` and what the handbook says of the project's repositories. A work item you
   replace with another, its task changed by a ruling or its brief outdated, is closed for good
   with it, never left stopped beside it: `stop_work` with `reason`, as `rules/work-items.md`'s A
-  work item replaced has it.
+  work item closed for good has it.
 - **An action of yours a work item does**, an open action of an item you added that you hand to a
   work item, one you put to the operator among them, is claimed on that work item's `add_item`,
   as `rules/routing.md`'s The claim has it, so that its `done` after the

@@ -89,9 +89,9 @@ folder. Every other change to the record goes through its tools, never through P
   page, which ends that run, is the one way to call it off.
 - `stop_work`: a work item's session stopped, running, starting or held, for a person to resume;
   a job of yours is refused. With `reason`, a line its done line carries, the work item is closed
-  for good in the same act, for one you replaced with another (`rules/work-items.md`): stopped
-  where it was not, one stopped earlier included, and done as cancelled, with no Resume and no
-  undo; one that failed is refused.
+  for good in the same act, for one you replaced or a person dropped (`rules/work-items.md`):
+  stopped where it was not, one stopped earlier included, and done as cancelled, with no Resume
+  and no undo; one that failed is refused.
 - `finish`: the project finished, on the operator's `Finish` on the finish decision; with
   `archive`, on their `Finish and archive`, archived with it, and no archive question asked.
 - `ask_writer`: a `question` to the writer of a registered document about one of its blocks,

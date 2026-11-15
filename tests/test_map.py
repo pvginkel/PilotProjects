@@ -540,8 +540,18 @@ WORK_ITEM_FIELDS = (
     "`model`",
     "`reasoning_effort`",
     "`step`",
+    "`claims`",
+    "`researches`",
     "`attachments`",
     "`brief`",
+)
+# What a brief says by its work's kind, each at home beside that kind's rules, pointed at from the
+# brief's section.
+WORK_ITEM_BY_KIND = (
+    "`rules/placement.md`'s A design",
+    "`rules/placement.md`'s The repository, by the work's nature",
+    "`rules/routing.md`'s Due diligence, step 4",
+    "`rules/stages.md`'s Filing a slice",
 )
 WORK_ITEM_BRIEF = (
     "The task in a line.",
@@ -590,18 +600,21 @@ OWN_CARD_CLOSED = (
 )
 # pilot-store's `stop_work` with `reason` (PilotApp's pilot_mcp/tools.py): the work item closed for
 # good in the same act, one stopped earlier included, and a failed one refused (P-201). The rule's
-# one home is the work item's rule file, which the chat's correction and the plan's jobs cite.
+# one home is the work item's rule file, its two cases, replaced and dropped, which the chat's
+# correction and the plan's jobs cite.
 STOP_TOOL = (
     "- `stop_work`: a work item's session stopped, running, starting or held, for a person to"
     " resume; a job of yours is refused. With `reason`, a line its done line carries, the work"
-    " item is closed for good in the same act, for one you replaced with another"
+    " item is closed for good in the same act, for one you replaced or a person dropped"
     " (`rules/work-items.md`): stopped where it was not, one stopped earlier included, and done as"
     " cancelled, with no Resume and no undo; one that failed is refused."
 )
-REPLACED_SECTION = "## A work item replaced"
+REPLACED_SECTION = "## A work item closed for good"
 REPLACED_RULE = (
-    "is closed for good in the turn that adds the other: `stop_work` with `item` its id and"
-    " `reason`, a line saying what replaced it and why",
+    "- **Replaced**: another takes its place — the same work started anew, on a brief a correction"
+    " or a ruling changed — and it is closed in the turn that adds the other, its `reason` a line"
+    " saying what replaced it and why",
+    "Either is `stop_work` with `item` its id and `reason`, which its done line carries",
     "It is stopped where it was not, one stopped earlier included, and done as cancelled",
     "takes no Resume and no undo",
     '"Closed · <title>"',
@@ -609,19 +622,25 @@ REPLACED_RULE = (
     'Without `reason`, `stop_work` only stops, "Stopped · <title>"',
     'One that failed is refused, "it has failed, and keeps its Resume"',
 )
-REPLACED_CITED = "`stop_work` with `reason`, as `rules/work-items.md`'s A work item replaced has it"
+REPLACED_CITED = (
+    "`stop_work` with `reason`, as `rules/work-items.md`'s A work item closed for good has it"
+)
 REPLACED_BY_THE_CHAT = (
-    "A work item the new one replaces is closed for good with it, never left stopped beside it",
+    "is closed for good where the new one replaces it or the person drops it, never left stopped"
+    " beside it",
+    "and otherwise stopped, `stop_work` with no `reason`, for them to resume",
     "nothing is said stopped or closed before `stop_work` answered its effect,"
     ' "Stopped · <title>" or "Closed · <title>"',
 )
 # A work item the person drops in the chat, with nothing in its place, closed for good on their
 # word, their words the reason (P-298, the operator's "Agreed", 2026-11-15, widening "Pilot closes
-# what it replaces, with its reason" to what a person drops).
-DROPPED_BY_THE_CHAT = (
-    "A work item the person drops, its work no longer wanted with nothing in its place",
-    "is closed for good on their word: `stop_work` with `reason` their words, never left stopped"
+# what it replaces, with its reason" to what a person drops): the rule file's second case.
+DROPPED_RULE = (
+    "- **Dropped**: a person drops it in the chat, its work no longer wanted with nothing in its"
+    " place",
+    "it is closed for good on their word: `stop_work` with `reason` their words, never left stopped"
     " for them to close",
+    "Only on their word that it is dropped for good: a stop they may resume takes no `reason`.",
 )
 REPLACED_BY_A_JOB = (
     "A work item you replace with another, its task changed by a ruling or its brief outdated, is"
@@ -1206,7 +1225,7 @@ class PlanSkillTest(unittest.TestCase):
 class WorkItemRuleTest(unittest.TestCase):
     def test_the_rule_file_holds_the_fields_and_the_brief(self) -> None:
         text = " ".join((ROOT / WORK_ITEMS).read_text().split())
-        for form in (*WORK_ITEM_FIELDS, *WORK_ITEM_BRIEF):
+        for form in (*WORK_ITEM_FIELDS, *WORK_ITEM_BRIEF, *WORK_ITEM_BY_KIND):
             with self.subTest(form):
                 self.assertIn(form, text)
 
@@ -1248,7 +1267,7 @@ class WorkItemRuleTest(unittest.TestCase):
         self.assertTrue(heading)
         section, _, _ = rest.partition("\n## ")
         section = " ".join(section.split())
-        for form in REPLACED_RULE:
+        for form in (*REPLACED_RULE, *DROPPED_RULE):
             with self.subTest(form):
                 self.assertIn(form, section)
         claude = " ".join(CLAUDE.read_text().split())
@@ -1261,7 +1280,7 @@ class WorkItemRuleTest(unittest.TestCase):
         _, _, rest = skill_file("chat").read_text().partition("\n## Correcting\n")
         correcting, _, _ = rest.partition("\n## ")
         correcting = " ".join(correcting.split())
-        for form in (REPLACED_CITED, *REPLACED_BY_THE_CHAT, *DROPPED_BY_THE_CHAT):
+        for form in (REPLACED_CITED, *REPLACED_BY_THE_CHAT):
             with self.subTest(skill="chat", form=form):
                 self.assertIn(form, correcting)
         _, _, rest = skill_file("plan").read_text().partition("\n## In every mode\n")
@@ -1272,9 +1291,9 @@ class WorkItemRuleTest(unittest.TestCase):
                 self.assertIn(form, every_mode)
         for name in WORK_ITEM_SKILLS:
             with self.subTest(name):
-                self.assertNotIn(
-                    "a line saying what replaced it", " ".join(skill_file(name).read_text().split())
-                )
+                text = " ".join(skill_file(name).read_text().split())
+                self.assertNotIn("a line saying what replaced it", text)
+                self.assertNotIn("dropped for good", text)
 
 
 class PromoteRuleTest(unittest.TestCase):

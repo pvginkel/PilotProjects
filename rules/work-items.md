@@ -1,8 +1,8 @@
 # A work item
 
 What a work item is given when Pilot starts one, in the chat or in a job: the one home of its
-`add_item` fields, its brief's shape, the close of its own card and the close of one another
-replaces, which the skills that start work cite.
+`add_item` fields, its brief's shape, the close of its own card and its close for good, replaced
+or dropped, which the skills that start work cite.
 
 ## The fields
 
@@ -15,6 +15,8 @@ replaces, which the skills that start work cite.
 - `model` and `reasoning_effort` as `rules/placement.md` says, `opus` and `xhigh`, Fable on a
   person's own word for that work alone;
 - `step`, the plan's task it serves, where it serves one;
+- `claims`, the open actions it does that Pilot claims for it, and `researches`, the blocks Pilot
+  left open on a fact it finds, as `rules/routing.md`'s The claim and Due diligence have them;
 - `attachments`, what it needs from elsewhere;
 - `brief`, below.
 
@@ -40,6 +42,15 @@ which its skill has (`rules/stages.md`).
 
 Pilot appends the plan task it serves, the switch and the handbook: never paste the handbook.
 
+What a brief says by its work's kind has its home beside that kind's rules:
+
+- a design, a design session or an arch design: `rules/placement.md`'s A design;
+- an operator action that needs infrastructure access, a secret's included: `rules/placement.md`'s
+  The repository, by the work's nature;
+- a research: `rules/routing.md`'s Due diligence, step 4;
+- a promotion: item 4 above, `rules/promote.md`;
+- a slice's filing: `rules/stages.md`'s Filing a slice.
+
 ## The answer
 
 `state` says how the start went: `starting`, or `held` at the gate, with `held` saying why —
@@ -56,14 +67,23 @@ work item's last turn, once the card's done-when is met and no document of its r
 through youtrack, with a comment saying what the work did and how the done-when was met. A stage's
 cards are the workflow's own (`rules/stages.md`).
 
-## A work item replaced
+## A work item closed for good
 
-A work item another takes the place of — the same work started anew, on a brief a correction or a
-ruling changed — is closed for good in the turn that adds the other: `stop_work` with `item` its
-id and `reason`, a line saying what replaced it and why, which its done line carries. It is
-stopped where it was not, one stopped earlier included, and done as cancelled, yours: it waits on
-nobody and takes no Resume and no undo, its effect line "Closed · <title>". The documents its run
-put to a person stay open and theirs, and answering them continues nothing. Without `reason`,
-`stop_work` only stops, "Stopped · <title>": that is for work a person may resume, never for one
-replaced, which would wait on them with a Resume that runs the outdated brief. One that failed is
-refused, "it has failed, and keeps its Resume": it stays open, the person's.
+A work item is closed for good, never left stopped, in two cases:
+
+- **Replaced**: another takes its place — the same work started anew, on a brief a correction or
+  a ruling changed — and it is closed in the turn that adds the other, its `reason` a line saying
+  what replaced it and why.
+- **Dropped**: a person drops it in the chat, its work no longer wanted with nothing in its place
+  — "drop that, we no longer need it" — and it is closed for good on their word: `stop_work` with
+  `reason` their words, never left stopped for them to close. Only on their word that it is
+  dropped for good: a stop they may resume takes no `reason`.
+
+Either is `stop_work` with `item` its id and `reason`, which its done line carries. It is stopped
+where it was not, one stopped earlier included, and done as cancelled: it waits on nobody and
+takes no Resume and no undo, its effect line "Closed · <title>"; one replaced is yours. The
+documents its run put to a person stay open and theirs, and answering them continues nothing.
+Without `reason`, `stop_work` only stops, "Stopped · <title>": that is for work a person may
+resume, never for one replaced, which would wait on them with a Resume that runs the outdated
+brief, or for one dropped, left for them to close. One that failed is refused, "it has failed, and
+keeps its Resume": it stays open, the person's.
