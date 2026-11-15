@@ -830,9 +830,9 @@ PROMOTION_DEFERRED = (
     f" it are deferred so, `--to` the run's own task, never claimed ({PROMOTION_CITED})"
 )
 PROMOTION_DUE = (
-    "**A close-out's promotion**, deferred to the run's own task with what follows it, is met only"
-    f" once it is due, as {PROMOTION_CITED} has it: until then its notes stand, neither acted on"
-    " nor struck",
+    "**A close-out's promotion**, deferred to the run's own task with what follows it,",
+    f"is met only once it is due, as {PROMOTION_CITED} has it: until then its notes stand, neither"
+    " acted on nor struck",
     "one work item does them all but a criterion owed after an act of Pilot's own in the store, its"
     " `step` the run's task, the promotion first, its brief carrying `rules/promote.md`",
     "The note of an act of Pilot's own and the criterion owed after it stands: the job after that"
@@ -841,6 +841,18 @@ PROMOTION_DUE = (
     " the commit or the build the close-out's block names, which predate the continuation's fixes",
     "that `main` read on GitHub itself, never through gitblit, a daily mirror that may not hold the"
     " continuation's push yet",
+)
+# What is next reads the owed promotions of every task of the plan, and starts one as soon as the
+# handbook lets it go, whichever task the job's brief names (P-218, the operator's "Every task",
+# 2026-11-15).
+PROMOTION_ON_EVERY_TASK = (
+    "is read on every task of the plan, never the brief's task alone, the brief's open notes by"
+    " summary naming each",
+    "Then, as soon as the handbook's rules on other work running let it go, whichever task this"
+    " job's brief names, one work item does them all",
+    "Held by other work, its notes stand, and the first What is next after the handbook lets it go"
+    ' starts it (the operator, 2026-11-15: "Every task", to "What is next reads every task\'s owed'
+    ' promotions and starts one once the handbook lets it go")',
 )
 # Where a run's turn and what it registered do not say, its reply is read whole, through
 # `get_session_response`, never the session log, whose lines are cut (P-291's PilotProjects half).
@@ -1558,7 +1570,7 @@ class DeferredPromotionTest(unittest.TestCase):
         _, _, rest = skill_file("plan").read_text().partition("\n## What is next\n")
         mode, _, _ = rest.partition("\n## ")
         text = " ".join(mode.split())
-        for form in PROMOTION_DUE:
+        for form in (*PROMOTION_DUE, *PROMOTION_ON_EVERY_TASK):
             with self.subTest(form):
                 self.assertIn(form, text)
 
