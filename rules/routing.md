@@ -116,10 +116,19 @@ Pilot's follows.
 
 They are due once that continuation has ended, the work item that continues the run done after a
 turn that registered no document with a block in it; until then their notes stand. One work item
-then does them all, the promotion first, its brief carrying `rules/promote.md` (`/plan`'s What is
-next). A run a person cancels has no continuation: its promotion and what follows it are never
-started, and go to the operator as a notice naming the promotion, the notes struck (`/plan`'s
-What is next).
+then does them all but a criterion owed after an act of Pilot's own (below), the promotion first,
+its brief carrying `rules/promote.md` (`/plan`'s What is next). A run a person cancels has no
+continuation: its promotion and what follows it are never started, and go to the operator as a
+notice naming the promotion, the notes struck (`/plan`'s What is next).
+
+A criterion the close-out owes after an act of Pilot's own in the store — a handbook line it
+rewrites, a memory it removes — stays out of the promotion's work item, whose worker runs outside
+the store and cannot see the act. It is deferred with that act, wherever the act is deferred, its
+note naming both blocks. The job that meets that note does the act and then settles the criterion
+in the same turn, its `done` written: after a promotion, the job after the promotion's work item's
+turn, which reads the run task's notes; where the pass does the act at once, the pass settles it
+(the operator, 2026-11-15: "Same job", to "The job that does the act settles the check in that
+turn").
 
 ## The `Later` card
 

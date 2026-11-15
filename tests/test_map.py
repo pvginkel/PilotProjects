@@ -790,7 +790,8 @@ PROMOTION_ROUTED = (
     " follows",
     "They are due once that continuation has ended, the work item that continues the run done after"
     " a turn that registered no document with a block in it; until then their notes stand",
-    "One work item then does them all, the promotion first, its brief carrying `rules/promote.md`",
+    "One work item then does them all but a criterion owed after an act of Pilot's own (below), the"
+    " promotion first, its brief carrying `rules/promote.md`",
 )
 PROMOTION_POINTED = (
     "| a close-out's promotion Pilot may run under the grants, with what follows it | deferred to"
@@ -803,6 +804,25 @@ PROMOTION_POINTED = (
     " promotion).",
 )
 PROMOTION_CITED = "`rules/routing.md`'s A close-out's promotion"
+# A criterion owed after an act of Pilot's own in the store stays out of the promotion's work item,
+# whose worker cannot see the act: deferred with the act, and settled by the job that does it, in
+# the same turn (P-217, the operator's "Same job", 2026-11-15); the pass settles it where it does
+# the act at once.
+PROMOTION_STORE_ACT = (
+    "A criterion the close-out owes after an act of Pilot's own in the store — a handbook line it"
+    " rewrites, a memory it removes — stays out of the promotion's work item",
+    "It is deferred with that act, wherever the act is deferred, its note naming both blocks.",
+    "The job that meets that note does the act and then settles the criterion in the same turn, its"
+    " `done` written: after a promotion, the job after the promotion's work item's turn, which reads"
+    " the run task's notes; where the pass does the act at once, the pass settles it",
+    '(the operator, 2026-11-15: "Same job", to "The job that does the act settles the check in that'
+    ' turn")',
+)
+PROMOTION_STORE_ACT_IN_THE_PASS = (
+    "but a criterion owed after an act of Pilot's own in the store, which goes with that act, as"
+    " that section has it",
+    f"a criterion the close-out owes after that act is settled in the same turn ({PROMOTION_CITED})",
+)
 # The rule's words while a close-out's promotion was claimed and its deferral barred the run.
 PROMOTION_ROUTED_RETIRED = ("goes to the next task or to the end, never to the running task",)
 PROMOTION_DEFERRED = (
@@ -813,8 +833,10 @@ PROMOTION_DUE = (
     "**A close-out's promotion**, deferred to the run's own task with what follows it, is met only"
     f" once it is due, as {PROMOTION_CITED} has it: until then its notes stand, neither acted on"
     " nor struck",
-    "one work item does them all, its `step` the run's task, the promotion first, its brief"
-    " carrying `rules/promote.md`",
+    "one work item does them all but a criterion owed after an act of Pilot's own in the store, its"
+    " `step` the run's task, the promotion first, its brief carrying `rules/promote.md`",
+    "The note of an act of Pilot's own and the criterion owed after it stands: the job after that"
+    " work item's turn does the act and settles the criterion in the same turn, then strikes it",
     "and naming the application's commit read then, its `main` as the continuation left it, never"
     " the commit or the build the close-out's block names, which predate the continuation's fixes",
     "that `main` read on GitHub itself, never through gitblit, a daily mirror that may not hold the"
@@ -1513,7 +1535,7 @@ class DeferredPromotionTest(unittest.TestCase):
         _, _, rest = text.partition(f"\n{PROMOTION_SECTION}\n")
         section, _, _ = rest.partition("\n## ")
         section = " ".join(section.split())
-        for form in (*PROMOTION_ROUTED, PROMOTION_CANCELLED_ROUTED):
+        for form in (*PROMOTION_ROUTED, PROMOTION_CANCELLED_ROUTED, *PROMOTION_STORE_ACT):
             with self.subTest(form):
                 self.assertIn(form, section)
         text = " ".join(text.split())
@@ -1527,6 +1549,9 @@ class DeferredPromotionTest(unittest.TestCase):
     def test_the_pass_defers_it_and_claims_it_not(self) -> None:
         text = " ".join(skill_file("pre-rule").read_text().split())
         self.assertIn(PROMOTION_DEFERRED, text)
+        for form in PROMOTION_STORE_ACT_IN_THE_PASS:
+            with self.subTest(form):
+                self.assertIn(form, text)
         self.assertNotIn("a close-out's promotion aside", text)
 
     def test_what_is_next_starts_it_once_the_run_s_continuation_has_ended(self) -> None:

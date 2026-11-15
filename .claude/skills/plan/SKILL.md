@@ -193,12 +193,15 @@ plan brought up to date with what happened, and every piece of work that can go,
 3. **A close-out's promotion**, deferred to the run's own task with what follows it, is met only
    once it is due, as `rules/routing.md`'s A close-out's promotion has it: until then its notes
    stand, neither acted on nor struck. Then, where the handbook's rules on other work running let
-   it go, one work item does them all, its `step` the run's task, the promotion first, its brief
-   carrying `rules/promote.md` (`rules/work-items.md`) and naming the application's commit read
-   then, its `main` as the continuation left it, never the commit or the build the close-out's
-   block names, which predate the continuation's fixes — that `main` read on GitHub itself, never
-   through gitblit, a daily mirror that may not hold the continuation's push yet; and their notes
-   are struck. **A run a person cancelled**, its documents closed by the Cancel, their `done`
+   it go, one work item does them all but a criterion owed after an act of Pilot's own in the
+   store, its `step` the run's task, the promotion first, its brief carrying `rules/promote.md`
+   (`rules/work-items.md`) and naming the application's commit read then, its `main` as the
+   continuation left it, never the commit or the build the close-out's block names, which predate
+   the continuation's fixes — that `main` read on GitHub itself, never through gitblit, a daily
+   mirror that may not hold the continuation's push yet; and the notes of what it does are struck.
+   The note of an act of Pilot's own and the criterion owed after it stands: the job after that
+   work item's turn does the act and settles the criterion in the same turn, then strikes it
+   (`rules/routing.md`'s A close-out's promotion). **A run a person cancelled**, its documents closed by the Cancel, their `done`
    `cause` `cancelled` in `timeline.json`, has no continuation to end: its promotion and what
    follows it are never started, since a person who cancelled may not want it promoted. The job
    that meets their notes starts nothing of them, posts the operator a notice naming the

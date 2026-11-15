@@ -27,7 +27,8 @@ its database. The app is `pvginkel/PilotApp`.
   closes on its last open block, one Pilot's server hands back left to the operator; an item of
   Pilot's own a person closed in the app; what is next after the pass, after that close and in the
   chat, every task that can start started, a close-out's deferred promotion once the run's
-  continuation has ended, a cancelled run's a notice to the operator and nothing started, the
+  continuation has ended, a criterion owed after an act of Pilot's own in the store settled by the
+  job that does the act, a cancelled run's a notice to the operator and nothing started, the
   handbook's result checked at the plan's end, the operator asked for the next step where the
   handbook grows the plan in the chat; a wait's firings, each judged on the card read again, the
   wait closed through `mark` with its note once its event came, or left open, with its backstop, a
