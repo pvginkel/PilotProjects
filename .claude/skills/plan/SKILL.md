@@ -15,7 +15,8 @@ firings, the sweep before the finish and the finish decision, in the mode the br
    `Pilot's brief · the setup · …`, The setup; `Pilot's brief · a worker's turn ended · …` and
    `Pilot's brief · the writer answered · …`, What is next, entered from `/pre-rule` once its pass
    is done, in the same session, its arguments the brief as the job received it, An action of
-   Pilot's done first where the brief names claimed actions; `Pilot's brief · an item of yours is
+   Pilot's done first where the brief names claimed actions or its work item is a close-out's
+   promotion's; `Pilot's brief · an item of yours is
    done · …`, An item done, then What is next; `Pilot's brief · a wait fired · …`, A wait's
    firings —; its switch line, the grants that hold for this session; a pause; the trigger's
    lines; the plan's open notes, by summary; and the deferrals without a home. A later turn of a
@@ -124,6 +125,12 @@ well, the work going on in its conversation. How long the run holds a claimed ac
 run's, is `rules/routing.md`'s A block a run holds: Pilot's server reads it, and nothing you write
 hands one over.
 
+After the turn of a close-out's promotion's work item, the actions deferred to the run's task with
+it, which the notes on that task name, are read the same way, never claimed: each the work did takes
+its `done` as step 2 has it, and the notes are struck after (What is next, step 3; the operator,
+2026-11-15: "Notes stand, Done written", to "The job after the promotion writes each Done, then
+strikes the notes").
+
 1. **What the work did**, read from its turn's last line, what it registered and, where those do
    not say, its turn's reply whole (`get_session_response`), never its session log,
    `get_session_log`, which cuts every line at about 80 characters.
@@ -203,17 +210,18 @@ plan brought up to date with what happened, and every piece of work that can go,
    `rules/promote.md` (`rules/work-items.md`) and naming the application's commit read then, its
    `main` as the continuation left it, never the commit or the build the close-out's block names,
    which predate the continuation's fixes — that `main` read on GitHub itself, never through
-   gitblit, a daily mirror that may not hold the continuation's push yet; and the notes of what it
-   does are struck. The note of an act of Pilot's own and the criterion owed after it stands: the
-   job after that work item's turn does the act and settles the criterion in the same turn, then
-   strikes it (`rules/routing.md`'s A close-out's promotion). Held by other work, its notes stand,
-   and the first What is next after the handbook lets it go starts it (the operator, 2026-11-15:
-   "Every task", to "What is next reads every task's owed promotions and starts one once the
-   handbook lets it go"). **A run a person cancelled**, its documents closed by the Cancel, their
-   `done` `cause` `cancelled` in `timeline.json`, has no continuation to end: its promotion and what
-   follows it are never started, since a person who cancelled may not want it promoted. The job that
-   meets their notes starts nothing of them, posts the operator a notice naming the promotion and
-   the cancelled run it was owed after, and strikes the notes.
+   gitblit, a daily mirror that may not hold the continuation's push yet. Their notes stand through
+   that work, which gets no second, and the job after its turn writes the `done` of each action of
+   them it did, as An action of Pilot's done has it, then strikes them; an act of Pilot's own
+   deferred with them that job does itself, settling the criterion owed after it in the same turn
+   (`rules/routing.md`'s A close-out's promotion). Held by other work, its notes stand, and the
+   first What is next after the handbook lets it go starts it (the operator, 2026-11-15: "Every
+   task", to "What is next reads every task's owed promotions and starts one once the handbook lets
+   it go"). **A run a person cancelled**, its documents closed by the Cancel, their `done` `cause`
+   `cancelled` in `timeline.json`, has no continuation to end: its promotion and what follows it are
+   never started, since a person who cancelled may not want it promoted. The job that meets their
+   notes starts nothing of them, posts the operator a notice naming the promotion and the cancelled
+   run it was owed after, and strikes the notes.
 4. **The deferrals without a home**, the brief's last list, which the pass leaves to you: each
    given its note in this turn, as `rules/routing.md`'s Deferral has it —
    `pilot.py plan note add --task <task id> --summary <line> --ref <item id>/<block id> <content>`,

@@ -961,13 +961,39 @@ PROMOTION_DUE = (
     " acted on nor struck",
     "one work item does them all but a criterion owed after an act of Pilot's own in the store, its"
     " `step` the run's task, the promotion first, its brief carrying `rules/promote.md`",
-    "The note of an act of Pilot's own and the criterion owed after it stands: the job after that"
-    " work item's turn does the act and settles the criterion in the same turn, then strikes it",
+    "an act of Pilot's own deferred with them that job does itself, settling the criterion owed"
+    " after it in the same turn",
     "and naming the application's commit read then, its `main` as the continuation left it, never"
     " the commit or the build the close-out's block names, which predate the continuation's fixes",
     "that `main` read on GitHub itself, never through gitblit, a daily mirror that may not hold the"
     " continuation's push yet",
 )
+# A close-out's promotion's notes stand through its work, and the job after its turn writes the
+# `done` of each owed action it did, then strikes them, as An action of Pilot's done does for a
+# claim (consolidation review R2.3, the operator's "Notes stand, Done written", 2026-11-15).
+PROMOTION_DONE_WRITTEN = {
+    "## What is next": (
+        "Their notes stand through that work, which gets no second, and the job after its turn"
+        " writes the `done` of each action of them it did, as An action of Pilot's done has it,"
+        " then strikes them",
+    ),
+    "## An action of Pilot's done": (
+        "After the turn of a close-out's promotion's work item, the actions deferred to the run's"
+        " task with it, which the notes on that task name, are read the same way, never claimed:"
+        " each the work did takes its `done` as step 2 has it, and the notes are struck after",
+        '(What is next, step 3; the operator, 2026-11-15: "Notes stand, Done written", to "The job'
+        ' after the promotion writes each Done, then strikes the notes")',
+    ),
+}
+PROMOTION_DONE_ROUTED = (
+    "Their notes stand through that work, and the job after its turn writes the `done` of each"
+    " action it did, then strikes them, so that the record shows each owed action done."
+)
+PROMOTION_DONE_ENTERED = (
+    "An action of Pilot's done first where the brief names claimed actions or its work item is a"
+    " close-out's promotion's"
+)
+PROMOTION_STRUCK_AT_ITS_START = "and the notes of what it does are struck"
 # What is next reads the owed promotions of every task of the plan, and starts one as soon as the
 # handbook lets it go, whichever task the job's brief names (P-218, the operator's "Every task",
 # 2026-11-15).
@@ -1704,6 +1730,23 @@ class DeferredPromotionTest(unittest.TestCase):
         for form in (*PROMOTION_DUE, *PROMOTION_ON_EVERY_TASK):
             with self.subTest(form):
                 self.assertIn(form, text)
+
+    def test_its_notes_stand_through_its_work_and_the_job_after_writes_each_done(self) -> None:
+        plan = skill_file("plan").read_text()
+        for heading, forms in PROMOTION_DONE_WRITTEN.items():
+            _, _, rest = plan.partition(f"\n{heading}\n")
+            mode, _, _ = rest.partition("\n## ")
+            for form in forms:
+                with self.subTest(heading=heading, form=form):
+                    self.assertIn(form, " ".join(mode.split()))
+        plan = " ".join(plan.split())
+        self.assertIn(PROMOTION_DONE_ENTERED, plan)
+        self.assertNotIn(PROMOTION_STRUCK_AT_ITS_START, plan)
+        _, _, rest = (ROOT / "rules" / "routing.md").read_text().partition(
+            f"\n{PROMOTION_SECTION}\n"
+        )
+        section, _, _ = rest.partition("\n## ")
+        self.assertIn(PROMOTION_DONE_ROUTED, " ".join(section.split()))
 
     def test_a_cancelled_run_s_promotion_is_started_never_and_goes_to_the_operator(self) -> None:
         _, _, rest = skill_file("plan").read_text().partition("\n## What is next\n")

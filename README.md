@@ -26,16 +26,17 @@ its database. The app is `pvginkel/PilotApp`.
   a job meets them: the setup, the first job at Create project; an action of Pilot's done, the
   `done` of a claimed action after a turn of its run, of a worker's document or of an item of
   Pilot's own, which that `done` closes on its last open block, one Pilot's server hands back left
-  to the operator; an item of Pilot's own a person closed in the app; what is next after the pass,
-  after that close and in the chat, every task that can start started, a close-out's deferred
-  promotion once the run's continuation has ended, read on every task of the plan and started once
-  the handbook lets it go, a criterion owed after an act of Pilot's own in the store settled by the
-  job that does the act, a cancelled run's a notice to the operator and nothing started, the
-  handbook's result checked at the plan's end, the operator asked for the next step where the
-  handbook grows the plan in the chat; a wait's firings, each judged on the card read again, the
-  wait closed through `mark` with its note once its event came, or left open, with its backstop, a
-  card wait and its backstop closed together; the sweep; and the finish decision, whose Finish and
-  archive calls `finish` with `archive`.
+  to the operator, and of each action deferred with a close-out's promotion after its work's turn,
+  its notes standing until then; an item of Pilot's own a person closed in the app; what is next
+  after the pass, after that close and in the chat, every task that can start started, a close-out's
+  deferred promotion once the run's continuation has ended, read on every task of the plan and
+  started once the handbook lets it go, a criterion owed after an act of Pilot's own in the store
+  settled by the job that does the act, a cancelled run's a notice to the operator and nothing
+  started, the handbook's result checked at the plan's end, the operator asked for the next step
+  where the handbook grows the plan in the chat; a wait's firings, each judged on the card read
+  again, the wait closed through `mark` with its note once its event came, or left open, with its
+  backstop, a card wait and its backstop closed together; the sweep; and the finish decision, whose
+  Finish and archive calls `finish` with `archive`.
 - `rules/`: the rules the skills apply, each file the one home of its own — `grants.md` (what goes
   ahead and what asks the operator first, an operator action Pilot can run itself among it),
   `routing.md` (where an open block goes: the claim, of a worker's document or of an item of

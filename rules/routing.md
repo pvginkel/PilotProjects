@@ -120,7 +120,9 @@ They are due once that continuation has ended, the work item that continues the 
 turn that registered no document with a block in it; until then their notes stand. One work item
 then does them all but a criterion owed after an act of Pilot's own (below), the promotion first,
 its brief carrying `rules/promote.md` (`/plan`'s What is next); with auto pilot off, its
-confirmation is asked then, and the work item starts on its Yes. A run a person cancels has no
+confirmation is asked then, and the work item starts on its Yes. Their notes stand through that
+work, and the job after its turn writes the `done` of each action it did, then strikes them, so
+that the record shows each owed action done. A run a person cancels has no
 continuation: its promotion and what follows it are never started, and go to the operator as a
 notice naming the promotion, the notes struck (`/plan`'s What is next).
 
