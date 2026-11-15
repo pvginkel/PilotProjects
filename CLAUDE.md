@@ -48,8 +48,8 @@ sends says the handbook changed since your last turn: read `handbook.md` again b
   each the one home of its rules: `rules/grants.md` (what goes ahead and what asks the operator
   first), `rules/routing.md` (where an open block goes, an action of an item of yours a work item
   does, deferral, a delegated answer, another project's decision, the friction half),
-  `rules/work-items.md` (a work item's fields and its brief, and the close of one replaced),
-  `rules/placement.md` (a work item's repository, model and effort), `rules/stages.md` (the
+  `rules/work-items.md` (a work item's fields and its brief, the close of its own card and the
+  close of one replaced), `rules/placement.md` (a work item's repository, model and effort), `rules/stages.md` (the
   workflow's stages from Pilot), `rules/promote.md` (a promotion's procedure, which its brief
   carries).
 

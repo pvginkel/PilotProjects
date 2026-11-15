@@ -556,6 +556,14 @@ CANCEL_EFFECT = '"Cancelled · <title>"'
 CANCEL_CARRIED_OUT = "an ask called off: none of its acts, and the plan adjusted to its going"
 # The files that name the call: a job has no person's word, so no skill of a job names it.
 CANCEL_FILES = {"CLAUDE.md", ".claude/skills/chat/SKILL.md"}
+# A free-form work item's own card closed, Done with a comment, by the job after its last turn,
+# once its done-when is met and no document of its run is open (P-281, the operator's note).
+OWN_CARD_SECTION = "## Its own card"
+OWN_CARD_CLOSED = (
+    "A free-form work item's own card, the card it was started to work, is closed by the job after"
+    " the work item's last turn, once the card's done-when is met and no document of its run is"
+    " open: Done, through youtrack, with a comment"
+)
 # pilot-store's `stop_work` with `reason` (PilotApp's pilot_mcp/tools.py): the work item closed for
 # good in the same act, one stopped earlier included, and a failed one refused (P-201). The rule's
 # one home is the work item's rule file, which the chat's correction and the plan's jobs cite.
@@ -1104,6 +1112,14 @@ class WorkItemRuleTest(unittest.TestCase):
                     "paste the handbook",
                 ):
                     self.assertNotIn(form, text)
+
+    def test_a_free_form_work_item_s_own_card_is_closed_by_the_job_after_its_last_turn(
+        self,
+    ) -> None:
+        _, heading, rest = (ROOT / WORK_ITEMS).read_text().partition(f"\n{OWN_CARD_SECTION}\n")
+        self.assertTrue(heading)
+        section, _, _ = rest.partition("\n## ")
+        self.assertIn(OWN_CARD_CLOSED, " ".join(section.split()))
 
     def test_a_replaced_work_item_is_closed_through_stop_work_with_its_reason(self) -> None:
         _, heading, rest = (ROOT / WORK_ITEMS).read_text().partition(f"\n{REPLACED_SECTION}\n")

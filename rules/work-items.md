@@ -1,8 +1,8 @@
 # A work item
 
 What a work item is given when Pilot starts one, in the chat or in a job: the one home of its
-`add_item` fields, its brief's shape and the close of one another replaces, which the skills that
-start work cite.
+`add_item` fields, its brief's shape, the close of its own card and the close of one another
+replaces, which the skills that start work cite.
 
 ## The fields
 
@@ -48,6 +48,13 @@ Pilot appends the plan task it serves, the switch and the handbook: never paste 
 line of its own, never told as running and never a reason to start less. A refused add — its
 start refused, a field missing, a fault in its text — added nothing: fix the call, or say why it
 was refused.
+
+## Its own card
+
+A free-form work item's own card, the card it was started to work, is closed by the job after the
+work item's last turn, once the card's done-when is met and no document of its run is open: Done,
+through youtrack, with a comment saying what the work did and how the done-when was met. A stage's
+cards are the workflow's own (`rules/stages.md`).
 
 ## A work item replaced
 
