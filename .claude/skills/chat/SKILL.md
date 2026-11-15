@@ -91,8 +91,9 @@ promotion What is next starts. The writing is
   `items/`, never a worker's document in `inbox/`, which its run takes back — is carried out in
   this turn: no job of Pilot's follows what the chat records, so `/plan`'s An item done is yours
   here, within the grants, its acts on the close, then What is next whole, the task's status set
-  and every task whose inputs are now done started, up to the plan's end; what the turn leaves
-  undone waits for Pilot's next job, the reply saying what is left. Beside An item done's acts:
+  and every task whose inputs are now done started, as `/plan`'s Starting a task has it, up to the
+  plan's end; what the turn leaves undone waits for Pilot's next job, the reply saying what is
+  left. Beside An item done's acts:
   - an ask called off: none of its acts, and the plan adjusted to its going — a task that waited
     on its answer changed, removed or started, a note that names its blocks struck;
   - the sweep's decision and the finish decision as `/plan`'s sections have them, the finish

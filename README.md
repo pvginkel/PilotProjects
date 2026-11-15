@@ -34,7 +34,8 @@ its database. The app is `pvginkel/PilotApp`.
   settled by the job that does the act, a cancelled run's a notice to the operator and nothing
   started, the handbook's result checked at the plan's end, the operator asked for the next step
   where the handbook grows the plan in the chat; a wait's firings, each judged on the card read
-  again, the wait closed through `mark` with its note once its event came, or left open, with its
+  again, the wait closed through `mark` with its note once its event came, the note on its task
+  struck and the task started by the plan's one passage on starting a task, or left open, with its
   backstop, a card wait and its backstop closed together; the sweep; and the finish decision, whose
   Finish and archive calls `finish` with `archive`.
 - `rules/`: the rules the skills apply, each file the one home of its own — `grants.md` (what goes

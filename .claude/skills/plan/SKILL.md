@@ -51,6 +51,23 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
   replace with another, its task changed by a ruling or its brief outdated, is closed for good
   with it, never left stopped beside it: `stop_work` with `reason`, as `rules/work-items.md`'s A
   work item closed for good has it.
+- **Starting a task**: every task whose inputs are done and that waits on nothing the plan says it
+  waits on gets its work item, in an environment of its own, all at once — the gate throttles them,
+  and a held start is a line, never a reason to start less — and is set going as its work item
+  starts, `pilot.py plan task set <task id> --status in_progress`, never a job later. Held back only
+  what the plan says waits — what a task waits on is a note on it,
+  `pilot.py plan note list --task <task id>`, which you strike,
+  `pilot.py plan note strike <note id>`, once what it waits on is met — and what would collide: two
+  runs on one repository's same files, or work whose input is a run's open document; a task held
+  back for a collision says so in a note on it. Each run waits only on its own documents: the task a
+  finished document unblocks is started at once, whatever other runs still wait on theirs. One at a
+  time is the exception the plan writes, never the default. A task with an open work item, its run
+  waiting on its documents among them, is going already: it gets no second, and Pilot's server
+  resumes the run once the last is closed, never you. A task with no repository to work in places no
+  work item: an act of a person's hands is an action item for them, exact; a task that waits stays
+  pending. The setup, What is next, a wait's Over and the chat start a task by this passage alone
+  (the operator, 2026-11-15: "One passage", to "Starting a task once, the wait's note struck and the
+  status set").
 - **An action of an item of yours**, an open action of an item you added: handed to a work item,
   one you put to the operator among them, it is claimed on that work item's `add_item`, as
   `rules/routing.md`'s The claim has it; done, by a work item's run or your own hands, it takes
@@ -106,11 +123,7 @@ draft, and starts the work that can start.
 5. **An ask the draft left open** stays open there, and nothing answers it past Create: where a
    task needs its answer, ask it anew as an item (`add_item`, a decision or a question, its `step`
    the task); where none does, the plan goes on without it.
-6. **Every task that can start, started**: each whose inputs are there and that waits on no
-   other task gets its first work item, and the task is set going,
-   `pilot.py plan task set <task id> --status in_progress`. A task with no repository to work in
-   places no work item: an act of a person's hands is an action item for them, exact; a task
-   that waits stays pending.
+6. **Every task that can start, started**, as In every mode's Starting a task has it.
 
 ## An action of Pilot's done
 
@@ -228,17 +241,7 @@ plan brought up to date with what happened, and every piece of work that can go,
    `pilot.py plan note add --task <task id> --summary <line> --ref <item id>/<block id> <content>`,
    without `--task` for one deferred to the plan — or its block answered anew in a new item, as
    their line says.
-5. **Every task whose inputs are done, started**, a work item each, in an environment of its own,
-   all at once: the gate throttles them, and a held start is a line, never a reason to start less.
-   Held back only what the plan says waits — what a task waits on is a note on it,
-   `pilot.py plan note list --task <task id>`, which you strike, `pilot.py plan note strike <note id>`, once
-   what it waits on is met — and what would collide: two runs on one repository's same files, or
-   work whose input is a run's open document; a task held back for a collision says so in a note
-   on it. Each run waits only on its own documents: the task a finished document unblocks is
-   started at once, whatever other runs still wait on theirs. One at a time is the exception the
-   plan writes, never the default. A task with an open work item, its run waiting on its documents
-   among them, is going already: it gets no second, and Pilot's server resumes the run once the
-   last is closed, never you.
+5. **Every task whose inputs are done, started**, as In every mode's Starting a task has it.
 6. **The next human prerequisite**, one boundary ahead — what a person's hands must do before the
    next task can go: an action item, exact, its `step` the task it unblocks; an open one of yours
    already there is updated in its file, never added a second time.
@@ -277,13 +280,16 @@ later firing, while this run's conversation holds, comes as its next turn: `Anot
    or not.
 4. **The card read again** through youtrack before any act: what you act on is the card as it
    stands, never the firing's line.
-5. **Over**, its event come: the action after it started — a work item, as What is next starts one,
-   or your own hands' act, an action deferred to the wait taking its `done` once done, as
-   `rules/routing.md`'s A wait has it — and then the wait closed: `mark`, `item` the wait's id,
-   `mark` `done`, no `for`, and `note` what was read and when and the action started, "ANS-312 read
-   at 18:39: Done; t7's planning started". The note is shown on the wait's line, whole. A card wait
-   and its backstop close together, whichever fired: the other one marked the same way in the same
-   turn, its note naming the wait that fired, "Closed with ANS-312's wait: Done at 18:39".
+5. **Over**, its event come: the action after it started — a work item, as Starting a task starts
+   one, its task set going, or your own hands' act — and the note beside it on the task struck,
+   `pilot.py plan note strike <note id>`, but for one that names an action deferred to the wait:
+   that takes its `done` once done, as `rules/routing.md`'s A wait has it, in this turn by your own
+   hands, and by a work item's, its note standing until the job after the work's turn writes it and
+   strikes the note. Then the wait closed: `mark`, `item` the wait's id, `mark` `done`, no `for`,
+   and `note` what was read and when and the action started, "ANS-312 read at 18:39: Done; t7's
+   planning started". The note is shown on the wait's line, whole. A card wait and its backstop
+   close together, whichever fired: the other one marked the same way in the same turn, its note
+   naming the wait that fired, "Closed with ANS-312's wait: Done at 18:39".
 6. **Not over**: the wait left open, nothing written of it, but a backstop spent at its due time
    (below). A wait is never edited: one that must watch another card or state is closed with its
    note and another added, armed on a fresh read as `rules/routing.md`'s A wait has it, its backstop

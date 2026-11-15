@@ -95,7 +95,7 @@ RULING_ACTS = (
 RULING_ACTS_CITED = "so `/plan`'s An item done is yours here, within the grants, its acts on the close"
 RULING_THEN_NEXT = (
     "then What is next whole, the task's status set and every task whose inputs are now done"
-    " started, up to the plan's end"
+    " started, as `/plan`'s Starting a task has it, up to the plan's end"
 )
 ITEM_DONE_THEN_NEXT = "Act on the close, then What is next:"
 WHAT_IS_NEXT_STEPS = (
@@ -444,8 +444,7 @@ WHAT_IS_NEXT_FORMS = (
     "2. **A deferral's notes**",
     "a note on what a task waits on, on a collision or on a wait's event is no deferral's: step 5"
     " and A wait's firings read those",
-    "Each run waits only on its own documents: the task a finished document unblocks is started at"
-    " once, whatever other runs still wait on theirs.",
+    "5. **Every task whose inputs are done, started**, as In every mode's Starting a task has it.",
     "7. **A confirmation**, where the grants hold the next act — the granted column with the"
     " brief's switch line off, or the kept column: a confirmation item, asked as"
     " `rules/grants.md`'s The confirmation reasons has it.",
@@ -456,6 +455,23 @@ WHAT_IS_NEXT_RETIRED = (
     "a decision whose one block is a confirmation",
 )
 STEP_8_SENDS = "Where What is next's step 8 sends here"
+# Starting a task, one passage in In every mode, which the setup, What is next, a wait's Over and the
+# chat cite: the task set going as its work item starts (consolidation review R2.6 and R2.7, the
+# operator's "One passage", 2026-11-15).
+STARTING_A_TASK = (
+    "- **Starting a task**: every task whose inputs are done and that waits on nothing the plan says"
+    " it waits on gets its work item, in an environment of its own, all at once",
+    "and is set going as its work item starts, `pilot.py plan task set <task id> --status"
+    " in_progress`, never a job later",
+    "Each run waits only on its own documents: the task a finished document unblocks is started at"
+    " once, whatever other runs still wait on theirs.",
+    "A task with no repository to work in places no work item: an act of a person's hands is an"
+    " action item for them, exact; a task that waits stays pending.",
+    '(the operator, 2026-11-15: "One passage", to "Starting a task once, the wait\'s note struck and'
+    ' the status set")',
+)
+STARTING_A_TASK_CITED = "as In every mode's Starting a task has it"
+STARTING_A_TASK_CITING = ("## The setup", "## What is next")
 # Pilot's `done` on the last open block of an item of its own is the item's close (PilotApp's
 # RecordService.done_by_its_save), with no `mark` after it; an answer of its own closes nothing,
 # and a registered document, a worker's, still closes by Pilot's own `mark`.
@@ -732,8 +748,11 @@ WAIT_FIRINGS = (
     "its backstop closed with it",
     "**The backstop**, as `rules/routing.md`'s A wait arms one beside a card wait that outlives the"
     " plan's horizon, where it has none open that has not fired at its due time",
-    "an action deferred to the wait taking its `done` once done, as `rules/routing.md`'s A wait has"
-    " it",
+    "**Over**, its event come: the action after it started — a work item, as Starting a task starts"
+    " one, its task set going, or your own hands' act — and the note beside it on the task struck,"
+    " `pilot.py plan note strike <note id>`, but for one that names an action deferred to the wait:"
+    " that takes its `done` once done, as `rules/routing.md`'s A wait has it",
+    "its note standing until the job after the work's turn writes it and strikes the note",
     "A backstop that fired at its due time on an event not come is spent",
 )
 # The words by which the backstop counted an open timed wait that had fired as the card wait's.
@@ -1517,6 +1536,21 @@ class PlanSkillTest(unittest.TestCase):
             _, _, rest = plan.partition(f"\n{heading}\n")
             with self.subTest(heading):
                 self.assertTrue(rest.lstrip().startswith(STEP_8_SENDS))
+
+    def test_a_task_is_started_by_one_passage_which_the_modes_and_the_chat_cite(self) -> None:
+        plan = skill_file("plan").read_text()
+        _, _, rest = plan.partition("\n## In every mode\n")
+        every_mode, _, _ = rest.partition("\n## ")
+        for form in STARTING_A_TASK:
+            with self.subTest(form):
+                self.assertIn(form, " ".join(every_mode.split()))
+        for heading in STARTING_A_TASK_CITING:
+            _, _, rest = plan.partition(f"\n{heading}\n")
+            mode, _, _ = rest.partition("\n## ")
+            with self.subTest(heading):
+                self.assertIn(STARTING_A_TASK_CITED, " ".join(mode.split()))
+                self.assertNotIn("all at once", mode)
+        self.assertEqual(" ".join(plan.split()).count("--status in_progress"), 1)
 
     def test_the_plan_s_end_checks_the_handbook_s_result_first(self) -> None:
         _, _, rest = skill_file("plan").read_text().partition("\n## What is next\n")
