@@ -141,7 +141,9 @@ yours too (`rules/routing.md`'s The `Later` card).
   it on a branch of its own, it is gated and pushed. One that does not land is filed as a card,
   parented to the brief's ticket, with no new document. An edit a rule of the project keeps for
   the operator's word, which the wrap-up asks for, is made on theirs alone: a fix now you chose
-  for it comes back in a new document.
+  for it comes back in a new document. The one exception is a correction of design/database.md to
+  what was built, which the operator's standing word lets you accept, auto pilot on or off: the
+  fix now you chose for it is made (`rules/routing.md`'s routes).
 - **close**: nothing done; the note is the reason, kept in the record.
 - **deferred**, your deferral with its `to`, as routing's Deferral has it: final for the stage,
   which closes the finding as Pilot's and keeps nothing to bring it back. The plan note is its one

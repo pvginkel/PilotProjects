@@ -341,6 +341,29 @@ ROUTES_NAMED = (
     "| answered, Pilot's choice, only where",
     "| waited on: a wait through `add_item`,",
 )
+# A close-out's ask to correct design/database.md to what was built is Pilot's to accept, auto
+# pilot on or off, on the operator's standing word of 2026-11-07, and the stages' rule that keeps
+# such an edit for the operator's word names it as its one exception (P-353, the store's memory
+# note close-out-handling; the operator's "Absorb with the exception", 2026-11-15).
+DATABASE_CORRECTION_ROUTED = (
+    "| a close-out's ask to correct design/database.md to what was built — an attribute's line, an"
+    " assertion, an entity's note: the record brought in line with the build, the product unchanged"
+    " | answered, auto pilot on or off: `Agree`, or the option that makes the edit, the note saying"
+    " it stands on the operator's standing word, in at most two sentences.",
+    'It is a correction (D015), even where the entry says "on the operator\'s word" (the operator,'
+    ' 2026-11-07: "database.md correction asks may always be done … You may always accept these.";'
+    ' 2026-11-15: "Absorb with the exception", to "Pilot accepts a database.md correction, and'
+    ' stages.md names the exception").',
+    "An entry whose ruling picks between behaviours or changes the code is routed by the other rows,"
+    " even where one option edits design/database.md; a change to the record's conventions stays in"
+    " the grants' kept column. |",
+)
+DATABASE_CORRECTION_STAGES = (
+    "is made on theirs alone: a fix now you chose for it comes back in a new document. The one"
+    " exception is a correction of design/database.md to what was built, which the operator's"
+    " standing word lets you accept, auto pilot on or off: the fix now you chose for it is made"
+    " (`rules/routing.md`'s routes)."
+)
 # How BriefService ends a claimed or researched block's line once the server's reading handed it
 # back to the person (PilotApp's brief_service.py, HANDED_BACK): theirs, never done or routed.
 HANDED_BACK = "handed back to the operator: leave it to them"
@@ -1769,6 +1792,15 @@ class StagesRuleTest(unittest.TestCase):
         for form in (STAGE_DOCUMENTS_NO_CARD, *STAGE_DEBRIEF_CARD):
             with self.subTest(form):
                 self.assertIn(form, self.text)
+
+    def test_a_database_md_correction_is_pilot_s_to_accept_the_one_exception_to_fix_now(
+        self,
+    ) -> None:
+        self.assertIn(DATABASE_CORRECTION_STAGES, self.text)
+        routing = " ".join((ROOT / "rules" / "routing.md").read_text().split())
+        for form in DATABASE_CORRECTION_ROUTED:
+            with self.subTest(form):
+                self.assertIn(form, routing)
 
     def test_the_stage_s_brief_says_nothing_of_its_debrief_or_of_notices(self) -> None:
         self.assertIn(STAGE_BRIEF_SILENT, self.text)
