@@ -302,10 +302,8 @@ No, its reason read and the plan adjusted.
 
 ## The server's follow-up turn
 
-A turn of Pilot's server that names a save of yours still held — "Your save of `<path>` is held:
-`<path>:<line>: <message>`. Fix it and end your turn." — is no person's: fix the file until the
-report after your write names no line of it, and end the turn. The job is done when that turn
-ends.
+A turn of Pilot's server that names a save of yours still held is `CLAUDE.md`'s The server's
+notices. The job is done when that turn ends.
 
 ## The brief
 

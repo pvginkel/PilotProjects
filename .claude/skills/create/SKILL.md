@@ -115,21 +115,16 @@ draft is what the slice's record is filed from:
   Cite it as `rules/routing.md`'s "A delegated answer" says, never as their ruling.
 - **No deferral**: the draft has no plan, and no plan note names a block of it. An ask the
   person leaves for later stays open.
-- Each call answers its effect line — "Answered · D1 · <title>" — which the chat shows where
-  the call ran; a refused call changes nothing and answers why. Say a thing is recorded only once
-  its call answered so.
+- Each call answers its effect line, as `CLAUDE.md`'s The tools and the scripts has it.
 
 ## Attaching
 
 - **Material the person points at** — a design record, a handover, a file in an environment of
-  the fleet — is copied in with `attach_file`: `source` `<environment>:<path>`, a file or a folder
-  whole or in part as the chat decides, every file of one call one batch; and no `to`, so that it
-  hangs on nothing until Create project hangs it on the opening. The call answers its
-  attachments' ids and its effect line; `timeline.json`'s `attachments` then lists each with its
+  the fleet — is copied in with `attach_file`: `source` `<environment>:<path>`, whole or in part as
+  the chat decides, as `CLAUDE.md`'s line has it, and no `to`, so that it hangs on nothing until
+  Create project hangs it on the opening. `timeline.json`'s `attachments` then lists each with its
   path, `attachments/<batch>/<filename>`, which you read from the draft's folder and the draft
   links.
-- A copy is the file as it stood: a change at its source later is not seen. A refused call
-  attached nothing: say so, with its reason, or fix the call.
 
 ## The reply
 
@@ -142,18 +137,14 @@ draft is what the slice's record is filed from:
 
 ## Grounding
 
-Facts outside the draft — a repository's code or history, a card, a tracker's projects, an
-environment's files, a Fieldnotes post — are read through the fleet servers, never recalled or
-guessed: the fleet file tools, youtrack, gitblit, fieldnotes. They read; nothing outside the
-draft is made or changed here, a card, a repository or an environment the setup's to start, as
-the draft agrees it.
+Facts outside the draft are read as `CLAUDE.md`'s Reading elsewhere has it. They read; nothing
+outside the draft is made or changed here, a card, a repository or an environment the setup's to
+start, as the draft agrees it.
 
 ## The server's follow-up turn
 
-A turn of Pilot's server that names a save of yours still held — "Your save of `<path>` is held:
-`<path>:<line>: <message>`. Fix it and end your turn." — is no person's: fix the file until the
-report after your write names no line of it, and end the turn. The chat shows your reply to it as
-the rest of your last one.
+A turn of Pilot's server that names a save of yours still held is `CLAUDE.md`'s The server's
+notices. The chat shows your reply to it as the rest of your last one.
 
 ## Not this skill's
 

@@ -84,9 +84,7 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
   while its item is open; once the item is done, as a deferral's usually is, `answer` refuses it,
   and the block is answered anew in a new item, as Correcting has it. Either way, the plan note
   that pointed at it is struck in the same turn, `pilot.py plan note strike <id>`.
-- Each call answers its effect line, `<verb> · <what>` — "Answered · D1 · <title>", "Marked done
-  · <title>", "Cancelled · <title>" — which the chat shows where the call ran; a refused call
-  changes nothing and answers why. Say a thing is recorded only once its call answered so.
+- Each call answers its effect line, as `CLAUDE.md`'s The tools and the scripts has it.
 - **A ruling or a close you record on an item of Pilot's own** — one a job or a chat added, in
   `items/`, never a worker's document in `inbox/`, which its run takes back — is carried out in
   this turn: no job of Pilot's follows what the chat records, so `/plan`'s An item done is yours
@@ -125,11 +123,11 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
 - **The reply says how the start went**, as the answer's `state` and `held` say it
   (`rules/work-items.md`), a held start never told as running: held while the project is paused,
   "Started; it is held while the project is paused", as the brief's pause line asks of everything
-  you start. A refused add is said so, with its reason, unless you fix the call.
-- **A prose item** — `add_item` with its `kind` and `title`, and `step`, `urgent`, `for` and
-  `summary` where they hold — is born with its file, the answer's `path`, which you fill; a short
-  one comes whole as `markdown`. A person's answer never goes into its text: it is `answer`'s,
-  after the add.
+  you start.
+- **A prose item** is added as `CLAUDE.md`'s `add_item` line has it, and its file filled at the
+  `path` the call answers.
+- **Material the person points at** — a file or a folder in an environment of the fleet — is
+  copied in with `attach_file`, `to` the item it hangs on, as `CLAUDE.md`'s line has it.
 - **An act the grants hold** — the granted column with auto pilot off, or the kept column
   (`rules/grants.md`) — is asked as a confirmation item when it is due, a decision whose one
   block is a confirmation with its `because`, one covering everything due at once; never as a
@@ -197,19 +195,14 @@ hands stays theirs.
 
 ## Grounding
 
-Facts outside the project — a repository's code or history, a card, an environment's files, a
-session's log, a Fieldnotes post — are read through the fleet servers, never recalled or guessed:
-the fleet file tools, `get_session_log`, youtrack, gitblit, fieldnotes. They read; a card or a
-post is made only where a rule says so (`CLAUDE.md`'s Reading elsewhere), and a headless session
-started through them is research, never the work, which is `add_item`'s. A session's log is
-never read to tell how work goes: How work goes answers that from the tree.
+Facts outside the project are read, and a card or a post made, as `CLAUDE.md`'s Reading elsewhere
+has it. A session's log is never read to tell how work goes: How work goes
+answers that from the tree.
 
 ## The server's follow-up turn
 
-A turn of Pilot's server that names a save of yours still held — "Your save of `<path>` is held:
-`<path>:<line>: <message>`. Fix it and end your turn." — is no person's: fix the file until the
-report after your write names no line of it, and end the turn. The chat shows your reply to it as
-the rest of your last one.
+A turn of Pilot's server that names a save of yours still held is `CLAUDE.md`'s The server's
+notices. The chat shows your reply to it as the rest of your last one.
 
 ## Not this skill's
 

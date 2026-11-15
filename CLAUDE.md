@@ -24,6 +24,10 @@ project as files. This page is what holds in every session; what to do is the sk
 A `<store_notification>` block in a turn is Pilot's server, never a person's words. The one it
 sends says the handbook changed since your last turn: read `handbook.md` again before you answer.
 
+A turn of Pilot's server that names a save of yours still held — "Your save of `<path>` is held:
+`<path>:<line>: <message>`. Fix it and end your turn." — is no person's either: fix the file until
+the report after your write names no line of it, and end the turn.
+
 ## Where things are
 
 - **The project's folder** is `$PILOT_PROJECT`, `/work/Projects/<folder>`: the project's slug, or
@@ -65,15 +69,19 @@ fails before it runs.
 `pilot-store`, Pilot's MCP server, is the one door to the record beyond the files of the project's
 folder. Every other change to the record goes through its tools, never through Pilot's API:
 
-- `add_item`: an item added, in `timeline.json`'s shape — a prose item born with its file, its
-  title in the front matter, a work item started on add, `claims` the actions you claimed that it
-  does, of a worker's document or of an item of yours, and `researches` the blocks you left open on
-  a fact it finds, or a wait, a `card_wait` with its `cards` and `states` or a `timed_wait` with
-  its `due_at`, fixed once added — its id, a prose item's path and a work item's state at the gate
-  returned.
-- `attach_file`: outside material, `<environment>:<path>`, a file or a folder, copied in and hung on
-  the item `to` names; in a draft's definition chat, with no `to`, on nothing until Create project
-  hangs it on the opening.
+- `add_item`: an item added, in `timeline.json`'s shape — a prose item, its `kind` and `title`, and
+  `step`, `urgent`, `for` and `summary` where they hold, born with its file, its title in the front
+  matter, at the `path` returned, which you fill, a short one whole as `markdown`, and a person's
+  answer never in its text but `answer`'s, after the add; a work item started on add, `claims` the
+  actions you claimed that it does, of a worker's document or of an item of yours, and
+  `researches` the blocks you left open on a fact it finds; or a wait, a `card_wait` with its
+  `cards` and `states` or a `timed_wait` with its `due_at`, fixed once added — its id, a prose
+  item's path and a work item's state at the gate returned.
+- `attach_file`: outside material, `source` `<environment>:<path>`, a file or a folder, whole or in
+  part, every file of one call one batch, copied in and hung on the item `to` names; in a draft's
+  definition chat, with no `to`, on nothing until Create project hangs it on the opening. It
+  answers its attachments' ids. A copy is the file as it stood: a change at its source later is not
+  seen.
 - `answer`: a person's answer to a block, given in the chat, recorded for them (`for`), their words
   as the note; their deferral is `deferred` with `to`. No job of Pilot's follows what the chat
   records: on an item of Pilot's own, `/chat` carries the ruling out in its turn.
@@ -96,6 +104,11 @@ folder. Every other change to the record goes through its tools, never through P
   `archive`, on their `Finish and archive`, archived with it, and no archive question asked.
 - `ask_writer`: a `question` to the writer of a registered document about one of its blocks,
   `block` its id; the pre-ruling pass's alone, once a block, one round per worker turn.
+
+Each call answers its effect line, `<verb> · <what>` — "Answered · D1 · <title>", "Marked done ·
+<title>", "Cancelled · <title>" — which a chat shows where the call ran; a refused call changes
+nothing and answers why: say so, with its reason, or fix the call. Say a thing is recorded only
+once its call answered so.
 
 A finished project's chat has none of them: it reads only.
 
@@ -127,7 +140,8 @@ says what the record made of it. It exits 0 done, or 2 refused with nothing writ
 ## The invariants
 
 - A person's answer, a frozen block and a frozen body are never touched: a change of meaning is a
-  new block or a new item.
+  new block or a new item. In a draft alone a block may be changed or deleted, answered or not, a
+  person's answer lines still the record's (`/create`'s The draft).
 - An answer of yours is `by: agent`.
 - A deferral has its plan note, in the same turn: `pilot.py defer` writes both.
 - A task's title names the task alone, in 25 words at most: what it waits on, what follows it and
@@ -137,7 +151,8 @@ says what the record made of it. It exits 0 done, or 2 refused with nothing writ
 - An item's file is born through `add_item`, never created by hand.
 - Nothing of another project: only the folder `$PILOT_PROJECT` names is this session's.
 - A job ends with its turn, and never waits.
-- An ask to a person is an item, never a question in a transcript.
+- An ask to a person is an item, never a question in a transcript; in a draft, a block of the
+  draft (`/create`'s The draft).
 - The operator's words travel verbatim.
 - A delegated choice is marked as such wherever it is cited (`rules/routing.md`).
 
@@ -163,7 +178,11 @@ and the plan already keep.
 
 ## Reading elsewhere
 
-The fleet tools, youtrack, gitblit and fieldnotes are yours to read with, and to make a card, a
-comment on an open card, a fleet call or a Fieldnotes post where a rule says so. The plan's work is driven through `add_item`
-alone, a work item each; a headless session started through the fleet tools is for research, never
-a stage of the workflow.
+Facts outside the project — a repository's code or history, a card, a tracker's projects, an
+environment's files, a session's log, a Fieldnotes post — are read through the fleet servers,
+never recalled or guessed: the fleet file tools, `get_session_log`, which cuts every line at about
+80 characters, youtrack, gitblit, fieldnotes. The fleet tools, youtrack, gitblit and fieldnotes are
+yours to read with, and to make a card, comment on an open card or close one, make a fleet call or
+post to Fieldnotes, where a rule says so. The plan's work is driven through `add_item` alone, a
+work item each; a headless session started through the fleet tools is for research, never a stage
+of the workflow.

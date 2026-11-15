@@ -214,8 +214,8 @@ DEBRIEF_OPEN_CARD = (
     "the comment by its card's id",
 )
 COMMENT_GRANT = (
-    "yours to read with, and to make a card, a comment on an open card, a fleet call or a"
-    " Fieldnotes post where a rule says so"
+    "yours to read with, and to make a card, comment on an open card or close one, make a fleet call"
+    " or post to Fieldnotes, where a rule says so"
 )
 # A stage's documents get no card and no fold of the pass's, the stage's continuation carrying out
 # their fates; a card on the stage session's debrief is the one exception; and the stage's brief
@@ -776,6 +776,54 @@ PROMOTION_CANCELLED_DUE = (
     "The job that meets their notes starts nothing of them, posts the operator a notice naming the"
     " promotion and the cancelled run it was owed after, and strikes the notes.",
 )
+# What every session shares has its one home in CLAUDE.md, each skill keeping its own clause beside
+# a pointer: the server's follow-up turn on a held save, the effect lines a call answers, the facts
+# read through the fleet servers, a prose item's fields and an attachment's copy, and the draft's
+# exception to the invariants on a person's answer and an ask.
+FOLLOW_UP = (
+    "A turn of Pilot's server that names a save of yours still held — \"Your save of `<path>` is"
+    " held: `<path>:<line>: <message>`. Fix it and end your turn.\" — is no person's either: fix the"
+    " file until the report after your write names no line of it, and end the turn."
+)
+FOLLOW_UP_CITED = (
+    "A turn of Pilot's server that names a save of yours still held is `CLAUDE.md`'s The server's"
+    " notices."
+)
+FOLLOW_UP_OWN = {
+    "chat": "The chat shows your reply to it as the rest of your last one.",
+    "create": "The chat shows your reply to it as the rest of your last one.",
+    "plan": "The job is done when that turn ends.",
+}
+EFFECT_LINES = (
+    "Each call answers its effect line, `<verb> · <what>` — \"Answered · D1 · <title>\", \"Marked"
+    " done · <title>\", \"Cancelled · <title>\" — which a chat shows where the call ran; a refused"
+    " call changes nothing and answers why: say so, with its reason, or fix the call. Say a thing is"
+    " recorded only once its call answered so."
+)
+EFFECT_LINES_CITED = (
+    "Each call answers its effect line, as `CLAUDE.md`'s The tools and the scripts has it."
+)
+READ_ELSEWHERE = (
+    "Facts outside the project — a repository's code or history, a card, a tracker's projects, an"
+    " environment's files, a session's log, a Fieldnotes post — are read through the fleet servers,"
+    " never recalled or guessed",
+    "`get_session_log`, which cuts every line at about 80 characters",
+)
+READ_ELSEWHERE_CITED = "`CLAUDE.md`'s Reading elsewhere has it"
+PROSE_ITEM_AND_COPY = (
+    "a prose item, its `kind` and `title`, and `step`, `urgent`, `for` and `summary` where they hold,"
+    " born with its file",
+    "a short one whole as `markdown`, and a person's answer never in its text but `answer`'s, after"
+    " the add",
+    "every file of one call one batch",
+    "A copy is the file as it stood: a change at its source later is not seen.",
+)
+DRAFT_EXCEPTIONS = (
+    "In a draft alone a block may be changed or deleted, answered or not, a person's answer lines"
+    " still the record's (`/create`'s The draft).",
+    "An ask to a person is an item, never a question in a transcript; in a draft, a block of the"
+    " draft (`/create`'s The draft).",
+)
 # A placed worker's model and effort: Opus at xhigh for every work item, and Fable on a person's
 # own word for that work alone, asked once more before it is placed, in the placement rule and in
 # the work item's field line; a brief's one line on how, the sub-agents, and the draft's rules,
@@ -1080,10 +1128,10 @@ class ChatSkillTest(unittest.TestCase):
             with self.subTest(form):
                 self.assertIn(form, bullet)
         recording = " ".join(recording.split())
-        for form in (CANCEL_EFFECT, CANCEL_CARRIED_OUT):
-            with self.subTest(form):
-                self.assertIn(form, recording)
-        self.assertIn(CANCEL_TOOL, " ".join(CLAUDE.read_text().split()))
+        self.assertIn(CANCEL_CARRIED_OUT, recording)
+        claude = " ".join(CLAUDE.read_text().split())
+        self.assertIn(CANCEL_TOOL, claude)
+        self.assertIn(CANCEL_EFFECT, claude)
 
     def test_cancel_ask_is_named_by_the_map_and_the_chat_skill_alone(self) -> None:
         named = {source for source, text in the_map().items() if CANCEL_ASK in text}
@@ -1696,6 +1744,31 @@ class WaitTest(unittest.TestCase):
         for form in WAIT_FIRINGS_RETIRED:
             with self.subTest(form):
                 self.assertNotIn(form, text)
+
+
+class SharedHomesTest(unittest.TestCase):
+    def test_claude_md_holds_what_every_session_shares_and_the_skills_point_at_it(self) -> None:
+        claude = " ".join(CLAUDE.read_text().split())
+        shared = (FOLLOW_UP, EFFECT_LINES, *READ_ELSEWHERE, *PROSE_ITEM_AND_COPY, *DRAFT_EXCEPTIONS)
+        for form in shared:
+            with self.subTest(form):
+                self.assertIn(form, claude)
+        for name, own in FOLLOW_UP_OWN.items():
+            text = skill_file(name).read_text()
+            _, _, rest = text.partition("\n## The server's follow-up turn\n")
+            section, _, _ = rest.partition("\n## ")
+            section = " ".join(section.split())
+            with self.subTest(name):
+                self.assertIn(FOLLOW_UP_CITED, section)
+                self.assertIn(own, section)
+                self.assertNotIn("Fix it and end your turn", section)
+        for name in ("chat", "create"):
+            text = " ".join(skill_file(name).read_text().split())
+            with self.subTest(name):
+                self.assertIn(EFFECT_LINES_CITED, text)
+                self.assertIn(READ_ELSEWHERE_CITED, text)
+                self.assertNotIn("never recalled or guessed", text)
+                self.assertNotIn("every file of one call one batch", text)
 
 
 class CitationsTest(unittest.TestCase):
