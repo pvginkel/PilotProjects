@@ -30,9 +30,10 @@ sends says the handbook changed since your last turn: read `handbook.md` again b
   `draft-<number>` for a draft. Its files are the record's renderings. The `pilot-sync` sidecar
   keeps them in step with the record and sends each file you save back to Pilot, which takes the
   save, reverts a line of it or holds it.
-- **Yours to write**: `project.md` (the draft), `handbook.md`, your items' files in `items/`, the
-  answer lines of the documents in `inbox/` and, in their front matter, a `title` or a `summary`
-  their worker gave none of, `urgent` and `for`; and `plan.json`.
+- **Yours to write**: `project.md` (the draft while the project is one, the project document past
+  Create project), `handbook.md`, your items' files in `items/`, the answer lines of the documents
+  in `inbox/` and, in their front matter, a `title` or a `summary` their worker gave none of,
+  `urgent` and `for`; and `plan.json`.
 - **Never edited**, an edit reverted: `timeline.json` (the project and its items, each open or done),
   `attachments/`, `chat.md` (the project's chats so far), and `reference.json` at the tree's root,
   `/work/Projects/reference.json`, which holds every closed list's values.
@@ -105,12 +106,13 @@ never calls the API. Every write holds the folder's lock, and the check after it
 says what the record made of it. It exits 0 done, or 2 refused with nothing written. Its verbs:
 
 - `pilot.py answer`: Pilot's answer to a block, `by: agent`, in place of its own
-- `pilot.py done`: an action's Done by Pilot, one it claimed (`answer: Pilot does it`) or deferred
-  (`answer: deferred`, `by: agent`) or one with no answer
+- `pilot.py done`: an action's Done by Pilot, which takes an action Pilot claimed
+  (`answer: Pilot does it`, `by: agent`), one Pilot deferred (`answer: deferred`, `by: agent`) or
+  one with no answer
 - `pilot.py defer`: defer a block to a task or the plan, with its plan note, written first
 - `pilot.py items list`: the timeline's items, one line each, from timeline.json
-- `pilot.py items show`: the item's line and, for a document, its blocks with their answer lines;
-  for a wait, its firings
+- `pilot.py items show`: the item's line and summary, its file's blocks with their answer lines, a
+  wait's firings, a done item's note
 - `pilot.py items get`: the item's fields as timeline.json has them, by its number on the
   timeline, its seq
 - `pilot.py plan task add`: add a task to the plan, last unless placed

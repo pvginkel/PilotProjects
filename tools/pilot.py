@@ -42,6 +42,11 @@ OPENING = "opening"
 REQUESTS = {"card_wait": "Check now", "timed_wait": "Skip wait"}
 # The answer of an action Pilot has claimed (F21.6, D062), pilot-dsl's.
 CLAIM = dsl.CLAIM
+# What `done` takes, as its description and its refusal say it.
+DONE_TAKES = (
+    f"an action Pilot claimed (`answer: {CLAIM}`, `by: agent`), one Pilot deferred"
+    " (`answer: deferred`, `by: agent`) or one with no answer"
+)
 
 DONE, REFUSED = 0, 2
 
@@ -846,9 +851,8 @@ def _done(project: Project, args: argparse.Namespace) -> int:
         taken = block.claimed or (block.answer == dsl.DEFERRED and block.by == dsl.AGENT)
         if block.answered and not taken:
             raise Refused(
-                f"<block id>: action {block.local_id} holds {_answer_line(block)}: `done` takes"
-                f" an action Pilot claimed (`answer: {CLAIM}`, `by: agent`), one Pilot deferred"
-                " (`answer: deferred`, `by: agent`) or one with no answer"
+                f"<block id>: action {block.local_id} holds {_answer_line(block)}:"
+                f" `done` takes {DONE_TAKES}"
             )
         if block.options and not taken:
             raise Refused(
@@ -1001,7 +1005,8 @@ def build_parser() -> argparse.ArgumentParser:
         "--value",
         required=True,
         metavar="<text>",
-        help="the answer: an option's label, Agree, Yes, No or free words",
+        help=f"the answer: an option's label, Agree, Yes, No or free words; `{CLAIM}` is the claim of"
+        " an action Pilot does",
     )
     answer.add_argument(
         "--note", metavar="<text>|-", help="why it was given, - to read it from stdin"
@@ -1010,8 +1015,7 @@ def build_parser() -> argparse.ArgumentParser:
         verbs,
         "done",
         _done,
-        f"an action's Done by Pilot, one it claimed (`answer: {CLAIM}`) or deferred (`answer:"
-        " deferred`, `by: agent`) or one with no answer",
+        f"an action's Done by Pilot, which takes {DONE_TAKES}",
     )
     for dest, metavar, about in (file, block):
         done.add_argument(dest, metavar=metavar, help=about)
@@ -1056,8 +1060,8 @@ def build_parser() -> argparse.ArgumentParser:
         items,
         "show",
         _items_show,
-        "the item's line and, for a document, its blocks with their answer lines;"
-        " for a wait, its firings",
+        "the item's line and summary, its file's blocks with their answer lines, a wait's firings,"
+        " a done item's note",
     )
     show.add_argument(
         "item",
