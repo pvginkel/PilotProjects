@@ -125,9 +125,10 @@ OFFERED_ANSWER = (
     "**Asked about an open block**, lead with a short answer, then offer the answer you would"
     " record: its option and its note",
     "you do in this turn where the person asked for it, or offer in the reply: never an ask item",
-    "Past its three offers — the answer you would record, an act you can do yourself and the"
-    " call-off of an ask you find obsolete (Recording's An ask the person calls off) — the chat"
-    " asks no closed question of its own",
+    "Past its four offers — the answer you would record, an act you can do yourself, the call-off"
+    " of an ask you find obsolete (Recording's An ask the person calls off) and a free-form work"
+    " item where a change needs no slice (A change the person asks for) — the chat asks no closed"
+    " question of its own",
 )
 # A small correction the chat makes unasked and says so (P-353, the store's memory note
 # small-corrections-unasked; P-194's chat half without it).
@@ -248,6 +249,42 @@ TAKING_A_SLICE_RULES = (
     "and the slices it must follow, which its record names",
 )
 TAKING_A_SLICE_CITED = "`rules/stages.md`'s Taking a slice has it"
+# A slice or a work item: the operator's two tests, in the stages' rule file, which the definition
+# chat, the chat and the plan weigh a change by before they make it a slice (P-251, the operator's
+# "Agree", 2026-11-15, to the four passages as drafted).
+SLICE_OR_WORK_ITEM = "## A slice or a work item"
+SLICE_OR_WORK_ITEM_RULE = (
+    'A slice is for work that needs the whole workflow, and the operator\'s two tests say which: "(1)'
+    " more complex (multi step/multi project) and (2) whether checks and balances are needed to"
+    ' ensure success" (the operator, P-251). Where either holds, or you cannot tell, the work is a'
+    " slice.",
+    "Where neither does — one step in one repository, which a session does safely and confidently"
+    " and whose result its own check shows — it is a free-form work item off the plan, in a"
+    " repository onboarded to the workflow as in any other, and you propose it as one, saying in a"
+    " line which test it does not meet.",
+    "A project's handbook, or the repository's own instructions, that send every code change through"
+    " a slice still bind: there it is a slice, whatever the tests say.",
+)
+SLICE_OR_WORK_ITEM_WEIGHED = {
+    "create": (
+        "and needs the whole workflow by `rules/stages.md`'s A slice or a work item, the project is"
+        " one slice of it or more",
+        "Where it does not, `## The plan` gives it a task of its own, done by a free-form work item,"
+        " and the reply says in a line why it is no slice.",
+    ),
+    "chat": (
+        "- **A change the person asks for** in a repository onboarded to the workflow is weighed first"
+        " by `rules/stages.md`'s A slice or a work item, one they name a slice included: where it"
+        " needs no slice, the reply offers a free-form work item off the plan and says why, its task"
+        " added and its work item started on their yes; where it needs one, or they hold to a slice"
+        " after the offer, it is a new slice, taken as the definition chat takes one",
+    ),
+    "plan": (
+        "A task you add yourself is a slice's three, its filing, its planning and its run, only where"
+        " its work needs the whole workflow by `rules/stages.md`'s A slice or a work item, and a"
+        " single task done by a free-form work item otherwise.",
+    ),
+}
 TAKING_A_SLICE_IN_THE_CHAT = "the slices it must follow a note on its filing's task"
 # A person's Fable for a task, asked in a draft: quoted on the task's line, carried into its note.
 FABLE_IN_A_DRAFT = {
@@ -1131,7 +1168,7 @@ MAP_SECTIONS = {
                          "deferral", "a close-out's promotion", "the `Later` card",
                          "a delegated answer", "another project's decision", "the friction half"),
     "rules/work-items.md": ("fields", "brief", "the answer", "its own card", "its close for good"),
-    "rules/stages.md": ("taking a slice", "filing it"),
+    "rules/stages.md": ("a slice or a work item", "taking a slice", "filing it"),
 }
 
 
@@ -1750,6 +1787,23 @@ class StagesRuleTest(unittest.TestCase):
         chat = " ".join(skill_file("chat").read_text().split())
         self.assertIn(TAKING_A_SLICE_IN_THE_CHAT, chat)
         self.assertIn(CHAT_WAIT, chat)
+
+    def test_a_slice_is_for_work_that_needs_the_whole_workflow_and_the_skills_weigh_it(
+        self,
+    ) -> None:
+        lines = (ROOT / "rules" / "stages.md").read_text().splitlines()
+        self.assertEqual(lines.count(SLICE_OR_WORK_ITEM), 1)
+        self.assertLess(lines.index(SLICE_OR_WORK_ITEM), lines.index("## The order"))
+        for form in SLICE_OR_WORK_ITEM_RULE:
+            with self.subTest(form):
+                self.assertIn(form, self.text)
+        for name, forms in SLICE_OR_WORK_ITEM_WEIGHED.items():
+            text = " ".join(skill_file(name).read_text().split())
+            for form in forms:
+                with self.subTest(skill=name, form=form):
+                    self.assertIn(form, text)
+        chat = " ".join(skill_file("chat").read_text().split())
+        self.assertNotIn("**A new slice the person asks for**", chat)
 
     def test_a_person_s_fable_in_a_draft_reaches_the_task_s_note(self) -> None:
         for name, form in FABLE_IN_A_DRAFT.items():

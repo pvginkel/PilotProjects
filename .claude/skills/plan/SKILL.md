@@ -40,7 +40,9 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
 - **As lean as the project**: the plan holds the tasks the project needs and no more — "the
   build is failing" is a task or two — a task added where the work shows one missing, removed
   where it turns moot, `pilot.py plan task remove <task id>` once its notes are struck or moved; no
-  task is a fixture.
+  task is a fixture. A task you add yourself is a slice's three, its filing, its planning and its
+  run, only where its work needs the whole workflow by `rules/stages.md`'s A slice or a work item,
+  and a single task done by a free-form work item otherwise.
 - **Work** is a work item, its fields and its brief as `rules/work-items.md` has them: a stage of
   the workflow for a slice's planning and its run, filed first by a work item of its own
   (`rules/stages.md`), and free-form from a brief of yours otherwise, each placed by

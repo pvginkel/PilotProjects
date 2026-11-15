@@ -82,8 +82,10 @@ writing — the draft, its front matter and its blocks — is `/dev:document-for
 ## A slice of the workflow
 
 Where the work is a change to a repository onboarded to the workflow, one whose root has a
-`.aiworkflowrc` naming its spec repository, the project is one slice of it or more, each filed,
-planned and run as `rules/stages.md` has it. The chat does for a slice what triage does, as
+`.aiworkflowrc` naming its spec repository, and needs the whole workflow by `rules/stages.md`'s
+A slice or a work item, the project is one slice of it or more, each filed, planned and run as
+`rules/stages.md` has it. Where it does not, `## The plan` gives it a task of its own, done by a
+free-form work item, and the reply says in a line why it is no slice. The chat does for a slice what triage does, as
 `rules/stages.md`'s Taking a slice has it, and the draft is what the slice's record is filed from:
 
 - **The asks** go into the draft quoted and attributed, as the slice's record quotes the draft.

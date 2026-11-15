@@ -9,6 +9,17 @@ a slice is the definition chat's (Taking a slice), and the slice's folder is fil
 work item (Filing a slice). Every other work item is free-form, its brief your own text
 (`rules/work-items.md`).
 
+## A slice or a work item
+
+A slice is for work that needs the whole workflow, and the operator's two tests say which: "(1)
+more complex (multi step/multi project) and (2) whether checks and balances are needed to ensure
+success" (the operator, P-251). Where either holds, or you cannot tell, the work is a slice.
+Where neither does — one step in one repository, which a session does safely and confidently and
+whose result its own check shows — it is a free-form work item off the plan, in a repository
+onboarded to the workflow as in any other, and you propose it as one, saying in a line which
+test it does not meet. A project's handbook, or the repository's own instructions, that send
+every code change through a slice still bind: there it is a slice, whatever the tests say.
+
 ## The order
 
 - A slice is filed, planned, then run: a task each, in that order, the next started once the one

@@ -107,8 +107,12 @@ promotion What is next starts. The writing is
   it: `claims` the block's id, `<item id>/<local id>`, then
   `pilot.py answer <file> <block id> --value "Pilot does it" --note <its work item>`, so that the
   `done` the job after the work's turn writes closes the item where that was its last open block.
-- **A new slice the person asks for**, a change to a repository onboarded to the workflow, is
-  taken as `rules/stages.md`'s Taking a slice has it, its asks in the chat items: an ask only the
+- **A change the person asks for** in a repository onboarded to the workflow is weighed first by
+  `rules/stages.md`'s A slice or a work item, one they name a slice included: where it needs no
+  slice, the reply offers a free-form work item off the plan and says why, its task added and its
+  work item started on their yes; where it needs one, or they hold to a slice after the offer, it
+  is a new slice, taken as the definition chat takes one, as `rules/stages.md`'s Taking a slice
+  has it, its asks in the chat items: an ask only the
   person can answer put first, as a decision or a question item with your recommendation, never a
   closed question in the reply. Once nothing it needs is open, its three tasks go into the plan,
   its filing, its planning and its run, in that order, each title naming its task alone
@@ -140,9 +144,10 @@ promotion What is next starts. The writing is
   are generally ok."): a correction to what the chat itself wrote, within what Not this skill's and
   the invariants leave it to write.
 - **A ruling you need** that has impact, past these, is a decision item, and the reply says you
-  added it. Past its three offers — the answer you would record, an act you can do yourself and
-  the call-off of an ask you find obsolete (Recording's An ask the person calls off) — the chat
-  asks no closed question of its own: an ask is an item.
+  added it. Past its four offers — the answer you would record, an act you can do yourself, the
+  call-off of an ask you find obsolete (Recording's An ask the person calls off) and a free-form
+  work item where a change needs no slice (A change the person asks for) — the chat asks no closed
+  question of its own: an ask is an item.
 - **A wait** the person asks for, a card to watch or a time to come back at: `add_item` with
   `kind` `card_wait` or `timed_wait`, armed as `rules/routing.md` has it, on a fresh read through
   youtrack of the card it watches, with what routing's row for an owed action waiting on an event

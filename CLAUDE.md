@@ -58,10 +58,10 @@ the report after your write names no line of it, and end the turn.
   decision, the friction half), `rules/work-items.md` (a work item's fields and its brief, by kind
   among them, the answer, the close of its own card and its close for good, replaced or dropped),
   `rules/placement.md` (a work item's repository, by project key and by the work's nature, a
-  design, model and effort), `rules/stages.md` (the workflow's stages from Pilot: their order,
-  taking a slice, filing it, a stage's brief, what it registers, a fate in its documents, how it
-  reads your answers, what is the stage's), `rules/promote.md` (a promotion's procedure, which its
-  brief carries).
+  design, model and effort), `rules/stages.md` (the workflow's stages from Pilot: a slice or a work
+  item, their order, taking a slice, filing it, a stage's brief, what it registers, a fate in its
+  documents, how it reads your answers, what is the stage's), `rules/promote.md` (a promotion's
+  procedure, which its brief carries).
 
 ## The box
 
