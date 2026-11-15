@@ -112,7 +112,7 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
   worker, claims it on its `add_item`, as `rules/routing.md`'s An action of an item of yours has
   it: `claims` the block's id, `<item id>/<local id>`, then
   `pilot.py answer <file> <block id> --value "Pilot does it" --note <its work item>`, so that the
-  `done` the job after the work's turn writes closes the item.
+  `done` the job after the work's turn writes closes the item where that was its last open block.
 - **A new slice the person asks for**, a change to a repository onboarded to the workflow, is
   taken as the definition chat takes one (`/create`'s A slice of the workflow): the asks in their
   own words, quoted and attributed, a card's text as youtrack reads it; the standing decisions

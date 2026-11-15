@@ -57,7 +57,8 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
 - **An action of yours a work item does**, an open action of an item you added that you hand to a
   work item, one you put to the operator among them, is claimed on that work item's `add_item`,
   as `rules/routing.md`'s An action of an item of yours has it, so that its `done` after the
-  work's turn closes the item and it leaves the operator's queue (An action of Pilot's done).
+  work's turn closes the item where that was its last open block, and the item leaves the
+  operator's queue (An action of Pilot's done).
 - **The bounded check** before an ask you are about to put — a decision, a confirmation, the
   finish decision — where a survey, an isolated test or a read could change its recommendation:
   a sub-agent or a fleet read first, with the premise, the check, how each result moves the

@@ -249,7 +249,7 @@ OWN_ITEM_CLOSED = (
     " with no `for`",
 )
 # An open action of an item of Pilot's own that a work item does takes the claim route (PilotApp's
-# RecordService.claimable, widened by its slice 046's D4): named in `claims`, then the claim, and
+# RecordService.claimable, widened by its D224): named in `claims`, then the claim, and
 # its `done` after the work's turn the item's close on its last open block, with no `mark` and no
 # undo (RecordService.done_by_its_save), so that the item leaves the operator's queue. The routing
 # rule's section is its one home, which the rule's head names and CLAUDE.md, the chat and the plan
