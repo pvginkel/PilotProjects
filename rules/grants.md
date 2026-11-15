@@ -38,10 +38,9 @@ after your approval instead of asking you to push").
   changes they want first;
 - a standing grant: a permission meant to outlast the project or reach past it;
 - self-approval: going past a hold or a failed check on your own say;
-- the rules themselves: a change to the record's conventions (the decision index's head, the
-  considerations page), to the handbook's rules or to PilotProjects' rules — what says who
-  decides, or how a decision is kept — whoever proposes it, a close-out's fix-now included (the
-  operator, 2026-11-01).
+- the rules themselves: a change to the record's conventions (the decision index's head), to the
+  handbook's rules or to PilotProjects' rules — what says who decides, or how a decision is kept —
+  whoever proposes it, a close-out's fix-now included (the operator, 2026-11-01).
 
 A secret's value is never asked for and never handled: never in a brief, a document, a chat or a
 note. Putting a secret in place is work where a repository's own tooling does it — a new random
