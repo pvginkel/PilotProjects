@@ -37,16 +37,10 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
   word, `The plan: plan.json, empty.` included — while the store holds whatever the failed job
   wrote first: a handbook, the plan's tasks, a work item it started, a note, an item. Take up what
   is there, and never add a second of it.
-- **As lean as the project**: the plan holds the tasks the project needs and no more — a task
-  added where the work shows one missing, removed where it turns moot,
-  `pilot.py plan task remove <id>` once its notes are struck or moved; no task is a fixture.
-- **An item of yours closed at its last block**: an action of an item you added that is done, by
-  a work item's run or your own hands, takes its `done`,
-  `pilot.py done <file> <block id> --note <what was done and what was seen>`. Where that was the
-  item's last open block, every other one answered, deferred or done, that `done` is the item's
-  close, yours: no `mark` follows it, and the server refuses one. An answer of yours closes
-  nothing. A registered document is a worker's, not yours: its last `done` still takes your own
-  `mark` with no `for` (An action of Pilot's done).
+- **As lean as the project**: the plan holds the tasks the project needs and no more — "the
+  build is failing" is a task or two — a task added where the work shows one missing, removed
+  where it turns moot, `pilot.py plan task remove <id>` once its notes are struck or moved; no
+  task is a fixture.
 - **Work** is a work item, its fields and its brief as `rules/work-items.md` has them: a stage of
   the workflow for a slice's planning and its run, filed first by a work item of its own
   (`rules/stages.md`), and free-form from a brief of yours otherwise, each placed by
@@ -54,21 +48,26 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
   replace with another, its task changed by a ruling or its brief outdated, is closed for good
   with it, never left stopped beside it: `stop_work` with `reason`, as `rules/work-items.md`'s A
   work item closed for good has it.
-- **An action of yours a work item does**, an open action of an item you added that you hand to a
-  work item, one you put to the operator among them, is claimed on that work item's `add_item`,
-  as `rules/routing.md`'s The claim has it, so that its `done` after the
-  work's turn closes the item where that was its last open block, and the item leaves the
-  operator's queue (An action of Pilot's done).
+- **An action of an item of yours**, an open action of an item you added: handed to a work item,
+  one you put to the operator among them, it is claimed on that work item's `add_item`, as
+  `rules/routing.md`'s The claim has it; done, by a work item's run or your own hands, it takes
+  its `done`, `pilot.py done <file> <block id> --note <what was done and what was seen>`, after the
+  work's turn as An action of Pilot's done has it. Where that was the item's last open block,
+  every other one answered, deferred or done, that `done` is the item's close, yours, as
+  `CLAUDE.md`'s `mark` has it: no `mark` follows it, and the server refuses one, and the item
+  leaves the operator's queue. An answer of yours closes nothing. A registered document is a
+  worker's, not yours: its last `done` still takes your own `mark` with no `for` (An action of
+  Pilot's done).
 - **The bounded check** before an ask you are about to put — a decision, a confirmation, the
   finish decision — where a survey, an isolated test or a read could change its recommendation:
   a sub-agent or a fleet read first, with the premise, the check, how each result moves the
   recommendation and the stop; "would you like me to investigate?" is never asked where the
   grants already allow it.
 - **What the operator reads first is short.** The note on a block you answer or defer is as
-  `rules/routing.md`'s head has an answer's, what you checked and found said in your turn. A notice is posted only for what
-  the operator must know or do, never one that only says "nothing for you". An item's heading and
-  first paragraph carry its ruling in about 60 words, a confirmation's included, its grounds after
-  them.
+  `rules/routing.md`'s head has an answer's, what you checked and found said in your turn. A
+  notice is posted only for what the operator must know or do, never one that only says "nothing
+  for you". An item's heading and first paragraph carry its ruling in about 60 words, a
+  confirmation's included, its grounds after them.
 
 ## The setup
 
@@ -96,10 +95,9 @@ draft, and starts the work that can start.
    order, a note on it, `pilot.py plan note add --task <id> --summary <line> <content>`; and the
    ticket and the repository where the draft names them,
    `pilot.py plan set --ticket <ticket> --repo <owner/Name>`.
-4. **As lean as the project**: nothing is required of a plan but what the project needs —
-   "the build is failing" is a task or two — and no task is a fixture. A sweep task before the
-   end only where the project will have something to sweep, an epic with `Later` cards or
-   deferrals to the plan's end; never otherwise.
+4. **As lean as the project** (In every mode): a sweep task before the end only where the
+   project will have something to sweep, an epic with `Later` cards or deferrals to the plan's
+   end; never otherwise.
 5. **An ask the draft left open** stays open there, and nothing answers it past Create: where a
    task needs its answer, ask it anew as an item (`add_item`, a decision or a question, its `step`
    the task); where none does, the plan goes on without it.
@@ -108,68 +106,6 @@ draft, and starts the work that can start.
    `pilot.py plan task set <id> --status in_progress`. A task with no repository to work in
    places no work item: an act of a person's hands is an action item for them, exact; a task
    that waits stays pending.
-
-## What is next
-
-After the pass, entered from `/pre-rule` on a worker's turn ended, and after An item done: the
-plan brought up to date with what happened, and every piece of work that can go, going.
-
-1. **The task's status**, from what the run or the close did — the task the brief's work item or
-   item names: `pilot.py plan task set <id> --status done` where its work is done, nothing of it
-   left and no document its runs registered open; `in_progress` while it has a run going or one
-   waiting on a person.
-2. **Its notes**, and those of each task you start below, the content and blocks a read away,
-   `pilot.py plan note list --task <id>`; the plan's own at the plan's end (The sweep). Each is met
-   and acted on — what it says to ask asked, in the work item's brief or as an item, what it says
-   to do done — then struck, `pilot.py plan note strike <id>`; or re-deferred with a reason, a note
-   on the task or the plan where it now returns, naming the same blocks and why, the old one
-   struck; or struck where its block is no longer deferred, a person having ruled it after all.
-   A close-out's promotion's notes are step 3's.
-3. **A close-out's promotion**, deferred to the run's own task with what follows it, is met only
-   once it is due, as `rules/routing.md`'s A close-out's promotion has it: until then its notes
-   stand, neither acted on nor struck. Then, where the handbook's rules on other work running let
-   it go, one work item does them all, its `step` the run's task, the promotion first, its brief
-   carrying `rules/promote.md` (`rules/work-items.md`) and naming the application's commit read
-   then, its `main` as the continuation left it, never the commit or the build the close-out's
-   block names, which predate the continuation's fixes — that `main` read on GitHub itself, never
-   through gitblit, a daily mirror that may not hold the continuation's push yet; and their notes
-   are struck. **A run a person cancelled**, its documents closed by the Cancel, their `done`
-   `cause` `cancelled` in `timeline.json`, has no continuation to end: its promotion and what
-   follows it are never started, since a person who cancelled may not want it promoted. The job
-   that meets their notes starts nothing of them, posts the operator a notice naming the
-   promotion and the cancelled run it was owed after, and strikes the notes.
-4. **The deferrals without a home**, the brief's last list, which the pass leaves to you: each
-   given its note in this turn, as `rules/routing.md`'s Deferral has it —
-   `pilot.py plan note add --task <id> --summary <line> --ref <block id> <content>`, without
-   `--task` for one deferred to the plan — or its block answered anew in a new item, as their line
-   says.
-5. **Every task whose inputs are done, started**, a work item each, in an environment of its own,
-   all at once: the gate throttles them, and a held start is a line, never a reason to start less.
-   Held back only what the plan says waits — what a task waits on is a note on it,
-   `pilot.py plan note list --task <id>`, which you strike, `pilot.py plan note strike <id>`, once
-   what it waits on is met — and what would collide: two runs on one repository's same files, or
-   work whose input is a run's open document; a task held back for a collision says so in a note
-   on it. One at a time is the exception the plan writes,
-   never the default. A task with an open work item is going already: it gets no second.
-6. **A run's open documents.** A run waits on the documents it registered, and Pilot's server
-   resumes it once the last of them is closed — never you, and never a second work item for its
-   task. Nothing that waits on those documents is started; the task a finished document
-   unblocks is started at once, whatever other runs still wait on theirs, since each waits only on
-   its own. A document the pass settled whole closes at its Done, of one block as of more; one
-   with a claimed action open closes once that action's `done` is written (An action of Pilot's
-   done).
-7. **The next human prerequisite**, one boundary ahead — what a person's hands must do before the
-   next task can go: an action item, exact, its `step` the task it unblocks; an open one of yours
-   already there is updated in its file, never added a second time.
-8. **A confirmation**, where the grants hold the next act — the granted column with the brief's
-   switch line off, or the kept column (`rules/grants.md`): a decision whose one block is a
-   confirmation with its `because`, by its code in `rules/grants.md`'s "The confirmation reasons",
-   asked when the act is due, one covering everything due at once. The act waits for its Yes,
-   which the job after its close does (An item done).
-9. **The plan's end**: once its last task is done, the handbook's result checked first, the result
-   the project is for as the handbook states it. Where it is not reached and the handbook adds the
-   plan's steps in the chat, the next prerequisite is the operator naming the next step, asked as
-   an item, with no sweep and no finish decision; otherwise The sweep, then The finish decision.
 
 ## An action of Pilot's done
 
@@ -194,12 +130,11 @@ hands one over.
    block, every other one answered, deferred or done: `mark`, `item` the document's id, `mark`
    `done`, and no `for`, once the report after your last write of it names no line of its path.
    Its write-back and the worker's continuation are the server's. An item of yours takes no
-   `mark`: the `done` of its last open block is its close, with no undo, and it leaves the
-   operator's queue (In every mode).
+   `mark` (In every mode).
 3. **Still the run's**, its act refused or never reached in a turn that registered a document
    with a block in it, which the run waits on: the claim stays and nothing is written, no note,
    retry or hand-over, the run going on once they close as a work item titled as it (What is
-   next, step 6), whose brief names them.
+   next, step 5), whose brief names them.
 4. **Left undone**, its act refused or never reached in a turn that registered no document with a
    block in it: the claim stays and the block open, the operator's once this job ends. Either a
    new work item retries it, the block named again in its `claims`, then the claim written anew
@@ -233,6 +168,67 @@ line per block after it; the file holds the prose. Act on the close, then What i
 - **A review's Reviewed**: nothing of it waits on you.
 - **The sweep's decision or the finish decision**: as their sections have it.
 
+## What is next
+
+After the pass, entered from `/pre-rule` on a worker's turn ended or the writer answered; after An
+item done; and in the chat, which carries out in its own turn a close it records (`/chat`): the
+plan brought up to date with what happened, and every piece of work that can go, going.
+
+1. **The task's status**, from what the run or the close did — the task the brief's work item or
+   item names: `pilot.py plan task set <id> --status done` where its work is done, nothing of it
+   left and no document its runs registered open; `in_progress` while it has a run going or one
+   waiting on a person. A free-form work item's own card is closed then, as `rules/work-items.md`'s
+   Its own card has it.
+2. **A deferral's notes**, the task's and those of each task you start below, each naming the blocks
+   deferred to it, the content and blocks a read away, `pilot.py plan note list --task <id>`; the
+   plan's own at the plan's end (The sweep). Each is met and acted on — what it says to ask asked,
+   in the work item's brief or as an item, what it says to do done — then struck,
+   `pilot.py plan note strike <id>`; or re-deferred with a reason, a note on the task or the plan
+   where it now returns, naming the same blocks and why, the old one struck; or struck where its
+   block is no longer deferred, a person having ruled it after all. A close-out's promotion's notes
+   are step 3's, and a note on what a task waits on, on a collision or on a wait's event is no
+   deferral's: step 5 and A wait's firings read those.
+3. **A close-out's promotion**, deferred to the run's own task with what follows it, is met only
+   once it is due, as `rules/routing.md`'s A close-out's promotion has it: until then its notes
+   stand, neither acted on nor struck. Then, where the handbook's rules on other work running let
+   it go, one work item does them all, its `step` the run's task, the promotion first, its brief
+   carrying `rules/promote.md` (`rules/work-items.md`) and naming the application's commit read
+   then, its `main` as the continuation left it, never the commit or the build the close-out's
+   block names, which predate the continuation's fixes — that `main` read on GitHub itself, never
+   through gitblit, a daily mirror that may not hold the continuation's push yet; and their notes
+   are struck. **A run a person cancelled**, its documents closed by the Cancel, their `done`
+   `cause` `cancelled` in `timeline.json`, has no continuation to end: its promotion and what
+   follows it are never started, since a person who cancelled may not want it promoted. The job
+   that meets their notes starts nothing of them, posts the operator a notice naming the
+   promotion and the cancelled run it was owed after, and strikes the notes.
+4. **The deferrals without a home**, the brief's last list, which the pass leaves to you: each
+   given its note in this turn, as `rules/routing.md`'s Deferral has it —
+   `pilot.py plan note add --task <id> --summary <line> --ref <block id> <content>`, without
+   `--task` for one deferred to the plan — or its block answered anew in a new item, as their line
+   says.
+5. **Every task whose inputs are done, started**, a work item each, in an environment of its own,
+   all at once: the gate throttles them, and a held start is a line, never a reason to start less.
+   Held back only what the plan says waits — what a task waits on is a note on it,
+   `pilot.py plan note list --task <id>`, which you strike, `pilot.py plan note strike <id>`, once
+   what it waits on is met — and what would collide: two runs on one repository's same files, or
+   work whose input is a run's open document; a task held back for a collision says so in a note
+   on it. Each run waits only on its own documents: the task a finished document unblocks is
+   started at once, whatever other runs still wait on theirs. One at a time is the exception the
+   plan writes, never the default. A task with an open work item, its run waiting on its documents
+   among them, is going already: it gets no second, and Pilot's server resumes the run once the
+   last is closed, never you.
+6. **The next human prerequisite**, one boundary ahead — what a person's hands must do before the
+   next task can go: an action item, exact, its `step` the task it unblocks; an open one of yours
+   already there is updated in its file, never added a second time.
+7. **A confirmation**, where the grants hold the next act — the granted column with the brief's
+   switch line off, or the kept column: a confirmation item, asked as `rules/grants.md`'s The
+   confirmation reasons has it. The act waits for its Yes, which the job after its close does (An
+   item done).
+8. **The plan's end**: once its last task is done, the handbook's result checked first, the result
+   the project is for as the handbook states it. Where it is not reached and the handbook adds the
+   plan's steps in the chat, the next prerequisite is the operator naming the next step, asked as
+   an item, with no sweep and no finish decision; otherwise The sweep, then The finish decision.
+
 ## A wait's firings
 
 The run of a wait of yours that fired. The brief's wait line, `The wait: "<title>" (<id>), a card
@@ -248,11 +244,11 @@ later firing, while this run's conversation holds, comes as its next turn: `Anot
    on its task, `pilot.py plan note list --task <id>`, says what was to happen once its event
    came (`rules/routing.md`).
 2. **Its pair**, a card wait and its backstop, found by the task they share:
-   `pilot.py items list --open` gives each wait its `step`. A card wait's backstop is the open
-   timed wait on its task titled as one, `Backstop: <the card wait's title>` (The backstop,
-   below), and a backstop's card wait the open one on its task that its title names. A timed wait
-   a person asked for on the same task is titled otherwise: it is no backstop, and nothing of the
-   card wait's closes it.
+   `pilot.py items list --open` gives each wait its `step`. A card wait's backstop is the open timed
+   wait on its task titled as one, `Backstop: <the card wait's title>` (`rules/routing.md`), and a
+   backstop's card wait the open one on its task that its title names. A timed wait a person asked
+   for on the same task is titled otherwise: it is no backstop, and nothing of the card wait's
+   closes it.
 3. **Each firing judged** against what the wait waits for: a card entering a state of its list is
    a firing, its event maybe come; a timed wait's due time is its own, but a backstop's, a read
    on demand of its card wait's card; the operator's request is a read on demand, the event come
@@ -270,18 +266,18 @@ later firing, while this run's conversation holds, comes as its next turn: `Anot
    note and another added, armed on a fresh read as `rules/routing.md` has it, its backstop
    closed with it. A timed wait fires once: left open past its firing, only a person's Skip wait
    fires it again.
-7. **The backstop**: a card wait that outlives the plan's horizon takes a timed wait beside it,
-   its `step` the same task and its title `Backstop: <the card wait's title>`, where it has none
-   open that has not fired at its due time (`rules/routing.md`). A backstop that fired at its due
-   time on an event not come is spent: closed with its note, what was read and when, and a fresh
-   one added where the card wait still outlives the plan's horizon.
+7. **The backstop**, as `rules/routing.md`'s routes arm one beside a card wait that outlives the
+   plan's horizon, where it has none open that has not fired at its due time. A backstop that
+   fired at its due time on an event not come is spent: closed with its note, what was read and
+   when, and a fresh one added where the card wait still outlives the plan's horizon.
 
 ## The sweep
 
-Before the finish decision, in every plan, and at the plan's sweep task where it has one: the
-plan's open notes of its own — those `pilot.py plan note list` lists as the plan's — and, where
-the plan has a ticket, the `Later` cards linked to that epic (`rules/routing.md`'s The `Later`
-card), read through youtrack. Each one is:
+Where What is next's step 8 sends here: before the finish decision, in every plan, and at the
+plan's sweep task where it has one: the plan's open notes of its own — those
+`pilot.py plan note list` lists as the plan's — and, where the plan has a ticket, the `Later`
+cards linked to that epic (`rules/routing.md`'s The `Later` card), read through youtrack. Each one
+is:
 
 - done now, the note struck and the card closed;
 - closed with a reason, the note struck and the card closed with the reason as its comment;
@@ -293,16 +289,16 @@ No finish decision is asked while a note or a linked card is unaccounted for.
 
 ## The finish decision
 
-Once the plan's last task is done and the sweep has left nothing unaccounted for: one decision
-item against the result the project is for, as the handbook states it — what was demonstrated,
-what is inferred, what the operator accepted as a limitation — asking whether to finish, its
-options `Finish`, `Finish and archive` and `No`, by those labels. One only: an open one already
-there is the one, and so is the one whose close this job acts on — What is next after it asks
-none. On its `Finish`, the job after its close calls `finish`, last: it closes every open item
-and stops every session of the project, this one's turn among them; the archive question after
-it is the server's. On its `Finish and archive`, the same call with `archive` `true`, on that
-answer alone: the project is archived with the finish, and no archive question follows. On a No,
-its reason read and the plan adjusted.
+Where What is next's step 8 sends here, once the plan's last task is done and the sweep has left
+nothing unaccounted for: one decision item against the result the project is for, as the handbook
+states it — what was demonstrated, what is inferred, what the operator accepted as a limitation —
+asking whether to finish, its options `Finish`, `Finish and archive` and `No`, by those labels. One
+only: an open one already there is the one, and so is the one whose close this job acts on — What is
+next after it asks none. On its `Finish`, the job after its close calls `finish`, last: it closes
+every open item and stops every session of the project, this one's turn among them; the archive
+question after it is the server's. On its `Finish and archive`, the same call with `archive` `true`,
+on that answer alone: the project is archived with the finish, and no archive question follows. On a
+No, its reason read and the plan adjusted.
 
 ## The server's follow-up turn
 

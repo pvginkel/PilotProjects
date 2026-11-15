@@ -255,24 +255,50 @@ PASS_CALLS = (
 # writes it: its kind line and the item's line.
 ITEM_DONE_KIND = "`Pilot's brief · an item of yours is done · …`"
 ITEM_DONE_LINE = '`The item: <path> (<item id>), <kind> "<title>"[, task <id>] — <close>.`'
-# The plan skill's modes, each a section of its own.
+# The plan skill's modes, each a section of its own, in the order a job meets them: the setup; the
+# two that act before What is next; What is next; a wait's run; the sweep and the finish it leads to.
 PLAN_MODES = (
     "## The setup",
-    "## What is next",
     "## An action of Pilot's done",
     "## An item done",
+    "## What is next",
     "## A wait's firings",
     "## The sweep",
     "## The finish decision",
 )
+# What is next's lead names every way in; its step 1 closes a free-form work item's own card by the
+# rule file; its notes are a deferral's, the waits-on and collision notes step 5's; a confirmation
+# is the grants' one term; and the sweep and the finish open where step 8 sends them.
+WHAT_IS_NEXT_LEAD = (
+    "After the pass, entered from `/pre-rule` on a worker's turn ended or the writer answered; after"
+    " An item done; and in the chat, which carries out in its own turn a close it records (`/chat`)"
+)
+WHAT_IS_NEXT_FORMS = (
+    "A free-form work item's own card is closed then, as `rules/work-items.md`'s Its own card has"
+    " it.",
+    "2. **A deferral's notes**",
+    "a note on what a task waits on, on a collision or on a wait's event is no deferral's: step 5"
+    " and A wait's firings read those",
+    "Each run waits only on its own documents: the task a finished document unblocks is started at"
+    " once, whatever other runs still wait on theirs.",
+    "7. **A confirmation**, where the grants hold the next act — the granted column with the"
+    " brief's switch line off, or the kept column: a confirmation item, asked as"
+    " `rules/grants.md`'s The confirmation reasons has it.",
+    "8. **The plan's end**",
+)
+WHAT_IS_NEXT_RETIRED = (
+    "**A run's open documents.**",
+    "a decision whose one block is a confirmation",
+)
+STEP_8_SENDS = "Where What is next's step 8 sends here"
 # Pilot's `done` on the last open block of an item of its own is the item's close (PilotApp's
 # RecordService.done_by_its_save), with no `mark` after it; an answer of its own closes nothing,
 # and a registered document, a worker's, still closes by Pilot's own `mark`.
 OWN_ITEM_CLOSED = (
-    "an action of an item you added that is done, by a work item's run or your own hands, takes"
-    " its `done`",
+    "done, by a work item's run or your own hands, it takes its `done`",
     "Where that was the item's last open block, every other one answered, deferred or done, that"
-    " `done` is the item's close, yours: no `mark` follows it, and the server refuses one",
+    " `done` is the item's close, yours, as `CLAUDE.md`'s `mark` has it: no `mark` follows it, and"
+    " the server refuses one, and the item leaves the operator's queue",
     "An answer of yours closes nothing",
     "A registered document is a worker's, not yours: its last `done` still takes your own `mark`"
     " with no `for`",
@@ -321,14 +347,12 @@ OWN_ACTION_IN_CLAUDE = (
 OWN_ACTION_DONE = (
     "Its path is a worker's document's, in `inbox/`, or an item of yours, in `items/`.",
     "Then a worker's document is marked Done where that was its last open block",
-    "An item of yours takes no `mark`: the `done` of its last open block is its close, with no"
-    " undo, and it leaves the operator's queue",
+    "An item of yours takes no `mark` (In every mode).",
 )
 # The plan's every mode and the chat's work claim it on the work item's add_item.
 OWN_ACTION_BY_A_JOB = (
-    "- **An action of yours a work item does**, an open action of an item you added that you hand"
-    " to a work item, one you put to the operator among them, is claimed on that work item's"
-    " `add_item`"
+    "- **An action of an item of yours**, an open action of an item you added: handed to a work"
+    " item, one you put to the operator among them, it is claimed on that work item's `add_item`"
 )
 OWN_ACTION_BY_THE_CHAT = (
     "Work that does an open action of an item of Pilot's own, one the person hands to a worker,"
@@ -492,8 +516,8 @@ WAIT_FIRINGS = (
     "A card wait and its backstop close together, whichever fired",
     "**Not over**: the wait left open",
     "its backstop closed with it",
-    "a card wait that outlives the plan's horizon takes a timed wait beside it, its `step` the same"
-    f" task and {BACKSTOP_TITLE}, where it has none open that has not fired at its due time",
+    "**The backstop**, as `rules/routing.md`'s routes arm one beside a card wait that outlives the"
+    " plan's horizon, where it has none open that has not fired at its due time",
     "A backstop that fired at its due time on an event not come is spent",
 )
 # The words by which the backstop counted an open timed wait that had fired as the card wait's.
@@ -1121,11 +1145,28 @@ class PlanSkillTest(unittest.TestCase):
             with self.subTest(form):
                 self.assertIn(form, text)
 
-    def test_each_mode_is_a_section_of_its_own(self) -> None:
+    def test_each_mode_is_a_section_of_its_own_in_the_order_a_job_meets_it(self) -> None:
         lines = skill_file("plan").read_text().splitlines()
         for heading in PLAN_MODES:
             with self.subTest(heading):
                 self.assertEqual(lines.count(heading), 1)
+        self.assertEqual([line for line in lines if line in PLAN_MODES], list(PLAN_MODES))
+
+    def test_what_is_next_names_its_ways_in_and_its_steps_and_step_8_leads_on(self) -> None:
+        plan = skill_file("plan").read_text()
+        _, _, rest = plan.partition("\n## What is next\n")
+        mode, _, _ = rest.partition("\n## ")
+        text = " ".join(mode.split())
+        for form in (WHAT_IS_NEXT_LEAD, *WHAT_IS_NEXT_FORMS):
+            with self.subTest(form):
+                self.assertIn(form, text)
+        for form in WHAT_IS_NEXT_RETIRED:
+            with self.subTest(form):
+                self.assertNotIn(form, " ".join(plan.split()))
+        for heading in ("## The sweep", "## The finish decision"):
+            _, _, rest = plan.partition(f"\n{heading}\n")
+            with self.subTest(heading):
+                self.assertTrue(rest.lstrip().startswith(STEP_8_SENDS))
 
     def test_the_plan_s_end_checks_the_handbook_s_result_first(self) -> None:
         _, _, rest = skill_file("plan").read_text().partition("\n## What is next\n")
