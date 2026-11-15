@@ -225,7 +225,13 @@ COMMENT_GRANT = (
 # their fates; a card on the stage session's debrief is the one exception; and the stage's brief
 # says nothing of its debrief or of notices.
 STAGE_DOCUMENTS_NO_CARD = "you make no card and fold nothing, or it is done twice"
-STAGE_DEBRIEF_CARD = "is no document of the stage's, and a card on it is yours: the one exception"
+STAGE_DEBRIEF_CARD = (
+    "Two cards stay yours, the exceptions: the stage session's debrief, which the brief after the"
+    " turn its loop completed in carries, is no document of the stage's, and a card on it is yours"
+    " (`/pre-rule`'s The debrief)",
+    "and a finding you defer to the project's end takes its `Later` card, yours too"
+    " (`rules/routing.md`'s The `Later` card)",
+)
 STAGE_BRIEF_SILENT = "no list of what to register, and nothing on its debrief or on notices"
 # Taking a slice: triage's rules for a slice, the definition chat's and the project's chat's alike,
 # in the stages' rule file, which both chats cite, create keeping the draft's part, the chat its
@@ -268,6 +274,34 @@ RESEARCH_NAMED = {
     "rules/routing.md": "the block named in `researches` on its `add_item`",
     ".claude/skills/pre-rule/SKILL.md": "its `researches` the block's id, `<item id>/<local id>`",
 }
+# The pass's routes by the table's names, each with its command, a research among them, and a block
+# left to the operator one step: no answer line, its front matter and the notice.
+PASS_ROUTES = (
+    "- **Answered**, `by: agent`:",
+    "a routing ask's fate as `rules/stages.md`'s A fate in a stage's document names it",
+    "- **Deferred**,",
+    "- **Done at once**,",
+    "- **Claimed**,",
+    "- **Researched**, a block whose choice waits on a fact nobody read that the store does not"
+    " hold (`rules/routing.md`'s Due diligence, step 4)",
+    "- **Waited on**,",
+    "- **Asked of its writer**,",
+    "- **Left to the operator**: step 7.",
+)
+PASS_LEFT = (
+    "7. **Left to a person**, a block or more, left to the operator by the table: no answer line is"
+    " written on it, and the document stays open",
+    "What only Pilot knows of the block (step 3) goes into a notice of yours after the document"
+    " (`add_item`)",
+)
+PASS_RETIRED = ("No edit", "no edit", "overrule a passage of the design record")
+ROUTES_NAMED = (
+    "| answered: its fate as the answer, in the words of `rules/stages.md`'s A fate in a stage's"
+    " document, the reason as the note.",
+    "| answered, Pilot's choice, the recommendation or not,",
+    "| answered, Pilot's choice, only where",
+    "| waited on: a wait through `add_item`,",
+)
 # How BriefService ends a claimed or researched block's line once the server's reading handed it
 # back to the person (PilotApp's brief_service.py, HANDED_BACK): theirs, never done or routed.
 HANDED_BACK = "handed back to the operator: leave it to them"
@@ -1588,6 +1622,18 @@ class PreRuleSkillTest(unittest.TestCase):
             with self.subTest(form):
                 self.assertIn(form, self.text)
 
+    def test_the_pass_names_the_table_s_routes_and_leaves_a_block_in_one_step(self) -> None:
+        for form in (*PASS_ROUTES, *PASS_LEFT):
+            with self.subTest(form):
+                self.assertIn(form, self.text)
+        for form in PASS_RETIRED:
+            with self.subTest(form):
+                self.assertNotIn(form, self.text)
+        routing = " ".join((ROOT / "rules" / "routing.md").read_text().split())
+        for form in ROUTES_NAMED:
+            with self.subTest(form):
+                self.assertIn(form, routing)
+
     def test_the_pass_waits_on_an_event_as_its_own_route_and_holds_none_back(self) -> None:
         self.assertIn("- **Waited on**, an owed action waiting on an event", self.text)
         self.assertNotIn("## Not yet the pass's", self.text)
@@ -1623,7 +1669,7 @@ class StagesRuleTest(unittest.TestCase):
         self.text = " ".join((ROOT / "rules" / "stages.md").read_text().split())
 
     def test_a_card_on_the_debrief_is_the_one_exception_to_a_stage_s_documents(self) -> None:
-        for form in (STAGE_DOCUMENTS_NO_CARD, STAGE_DEBRIEF_CARD):
+        for form in (STAGE_DOCUMENTS_NO_CARD, *STAGE_DEBRIEF_CARD):
             with self.subTest(form):
                 self.assertIn(form, self.text)
 

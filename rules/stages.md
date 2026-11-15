@@ -117,9 +117,10 @@ stage's. `/pre-rule` passes over each document as over any worker's, by `rules/r
 
 A finding's proposal names its fate: `Agree` takes it, and your own words name another. The
 stage's continuation carries each out, never you: you make no card and fold nothing, or it is done
-twice. The stage session's debrief, which the brief after the turn its loop completed in carries,
-is no document of the stage's, and a card on it is yours: the one exception (`/pre-rule`'s The
-debrief).
+twice. Two cards stay yours, the exceptions: the stage session's debrief, which the brief after the
+turn its loop completed in carries, is no document of the stage's, and a card on it is yours
+(`/pre-rule`'s The debrief); and a finding you defer to the project's end takes its `Later` card,
+yours too (`rules/routing.md`'s The `Later` card).
 
 - **card**, in the project the proposal names, else the slice's own: one card per finding,
   parented to the brief's ticket, its text the section as the document showed it.

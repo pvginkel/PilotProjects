@@ -62,29 +62,20 @@ Per published document, one after the other:
    context added, no ask reframed, no plan condensed. What only Pilot knows — a standing preference
    that settles the need, a later task that makes the ask moot, a collision with another project —
    goes into your answer's note or, on a block left to the operator, into a notice of yours after
-   the document (`add_item`), quoting the block's words and naming it, `<item id>/<local id>`, and
-   ending with the answer you suggest and the note for it, as you would answer the block yourself.
-   A document that reads badly is its writer's skill's to fix: the friction half
+   the document (step 7). A document that reads badly is its writer's skill's to fix: the friction half
    (`rules/routing.md`), never a patch here.
-4. **Each open block, routed** by `rules/routing.md`'s table, in the document's order. A block
-   answered already — a person's answer, or yours from an earlier job of this trigger, which a
-   Retry's store holds — is settled: leave it.
-   - **Before any choice of yours, the due diligence** of `rules/routing.md`: the project
-     document and the handbook read for what settles or bends it; the project's folder scanned
-     for earlier material on its subject — `pilot.py plan task list`, `pilot.py plan note list`,
-     `pilot.py items list`, the files under `items/` and `inbox/`, `chat.md`; what matches read for
-     how it bears on the choice; a fact the ask rests on and nobody read found first, in the store
-     or by a work item placed where the repository is, added as `rules/work-items.md` has it with
-     its `researches` the block's id, `<item id>/<local id>`, the block left open and yours until
-     the pass after that work's turn routes it (A researched block). A requirement that would
-     overrule a passage of the design record is yours only on the operator's own words asking
-     for that change and a passage that is the record of that very behaviour; otherwise it is the
-     operator's. What was checked and what was found is said as routing's head has it. A choice
-     with an unread fact
-     behind it is yours only where it would not move on that fact, your turn saying so.
+4. **Each open block, routed** by `rules/routing.md`'s table, in the document's order: the table
+   names each block's route and what it writes, and below are each route's command and what of it
+   is the pass's alone. A block answered already — a person's answer, or yours from an earlier job
+   of this trigger, which a Retry's store holds — is settled: leave it.
+   - **Before any choice of yours, the due diligence** of `rules/routing.md`, the project's folder
+     scanned through `pilot.py plan task list`, `pilot.py plan note list`, `pilot.py items list`,
+     the files under `items/` and `inbox/` and `chat.md`, and a fact the ask rests on and nobody
+     read found first (Researched).
    - **Answered**, `by: agent`:
      `pilot.py answer <file> <block id> --value <option> --note <why>`, the value an option's
-     label, `Agree`, `Yes`, `No` or your own words, the note as routing's head has it.
+     label, `Agree`, `Yes`, `No`, a routing ask's fate as `rules/stages.md`'s A fate in a stage's
+     document names it, or your own words, the note as routing's head has it.
    - **Deferred**, where it has a home and is not due now, as routing's Deferral has it:
      `pilot.py defer <file> <block id> --to <task id> --summary <line> --content <text> --note <why>`,
      `--to plan` for the project's end, writes the block's `answer: deferred`, its `to` and its
@@ -100,6 +91,11 @@ Per published document, one after the other:
      every other action that work does; then the claim,
      `pilot.py answer <file> <block id> --value "Pilot does it" --note <its work item>`, the note
      naming the work item by its title.
+   - **Researched**, a block whose choice waits on a fact nobody read that the store does not hold
+     (`rules/routing.md`'s Due diligence, step 4): the work item first, placed where the repository
+     is and added as `rules/work-items.md` has it, its `researches` the block's id,
+     `<item id>/<local id>`; the block left open and yours, with no answer line, until the pass
+     after that work's turn routes it (A researched block).
    - **Waited on**, an owed action waiting on an event, or a block deferred to one: the wait
      first, armed as `rules/routing.md` has it, on a fresh read through youtrack of the card it
      watches — `add_item` with `kind` `card_wait`, its `title`, `cards` and `states` and `step`
@@ -111,11 +107,11 @@ Per published document, one after the other:
      means, what a thing it names is — that the record does not answer: `ask_writer` with `block`,
      `<item id>/<local id>`, and `question`, in the words the writer is to read, one question per
      block. Never one the operator must decide, one a bounded check answers, or one about style.
-     No edit: the pass's questions go to the writer together when this job ends, and the job
+     No answer line: the pass's questions go to the writer together when this job ends, and the job
      after the answer passes over the document again (The writer answered). A call refused as one
      round per worker turn — this job a Retry of a pass that asked, the server says so — asks
      nothing more: the block is left to the operator, as one you could not read.
-   - **Left to the operator**: no edit.
+   - **Left to the operator**: step 7.
 5. **The report after each write.** Each `pilot.py` verb exits 0, done, or 2, refused with
    nothing written and its reason, which you fix the call for. The tool's result after its `Bash`
    call, as after an `Edit`, carries the project's report (`CLAUDE.md`, the check after every
@@ -129,9 +125,13 @@ Per published document, one after the other:
    one of more. The resume of the run is the server's. A claimed action is settled once its `done`
    is written, and a block asked of its writer is not: the document stays open, a claimed one for
    `/plan` to mark Done then. One with no block is the operator's to mark Reviewed.
-7. **Left to a person**, a block or more: the document stays open. In its front matter,
-   `urgent: true` where it holds up work now, and `for` the one person who can judge it, by handle,
-   where the handbook or the record names them; neither where it does not hold.
+7. **Left to a person**, a block or more, left to the operator by the table: no answer line is
+   written on it, and the document stays open. In its front matter, `urgent: true` where it holds
+   up work now, and `for` the one person who can judge it, by handle, where the handbook or the
+   record names them; neither where it does not hold. What only Pilot knows of the block (step 3)
+   goes into a notice of yours after the document (`add_item`), quoting the block's words and
+   naming it, `<item id>/<local id>`, and ending with the answer you suggest and the note for it,
+   as you would answer the block yourself.
 
 ## A researched block
 
@@ -206,12 +206,12 @@ last the stage session's debrief, where it gave one, in the lines The debrief re
 - **The debrief**, where the brief carries one, after the documents, as The debrief has it.
 - **The writer's words**: a block you now route on them quotes them in its answer's note, so that
   the operator reads the ask and its reason together; a block still unclear is the operator's,
-  with no edit, the clarification beside it on the document.
+  with no answer line, the clarification beside it on the document.
 
 ## The summary line
 
 One line, a part per document in the brief's order, its path short — "Pre-ruled: inbox/7 Done (3
-settled, 1 deferred to t5); inbox/8 open for the operator (D2), A1 claimed for "Rotate the CI
+answered, 1 deferred to t5); inbox/8 open for the operator (D2), A1 claimed for "Rotate the CI
 token", Q3 researched by "Count the hosts", D4 asked of its writer; inbox/9 not read; inbox/6 Q2
 answered on its research" — or "Pre-ruled: nothing registered"; where the brief carries a
 debrief, a last part says what came of it: "the debrief: nothing", or the notice, the card by its
