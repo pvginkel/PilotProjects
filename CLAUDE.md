@@ -105,8 +105,8 @@ never calls the API. Every write holds the folder's lock, and the check after it
 says what the record made of it. It exits 0 done, or 2 refused with nothing written. Its verbs:
 
 - `pilot.py answer`: Pilot's answer to a block, `by: agent`, in place of its own
-- `pilot.py done`: an action's Done by Pilot, one it claimed (`answer: Pilot does it`) or one with
-  no answer
+- `pilot.py done`: an action's Done by Pilot, one it claimed (`answer: Pilot does it`) or deferred
+  (`answer: deferred`, `by: agent`) or one with no answer
 - `pilot.py defer`: defer a block to a task or the plan, with its plan note, written first
 - `pilot.py items list`: the timeline's items, one line each, from timeline.json
 - `pilot.py items show`: the item's line and, for a document, its blocks with their answer lines;

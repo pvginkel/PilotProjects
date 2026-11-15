@@ -1190,16 +1190,34 @@ class TestDone(BlockCase):
             ),
         )
 
+    def test_done_settles_an_action_pilot_deferred_the_work_having_done_it(self) -> None:
+        self.edit(
+            KEY_PATH,
+            ACTION,
+            ACTION.replace(
+                "```\n", "answer: deferred\nby: agent\nat: 2026-10-14T09:00:00Z\nto: t3\n```\n"
+            ),
+        )
+        before = self.text(KEY_PATH)
+
+        completed = self.pilot("done", KEY_PATH, "A1", "--note", "Stored.")
+
+        self.assert_block_written(completed, KEY_PATH)
+        block = self.block(KEY_PATH, "A1")
+        self.assertEqual((block.answer, block.to, block.by, block.note), (None, None, "agent", "Stored."))
+        self.assertEqual(
+            self.text(KEY_PATH),
+            dsl.write_done(
+                before, "A1", by=dsl.AGENT, at=self.assert_stamped(block.done), note="Stored."
+            ),
+        )
+
     def test_done_is_refused_a_block_that_is_no_action_pilot_claimed_or_left_open(self) -> None:
         answered = "answer: {}\nby: {}\nat: 2026-10-14T09:00:00Z\n"
         for lines, says in (
             (
-                answered.format("deferred", "agent") + "to: t3\n",
-                (
-                    "<block id>: action A1 holds answer: deferred → t3 by agent: `done` takes an"
-                    " action Pilot claimed (`answer: Pilot does it`, `by: agent`) or one with no"
-                    " answer"
-                ),
+                answered.format("deferred", "dana") + "to: t3\n",
+                "<block id>: block A1 is answered by dana",
             ),
             (
                 answered.format("Later", "agent"),

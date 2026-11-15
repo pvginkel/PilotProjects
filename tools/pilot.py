@@ -777,13 +777,16 @@ def _done(project: Project, args: argparse.Namespace) -> int:
         _not_a_persons(block)
         if block.kind is not dsl.BlockKind.ACTION:
             raise Refused(f"<block id>: block {block.local_id} is a {block.kind}, not an action")
-        claimed = block.claimed
-        if block.answered and not claimed:
+        # An action Pilot claimed, or deferred itself (`by: agent`, the record's to the
+        # work that did it), takes the work's done; its deferral's plan note stays.
+        taken = block.claimed or (block.answer == dsl.DEFERRED and block.by == dsl.AGENT)
+        if block.answered and not taken:
             raise Refused(
                 f"<block id>: action {block.local_id} holds {_answer_line(block)}: `done` takes"
-                f" an action Pilot claimed (`answer: {CLAIM}`, `by: agent`) or one with no answer"
+                f" an action Pilot claimed (`answer: {CLAIM}`, `by: agent`), one Pilot deferred"
+                " (`answer: deferred`, `by: agent`) or one with no answer"
             )
-        if block.options and not claimed:
+        if block.options and not taken:
             raise Refused(
                 f"<block id>: action {block.local_id} has options:"
                 f" it is answered with one of them (`{PROG} answer`)"
@@ -953,7 +956,8 @@ def build_parser() -> argparse.ArgumentParser:
         verbs,
         "done",
         _done,
-        f"an action's Done by Pilot, one it claimed (`answer: {CLAIM}`) or one with no answer",
+        f"an action's Done by Pilot, one it claimed (`answer: {CLAIM}`) or deferred (`answer:"
+        " deferred`, `by: agent`) or one with no answer",
     )
     for dest, metavar, about in (file, block):
         done.add_argument(dest, metavar=metavar, help=about)
