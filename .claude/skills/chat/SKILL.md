@@ -126,9 +126,9 @@ promotion What is next starts. The writing is
   `path` the call answers.
 - **Material the person points at** — a file or a folder in an environment of the fleet — is
   copied in with `attach_file`, `to` the item it hangs on, as `CLAUDE.md`'s line has it.
-- **An act the grants hold** — the granted column with auto pilot off, or the kept column — is
-  asked as a confirmation item, as `rules/grants.md`'s The confirmation reasons has it; never as a
-  question in the chat.
+- **An act the grants hold** — the granted column with auto pilot off, or the kept column — is asked
+  as a confirmation item, or as a decision for a change to the rules, as `rules/grants.md`'s The
+  confirmation reasons has it; never as a question in the chat.
 - **Asked about an open block**, lead with a short answer, then offer the answer you would
   record: its option and its note, the note as `rules/routing.md`'s head has an answer's. A yes to
   it is the person's ruling of that option, recorded as Recording has it, the note the one you

@@ -224,6 +224,15 @@ COMMENT_GRANT = (
     "yours to read with, and to make a card, comment on an open card or close one, make a fleet call"
     " or post to Fieldnotes, where a rule says so"
 )
+# A change to the rules is a decision whose proposal is the new wording, never a confirmation,
+# which has no code for it (consolidation review R1.3, the operator's "A decision", 2026-11-15).
+RULE_CHANGE_A_DECISION = (
+    "An act that asks, but a change to the rules themselves (below), is a confirmation item",
+    "A change to the rules themselves is never a confirmation, and takes no code: there is no act"
+    " for the switch to answer. It goes to the operator as a decision whose proposal is the new"
+    ' wording, theirs to Agree (the operator, 2026-11-15: "A decision", to "The new wording as its'
+    ' proposal, yours to Agree").',
+)
 # Pilot's own acts on the tracker and on Fieldnotes are never asked, a fleet call keeping its act's
 # column, so no confirmation covers a card (consolidation review R1.2, the operator's "Never
 # asked", 2026-11-15).
@@ -2155,6 +2164,15 @@ class CitationsTest(unittest.TestCase):
         for path in (skill_file("pre-rule"), ROOT / "rules" / "routing.md"):
             with self.subTest(path.relative_to(ROOT)):
                 self.assertIn(ASK_WRITER, " ".join(path.read_text().split()))
+
+    def test_a_change_to_the_rules_is_a_decision_and_never_a_confirmation(self) -> None:
+        _, _, rest = (ROOT / "rules" / "grants.md").read_text().partition(
+            "\n## The confirmation reasons\n"
+        )
+        section, _, _ = rest.partition("\n## ")
+        for form in RULE_CHANGE_A_DECISION:
+            with self.subTest(form):
+                self.assertIn(form, " ".join(section.split()))
 
     def test_the_grants_name_every_confirmation_reason_by_its_code(self) -> None:
         reference = json.loads(

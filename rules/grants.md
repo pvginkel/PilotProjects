@@ -64,12 +64,18 @@ repository, by the work's nature.
 
 ## The confirmation reasons
 
-An act that asks is a confirmation item, asked when the act is due, one covering everything due
-at once; its `because` names why, by its code in `reference.json`'s `confirmation_reasons`:
+An act that asks, but a change to the rules themselves (below), is a confirmation item, asked
+when the act is due, one covering everything due at once; its `because` names why, by its code in
+`reference.json`'s `confirmation_reasons`:
 
 - the granted column: `rider` for a push with riders, `auto-pilot-off` for any other act of it;
 - the kept column: `irreversible`, `product-hold`, `standing-grant` for a standing grant,
   `self-approval`.
+
+A change to the rules themselves is never a confirmation, and takes no code: there is no act for
+the switch to answer. It goes to the operator as a decision whose proposal is the new wording,
+theirs to Agree (the operator, 2026-11-15: "A decision", to "The new wording as its proposal, yours
+to Agree").
 
 The code decides what the switch takes: turned on, it may answer Yes, as the person who turned it
 on, every open confirmation whose code is the granted column's, and never one of the kept column's.
