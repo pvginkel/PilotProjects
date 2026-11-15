@@ -469,6 +469,15 @@ WHAT_IS_NEXT_RETIRED = (
     "a decision whose one block is a confirmation",
 )
 STEP_8_SENDS = "Where What is next's step 8 sends here"
+# The sweep task is plan work, added and started unasked with auto pilot on or off (consolidation
+# review R2.1, the operator's "Unasked", 2026-11-15).
+SWEEP_TASK_UNASKED = (
+    "- or put into a sweep task you scope yourself, added and its work item started unasked, auto"
+    " pilot on or off, as any task is: what its work then pushes or promotes is asked as any task's"
+    ' would be (the operator, 2026-11-15: "Unasked", to "The sweep task is plan work, added and'
+    ' started either way").'
+)
+SWEEP_TASK_RETIRED = "Add a sweep task covering these"
 # Starting a task, one passage in In every mode, which the setup, What is next, a wait's Over and the
 # chat cite: the task set going as its work item starts (consolidation review R2.6 and R2.7, the
 # operator's "One passage", 2026-11-15).
@@ -1565,6 +1574,13 @@ class PlanSkillTest(unittest.TestCase):
                 self.assertIn(STARTING_A_TASK_CITED, " ".join(mode.split()))
                 self.assertNotIn("all at once", mode)
         self.assertEqual(" ".join(plan.split()).count("--status in_progress"), 1)
+
+    def test_the_sweep_task_is_added_and_started_unasked(self) -> None:
+        _, _, rest = skill_file("plan").read_text().partition("\n## The sweep\n")
+        sweep, _, _ = rest.partition("\n## ")
+        sweep = " ".join(sweep.split())
+        self.assertIn(SWEEP_TASK_UNASKED, sweep)
+        self.assertNotIn(SWEEP_TASK_RETIRED, sweep)
 
     def test_the_plan_s_end_checks_the_handbook_s_result_first(self) -> None:
         _, _, rest = skill_file("plan").read_text().partition("\n## What is next\n")

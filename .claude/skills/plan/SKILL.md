@@ -310,9 +310,10 @@ is:
 
 - done now, the note struck and the card closed;
 - closed with a reason, the note struck and the card closed with the reason as its comment;
-- or put into a sweep task you scope yourself: with auto pilot on, added and its work item
-  started; off, one decision first, "Add a sweep task covering these four — Agree / Other", the
-  task added and started on its Agree.
+- or put into a sweep task you scope yourself, added and its work item started unasked, auto pilot
+  on or off, as any task is: what its work then pushes or promotes is asked as any task's would be
+  (the operator, 2026-11-15: "Unasked", to "The sweep task is plan work, added and started either
+  way").
 
 No finish decision is asked while a note or a linked card is unaccounted for.
 
