@@ -19,8 +19,10 @@ the finish decision's options and what each calls of pilot-store's `finish`, and
 prose into the handbook without its asks, a task's title the task alone and what it waits on a note,
 no file of the map refusing a wait, a work item's fields and brief in one rule file the skills
 starting work cite, the chat's cancel of an ask of Pilot's own by `cancel_ask`'s arguments, the
-chat's alone, and a replaced work item closed through `stop_work`'s `reason`, in that rule file,
-which the chat's correction and the plan's jobs cite."""
+chat's alone, and a replaced or dropped work item closed through `stop_work`'s `reason`, in that
+rule file, which the chat's correction and the plan's jobs cite; and each rule a consolidation gave
+one home held there, CLAUDE.md's shared ones among them, the places that restated it pointing at
+it."""
 
 import importlib.util
 import itertools
@@ -402,8 +404,8 @@ OWN_ACTION_SCOPE_RETIRED = "and what each route writes. The route is"
 OWN_ACTION_CITED = "as `rules/routing.md`'s The claim has it"
 OWN_ACTION_CITING_SKILLS = ("chat", "plan")
 OWN_ACTION_IN_CLAUDE = (
-    "`rules/routing.md` (where an open block goes, the claim, of a worker's document or of an item"
-    " of yours, a block a run holds,",
+    "`rules/routing.md` (where an open block goes: the routes, the claim, of a worker's document or"
+    " of an item of yours, a block a run holds,",
     "`claims` the actions you claimed that it does, of a worker's document or of an item of yours,",
     "An item of yours closes at the `done` of its last open block, a claimed action's included,"
     " with no undo and no `mark` after it, which the server refuses.",
@@ -1087,6 +1089,18 @@ def command_fault(command: str, options: dict[str, set[str]]) -> str | None:
     return f"`{verb}` takes no {', '.join(unknown)}" if unknown else None
 
 
+# CLAUDE.md's map line for each rule file names the sections it holds, in the map's words.
+MAP_SECTIONS = {
+    "rules/grants.md": ("never asked, granted and kept", "an operator action Pilot can run itself",
+                        "the confirmation reasons", "a worker's brief's text"),
+    "rules/routing.md": ("the routes", "the claim", "a block a run holds", "due diligence",
+                         "deferral", "a close-out's promotion", "the `Later` card",
+                         "a delegated answer", "another project's decision", "the friction half"),
+    "rules/work-items.md": ("fields", "brief", "the answer", "its own card", "its close for good"),
+    "rules/stages.md": ("taking a slice", "filing it"),
+}
+
+
 class SkillsTest(unittest.TestCase):
     def test_the_four_skills_are_there_and_no_other(self) -> None:
         self.assertEqual({path.parent.name for path in SKILLS.glob("*/SKILL.md")}, SKILL_NAMES)
@@ -1111,6 +1125,15 @@ class SkillsTest(unittest.TestCase):
             with self.subTest(name):
                 _, body = front_matter(skill_file(name).read_text())
                 self.assertIn("`handbook.md`", first_step(body))
+
+    def test_claude_md_s_map_names_each_rule_file_s_sections(self) -> None:
+        text = " ".join(CLAUDE.read_text().split())
+        for path, sections in MAP_SECTIONS.items():
+            _, _, rest = text.partition(f"`{path}` (")
+            line, _, _ = rest.partition(")")
+            for section in sections:
+                with self.subTest(path=path, section=section):
+                    self.assertIn(section, line)
 
     def test_claude_md_names_every_skill_by_its_command(self) -> None:
         text = CLAUDE.read_text()
