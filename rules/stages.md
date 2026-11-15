@@ -102,8 +102,11 @@ debrief).
   parented to the brief's ticket, its text the section as the document showed it.
 - **fold into <NNN>**: the finding added as an ask to that slice's record, a slice not yet
   planned; one planned or running refuses it.
-- **fix now**: made by the continuation where the repository's own `CLAUDE.md` classes the change
-  as ad hoc work; where it does not, the stage puts the alternatives in a new document.
+- **fix now**: made in the stage's fixes pass, once your answers are in: the run's wrap-up makes
+  it on a branch of its own, it is gated and pushed. One that does not land is filed as a card,
+  parented to the brief's ticket, with no new document. An edit a rule of the project keeps for
+  the operator's word, which the wrap-up asks for, is made on theirs alone: a fix now you chose
+  for it comes back in a new document.
 - **close**: nothing done; the note is the reason, kept in the record.
 - **deferred**, your deferral with its `to`, as routing's Deferral has it: final for the stage,
   which closes the finding as Pilot's and keeps nothing to bring it back. The plan note is its one
@@ -113,8 +116,8 @@ debrief).
 
 - An answer `by: agent` is marked as chosen by Pilot on everything it produces, the note its
   reason. The operator's words travel verbatim.
-- A ruling the stage cannot carry out as given, such as a fold into a running slice or a fix now
-  no rule allows, comes back as a new document, its alternatives a decision.
+- A ruling the stage cannot carry out as given, such as a fold into a running slice, comes back
+  as a new document, its alternatives a decision.
 - A question to the writer, through `ask_writer`, reaches the stage's own conversation: a
   sub-agent answers it from the slice's folder, and the reply shows beside its block.
 
