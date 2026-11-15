@@ -92,7 +92,9 @@ draft, and starts the work that can start.
    them, in its order, with ids you give, `t1`, `t2`, … —
    `pilot.py plan task add --id <id> --title <text>` — a task's title naming the task alone, in
    25 words at most (`CLAUDE.md`'s invariants), and what it waits on, where the draft agreed an
-   order, a note on it, `pilot.py plan note add --task <id> --summary <line> <content>`; and the
+   order, a note on it, `pilot.py plan note add --task <id> --summary <line> <content>`, as is a
+   person's request for Fable the draft quotes on a task's line (`rules/placement.md`'s The model
+   and the effort); and the
    ticket and the repository where the draft names them,
    `pilot.py plan set --ticket <ticket> --repo <owner/Name>`.
 4. **As lean as the project** (In every mode): a sweep task before the end only where the

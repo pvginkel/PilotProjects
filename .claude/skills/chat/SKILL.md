@@ -24,7 +24,8 @@ only.
    named, the brief's included.
 
 The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.md`,
-`rules/placement.md`, and `rules/stages.md` for a slice of the workflow. The writing is
+`rules/placement.md`, `rules/stages.md` for a slice of the workflow, and `rules/promote.md` for a
+promotion What is next starts. The writing is
 `/dev:document-format`'s.
 
 ## Reading
@@ -88,15 +89,9 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
 - **A ruling or a close you record on an item of Pilot's own** — one a job or a chat added, in
   `items/`, never a worker's document in `inbox/`, which its run takes back — is carried out in
   this turn: no job of Pilot's follows what the chat records, so `/plan`'s An item done is yours
-  here, within the grants, the acts below on the close, then What is next whole, the task's status
-  set and every task whose inputs are now done started, up to the plan's end; what the turn leaves
-  undone waits for Pilot's next job, the reply saying what is left:
-  - a confirmation's Yes: its act, every act it covered — a work item, or your own hands where it
-    is a tool call: a card, a fleet call;
-  - a No: its reason read and the plan adjusted;
-  - a decision's or a question's answer: the plan's next step on it — a task started, changed,
-    added or removed as it rules;
-  - an action's Done: the paste-back read, and the check it names run where you can;
+  here, within the grants, its acts on the close, then What is next whole, the task's status set
+  and every task whose inputs are now done started, up to the plan's end; what the turn leaves
+  undone waits for Pilot's next job, the reply saying what is left. Beside An item done's acts:
   - an ask called off: none of its acts, and the plan adjusted to its going — a task that waited
     on its answer changed, removed or started, a note that names its blocks struck;
   - the sweep's decision and the finish decision as `/plan`'s sections have them, the finish
@@ -112,14 +107,12 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
   `pilot.py answer <file> <block id> --value "Pilot does it" --note <its work item>`, so that the
   `done` the job after the work's turn writes closes the item where that was its last open block.
 - **A new slice the person asks for**, a change to a repository onboarded to the workflow, is
-  taken as the definition chat takes one (`/create`'s A slice of the workflow): the asks in their
-  own words, quoted and attributed, a card's text as youtrack reads it; the standing decisions
-  checked against the spec repository's decision record; an ask only the person can answer put
-  first, as a decision or a question item with your recommendation, never a closed question in
-  the reply. Once nothing it needs is open, its three tasks go into the plan, its filing, its
-  planning and its run, in that order, each title naming its task alone (`CLAUDE.md`'s
-  invariants), and the filing's work item starts, its brief carrying the person's words as
-  `rules/stages.md` has it.
+  taken as `rules/stages.md`'s Taking a slice has it, its asks in the chat items: an ask only the
+  person can answer put first, as a decision or a question item with your recommendation, never a
+  closed question in the reply. Once nothing it needs is open, its three tasks go into the plan,
+  its filing, its planning and its run, in that order, each title naming its task alone
+  (`CLAUDE.md`'s invariants), the slices it must follow a note on its filing's task, and the
+  filing's work item starts, its brief carrying the person's words as `rules/stages.md` has it.
 - **The reply says how the start went**, as the answer's `state` and `held` say it
   (`rules/work-items.md`), a held start never told as running: held while the project is paused,
   "Started; it is held while the project is paused", as the brief's pause line asks of everything
@@ -128,9 +121,8 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
   `path` the call answers.
 - **Material the person points at** — a file or a folder in an environment of the fleet — is
   copied in with `attach_file`, `to` the item it hangs on, as `CLAUDE.md`'s line has it.
-- **An act the grants hold** — the granted column with auto pilot off, or the kept column
-  (`rules/grants.md`) — is asked as a confirmation item when it is due, a decision whose one
-  block is a confirmation with its `because`, one covering everything due at once; never as a
+- **An act the grants hold** — the granted column with auto pilot off, or the kept column — is
+  asked as a confirmation item, as `rules/grants.md`'s The confirmation reasons has it; never as a
   question in the chat.
 - **Asked about an open block**, lead with a short answer, then offer the answer you would
   record: its option and its note, the note as `rules/routing.md`'s head has an answer's. A yes to
@@ -141,16 +133,20 @@ The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.m
   item, which is for what only a person can rule (the operator, 2026-11-05). An action of an item
   of Pilot's own done so takes its `done`,
   `pilot.py done <file> <block id> --note <what was done and what was seen>`, which is the item's
-  close where it was its last open block, with no `mark` after it. A small correction — to your
-  own wording, a typo, an obvious fix to what you just wrote — you make in the turn, unasked, and
-  say so in the reply (the operator, 2026-11-05: "Small corrections are generally ok.").
+  close where it was its last open block, with no `mark` after it.
+- **A small correction** — to your own wording, a typo, an obvious fix to what you just wrote — you
+  make in the turn, unasked, and say so in the reply (the operator, 2026-11-05: "Small corrections
+  are generally ok."): a correction to what the chat itself wrote, within what Not this skill's and
+  the invariants leave it to write.
 - **A ruling you need** that has impact, past these, is a decision item, and the reply says you
-  added it. Past an offer of either kind, or of calling off an ask you find obsolete yourself
-  (Recording's An ask the person calls off), the chat asks no closed question of its own: an ask
-  is an item.
+  added it. Past its three offers — the answer you would record, an act you can do yourself and
+  the call-off of an ask you find obsolete (Recording's An ask the person calls off) — the chat
+  asks no closed question of its own: an ask is an item.
 - **A wait** the person asks for, a card to watch or a time to come back at: `add_item` with
   `kind` `card_wait` or `timed_wait`, armed as `rules/routing.md` has it, on a fresh read through
-  youtrack of the card it watches.
+  youtrack of the card it watches, with what routing's row for an owed action waiting on an event
+  gives it: its `step` the task it serves, a note on that task saying what is to happen once its
+  event comes, and, for a card wait that outlives the plan's horizon, its backstop.
 
 ## Correcting
 

@@ -52,7 +52,9 @@ writing — the draft, its front matter and its blocks — is `/dev:document-for
   - `## The plan`: the tasks as the chat agrees them, in their order, each with what it waits on
     where it waits; the repository it works in and the ticket the work is tracked on, where the
     project has them; what the setup starts — work in a repository, an action for someone's
-    hands, or nothing yet — agreed here, which nothing in the app fixes.
+    hands, or nothing yet — agreed here, which nothing in the app fixes. Where a person asks for
+    Fable for a task's work in their own words, those words go on that task's line, quoted, which
+    the setup carries into its note (`rules/placement.md`'s The model and the effort).
   - `## Rules`: the rules the chat agrees on for the project — how its work goes, what is asked
     first, what is never done. No rule names a model or an effort for work, whatever the opening
     or a brief says of one, and no ask's option carries one along: `rules/placement.md`'s The
@@ -81,26 +83,14 @@ writing — the draft, its front matter and its blocks — is `/dev:document-for
 
 Where the work is a change to a repository onboarded to the workflow, one whose root has a
 `.aiworkflowrc` naming its spec repository, the project is one slice of it or more, each filed,
-planned and run as `rules/stages.md` has it. The chat does for a slice what triage does, and the
-draft is what the slice's record is filed from:
+planned and run as `rules/stages.md` has it. The chat does for a slice what triage does, as
+`rules/stages.md`'s Taking a slice has it, and the draft is what the slice's record is filed from:
 
-- **The asks in their own words.** What is asked — the opening's words, a card's text as youtrack
-  reads it, a person's words in the chat — goes into the draft quoted and attributed, never
-  paraphrased: the slice's record quotes the draft, and a paraphrase can turn an ask around. A
-  card's diagnosis or cause stays the card's claim. Requirements, not solutions: no fix, no
-  phases, no acceptance criteria, which the planning grounds.
-- **The standing decisions, checked.** Read the spec repository's decision record, where its
-  README or its `CLAUDE.md` says it keeps one, and check every ask against it. An ask that
-  contradicts a current decision is an ask of the draft: the decision's id and its ruling quoted,
-  overrule it or drop the ask, with your recommendation. Left open at Create, it holds the
-  slice's filing until it is answered.
-- **The questions first, each with its recommendation.** An ask of the draft is a question the
-  person answers from memory — which screen, which behaviour — never one only the code answers,
-  which the planning grounds and asks itself. Each carries your recommendation, a decision's
-  recommended option or a question's default, and the reply names the open ones first.
+- **The asks** go into the draft quoted and attributed, as the slice's record quotes the draft.
+- **Its questions** to the person, a standing decision's among them, are asks of the draft: one
+  on a standing decision, left open at Create, holds the slice's filing until it is answered.
 - **`## The plan` names the slices**: per slice, a task for its filing, its planning and its run,
-  in that order; the asks it takes, where there is more than one slice; the cards it absorbs, each
-  with what it is for in a few words; and the slices it must follow, which its record names.
+  in that order, with what `rules/stages.md`'s Taking a slice gives each.
 
 ## Recording
 

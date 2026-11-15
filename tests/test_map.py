@@ -90,6 +90,7 @@ RULING_ACTS = (
 # The job after a close ran What is next once it had acted on the close: the chat that carries the
 # close out takes it whole, so the task an action item unblocks is started and the plan's end is
 # reached with no job after the close.
+RULING_ACTS_CITED = "so `/plan`'s An item done is yours here, within the grants, its acts on the close"
 RULING_THEN_NEXT = (
     "then What is next whole, the task's status set and every task whose inputs are now done"
     " started, up to the plan's end"
@@ -122,14 +123,17 @@ OFFERED_ANSWER = (
     "**Asked about an open block**, lead with a short answer, then offer the answer you would"
     " record: its option and its note",
     "you do in this turn where the person asked for it, or offer in the reply: never an ask item",
-    "Past an offer of either kind, or of calling off an ask you find obsolete yourself"
-    " (Recording's An ask the person calls off), the chat asks no closed question of its own",
+    "Past its three offers — the answer you would record, an act you can do yourself and the"
+    " call-off of an ask you find obsolete (Recording's An ask the person calls off) — the chat"
+    " asks no closed question of its own",
 )
 # A small correction the chat makes unasked and says so (P-353, the store's memory note
 # small-corrections-unasked; P-194's chat half without it).
 SMALL_CORRECTION = (
-    "A small correction — to your own wording, a typo, an obvious fix to what you just wrote — you"
-    " make in the turn, unasked, and say so in the reply"
+    "- **A small correction** — to your own wording, a typo, an obvious fix to what you just wrote"
+    " — you make in the turn, unasked, and say so in the reply (the operator, 2026-11-05: \"Small"
+    " corrections are generally ok.\"): a correction to what the chat itself wrote, within what Not"
+    " this skill's and the invariants leave it to write."
 )
 OFFERED_ANSWER_RETIRED = "you added it. The chat asks no closed question"
 # In a draft's definition chat the server's quotes are of the draft alone — an ask of it by
@@ -223,6 +227,34 @@ COMMENT_GRANT = (
 STAGE_DOCUMENTS_NO_CARD = "you make no card and fold nothing, or it is done twice"
 STAGE_DEBRIEF_CARD = "is no document of the stage's, and a card on it is yours: the one exception"
 STAGE_BRIEF_SILENT = "no list of what to register, and nothing on its debrief or on notices"
+# Taking a slice: triage's rules for a slice, the definition chat's and the project's chat's alike,
+# in the stages' rule file, which both chats cite, create keeping the draft's part, the chat its
+# items, its three tasks and a note for the slices it must follow.
+TAKING_A_SLICE = "## Taking a slice"
+TAKING_A_SLICE_RULES = (
+    "A card's diagnosis or cause stays the card's claim. Requirements, not solutions: no fix, no"
+    " phases, no acceptance criteria, which the planning grounds.",
+    "An ask that contradicts a current decision is an ask of its own: the decision's id and its"
+    " ruling quoted, overrule it or drop the ask, with your recommendation.",
+    "never one only the code answers, which the planning grounds and asks itself",
+    "and the slices it must follow, which its record names",
+)
+TAKING_A_SLICE_CITED = "`rules/stages.md`'s Taking a slice has it"
+TAKING_A_SLICE_IN_THE_CHAT = "the slices it must follow a note on its filing's task"
+# A person's Fable for a task, asked in a draft: quoted on the task's line, carried into its note.
+FABLE_IN_A_DRAFT = {
+    "create": "Where a person asks for Fable for a task's work in their own words, those words go on"
+    " that task's line, quoted, which the setup carries into its note",
+    "plan": "as is a person's request for Fable the draft quotes on a task's line",
+}
+FABLE_PLACED = (
+    "a draft's quoted on the task's line in its `## The plan`, which the setup carries into the note"
+)
+# A wait the person asks for in the chat takes what routing's row gives a wait.
+CHAT_WAIT = (
+    "its `step` the task it serves, a note on that task saying what is to happen once its event"
+    " comes, and, for a card wait that outlives the plan's horizon, its backstop"
+)
 # pilot-store's ask_writer as it takes its arguments (PilotApp's pilot_mcp/tools.py): the block's
 # id names its document.
 ASK_WRITER = "`ask_writer` with `block`, `<item id>/<local id>`, and `question`"
@@ -1087,8 +1119,10 @@ class ChatSkillTest(unittest.TestCase):
         item_done = " ".join(mode.split())
         for form in RULING_ACTS:
             with self.subTest(form):
-                self.assertIn(form, chat)
+                self.assertNotIn(form, chat)
                 self.assertIn(form, item_done)
+        self.assertIn(RULING_ACTS_CITED, chat)
+        self.assertIn("`rules/promote.md`", chat)
         for form in RULING_CARRIED_OUT:
             with self.subTest(form):
                 self.assertIn(form, chat)
@@ -1595,6 +1629,27 @@ class StagesRuleTest(unittest.TestCase):
 
     def test_the_stage_s_brief_says_nothing_of_its_debrief_or_of_notices(self) -> None:
         self.assertIn(STAGE_BRIEF_SILENT, self.text)
+
+    def test_taking_a_slice_is_the_stages_rule_which_both_chats_cite(self) -> None:
+        lines = (ROOT / "rules" / "stages.md").read_text().splitlines()
+        self.assertEqual(lines.count(TAKING_A_SLICE), 1)
+        for form in TAKING_A_SLICE_RULES:
+            with self.subTest(form):
+                self.assertIn(form, self.text)
+        for name in ("create", "chat"):
+            text = " ".join(skill_file(name).read_text().split())
+            with self.subTest(name):
+                self.assertIn(TAKING_A_SLICE_CITED, text)
+                self.assertNotIn("Requirements, not solutions", text)
+        chat = " ".join(skill_file("chat").read_text().split())
+        self.assertIn(TAKING_A_SLICE_IN_THE_CHAT, chat)
+        self.assertIn(CHAT_WAIT, chat)
+
+    def test_a_person_s_fable_in_a_draft_reaches_the_task_s_note(self) -> None:
+        for name, form in FABLE_IN_A_DRAFT.items():
+            with self.subTest(name):
+                self.assertIn(form, " ".join(skill_file(name).read_text().split()))
+        self.assertIn(FABLE_PLACED, " ".join((ROOT / PLACEMENT).read_text().split()))
 
 
 class OperatorReadsTest(unittest.TestCase):

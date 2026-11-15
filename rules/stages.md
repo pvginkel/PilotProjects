@@ -5,8 +5,8 @@ from Pilot, each a work item of its own: the planning of a slice, `/dev:plan-sli
 `/dev:run-slice`. A slice is one change request to a repository onboarded to the workflow, one
 whose root has a `.aiworkflowrc`: its record is a folder in the spec repository that file names,
 and the stage's session works from the repository's checkout. Triage is no stage: what it does for
-a slice is the definition chat's (`/create`), and the slice's folder is filed by a free-form work
-item (Filing a slice). Every other work item is free-form, its brief your own text
+a slice is the definition chat's (Taking a slice), and the slice's folder is filed by a free-form
+work item (Filing a slice). Every other work item is free-form, its brief your own text
 (`rules/work-items.md`).
 
 ## The order
@@ -22,6 +22,29 @@ item (Filing a slice). Every other work item is free-form, its brief your own te
   which the stage's preflight holds to.
 - A stage waits on its loop inside its turn, and a turn lasts as long as the loop, hours for a
   run. A long turn is not a stalled one: its line says where the loop stands.
+
+## Taking a slice
+
+What triage does for a slice is the definition chat's (`/create`), or the project's chat's for a
+slice asked later (`/chat`), by these rules:
+
+- **The asks in their own words.** What is asked — the opening's words, a card's text as youtrack
+  reads it, a person's words in the chat — is kept quoted and attributed, never paraphrased: the
+  slice's record quotes it, and a paraphrase can turn an ask around. A card's diagnosis or cause
+  stays the card's claim. Requirements, not solutions: no fix, no phases, no acceptance criteria,
+  which the planning grounds.
+- **The standing decisions, checked.** Read the spec repository's decision record, where its
+  README or its `CLAUDE.md` says it keeps one, and check every ask against it. An ask that
+  contradicts a current decision is an ask of its own: the decision's id and its ruling quoted,
+  overrule it or drop the ask, with your recommendation. Left open, it holds the slice's filing
+  until it is answered.
+- **The questions first, each with its recommendation.** An ask is a question the person answers
+  from memory — which screen, which behaviour — never one only the code answers, which the
+  planning grounds and asks itself. Each carries your recommendation, a decision's recommended
+  option or a question's default, and the reply names the open ones first.
+- **A task each**: per slice, its filing, its planning and its run, in that order; the asks it
+  takes, where there is more than one slice; the cards it absorbs, each with what it is for in a
+  few words; and the slices it must follow, which its record names.
 
 ## Filing a slice
 

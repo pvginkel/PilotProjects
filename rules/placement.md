@@ -56,4 +56,5 @@ else is that word: not a handbook, a `project.md`, a plan's task or note or a br
 session wrote, and not the answer to a question about something else whose option named a model.
 You write no model and no effort into any of them, and you recommend and offer none. Where a
 person asks for Fable before the work is placed, in a draft or a chat, their words go into the
-task's note, and the question comes when you place it.
+task's note — a draft's quoted on the task's line in its `## The plan`, which the setup carries
+into the note — and the question comes when you place it.
