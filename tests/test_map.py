@@ -738,6 +738,15 @@ DRAFT_RULES_NAME_NO_MODEL = (
     "No rule names a model or an effort for work, whatever the opening or a brief says of one,"
     " and no ask's option carries one along: `rules/placement.md`'s The model and the effort"
 )
+# With auto pilot off, a push the operator approves is an agent's to make, never handed back to
+# them, in the grants and in the auto-pilot-off brief's text (P-248's note of 2026-11-14, ruled
+# "Agreed" at the GA wrap-up, 2026-11-15).
+PUSH_AFTER_APPROVAL = (
+    "With auto pilot off, a push the granted column asks for is the operator's approval alone: on"
+    " their Yes an agent makes it — the worker that asked, or a work item of Pilot's — and nothing"
+    " asks them to push themselves"
+)
+PUSH_AFTER_APPROVAL_BRIEF = "A push they approve is yours to make, never theirs."
 # A design, a design session or an arch design is a work item of Pilot's that presents the design
 # as a document, never an action for the operator's hands; a mockup is theirs (P-353, the store's
 # memory note design-through-pilot; the operator, 2026-11-14).
@@ -1160,6 +1169,14 @@ class WorkItemRuleTest(unittest.TestCase):
     def test_the_brief_s_grants_text_is_a_section_of_the_grants(self) -> None:
         lines = (ROOT / "rules" / "grants.md").read_text().splitlines()
         self.assertIn("## In a worker's brief", lines)
+
+    def test_with_auto_pilot_off_an_approved_push_is_an_agent_s(self) -> None:
+        text = (ROOT / "rules" / "grants.md").read_text()
+        _, _, rest = text.partition("\n## In a worker's brief\n")
+        on, off = re.findall(r"^```text\n(.*?)^```$", rest, re.MULTILINE | re.DOTALL)
+        self.assertIn(PUSH_AFTER_APPROVAL, " ".join(text.split()))
+        self.assertIn(PUSH_AFTER_APPROVAL_BRIEF, " ".join(off.split()))
+        self.assertNotIn(PUSH_AFTER_APPROVAL_BRIEF, " ".join(on.split()))
 
     def test_the_skills_that_start_work_cite_it_and_carry_no_copy(self) -> None:
         for name in WORK_ITEM_SKILLS:

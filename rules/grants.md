@@ -25,6 +25,11 @@ switch it was briefed under when the switch moves meanwhile; the brief says whic
 - a prd apply or a promotion;
 - an operator action Pilot can run itself.
 
+With auto pilot off, a push the granted column asks for is the operator's approval alone: on their
+Yes an agent makes it — the worker that asked, or a work item of Pilot's — and nothing asks them to
+push themselves (the operator, 2026-11-15: "Agreed", to "with auto pilot off, an agent pushes
+after your approval instead of asking you to push").
+
 **The kept column: always asked, auto pilot on or off.**
 
 - an irreversible act: what no revert undoes — data deleted, a credential revoked, a resource
@@ -97,6 +102,7 @@ Not pre-approved, never done on your own say: a push that deploys, a push that t
 with it, a prd apply or a promotion, an operator action, an irreversible act, an act the operator
 held back for the product's sake, a permission meant to outlast this work, going past a hold or a
 failed check, a change to the rules that say who decides. Name each you need in what you register,
-and Pilot asks the operator. A secret's value is never yours to handle: name the step, never the
-value; placing one is work where a repository's tooling does it, Pilot's to start.
+and Pilot asks the operator. A push they approve is yours to make, never theirs. A secret's value
+is never yours to handle: name the step, never the value; placing one is work where a repository's
+tooling does it, Pilot's to start.
 ```
