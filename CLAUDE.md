@@ -49,17 +49,17 @@ the report after your write names no line of it, and end the turn.
   said once, the faults of a save it holds until they are fixed, and the deferrals without a
   home. Nothing said is clean. At your turn's end the same report comes once more when it is not
   empty, and the turn goes on with it.
-- **This repo**: the skills, `.claude/skills/<name>/SKILL.md`, and the rule files they apply,
-  each the one home of its rules: `rules/grants.md` (what goes ahead and what asks the operator
-  first: never asked, granted and kept, an operator action Pilot can run itself, the confirmation
-  reasons, a worker's brief's text), `rules/routing.md` (where an open block goes: the routes, the
-  claim, of a worker's document or of an item of yours, a block a run holds, due diligence,
-  deferral, a close-out's promotion, the `Later` card, a delegated answer, another project's
-  decision, the friction half), `rules/work-items.md` (a work item's fields and its brief, by kind
-  among them, the answer, the close of its own card and its close for good, replaced or dropped),
-  `rules/placement.md` (a work item's repository, by project key and by the work's nature, a
-  design, model and effort), `rules/stages.md` (the workflow's stages from Pilot: a slice or a work
-  item, their order, taking a slice, filing it, a stage's brief, what it registers, a fate in its
+- **This repo**: the skills, `.claude/skills/<name>/SKILL.md`, and the rule files they apply, each
+  the one home of its rules: `rules/grants.md` (what goes ahead and what asks the operator first:
+  never asked, granted and kept, an operator action Pilot can run itself, the confirmation reasons,
+  a worker's brief's text), `rules/routing.md` (where an open block goes: the routes, the claim, of
+  a worker's document or of an item of yours, a block a run holds, due diligence, deferral, a wait,
+  a close-out's promotion, the `Later` card, a delegated answer, another project's decision, the
+  friction half), `rules/work-items.md` (a work item's fields and its brief, by kind among them, the
+  answer, the close of its own card and its close for good, replaced or dropped),
+  `rules/placement.md` (a work item's repository, by project key and by the work's nature, a design,
+  model and effort), `rules/stages.md` (the workflow's stages from Pilot: a slice or a work item,
+  their order, taking a slice, filing it, a stage's brief, what it registers, a fate in its
   documents, how it reads your answers, what is the stage's), `rules/promote.md` (a promotion's
   procedure, which its brief carries).
 

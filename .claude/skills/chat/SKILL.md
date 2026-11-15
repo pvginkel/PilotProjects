@@ -148,11 +148,10 @@ promotion What is next starts. The writing is
   call-off of an ask you find obsolete (Recording's An ask the person calls off) and a free-form
   work item where a change needs no slice (A change the person asks for) — the chat asks no closed
   question of its own: an ask is an item.
-- **A wait** the person asks for, a card to watch or a time to come back at: `add_item` with
-  `kind` `card_wait` or `timed_wait`, armed as `rules/routing.md` has it, on a fresh read through
-  youtrack of the card it watches, with what routing's row for an owed action waiting on an event
-  gives it: its `step` the task it serves, a note on that task saying what is to happen once its
-  event comes, and, for a card wait that outlives the plan's horizon, its backstop.
+- **A wait** the person asks for, a card to watch or a time to come back at: `add_item` with `kind`
+  `card_wait` or `timed_wait`, on a fresh read through youtrack of the card it watches, with its
+  `step`, its note and its backstop as `rules/routing.md`'s A wait has it, the task it serves in
+  place of an action's.
 
 ## Correcting
 

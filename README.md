@@ -39,14 +39,14 @@ its database. The app is `pvginkel/PilotApp`.
   Finish and archive calls `finish` with `archive`.
 - `rules/`: the rules the skills apply, each file the one home of its own — `grants.md` (what goes
   ahead and what asks the operator first, an operator action Pilot can run itself among it),
-  `routing.md` (where an open block goes: the claim, of a worker's document or of an item of
-  Pilot's own, how long a run holds a block, due diligence, deferral and a close-out's promotion
-  among it), `work-items.md` (a work item's fields and its brief, the close of its own card and
-  its close for good, replaced or dropped), `placement.md` (a work item's repository, a design,
-  model and effort), `stages.md` (the workflow's stages from Pilot, a slice or a work item and
-  taking a slice among them) and `promote.md` (a promotion's procedure, which its brief carries).
-  What every session shares — the server's follow-up turn, the effect lines, the facts read
-  elsewhere — is `CLAUDE.md`'s, and the skills point at it.
+  `routing.md` (where an open block goes: the claim, of a worker's document or of an item of Pilot's
+  own, how long a run holds a block, due diligence, deferral, a wait and a close-out's promotion
+  among it), `work-items.md` (a work item's fields and its brief, the close of its own card and its
+  close for good, replaced or dropped), `placement.md` (a work item's repository, a design, model
+  and effort), `stages.md` (the workflow's stages from Pilot, a slice or a work item and taking a
+  slice among them) and `promote.md` (a promotion's procedure, which its brief carries). What every
+  session shares — the server's follow-up turn, the effect lines, the facts read elsewhere — is
+  `CLAUDE.md`'s, and the skills point at it.
 - `.kubecoder/config.yaml`: the environment, with the `pilot-sync` service, which keeps
   `/work/Projects` in step with the record, and the catalog's `python` toolchain.
 - `.claude/settings.json` and `.claude/hooks/pilot-sync-lock.py`: the hook that takes the

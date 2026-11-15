@@ -26,7 +26,7 @@ brief's switch line.
 | an action of the granted column while auto pilot is off — a run's held push above all | confirmed first: no answer line, and a confirmation item asked for it, `because` `auto-pilot-off` (`rules/grants.md`'s The confirmation reasons), naming the block, `<item id>/<local id>`; on its Yes, claimed for the work item that does it (The claim), never left for the operator's hands (the operator, 2026-11-15: "Confirmation, then an agent", to "On your Yes Pilot claims the action and a work item does it"). A close-out's promotion takes its own row, its confirmation asked when it is due. |
 | an action Pilot may run under the grants — a secret placed through a repository's tooling, an Ansible work item, a design, a design session or an arch design (`rules/placement.md`'s A design), among them | claimed, unless the row after takes it (The claim). Done at once, through `pilot.py done`, where Pilot's own hands do it in the pass — a card, never asked (`rules/grants.md`), or a fleet call its column lets go. |
 | a close-out's promotion, with what follows it, auto pilot on or off | deferred to the running task, never claimed, its confirmation, with auto pilot off, asked when it is due (A close-out's promotion). |
-| an owed action waiting on an event — "re-run the import once the operator has restored the backup" | waited on: a wait through `add_item`, armed on a fresh read of the card it watches, and a timed wait beside it as a backstop where it outlives the plan's horizon, its `step` the same task and its title `Backstop: <the card wait's title>`; a note on the task the action belongs to; the block answered naming the wait. |
+| an owed action waiting on an event — "re-run the import once the operator has restored the backup" — or another block that waits on one | waited on: the wait, its backstop and its note, the action deferred to its task and any other block answered naming the wait (A wait). |
 | a block Pilot cannot read — what it asks, which option the writer means, what a thing it names is — and the record does not answer | asked of its writer, once: `ask_writer` with `block`, `<item id>/<local id>`, and `question`, one question per block. |
 | anything with impact now and the operator's | left to the operator, with no edit. |
 
@@ -88,7 +88,7 @@ decided now, or closed.
 | the running task's next turn: not in this turn | a note on the running task |
 | the run's end: a close-out's promotion and what follows it | a note on the running task, due once the run's continuation has ended (A close-out's promotion) |
 | the project's end — a sweep, a follow-up after go-live | a note on the plan, and the `Later` card (below) |
-| an event — a hold lifting, a step the operator runs first | a wait, with a note beside it on the task the action belongs to |
+| an event — a hold lifting, a step the operator runs first | a wait, with its note on the task the action belongs to (A wait) |
 | another project's work | none: never deferred |
 
 - `pilot.py defer` writes the block's `answer: deferred`, `to` and note, and in the same call the
@@ -104,6 +104,28 @@ decided now, or closed.
   the operator quotes it into the chat to disagree.
 - A person's deferral from the chat is their answer, through `answer` with `deferred` and `to`;
   Pilot writes its note in the same turn, `pilot.py plan note add` with the block as its `--ref`.
+
+## A wait
+
+A block that waits on an event — an owed action, "re-run the import once the operator has restored
+the backup", a hold lifting, a step the operator runs first — is waited on, written once here (the
+operator, 2026-11-15: "One section, the action deferred", to "A wait written once, an action always
+deferred to its task"):
+
+- **The wait**, through `add_item`, its `step` the task the action belongs to: a `card_wait` armed
+  on a fresh read of the card it watches, or a `timed_wait` with its `due_at` for an event at a
+  time.
+- **The backstop**: a timed wait beside a card wait that outlives the plan's horizon, its `step`
+  the same task and its title `Backstop: <the card wait's title>`.
+- **The note** on that task, naming the wait and saying what is to happen once its event comes,
+  which the wait's run reads (`/plan`'s A wait's firings).
+- **The block's write**: an action deferred to its task, through `pilot.py defer`, whose plan note
+  is that note; any other block answered naming the wait, through `pilot.py answer`, and the note
+  added beside it, `pilot.py plan note add`.
+- **Its `done`**: deferred, an action still takes its `done` once the event has come and the work
+  has done it, `pilot.py done` — in the wait's run where Pilot's own hands do it, and where a work
+  item does it, by the job after that work's turn, the note standing until then, as a close-out's
+  promotion's do (`/plan`'s An action of Pilot's done).
 
 ## A close-out's promotion
 

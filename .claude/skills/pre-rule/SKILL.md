@@ -105,13 +105,12 @@ Per published document, one after the other:
      is and added as `rules/work-items.md` has it, its `researches` the block's id,
      `<item id>/<local id>`; the block left open and yours, with no answer line, until the pass
      after that work's turn routes it (A researched block).
-   - **Waited on**, an owed action waiting on an event, or a block deferred to one: the wait
-     first, armed as `rules/routing.md` has it, on a fresh read through youtrack of the card it
-     watches — `add_item` with `kind` `card_wait`, its `title`, `cards` and `states` and `step`
-     the task the action belongs to, or `kind` `timed_wait` with its `due_at` for an event at a
-     time — then the note on that task and the block's answer, both naming the wait:
-     `pilot.py defer <file> <block id> --to <task id> --summary <line> --content <text> --note <why>`
-     where it is deferred, `pilot.py answer` and `pilot.py plan note add` where it is answered.
+   - **Waited on**, an owed action waiting on an event, or another block that waits on one, as
+     `rules/routing.md`'s A wait has it: the wait first, on a fresh read through youtrack of the
+     card it watches — `add_item` with `kind` `card_wait`, its `title`, `cards` and `states` and
+     `step`, or `kind` `timed_wait` with its `due_at` — then an action deferred, naming the wait,
+     `pilot.py defer <file> <block id> --to <task id> --summary <line> --content <text> --note <why>`,
+     and another block answered naming it, `pilot.py answer` and `pilot.py plan note add`.
    - **Asked of its writer**, a block you cannot read — what it asks, which option the writer
      means, what a thing it names is — that the record does not answer: `ask_writer` with `block`,
      `<item id>/<local id>`, and `question`, in the words the writer is to read, one question per

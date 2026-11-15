@@ -16,12 +16,12 @@ firings, the sweep before the finish and the finish decision, in the mode the br
    `Pilot's brief · the writer answered · …`, What is next, entered from `/pre-rule` once its pass
    is done, in the same session, its arguments the brief as the job received it, An action of
    Pilot's done first where the brief names claimed actions or its work item is a close-out's
-   promotion's; `Pilot's brief · an item of yours is
-   done · …`, An item done, then What is next; `Pilot's brief · a wait fired · …`, A wait's
-   firings —; its switch line, the grants that hold for this session; a pause; the trigger's
-   lines; the plan's open notes, by summary; and the deferrals without a home. A later turn of a
-   wait's run, `Another firing of "<title>" since your last run:` and its lines, has no brief: A
-   wait's firings again, on those firings.
+   promotion's or does an action deferred to a wait; `Pilot's brief · an item of yours is done · …`,
+   An item done, then What is next; `Pilot's brief · a wait fired · …`, A wait's firings —; its
+   switch line, the grants that hold for this session; a pause; the trigger's lines; the plan's open
+   notes, by summary; and the deferrals without a home. A later turn of a wait's run,
+   `Another firing of "<title>" since your last run:` and its lines, has no brief: A wait's firings
+   again, on those firings.
 3. Do the mode's work, then end your turn with one line saying what it did. A job never waits
    and never asks in its own transcript: a question to a person is an item.
 
@@ -129,7 +129,8 @@ After the turn of a close-out's promotion's work item, the actions deferred to t
 it, which the notes on that task name, are read the same way, never claimed: each the work did takes
 its `done` as step 2 has it, and the notes are struck after (What is next, step 3; the operator,
 2026-11-15: "Notes stand, Done written", to "The job after the promotion writes each Done, then
-strikes the notes").
+strikes the notes"). So are the actions deferred to a wait after the turn of the work item its
+Over started, by the note standing on its task (`rules/routing.md`'s A wait).
 
 1. **What the work did**, read from its turn's last line, what it registered and, where those do
    not say, its turn's reply whole (`get_session_response`), never its session log,
@@ -263,31 +264,32 @@ later firing, while this run's conversation holds, comes as its next turn: `Anot
 1. **The wait as the record holds it**: `pilot.py items show <id>` prints what it watches or when
    it is due, every firing with the run that took it, and its note once done; the note beside it
    on its task, `pilot.py plan note list --task <task id>`, says what was to happen once its event
-   came (`rules/routing.md`).
+   came (`rules/routing.md`'s A wait).
 2. **Its pair**, a card wait and its backstop, found by the task they share:
    `pilot.py items list --open` gives each wait its `step`. A card wait's backstop is the open timed
-   wait on its task titled as one, `Backstop: <the card wait's title>` (`rules/routing.md`), and a
-   backstop's card wait the open one on its task that its title names. A timed wait a person asked
-   for on the same task is titled otherwise: it is no backstop, and nothing of the card wait's
-   closes it.
+   wait on its task titled as one, `Backstop: <the card wait's title>` (`rules/routing.md`'s A
+   wait), and a backstop's card wait the open one on its task that its title names. A timed wait a
+   person asked for on the same task is titled otherwise: it is no backstop, and nothing of the card
+   wait's closes it.
 3. **Each firing judged** against what the wait waits for: a card entering a state of its list is
    a firing, its event maybe come; a timed wait's due time is its own, but a backstop's, a read
    on demand of its card wait's card; the operator's request is a read on demand, the event come
    or not.
 4. **The card read again** through youtrack before any act: what you act on is the card as it
    stands, never the firing's line.
-5. **Over**, its event come: the action after it started — a work item, as What is next starts
-   one, or your own hands' act — and then the wait closed: `mark`, `item` the wait's id, `mark`
-   `done`, no `for`, and `note` what was read and when and the action started, "ANS-312 read at
-   18:39: Done; t7's planning started". The note is shown on the wait's line, whole. A card wait
-   and its backstop close together, whichever fired: the other one marked the same way in the
-   same turn, its note naming the wait that fired, "Closed with ANS-312's wait: Done at 18:39".
+5. **Over**, its event come: the action after it started — a work item, as What is next starts one,
+   or your own hands' act, an action deferred to the wait taking its `done` once done, as
+   `rules/routing.md`'s A wait has it — and then the wait closed: `mark`, `item` the wait's id,
+   `mark` `done`, no `for`, and `note` what was read and when and the action started, "ANS-312 read
+   at 18:39: Done; t7's planning started". The note is shown on the wait's line, whole. A card wait
+   and its backstop close together, whichever fired: the other one marked the same way in the same
+   turn, its note naming the wait that fired, "Closed with ANS-312's wait: Done at 18:39".
 6. **Not over**: the wait left open, nothing written of it, but a backstop spent at its due time
    (below). A wait is never edited: one that must watch another card or state is closed with its
-   note and another added, armed on a fresh read as `rules/routing.md` has it, its backstop
+   note and another added, armed on a fresh read as `rules/routing.md`'s A wait has it, its backstop
    closed with it. A timed wait fires once: left open past its firing, only a person's Skip wait
    fires it again.
-7. **The backstop**, as `rules/routing.md`'s routes arm one beside a card wait that outlives the
+7. **The backstop**, as `rules/routing.md`'s A wait arms one beside a card wait that outlives the
    plan's horizon, where it has none open that has not fired at its due time. A backstop that
    fired at its due time on an event not come is spent: closed with its note, what was read and
    when, and a fresh one added where the card wait still outlives the plan's horizon.

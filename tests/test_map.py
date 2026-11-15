@@ -331,8 +331,8 @@ FABLE_PLACED = (
 )
 # A wait the person asks for in the chat takes what routing's row gives a wait.
 CHAT_WAIT = (
-    "its `step` the task it serves, a note on that task saying what is to happen once its event"
-    " comes, and, for a card wait that outlives the plan's horizon, its backstop"
+    "with its `step`, its note and its backstop as `rules/routing.md`'s A wait has it, the task it"
+    " serves in place of an action's"
 )
 # pilot-store's ask_writer as it takes its arguments (PilotApp's pilot_mcp/tools.py): the block's
 # id names its document.
@@ -374,7 +374,8 @@ ROUTES_NAMED = (
     " document, the reason as the note.",
     "| answered, Pilot's choice, the recommendation or not,",
     "| answered, Pilot's choice, only where",
-    "| waited on: a wait through `add_item`,",
+    "| waited on: the wait, its backstop and its note, the action deferred to its task and any other"
+    " block answered naming the wait (A wait). |",
     "| confirmed first: no answer line,",
 )
 # A close-out's ask to correct design/database.md to what was built is Pilot's to accept, auto
@@ -663,16 +664,37 @@ WAIT_REFUSALS = ("Pilot takes no waits yet", "refused for now", "## Not yet the"
 WAIT_KINDS = ("`card_wait`", "`timed_wait`")
 WAIT_ADDING_SKILLS = ("pre-rule", "chat")
 WAIT_ARMED = (
-    "armed as `rules/routing.md` has it, on a fresh read through youtrack of the card it watches"
+    "`rules/routing.md`'s A wait has it",
+    "on a fresh read through youtrack of the card it watches",
 )
 # A backstop's title, by which a card wait's backstop is told from a timed wait a person asked
 # for on the same task.
 BACKSTOP_TITLE = "its title `Backstop: <the card wait's title>`"
+# One routing section holds a wait: the arming, the backstop, the note on the task and the block's
+# write, an action deferred to its task and any other block answered naming the wait, a deferred
+# action taking its `done` once the work has done it (consolidation review R1.10 and R4.6, the
+# operator's "One section, the action deferred", 2026-11-15).
+WAIT_SECTION = "## A wait"
 ROUTING_WAIT = (
-    "a wait through `add_item`, armed on a fresh read of the card it watches",
-    "a timed wait beside it as a backstop where it outlives the plan's horizon, its `step` the same"
-    f" task and {BACKSTOP_TITLE}",
+    "- **The wait**, through `add_item`, its `step` the task the action belongs to: a `card_wait`"
+    " armed on a fresh read of the card it watches, or a `timed_wait` with its `due_at`",
+    "- **The backstop**: a timed wait beside a card wait that outlives the plan's horizon, its"
+    f" `step` the same task and {BACKSTOP_TITLE}",
+    "- **The note** on that task, naming the wait and saying what is to happen once its event comes",
+    "- **The block's write**: an action deferred to its task, through `pilot.py defer`, whose plan"
+    " note is that note; any other block answered naming the wait, through `pilot.py answer`, and"
+    " the note added beside it",
+    "- **Its `done`**: deferred, an action still takes its `done` once the event has come and the"
+    " work has done it, `pilot.py done` — in the wait's run where Pilot's own hands do it, and where"
+    " a work item does it, by the job after that work's turn, the note standing until then",
+    '(the operator, 2026-11-15: "One section, the action deferred", to "A wait written once, an'
+    ' action always deferred to its task")',
 )
+WAIT_DEFERRED_DONE = (
+    "So are the actions deferred to a wait after the turn of the work item its Over started, by the"
+    " note standing on its task (`rules/routing.md`'s A wait)."
+)
+WAIT_RETIRED = ("the block answered naming the wait. |", "routing's row for an owed action")
 # The brief of a wait's run as PilotApp's BriefService writes it: its kind line, the wait's line of
 # either kind, its pending firings and each firing's line; then the resumed run's one turn, which
 # opens with no slash command and which CLAUDE.md routes.
@@ -708,8 +730,10 @@ WAIT_FIRINGS = (
     "A card wait and its backstop close together, whichever fired",
     "**Not over**: the wait left open",
     "its backstop closed with it",
-    "**The backstop**, as `rules/routing.md`'s routes arm one beside a card wait that outlives the"
+    "**The backstop**, as `rules/routing.md`'s A wait arms one beside a card wait that outlives the"
     " plan's horizon, where it has none open that has not fired at its due time",
+    "an action deferred to the wait taking its `done` once done, as `rules/routing.md`'s A wait has"
+    " it",
     "A backstop that fired at its due time on an event not come is spent",
 )
 # The words by which the backstop counted an open timed wait that had fired as the card wait's.
@@ -1281,7 +1305,7 @@ MAP_SECTIONS = {
     "rules/grants.md": ("never asked, granted and kept", "an operator action Pilot can run itself",
                         "the confirmation reasons", "a worker's brief's text"),
     "rules/routing.md": ("the routes", "the claim", "a block a run holds", "due diligence",
-                         "deferral", "a close-out's promotion", "the `Later` card",
+                         "deferral", "a wait", "a close-out's promotion", "the `Later` card",
                          "a delegated answer", "another project's decision", "the friction half"),
     "rules/work-items.md": ("fields", "brief", "the answer", "its own card", "its close for good"),
     "rules/stages.md": ("a slice or a work item", "taking a slice", "filing it"),
@@ -2099,13 +2123,23 @@ class WaitTest(unittest.TestCase):
     def test_the_skills_that_add_a_wait_name_its_kinds_and_arm_it_as_routing_does(self) -> None:
         for name in WAIT_ADDING_SKILLS:
             text = " ".join(skill_file(name).read_text().split())
-            for form in (*WAIT_KINDS, WAIT_ARMED):
+            for form in (*WAIT_KINDS, *WAIT_ARMED):
                 with self.subTest(skill=name, form=form):
                     self.assertIn(form, text)
-        routing = " ".join((ROOT / "rules" / "routing.md").read_text().split())
+        routing = (ROOT / "rules" / "routing.md").read_text()
+        self.assertEqual(routing.splitlines().count(WAIT_SECTION), 1)
+        _, _, rest = routing.partition(f"\n{WAIT_SECTION}\n")
+        section, _, _ = rest.partition("\n## ")
         for form in ROUTING_WAIT:
             with self.subTest(form):
-                self.assertIn(form, routing)
+                self.assertIn(form, " ".join(section.split()))
+        for source, text in the_map().items():
+            for form in WAIT_RETIRED:
+                with self.subTest(source=source, form=form):
+                    self.assertNotIn(form, " ".join(text.split()))
+        _, _, rest = skill_file("plan").read_text().partition("\n## An action of Pilot's done\n")
+        mode, _, _ = rest.partition("\n## ")
+        self.assertIn(WAIT_DEFERRED_DONE, " ".join(mode.split()))
 
     def test_claude_md_names_both_kinds_and_routes_a_resumed_run_to_the_plan_skill(self) -> None:
         text = " ".join(CLAUDE.read_text().split())
