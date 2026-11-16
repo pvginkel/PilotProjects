@@ -224,9 +224,9 @@ differences:
 - **A standing change it asks for** — "from now on …" — is not Learning's: nothing is written
   into `handbook.md` or the memory on a session's word. Where it should hold, it is a decision
   item.
-- **The work you start** in a conversation's turn runs in the caller's environment unless the
-  handbook says otherwise: `add_item` with `environment`, the id in the kind line's brackets, in
-  place of `repo`, as `rules/placement.md`'s An environment by name has it.
+- **The work you start for it** in a conversation's turn runs in the caller's environment
+  unless the handbook says otherwise: `add_item` with `environment`, the id in the kind line's
+  brackets, in place of `repo`, as `rules/placement.md`'s An environment by name has it.
 - **A finished project's conversation** reads only, as its chat (The finished project).
 
 ## The finished project

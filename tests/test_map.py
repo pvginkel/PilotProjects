@@ -115,8 +115,8 @@ CONVERSATION_FRAME = (
     "the answer is the person's to give in the app or in the project's chat, never the session's"
     " to bring",
     "nothing is written into `handbook.md` or the memory on a session's word",
-    "**The work you start** in a conversation's turn runs in the caller's environment unless the"
-    " handbook says otherwise: `add_item` with `environment`, the id in the kind line's brackets,"
+    "**The work you start for it** in a conversation's turn runs in the caller's environment unless"
+    " the handbook says otherwise: `add_item` with `environment`, the id in the kind line's brackets,"
     " in place of `repo`, as `rules/placement.md`'s An environment by name has it",
     "**A finished project's conversation** reads only, as its chat (The finished project)",
 )
@@ -156,8 +156,9 @@ TRANSCRIPT_RETIRED = (
 BY_NAME_SECTION = "## An environment by name"
 PLACED_BY_NAME = (
     "Work born of a conversation — a work item you start in a turn of a conversation with a"
-    " session outside Pilot (`/chat`'s A conversation), whatever its kind — runs in the"
-    " conversation's environment, unless the project's handbook says otherwise",
+    " session outside Pilot (`/chat`'s A conversation), on what that session asks for, whatever"
+    " its kind — runs in the conversation's environment, unless the project's handbook says"
+    " otherwise",
     "`add_item` with `environment`, that environment's id, in place of `repo`, and `cwd` its"
     " checkout there",
     f'The id stands in the brackets of the brief\'s kind line, "{CONVERSATION_KIND}".',

@@ -39,11 +39,12 @@ operator's keystroke" is their convention for a person at a terminal: for Pilot'
 ## An environment by name
 
 Work born of a conversation — a work item you start in a turn of a conversation with a session
-outside Pilot (`/chat`'s A conversation), whatever its kind — runs in the conversation's
-environment, unless the project's handbook says otherwise: `add_item` with `environment`, that
-environment's id, in place of `repo`, and `cwd` its checkout there. The id stands in the brackets
-of the brief's kind line, "a conversation with a session in <environment name> (<environment id>,
-session <name>)". What the calling session has there, pushed or not, is what the work builds on.
+outside Pilot (`/chat`'s A conversation), on what that session asks for, whatever its kind — runs
+in the conversation's environment, unless the project's handbook says otherwise: `add_item` with
+`environment`, that environment's id, in place of `repo`, and `cwd` its checkout there. The id
+stands in the brackets of the brief's kind line, "a conversation with a session in <environment
+name> (<environment id>, session <name>)". What the calling session has there, pushed or not, is
+what the work builds on.
 
 Pilot's server places it in that environment as it stands: it makes, takes, renames and resets no
 environment for it, starts the one named where it is stopped, and stops it again, once nothing
