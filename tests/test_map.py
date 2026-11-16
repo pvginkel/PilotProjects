@@ -1081,8 +1081,8 @@ NOTICE_SKILLS = ("pre-rule", "plan")
 # same words — the note through pilot-store's `note`, on a block or on the document as a whole, and
 # the alert through `alert` (PilotApp's pilot_mcp/tools.py); the three things a note is for and the
 # alert's one; what is never written, in the operator's words; the replace and the take-off; a note
-# that cannot wait marking its document urgent (F168.8); and the notice kept for news with no open
-# document to sit on.
+# that cannot wait marking its document urgent, the turn to urgent alone alerting again (F168.8);
+# and the notice kept for news with no open document to sit on.
 NOTE_EXCEPTION_LEAD = "**Your notes and alerts, by exception.**"
 NOTE_EXCEPTION_END = "A notice stays for news with no open document to sit on."
 NOTE_EXCEPTION = (
@@ -1109,7 +1109,7 @@ NOTE_EXCEPTION = (
     "a call with none of `text`, `suggested_answer`, `suggested_note` and `offer` takes it off",
     "A note written once the document is the person's is read as any other, nothing marking it new:"
     " where it cannot wait for them to open the document, `urgent: true` in its front matter alerts"
-    " them again.",
+    " them again, the turn to urgent alone, so that on a document urgent already it alerts no one.",
     NOTE_EXCEPTION_END,
 )
 NOTE_SKILLS = ("pre-rule", "plan")

@@ -68,8 +68,9 @@ standing there, so that one call holds all you have to say of it, and a call wit
 `suggested_answer`, `suggested_note` and `offer` takes it off; a later alert replaces the one
 standing, and a call with neither of its two takes it off. A note written once the document is the
 person's is read as any other, nothing marking it new: where it cannot wait for them to open the
-document, `urgent: true` in its front matter alerts them again. A notice stays for news with no open
-document to sit on.
+document, `urgent: true` in its front matter alerts them again, the turn to urgent alone, so that on
+a document urgent already it alerts no one. A notice stays for news with no open document to sit
+on.
 
 The rules it applies: `rules/routing.md`, each route and what it writes, deferral, the `Later`
 card, a delegated answer, another project's decision and the friction half; `rules/grants.md`, what

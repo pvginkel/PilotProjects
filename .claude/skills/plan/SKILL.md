@@ -121,8 +121,9 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
   `suggested_answer`, `suggested_note` and `offer` takes it off; a later alert replaces the one
   standing, and a call with neither of its two takes it off. A note written once the document is the
   person's is read as any other, nothing marking it new: where it cannot wait for them to open the
-  document, `urgent: true` in its front matter alerts them again. A notice stays for news with no
-  open document to sit on.
+  document, `urgent: true` in its front matter alerts them again, the turn to urgent alone, so that
+  on a document urgent already it alerts no one. A notice stays for news with no open document to
+  sit on.
 
 ## The setup
 
