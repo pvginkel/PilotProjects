@@ -3,9 +3,11 @@
 Where a work item runs and on what. A work item names the repository its work belongs to,
 `owner/Name`: Pilot's judgment, guided by the two sections below and the project's own facts in its
 `handbook.md`, enforced nowhere, and what the project's handbook says of its repositories comes
-before their rules. The environment is Pilot's server's to make. The plan's `repo` is a label for
-the project's header and binds no work item. A design is placed as any other work (A design), and
-the model and the effort are no judgment of Pilot's (The model and the effort).
+before their rules. The environment is Pilot's server's to make, but for work born of a
+conversation, which names the conversation's environment in place of a repository (An environment
+by name). The plan's `repo` is a label for the project's header and binds no work item. A design is
+placed as any other work (A design), and the model and the effort are no judgment of Pilot's (The
+model and the effort).
 
 ## The repository, by project key
 
@@ -33,6 +35,26 @@ Ansible environment reads no other. For a secret, the brief names its OpenBao pa
 `bao kv put -mount=kv <leaf> <key>=-`. The Ansible runbooks' "every OpenBao write is the
 operator's keystroke" is their convention for a person at a terminal: for Pilot's work the ruling
 `rules/grants.md`'s An operator action Pilot can run itself quotes stands.
+
+## An environment by name
+
+Work born of a conversation — a work item you start in a turn of a conversation with a session
+outside Pilot (`/chat`'s A conversation), whatever its kind — runs in the conversation's
+environment, unless the project's handbook says otherwise: `add_item` with `environment`, that
+environment's id, in place of `repo`, and `cwd` its checkout there. The id stands in the brackets
+of the brief's kind line, "a conversation with a session in <environment name> (<environment id>,
+session <name>)". What the calling session has there, pushed or not, is what the work builds on.
+
+Pilot's server places it in that environment as it stands: it makes, takes, renames and resets no
+environment for it, starts the one named where it is stopped, and stops it again, once nothing
+runs there, only where it started it. Its start is held at the gate as any work item's is
+(`rules/work-items.md`'s The answer).
+
+A placement by name the server refuses added nothing: an environment KubeCoder's controller does
+not have, "Environment <id> was not found", or the store's own, "it is the store's environment,
+where no work item runs". Say in the reply why it was refused, and never place the work by `repo`
+in its stead, which the handbook alone can ask for. Where the handbook does, the work item names
+its `repo`, by the two sections above.
 
 ## A design
 

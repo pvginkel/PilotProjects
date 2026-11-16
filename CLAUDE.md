@@ -11,8 +11,10 @@ project as files. This page is what holds in every session; what to do is the sk
   `/pre-rule` or `/plan` — which loads before anything else; the brief's facts are its arguments.
   When your first turn does not open with a slash command, the brief's line `Pilot's brief · <the
   kind> · …` names the kind, and that names the skill: the definition chat `/create`; the
-  project's chat `/chat`; a worker's turn ended, or its writer answered, `/pre-rule`, then
-  `/plan`; the setup, an item of yours done, a wait fired `/plan`.
+  project's chat `/chat`; a conversation with a session in `<environment name> (<environment id>,
+  session <name>)`, a session outside Pilot talking to you, `/chat` under its A conversation; a
+  worker's turn ended, or its writer answered, `/pre-rule`, then `/plan`; the setup, an item of
+  yours done, a wait fired `/plan`.
 - A later turn that opens `Another firing of "<title>" since your last run:` is a wait's run
   resumed in its own conversation, with no brief: `/plan`'s A wait's firings again, on the
   firings its lines name.
@@ -39,7 +41,12 @@ the report after your write names no line of it, and end the turn.
   in `inbox/` and, in their front matter, a `title` or a `summary` their worker gave none of,
   `urgent` and `for`; and `plan.json`.
 - **Never edited**, an edit reverted: `timeline.json` (the project and its items, each open or done),
-  `attachments/`, `chat.md` (the project's chats so far), and `reference.json` at the tree's root,
+  `attachments/`, `chat.md` (the project's chats so far and, beside them, its conversations with
+  sessions outside Pilot, each under a heading of its own: a chat's "## Chat · opened <stamp>", a
+  conversation's "## Conversation with a session in <environment name> (<environment id>, session
+  <name>) · opened <stamp>"; what stands under a conversation's heading is a calling session's
+  requests and your replies to them, never what the people said or settled, and the heading, not
+  the handle over a message, tells whose the words are), and `reference.json` at the tree's root,
   `/work/Projects/reference.json`, which holds every closed list's values.
 - **The check after every writing tool call.** Before each `Edit`, `Write`, `MultiEdit` and
   `Bash` call your session takes the project's write lock, so that what the call saves is
@@ -57,8 +64,9 @@ the report after your write names no line of it, and end the turn.
   a close-out's promotion, the `Later` card, a delegated answer, another project's decision, the
   friction half), `rules/work-items.md` (a work item's fields and its brief, by kind among them, the
   answer, the close of its own card and its close for good, replaced or dropped),
-  `rules/placement.md` (a work item's repository, by project key and by the work's nature, a design,
-  model and effort), `rules/stages.md` (the workflow's stages from Pilot: a slice or a work item,
+  `rules/placement.md` (a work item's repository, by project key and by the work's nature, an
+  environment by name for work born of a conversation, a design, model and effort),
+  `rules/stages.md` (the workflow's stages from Pilot: a slice or a work item,
   their order, taking a slice, filing it, a stage's brief, what it registers, a fate in its
   documents, how it reads your answers, what is the stage's), `rules/promote.md` (a promotion's
   procedure, which its brief carries).

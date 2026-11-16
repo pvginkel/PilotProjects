@@ -90,8 +90,10 @@ A stage's brief has a shape of its own:
 
 Nothing else of yours: no instructions, no context, no list of what to register, and nothing on
 its debrief or on notices. The stage's skill has them, and the slice's folder holds the rest. The
-work item's `repo` is the slice's repository, its `cwd` that repository's checkout,
-`/work/<Name>`, and its `step` the slice's task, which every document it registers carries.
+work item's `repo` is the slice's repository, or, started in a conversation's turn, its
+`environment` the conversation's (`rules/placement.md`'s An environment by name), its `cwd` that
+repository's checkout, `/work/<Name>`, and its `step` the slice's task, which every document it
+registers carries.
 
 ## What a stage registers
 
