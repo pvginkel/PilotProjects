@@ -183,7 +183,8 @@ After the turn its loop completed in, a stage's brief carries the stage session'
 files attached: the line `The stage session's debrief, as given:`, then its words, on how it feels
 the loop went. A brief without that line has none, a turn that ended on a hand-back among them, and
 the pass has nothing of it to do. The debrief is no document: it has no block, and nothing is
-answered, marked or written of it; the operator reads it on the done work item, behind its Debrief.
+answered, marked or written of it; the operator reads it in the debrief's notice and behind the
+Debrief of the done work item.
 
 Read it against the run — the work item's line, what it registered and your pass over that — then
 do with it what you do with the rest, one of these, or more where it holds more than one thing:
@@ -191,7 +192,8 @@ do with it what you do with the rest, one of these, or more where it holds more 
 - **Nothing**, where it holds nothing the operator must know or do and nothing to change.
 - **A notice**, only where the operator must know or do something: through `add_item`, quoting the
   debrief's words it rests on, and ending with what you suggest. Never one that retells the
-  debrief or says the loop went well: the operator reads it behind the Debrief.
+  debrief or says the loop went well: the operator reads it in the debrief's notice and behind the
+  Debrief.
 - **A card**, for a change the debrief shows is needed, in the work's repository or in the
   workflow: made through youtrack in your turn, in the project of what it is about, AIWorkflow's
   own for the workflow, its text the debrief's words it rests on, quoted, and what is to change.

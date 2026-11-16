@@ -25,7 +25,9 @@ one home held there, CLAUDE.md's shared ones among them, the places that restate
 it; and a conversation with a session outside Pilot: its kind line mapped to the chat skill, the
 skill's frame for it, its transcript in chat.md read as a calling session's requests, in CLAUDE.md
 and the chat skill, and the work it starts placed by repository, never in its environment, by the
-placement rule, which the work item's field line and a stage's brief follow."""
+placement rule, which the work item's field line and a stage's brief follow; and the debrief's
+notice, the server's, which no `add_item` makes and whose row carries no debrief, read only on a
+member's word, the operator reading a debrief in it and behind the Debrief."""
 
 import importlib.util
 import itertools
@@ -380,6 +382,47 @@ DEBRIEF_OPEN_CARD = (
 COMMENT_GRANT = (
     "yours to read with, and to make a card, comment on an open card or close one, make a fleet call"
     " or post to Fieldnotes, where a rule says so"
+)
+# The debrief's notice (F26.12 to F26.14, P-363): the server places it, so the map names its kind in
+# `add_item`'s line as no `add_item`'s, its row carrying no debrief, and the store's list gives it a
+# form `add_item` makes none of; a member's word alone reads it, `read` with `for` them, in the
+# map's `mark` line and where the chat records a person's Read; and the pass's two lines on where
+# the operator reads a debrief name the notice beside the Debrief, where they named it alone.
+DEBRIEF_NOTICE_KIND = "debrief_notice"
+DEBRIEF_NOTICE_NAMED = (
+    "A debrief's notice, the kind `debrief_notice`, is the server's, never made through `add_item`:"
+    " placed as a work item whose stage session's debrief completes its subject is done, a slice's"
+    ' run carrying its planning\'s debrief with its own, titled "Debrief · <subject>"; its row in'
+    " `timeline.json` has no file and none of the debriefs' words, which the operator reads in the"
+    " app."
+)
+ADD_ITEM_FORMS = {"prose", "work", "wait"}
+DEBRIEF_NOTICE_READ_BY = {
+    "CLAUDE.md": (
+        "- `mark`: ",
+        (
+            "A debrief's notice is read only on a member's word, `read` with `for` them, never on"
+            " your own."
+        ),
+    ),
+    ".claude/skills/chat/SKILL.md": (
+        "- **Done, Read and Reviewed** a person gives go through `mark` with `for` them",
+        (
+            "`read` on a notice, and on a debrief's notice, which you read only so, on a member's"
+            " word, never on your own;"
+        ),
+    ),
+}
+DEBRIEF_READ = (
+    "the operator reads it in the debrief's notice and behind the Debrief of the done work item.",
+    (
+        "Never one that retells the debrief or says the loop went well: the operator reads it in the"
+        " debrief's notice and behind the Debrief."
+    ),
+)
+DEBRIEF_READ_RETIRED = (
+    "the operator reads it on the done work item, behind its Debrief.",
+    "the operator reads it behind the Debrief.",
 )
 # A worker's brief on a secret: never shown, read back or passed on, and placed only where the brief
 # says, so that the worker the grants send to place one is not told it must not handle one
@@ -2390,6 +2433,35 @@ class PreRuleSkillTest(unittest.TestCase):
             with self.subTest(form):
                 self.assertIn(form, self.text)
         self.assertIn(COMMENT_GRANT, " ".join(CLAUDE.read_text().split()))
+
+    def test_the_operator_reads_the_debrief_in_its_notice_and_behind_the_debrief(self) -> None:
+        for form in DEBRIEF_READ:
+            with self.subTest(form):
+                self.assertIn(form, self.text)
+        for form in DEBRIEF_READ_RETIRED:
+            with self.subTest(retired=form):
+                self.assertNotIn(form, self.text)
+
+
+class DebriefNoticeTest(unittest.TestCase):
+    def test_the_map_names_the_debrief_s_notice_in_add_item_s_line_as_the_server_s(self) -> None:
+        _, _, rest = CLAUDE.read_text().partition("\n- `add_item`: ")
+        bullet, _, _ = rest.partition("\n- ")
+        self.assertIn(DEBRIEF_NOTICE_NAMED, " ".join(bullet.split()))
+        reference = json.loads(
+            (ROOT / "tests" / "fixtures" / "tree" / "reference.json").read_text()
+        )
+        forms = {kind["code"]: kind["form"] for kind in reference["item_kinds"]}
+        self.assertIn(DEBRIEF_NOTICE_KIND, forms)
+        self.assertNotIn(forms[DEBRIEF_NOTICE_KIND], ADD_ITEM_FORMS)
+
+    def test_a_debrief_s_notice_is_read_only_on_a_member_s_word(self) -> None:
+        for source, (head, form) in DEBRIEF_NOTICE_READ_BY.items():
+            _, found, rest = (ROOT / source).read_text().partition(f"\n{head}")
+            bullet, _, _ = rest.partition("\n- ")
+            with self.subTest(source):
+                self.assertTrue(found)
+                self.assertIn(form, " ".join(bullet.split()))
 
 
 class StagesRuleTest(unittest.TestCase):

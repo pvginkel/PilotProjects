@@ -60,6 +60,11 @@
       "form": "prose"
     },
     {
+      "code": "debrief_notice",
+      "name": "Debrief notice",
+      "form": "debrief_notice"
+    },
+    {
       "code": "decision",
       "name": "Decision",
       "form": "prose"

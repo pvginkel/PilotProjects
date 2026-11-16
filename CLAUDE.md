@@ -90,7 +90,11 @@ folder. Every other change to the record goes through its tools, never through P
   actions you claimed that it does, of a worker's document or of an item of yours, and
   `researches` the blocks you left open on a fact it finds; or a wait, a `card_wait` with its
   `cards` and `states` or a `timed_wait` with its `due_at`, fixed once added — its id, a prose
-  item's path and a work item's state at the gate returned.
+  item's path and a work item's state at the gate returned. A debrief's notice, the kind
+  `debrief_notice`, is the server's, never made through `add_item`: placed as a work item whose
+  stage session's debrief completes its subject is done, a slice's run carrying its planning's
+  debrief with its own, titled "Debrief · <subject>"; its row in `timeline.json` has no file and
+  none of the debriefs' words, which the operator reads in the app.
 - `attach_file`: outside material, `source` `<environment>:<path>`, a file or a folder, whole or in
   part, every file of one call one batch, copied in and hung on the item `to` names; in a draft's
   definition chat, with no `to`, on nothing until Create project hangs it on the opening. It
@@ -103,7 +107,8 @@ folder. Every other change to the record goes through its tools, never through P
   with `answer`; without `for`, Pilot's own Done of a document it settled whole, a registered one
   of a single block included, a claimed action settled once its `done` is written, and of a wait
   it judges over, with its `note`. An item of yours closes at the `done` of its last open block, a
-  claimed action's included, with no undo and no `mark` after it, which the server refuses.
+  claimed action's included, with no undo and no `mark` after it, which the server refuses. A
+  debrief's notice is read only on a member's word, `read` with `for` them, never on your own.
 - `cancel_ask`: an open ask of Pilot's own, one `add_item` added — a decision, a confirmation, a
   question, an action or a document — called off on the word of the person `for` names, given in
   the chat: `item` its id, done as cancelled, by them, with no undo and no job following it.

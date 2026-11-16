@@ -70,8 +70,9 @@ promotion What is next starts. The writing is
   give words of their own (Acting's Asked about an open block). It replaces the block's answer, yours included, while the item is
   open; the answer to an item's one block is its Done.
 - **Done, Read and Reviewed** a person gives go through `mark` with `for` them: `done` on a
-  document, its unanswered blocks answered with their recommendations; `read` on a notice;
-  `reviewed` on a review.
+  document, its unanswered blocks answered with their recommendations; `read` on a notice, and on
+  a debrief's notice, which you read only so, on a member's word, never on your own; `reviewed` on
+  a review.
 - **An ask the person calls off** — "never mind that one", "we no longer need this" — is
   cancelled for them: `cancel_ask` with `item` the ask's id and `for` their handle, on an open ask
   of Pilot's own, in `items/`: a decision, a confirmation, a question, an action or a document.

@@ -6,7 +6,8 @@ its database. The app is `pvginkel/PilotApp`.
 ## What it holds
 
 - `CLAUDE.md`: the brain's map, what holds in every session Pilot runs here — who it is, where its
-  project's files are, its tools and `pilot.py`'s verbs, the invariants, and how it writes.
+  project's files are, its tools and `pilot.py`'s verbs, the debrief's notice, the server's, which
+  it reads only on a member's word, the invariants, and how it writes.
 - `.claude/skills/<name>/SKILL.md`: the four skills a brief opens with, `create`, `chat`, `pre-rule`
   and `plan`, each with its frontmatter, its first step, the rule files it applies, and the brief's
   slot, `## The brief`, last. Between them, `chat`'s body is the project's chat's procedure on
@@ -105,4 +106,7 @@ The dev image has no uv, so everything runs in the `python` tool container, from
   session outside Pilot: its kind line mapped to the chat skill, the skill's frame for it,
   `chat.md`'s conversations read as a calling session's requests in `CLAUDE.md` and the chat skill,
   and the work it starts placed by repository, never in its environment, by `rules/placement.md`,
-  which the work item's field line and a stage's brief follow.
+  which the work item's field line and a stage's brief follow, and the debrief's notice: the
+  server's in `CLAUDE.md`'s `add_item` line, its form none of `add_item`'s in the fixtures'
+  `reference.json`, read only on a member's word in `CLAUDE.md` and the chat skill, and the place
+  where the pre-rule skill says the operator reads a debrief.
