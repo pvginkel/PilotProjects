@@ -25,7 +25,9 @@
         "cause": "turn_ended",
         "by": null
       },
-      "attachments": []
+      "attachments": [],
+      "notes": [],
+      "alert": null
     },
     {
       "id": "4a8c2e19-7b3f-4d05-a6e1-9f2b8c4d0e63",
@@ -43,7 +45,9 @@
         "cause": "answered",
         "by": "dana"
       },
-      "attachments": []
+      "attachments": [],
+      "notes": [],
+      "alert": null
     },
     {
       "id": "9c1d4f7a-2e8b-4a36-b5c0-3e7f1a9d6b82",
@@ -57,7 +61,9 @@
       "summary": "Which old recipes come over",
       "created_at": "2026-10-13T07:30:00Z",
       "done": null,
-      "attachments": []
+      "attachments": [],
+      "notes": [],
+      "alert": null
     },
     {
       "id": "b2e7a3c9-6d14-4f8e-9a2b-5c0d8e1f7a46",
@@ -71,7 +77,9 @@
       "summary": null,
       "created_at": "2026-10-13T11:00:00Z",
       "done": null,
-      "attachments": []
+      "attachments": [],
+      "notes": [],
+      "alert": null
     },
     {
       "id": "e6f0b9d3-1c7a-4e25-8d3f-7a9b2c6e0d18",
@@ -99,7 +107,9 @@
       "summary": "Where the old files are",
       "created_at": "2026-10-14T16:20:00Z",
       "done": null,
-      "attachments": []
+      "attachments": [],
+      "notes": [],
+      "alert": null
     },
     {
       "id": "5d2a8f61-9c3e-4b17-a4d8-1e6f0b3c9a52",

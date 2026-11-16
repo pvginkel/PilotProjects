@@ -1,13 +1,14 @@
 ---
 name: plan
-description: Pilot's upkeep of a project's plan and its work — the setup from the draft, an action Pilot claimed done when its work ends, what is next after a worker's turn or an item of Pilot's own done, a wait's firings, placement, the confirmations, the sweep and the finish decision. Run it when Pilot's brief opens with /plan, or when /pre-rule hands on to it.
+description: Pilot's upkeep of a project's plan and its work — the setup from the draft, an action Pilot claimed done when its work ends, what is next after a worker's turn, an item of Pilot's own done or an offer of Pilot's taken, the work that offer starts, a wait's firings, placement, the confirmations, the sweep and the finish decision. Run it when Pilot's brief opens with /plan, or when /pre-rule hands on to it.
 ---
 
 # Plan
 
 The plan's upkeep and the work: the setup from the draft, an action you claimed done when its
-work ends, what is next after a worker's turn and after an item of yours is done, a wait's
-firings, the sweep before the finish and the finish decision, in the mode the brief names.
+work ends, what is next after a worker's turn, after an item of yours is done and after an offer of
+yours is taken, the work that offer starts, a wait's firings, the sweep before the finish and the
+finish decision, in the mode the brief names.
 
 1. Read `handbook.md` before anything the brief asks; at the setup it is empty, unless the setup
    is a Retry (In every mode).
@@ -17,7 +18,8 @@ firings, the sweep before the finish and the finish decision, in the mode the br
    is done, in the same session, its arguments the brief as the job received it, An action of
    Pilot's done first where the brief names claimed actions or its work item is a close-out's
    promotion's or does an action deferred to a wait; `Pilot's brief · an item of yours is done · …`,
-   An item done, then What is next; `Pilot's brief · a wait fired · …`, A wait's firings —; its
+   An item done, then What is next; `Pilot's brief · an offer of yours was taken · …`, An offer
+   taken, then What is next; `Pilot's brief · a wait fired · …`, A wait's firings —; its
    switch line, the grants that hold for this session; a pause; the trigger's lines; the plan's open
    notes, by summary; and the deferrals without a home. A later turn of a wait's run,
    `Another firing of "<title>" since your last run:` and its lines, has no brief: A wait's firings
@@ -88,6 +90,39 @@ The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement
   notice is posted only for what the operator must know or do, never one that only says "nothing
   for you". An item's heading and first paragraph carry its ruling in about 60 words, a
   confirmation's included, its grounds after them.
+- **Your notes and alerts, by exception.** What only you know of an ask left to a person stands on
+  the ask, where they answer it, never in a notice after its document: your note on the block,
+  `note` with `item` the document's id and `block` the block's id, `<item id>/<local id>`, or
+  without `block` on the document as a whole, `text` alone; and your alert on the document, `alert`.
+  The note is a record beside the document: its text and fence stay the writer's, and nothing of it
+  goes back to the writer. A block with nothing of yours on it is the normal case, and you write one
+  only for one of these:
+
+  - **An answer you would give otherwise** than the writer recommends: `suggested_answer`, with the
+    `suggested_note` you would write beside it, and `text` where the suggestion needs its reason. A
+    suggested answer other than the one the recommendation would record takes the recommendation
+    away, the document's Send waiting on the person's answer to that block; where you would give the
+    recommendation, you suggest none.
+  - **A fact the document does not say** that could change the answer — a standing preference, a
+    later task that makes the ask moot, a collision with another project: `text` alone, in a few
+    lines.
+  - **Work you would do** about an open action on the person's word, the action itself or something
+    beside it: `offer`, in a line. Their press of it places a job of yours that starts the work; the
+    action stays theirs, with its Done.
+  - **An alert**, where the document's Send starts work that another open ask must come before:
+    `awaits` that ask, `<item id>/<local id>`, and `text`, what to answer first and what the Send
+    starts.
+
+  Never one to say a block is fine, that a check came out well or that you agree, and never one that
+  retells the document — the operator, 2026-11-16, of "notices basically explaining that it's just
+  fine, or that pilot checked this with that and saw it was good and stuff like that": "Exceptions
+  only. Otherwise it becomes noise in no time." A later note in the same place replaces the one
+  standing there, so that one call holds all you have to say of it, and a call with none of `text`,
+  `suggested_answer`, `suggested_note` and `offer` takes it off; a later alert replaces the one
+  standing, and a call with neither of its two takes it off. A note written once the document is the
+  person's is read as any other, nothing marking it new: where it cannot wait for them to open the
+  document, `urgent: true` in its front matter alerts them again. A notice stays for news with no
+  open document to sit on.
 
 ## The setup
 
@@ -164,16 +199,18 @@ Over started, by the note standing on its task (`rules/routing.md`'s A wait).
    block in it: the claim stays and the block open, the operator's once this job ends. Either a
    new work item retries it, the block named again in its `claims`, then the claim written anew
    naming that one, `pilot.py answer` with `--value "Pilot does it"`, its run holding it then; or
-   the operator gets it with the reason: a notice of yours quoting the block's words and naming
-   it, `<item id>/<local id>`, saying why the work left it undone and that its Done, on the block,
-   is theirs.
+   the operator gets it with the reason: your note on the block, `note` with `item` its document's
+   id and `block` its id, `<item id>/<local id>`, its `text` saying why the work left it undone and
+   that its Done, on the block, is theirs. You write it in this job, while the run still holds the
+   block, which `note` takes from the job after a turn of that run alone; the person reads it inside
+   the block once this job ends.
 5. **Handed back to the operator** — its line ending
    `handed back to the operator: leave it to them`, the run's work failed, stopped, taken over or
    cancelled, or an earlier job of the run left it undone: theirs; nothing is written, no Done,
-   retry or notice.
+   retry or note.
 6. **Its claim gone** — its line ending `open, its claim gone`, open with no answer at all now: no
    step of yours takes a claim off, so whoever did took the action back. It is the operator's, and
-   nothing is written, no Done, retry, notice or new claim (the operator, 2026-11-15: "Yours,
+   nothing is written, no Done, retry, note or new claim (the operator, 2026-11-15: "Yours,
    nothing written", to "No retry, no notice, no new claim").
 
 A claimed action whose work goes on — its work item open, or its run waiting on its documents —
@@ -198,11 +235,30 @@ line per block after it; the file holds the prose. Act on the close, then What i
 - **A review's Reviewed**: nothing of it waits on you.
 - **The sweep's decision or the finish decision**: as their sections have it.
 
+## An offer taken
+
+A person pressed the offer your note made on an open action, its button: their word for the work
+it offered, the action itself or something beside it. The brief's lines after the pause name it,
+`The offer, on action <local id> of <path> (<item id>), <kind> "<title>"[, task <id>]:`, the
+action's own section quoted line by line, then your note's fields as it stood when taken,
+`Your note: "…"`, `Your suggested answer: "…"` and `Your suggested note: "…"` where it held them,
+`Your offer: "…"`, and `Taken by <handle> at <time>.` Do what it offered, then What is next:
+
+1. **The work, started**: one work item doing what the offer said, added and placed as any is
+   (`rules/work-items.md`, `rules/placement.md`), its brief carrying the offer and the action's
+   words it rests on, and saying that the action is the person's. One already there, which a
+   Retry's store holds from the job that failed, is the one (In every mode).
+2. **Nothing on the block**: the action stays the person's, with its Done. No `claims` names it, and
+   no answer, `done`, note or mark is written on it; the press folded your note to its line, and the
+   work shows nowhere in its document (the operator, 2026-11-16: "I think clicking the button should
+   be the end of it, and the action stays what it is").
+
 ## What is next
 
 After the pass, entered from `/pre-rule` on a worker's turn ended or the writer answered; after An
-item done; and in the chat, which carries out in its own turn a close it records (`/chat`): the
-plan brought up to date with what happened, and every piece of work that can go, going.
+item done and An offer taken; and in the chat, which carries out in its own turn a close it records
+(`/chat`): the plan brought up to date with what happened, and every piece of work that can go,
+going.
 
 1. **The task's status**, from what the run or the close did — the task the brief's work item or
    item names: `pilot.py plan task set <task id> --status done` where its work is done, nothing of it

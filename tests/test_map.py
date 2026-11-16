@@ -27,7 +27,13 @@ skill's frame for it, its transcript in chat.md read as a calling session's requ
 and the chat skill, and the work it starts placed by repository, never in its environment, by the
 placement rule, which the work item's field line and a stage's brief follow; and the debrief's
 notice, the server's, which no `add_item` makes and whose row carries no debrief, read only on a
-member's word, the operator reading a debrief in it and behind the Debrief."""
+member's word, the operator reading a debrief in it and behind the Debrief; and Pilot's notes and
+alerts: the pre-rule and plan skills saying in the same words that one is written by exception
+alone, the pass's note on a block left to a person and the debrief's on the run's open document in
+place of a notice, the note on a claimed action left undone written while its run holds it, the job
+an offer's taking places, by its kind line, starting the work and writing nothing on the block,
+CLAUDE.md naming the two tools and the notes in timeline.json, and the chat reading a block with
+its note."""
 
 import importlib.util
 import itertools
@@ -357,13 +363,17 @@ DEBRIEF_IN_THE_BRIEF = (
 # and the debrief is no document, so nothing of it is answered, marked or written.
 DEBRIEF_ABSENT = "A brief without that line has none"
 DEBRIEF_NO_DOCUMENT = "The debrief is no document: it has no block, and nothing is answered"
-# What the pass makes of it (F52.4): nothing; a notice, only where the operator must know or do
-# something, ending with its suggestion (D142, D144); a card, none of a finding a stage's document
-# holds; or a fieldnote, one already there for the same friction fine.
+# What the pass makes of it (F52.4): nothing; only where the operator must know or do something,
+# ending with its suggestion (D142, D144), a note on the run's document still open after the pass,
+# a notice where none is (F168.9); a card, none of a finding a stage's document holds; or a
+# fieldnote, one already there for the same friction fine.
 DEBRIEF_FATES = (
     "- **Nothing**, where it holds nothing the operator must know or do and nothing to change.",
-    "- **A notice**, only where the operator must know or do something",
+    "- **A note or a notice**, only where the operator must know or do something",
     "and ending with what you suggest",
+    "your note on the run's document still open after the pass, where there is one, `note` with"
+    " `item` its id and no `block`",
+    "where none is open, a notice through `add_item`",
     "- **A card**, for a change the debrief shows is needed",
     "a close-out's among them, is that document's, its fate the stage's to carry out:"
     " no card of it",
@@ -573,7 +583,7 @@ RESEARCH_NAMED = {
     ".claude/skills/pre-rule/SKILL.md": "its `researches` the block's id, `<item id>/<local id>`",
 }
 # The pass's routes by the table's names, each with its command, a research among them, and a block
-# left to the operator one step: no answer line, its front matter and the notice.
+# left to the operator one step: no answer line, its front matter and Pilot's note on it.
 PASS_ROUTES = (
     "- **Answered**, `by: agent`:",
     "a routing ask's fate as `rules/stages.md`'s A fate in a stage's document names it",
@@ -590,8 +600,8 @@ PASS_ROUTES = (
 PASS_LEFT = (
     "7. **Left to a person**, a block or more, left to the operator by the table: no answer line is"
     " written on it, and the document stays open",
-    "What only Pilot knows of the block (step 3) goes into a notice of yours after the document"
-    " (`add_item`)",
+    "What only Pilot knows of the block (step 3) is your note on it, by exception (Your notes and"
+    " alerts)",
 )
 PASS_RETIRED = ("No edit", "no edit", "overrule a passage of the design record")
 ROUTES_NAMED = (
@@ -660,11 +670,12 @@ PASS_CALLS = (
 ITEM_DONE_KIND = "`Pilot's brief · an item of yours is done · …`"
 ITEM_DONE_LINE = '`The item: <path> (<item id>), <kind> "<title>"[, task <id>] — <close>.`'
 # The plan skill's modes, each a section of its own, in the order a job meets them: the setup; the
-# two that act before What is next; What is next; a wait's run; the sweep and the finish it leads to.
+# three that act before What is next; What is next; a wait's run; the sweep and the finish it leads to.
 PLAN_MODES = (
     "## The setup",
     "## An action of Pilot's done",
     "## An item done",
+    "## An offer taken",
     "## What is next",
     "## A wait's firings",
     "## The sweep",
@@ -675,7 +686,8 @@ PLAN_MODES = (
 # is the grants' one term; and the sweep and the finish open where step 8 sends them.
 WHAT_IS_NEXT_LEAD = (
     "After the pass, entered from `/pre-rule` on a worker's turn ended or the writer answered; after"
-    " An item done; and in the chat, which carries out in its own turn a close it records (`/chat`)"
+    " An item done and An offer taken; and in the chat, which carries out in its own turn a close it"
+    " records (`/chat`)"
 )
 WHAT_IS_NEXT_FORMS = (
     "A free-form work item's own card is closed then, as `rules/work-items.md`'s Its own card has"
@@ -868,8 +880,9 @@ CLAIM_CARRIED = (
 )
 # Where the server's reading hands a claimed action back (PilotApp's working_on.py): left after a
 # turn that registered no document with a block in it, it is the person's once the job after that
-# turn ends, which retries it or sends the notice; one the brief gives as handed back is theirs, and
-# nothing is written of it.
+# turn ends, which retries it or writes its note on the block while its run still holds it (F21.6;
+# the planning ruling on slice 062's D1, "Let the job write it"); one the brief gives as handed back
+# is theirs, and nothing is written of it.
 # How long a run holds a block, claimed or researched, and a failed run's: one routing section,
 # which the plan's An action of Pilot's done and the pass's A researched block cite.
 HELD_SECTION = "## A block a run holds"
@@ -919,16 +932,21 @@ RESUME_PASS = (
 CLAIM_HANDED_BACK = (
     "**Left undone**, its act refused or never reached in a turn that registered no document with"
     " a block in it: the claim stays and the block open, the operator's once this job ends",
-    "the operator gets it with the reason: a notice of yours",
+    "the operator gets it with the reason: your note on the block, `note` with `item` its"
+    " document's id and `block` its id, `<item id>/<local id>`",
+    "You write it in this job, while the run still holds the block, which `note` takes from the job"
+    " after a turn of that run alone",
     f"**Handed back to the operator** — its line ending `{HANDED_BACK}`",
-    "nothing is written, no Done, retry or notice",
+    "nothing is written, no Done, retry or note",
 )
+# The notice the job sent the operator on a claimed action left undone, before the note.
+CLAIM_NOTICE_RETIRED = "a notice of yours quoting the block's words"
 # A claimed action whose claim is gone was taken back by whoever took the claim off: the operator's,
 # nothing written (consolidation review R2.2, the operator's "Yours, nothing written", 2026-11-15).
 CLAIM_GONE = (
     "6. **Its claim gone** — its line ending `open, its claim gone`, open with no answer at all now:"
     " no step of yours takes a claim off, so whoever did took the action back. It is the operator's,"
-    " and nothing is written, no Done, retry, notice or new claim (the operator, 2026-11-15: \"Yours,"
+    " and nothing is written, no Done, retry, note or new claim (the operator, 2026-11-15: \"Yours,"
     ' nothing written", to "No retry, no notice, no new claim").'
 )
 # The line the plan skill drew before the server read when a run is done with a block.
@@ -1056,8 +1074,110 @@ FINDINGS_LOGGED = "goes to the session log"
 NOTICE_RULE = "A notice is posted only for what the operator must know or do"
 ITEM_LEAD = "An item's heading and first paragraph carry its ruling in about 60 words"
 NOTICE_SKILLS = ("pre-rule", "plan")
-# A notice the pass posts on a block left to the operator (P-194's pre-rule half).
-NOTICE_SUGGESTS = "ending with the answer you suggest and the note for it"
+# What only Pilot knows of an ask left to a person stands on the ask, by exception (F168, F168.9,
+# P-388, the operator's "Exceptions only", 2026-11-16): the pre-rule and plan skills say it in the
+# same words — the note through pilot-store's `note`, on a block or on the document as a whole, and
+# the alert through `alert` (PilotApp's pilot_mcp/tools.py); the three things a note is for and the
+# alert's one; what is never written, in the operator's words; the replace and the take-off; a note
+# that cannot wait marking its document urgent (F168.8); and the notice kept for news with no open
+# document to sit on.
+NOTE_EXCEPTION_LEAD = "**Your notes and alerts, by exception.**"
+NOTE_EXCEPTION_END = "A notice stays for news with no open document to sit on."
+NOTE_EXCEPTION = (
+    "What only you know of an ask left to a person stands on the ask, where they answer it, never in"
+    " a notice after its document: your note on the block, `note` with `item` the document's id and"
+    " `block` the block's id, `<item id>/<local id>`, or without `block` on the document as a whole,"
+    " `text` alone; and your alert on the document, `alert`.",
+    "its text and fence stay the writer's, and nothing of it goes back to the writer.",
+    "A block with nothing of yours on it is the normal case, and you write one only for one of these:",
+    "- **An answer you would give otherwise** than the writer recommends: `suggested_answer`, with"
+    " the `suggested_note` you would write beside it",
+    "takes the recommendation away, the document's Send waiting on the person's answer to that"
+    " block; where you would give the recommendation, you suggest none.",
+    "- **A fact the document does not say** that could change the answer",
+    "- **Work you would do** about an open action on the person's word, the action itself or"
+    " something beside it: `offer`, in a line.",
+    "- **An alert**, where the document's Send starts work that another open ask must come before:"
+    " `awaits` that ask, `<item id>/<local id>`, and `text`, what to answer first and what the Send"
+    " starts.",
+    "Never one to say a block is fine, that a check came out well or that you agree, and never one"
+    ' that retells the document — the operator, 2026-11-16, of "notices basically explaining that'
+    " it's just fine, or that pilot checked this with that and saw it was good and stuff like that\":"
+    ' "Exceptions only. Otherwise it becomes noise in no time."',
+    "a call with none of `text`, `suggested_answer`, `suggested_note` and `offer` takes it off",
+    "A note written once the document is the person's is read as any other, nothing marking it new:"
+    " where it cannot wait for them to open the document, `urgent: true` in its front matter alerts"
+    " them again.",
+    NOTE_EXCEPTION_END,
+)
+NOTE_SKILLS = ("pre-rule", "plan")
+# The pass's note on a block left to a person (F52, F168.1), the pre-rule half of P-194's notice,
+# which it replaces: what only Pilot knows of the block, beside the document's text, the answer it
+# would give suggested only where it would answer otherwise, no note where it would give the
+# recommendation and knows nothing more, and no notice after the document; the pass reads the notes
+# standing on a document first.
+PASS_NOTES = (
+    "on a block left to a person, into your note on the block (step 7), beside the document's text"
+    " and never in it",
+    "`note` with `block` its id, the answer you would give suggested only where you would answer"
+    " otherwise than the writer recommends, the fact alone where you know something that could"
+    " change the answer, and no note where you would give the recommendation and know nothing more",
+    "What the document as a whole needs said that it does not show is your note without `block`;"
+    " where its Send starts work another open ask must come before, your `alert` on it.",
+    "No notice of yours follows the document.",
+    "prints its line and its blocks with their answer lines, and your notes and alert standing on it",
+)
+PASS_NOTICE_RETIRED = (
+    "into a notice of yours after the document",
+    "ending with the answer you suggest and the note for it",
+)
+# The job an offer's taking places (F168.7, F59; PilotApp's brief_service.py, OFFER_TAKEN_KIND and
+# `_taken`): its kind line, the offer's line and the note's fields as taken; the mode starts the
+# offered work as any work item and writes nothing on the block, the action staying the person's
+# (the operator, 2026-11-16).
+OFFER_TAKEN_KIND = "`Pilot's brief · an offer of yours was taken · …`"
+OFFER_TAKEN_LINES = (
+    '`The offer, on action <local id> of <path> (<item id>), <kind> "<title>"[, task <id>]:`',
+    '`Your note: "…"`, `Your suggested answer: "…"` and `Your suggested note: "…"`',
+    '`Your offer: "…"`',
+    "`Taken by <handle> at <time>.`",
+)
+OFFER_TAKEN_WORK = (
+    "Do what it offered, then What is next:",
+    "1. **The work, started**: one work item doing what the offer said, added and placed as any is"
+    " (`rules/work-items.md`, `rules/placement.md`)",
+    "and saying that the action is the person's",
+    "2. **Nothing on the block**: the action stays the person's, with its Done. No `claims` names it,"
+    " and no answer, `done`, note or mark is written on it",
+)
+OFFER_TAKEN_MAPPED = "an offer of yours taken, a wait fired `/plan`"
+# Pilot's notes in CLAUDE.md's map (F86.10, F86.11, F74.2): pilot-store's two tools by their
+# arguments (PilotApp's pilot_mcp/tools.py), one written by exception as the skills say, a block a
+# run holds noted by the job after a turn of that run alone (the planning ruling on slice 062's D1,
+# "Let the job write it"), and what each prose item's row in timeline.json carries of them
+# (PilotApp's engine/views.py, `_notes`).
+NOTES_IN_THE_MAP = (
+    "- `note`: your note on an ask of an open document, a person's to answer, `block` its id, or"
+    " without `block` on the document as a whole, `text` alone",
+    "`suggested_answer` and `suggested_note`, the answer you would give and its note; `offer`, work"
+    " you would do about an open action on the person's word.",
+    "a later one in the same place replaces it, and a call with none of the four takes it off.",
+    "A block you answered is refused, and so is one a run holds, but in the job after a turn of that"
+    " run.",
+    "You write one by exception alone, as `/pre-rule` and `/plan` say.",
+    "- `alert`: your alert on an open document whose Send starts work that another open ask must"
+    " come before, `awaits` that ask, `<item id>/<local id>`, and `text`",
+    "a prose item's with your notes and alert standing on it: each note with its block's local id,"
+    " or none on the item as a whole, its text, suggested answer, suggested note and offer, whether"
+    " the offer was taken, and its time; the alert with the ask it awaits, `<item id>/<local id>`",
+)
+# The chat reads a quoted block with Pilot's note on it, so that a Discuss on a block reads the
+# note (F74.2, the operator's "Can the store agent see it though?", 2026-11-16).
+NOTES_READ = (
+    "`pilot.py items show <id>` prints the item's line and its blocks with their answer lines, your"
+    " note under the block it stands on, and your note on the item and its alert: a block quoted"
+    " from the app, a Discuss's, is read with your note on it."
+)
 # The operator's rule of 2026-11-01, that the note named what was checked and found.
 FINDINGS_IN_NOTE = (
     "names what was checked and what was found",
@@ -1933,6 +2053,7 @@ class PlanSkillTest(unittest.TestCase):
             PASS_KIND,
             WRITER_ANSWERED_KIND,
             ITEM_DONE_KIND,
+            OFFER_TAKEN_KIND,
             WAIT_FIRED_KIND,
             "entered from `/pre-rule`",
         ):
@@ -2022,6 +2143,7 @@ class PlanSkillTest(unittest.TestCase):
         for form in CLAIM_LINE_RETIRED:
             with self.subTest(form):
                 self.assertNotIn(form, text)
+        self.assertNotIn(CLAIM_NOTICE_RETIRED, text)
 
     def test_the_plan_skill_applies_every_rule_file(self) -> None:
         text = skill_file("plan").read_text()
@@ -2572,10 +2694,57 @@ class OperatorReadsTest(unittest.TestCase):
                 with self.subTest(skill=name, form=form):
                     self.assertIn(form, text)
 
-    def test_a_notice_on_a_block_left_to_the_operator_ends_with_the_answer_pilot_suggests(
+
+class PilotsNotesTest(unittest.TestCase):
+    def test_the_pre_rule_and_plan_skills_say_the_exception_rule_in_the_same_words(self) -> None:
+        said = {}
+        for name in NOTE_SKILLS:
+            text = " ".join(skill_file(name).read_text().split())
+            _, lead, rest = text.partition(NOTE_EXCEPTION_LEAD)
+            rule, end, _ = rest.partition(NOTE_EXCEPTION_END)
+            with self.subTest(skill=name):
+                self.assertTrue(lead and end)
+            said[name] = rule
+            for form in NOTE_EXCEPTION:
+                with self.subTest(skill=name, form=form):
+                    self.assertIn(form, f"{rule}{end}")
+        self.assertEqual(said["pre-rule"], said["plan"])
+
+    def test_the_pass_puts_what_only_pilot_knows_of_a_block_left_to_a_person_in_its_note(
         self,
     ) -> None:
-        self.assertIn(NOTICE_SUGGESTS, " ".join(skill_file("pre-rule").read_text().split()))
+        text = " ".join(skill_file("pre-rule").read_text().split())
+        for form in PASS_NOTES:
+            with self.subTest(form):
+                self.assertIn(form, text)
+        for form in PASS_NOTICE_RETIRED:
+            with self.subTest(retired=form):
+                self.assertNotIn(form, text)
+
+    def test_the_plan_skill_starts_the_offered_work_and_writes_nothing_on_the_block(self) -> None:
+        plan = skill_file("plan").read_text()
+        _, _, rest = plan.partition("\n## An offer taken\n")
+        mode, _, _ = rest.partition("\n## ")
+        text = " ".join(mode.split())
+        for form in (*OFFER_TAKEN_LINES, *OFFER_TAKEN_WORK):
+            with self.subTest(form):
+                self.assertIn(form, text)
+        self.assertIn(OFFER_TAKEN_KIND, " ".join(plan.split()))
+
+    def test_claude_md_maps_the_offer_s_kind_line_to_the_plan_skill(self) -> None:
+        text = " ".join(CLAUDE.read_text().split())
+        _, _, rest = text.partition("names the kind, and that names the skill:")
+        kinds, _, _ = rest.partition("- A later turn")
+        self.assertIn(OFFER_TAKEN_MAPPED, kinds)
+
+    def test_claude_md_names_note_and_alert_and_the_notes_in_timeline_json(self) -> None:
+        text = " ".join(CLAUDE.read_text().split())
+        for form in NOTES_IN_THE_MAP:
+            with self.subTest(form):
+                self.assertIn(form, text)
+
+    def test_the_chat_reads_a_quoted_block_with_pilot_s_note_on_it(self) -> None:
+        self.assertIn(NOTES_READ, " ".join(skill_file("chat").read_text().split()))
 
 
 class OwnActionClaimTest(unittest.TestCase):

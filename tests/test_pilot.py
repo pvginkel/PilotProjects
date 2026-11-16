@@ -529,6 +529,151 @@ class TestItems(PilotCase):
             f" · {BACKSTOP}\n",
         )
 
+    def pilots_notes(self, item_id: str, notes: list[dict], alert: dict | None = None) -> None:
+        """The item's row in timeline.json given Pilot's standing notes and
+        alert, as PilotApp's tree renders them (F74.2)."""
+        timeline_path = self.folder / "timeline.json"
+        timeline = json.loads(timeline_path.read_text())
+        item = next(item for item in timeline["items"] if item["id"] == item_id)
+        item["notes"] = [
+            {
+                "block": None,
+                "text": None,
+                "suggested_answer": None,
+                "suggested_note": None,
+                "offer": None,
+                "offer_taken": False,
+                **note,
+            }
+            for note in notes
+        ]
+        item["alert"] = alert
+        timeline_path.write_text(json.dumps(timeline, indent=2) + "\n")
+
+    def test_show_prints_pilot_s_notes_under_their_blocks_and_the_item_s_note_and_alert(
+        self,
+    ) -> None:
+        """The note on the item as a whole and the alert under the item's
+        line, and each block's note under the block's answer lines, its
+        text whole and its suggestions after it, one on lines of its own
+        shown as written; a block with no note shows none."""
+        self.pilots_notes(
+            OLD,
+            [
+                {
+                    "text": "The 2019 folder holds the scans.\nThey came in last week.",
+                    "at": "2026-10-14T09:00:00Z",
+                },
+                {
+                    "block": "Q2",
+                    "text": "Dana kept the photos apart.",
+                    "suggested_answer": "All of them, photos or not",
+                    "suggested_note": "The scans carry the photos.\nNone is lost.",
+                    "at": "2026-10-14T09:01:00Z",
+                },
+            ],
+            {
+                "text": "Answer the backup key first.\nThe import reads the backup.",
+                "awaits": f"{KEY}/A1",
+                "at": "2026-10-14T09:02:00Z",
+            },
+        )
+
+        completed = self.pilot("items", "show", OLD)
+
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual(
+            completed.stdout,
+            f"{LINES[3]}\n"
+            "summary: Which old recipes come over\n"
+            "Pilot's note on the item · 2026-10-14T09:00:00Z\n"
+            "    The 2019 folder holds the scans.\n"
+            "    They came in last week.\n"
+            f"Pilot's alert · 2026-10-14T09:02:00Z · awaits {KEY}/A1\n"
+            "    Answer the backup key first.\n"
+            "    The import reads the backup.\n"
+            "Q1 · question · Years\n"
+            "    answer: deferred\n"
+            "    by: agent\n"
+            "    at: 2026-10-13T08:00:00Z\n"
+            "    to: t2\n"
+            "    note: Asked again once the importer reads the old files.\n"
+            "Q2 · question · Photos\n"
+            "    no answer\n"
+            "    Pilot's note · 2026-10-14T09:01:00Z\n"
+            "        Dana kept the photos apart.\n"
+            "        suggested answer: All of them, photos or not\n"
+            "        suggested note:\n"
+            "            The scans carry the photos.\n"
+            "            None is lost.\n",
+        )
+
+    def test_show_prints_an_offer_and_whether_it_was_taken(self) -> None:
+        """A note may hold no text: an action's suggested note and its offer
+        alone; a taken offer reads so."""
+        for taken, label in ((False, "offer"), (True, "offer, taken")):
+            with self.subTest(taken=taken):
+                self.pilots_notes(
+                    KEY,
+                    [
+                        {
+                            "block": "A1",
+                            "suggested_note": "Opened last night's backup with it.",
+                            "offer": "Restore last night's backup to the spare disk",
+                            "offer_taken": taken,
+                            "at": "2026-10-14T10:00:00Z",
+                        }
+                    ],
+                )
+
+                completed = self.pilot("items", "show", KEY)
+
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+                self.assertEqual(
+                    completed.stdout,
+                    f"{LINES[4]}\n"
+                    "A1 · action\n"
+                    "    no answer\n"
+                    "    Pilot's note · 2026-10-14T10:00:00Z\n"
+                    "        suggested note: Opened last night's backup with it.\n"
+                    f"        {label}: Restore last night's backup to the spare disk\n",
+                )
+
+    def test_show_prints_a_note_whose_block_the_file_does_not_hold_with_its_block(self) -> None:
+        """A note stays in show where the file on disk does not hold its
+        block, named by its block's local id after the blocks: a file with
+        no block of that id, or none on disk."""
+        self.pilots_notes(
+            NOTES, [{"block": "D2", "text": "Both folders match.", "at": "2026-10-15T08:00:00Z"}]
+        )
+        note = "Pilot's note on D2 · 2026-10-15T08:00:00Z\n    Both folders match.\n"
+        head = f"{LINES[6]}\nsummary: Where the old files are\n"
+
+        on_disk = self.pilot("items", "show", NOTES)
+        (self.folder / "inbox" / "6-import-notes.md").unlink()
+        off_disk = self.pilot("items", "show", NOTES)
+
+        for completed, printed in (
+            (on_disk, f"{head}D1 · decision\n    no answer\n{note}"),
+            (off_disk, f"{head}its document inbox/6-import-notes.md is not on disk\n{note}"),
+        ):
+            with self.subTest(printed=printed):
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+                self.assertEqual(completed.stdout, printed)
+
+    def test_show_prints_no_note_where_none_stands(self) -> None:
+        """A prose item with none, its row's `notes` empty and its `alert`
+        null, and an item whose row has neither key, print as they did."""
+        timeline = json.loads((self.folder / "timeline.json").read_text())
+        rows = {item["id"]: item for item in timeline["items"]}
+        self.assertEqual((rows[OLD]["notes"], rows[OLD]["alert"]), ([], None))
+        self.assertNotIn("notes", rows[IMPORTER])
+        for named in (OLD, IMPORTER):
+            with self.subTest(named=named):
+                completed = self.pilot("items", "show", named)
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+                self.assertNotIn("Pilot's", completed.stdout)
+
     def test_show_refuses_what_no_item_is(self) -> None:
         for named in ("0b0b0b0b-0000-4000-8000-000000000000", "items/9-soup.md", "handbook.md"):
             with self.subTest(named=named):

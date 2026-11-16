@@ -6,8 +6,9 @@ its database. The app is `pvginkel/PilotApp`.
 ## What it holds
 
 - `CLAUDE.md`: the brain's map, what holds in every session Pilot runs here — who it is, where its
-  project's files are, its tools and `pilot.py`'s verbs, the debrief's notice, the server's, which
-  it reads only on a member's word, the invariants, and how it writes.
+  project's files are, its tools and `pilot.py`'s verbs, its notes and alerts through `note` and
+  `alert` and what `timeline.json` carries of them, the debrief's notice, the server's, which it
+  reads only on a member's word, the invariants, and how it writes.
 - `.claude/skills/<name>/SKILL.md`: the four skills a brief opens with, `create`, `chat`, `pre-rule`
   and `plan`, each with its frontmatter, its first step, the rule files it applies, and the brief's
   slot, `## The brief`, last. Between them, `chat`'s body is the project's chat's procedure on
@@ -18,30 +19,34 @@ its database. The app is `pvginkel/PilotApp`.
   with its reason, and one the person drops with their words as it, both by `rules/work-items.md`,
   and a conversation with a session outside Pilot under a frame of its own, the session's words a
   request and never a ruling, what needs the operator an item, the work it starts placed by
-  repository and never in the session's environment by `rules/placement.md`,
-  `create`'s the definition chat's, which writes the draft with the person, `pre-rule`'s the pass
-  over what a worker's turn registered, each open block routed by `rules/routing.md`, its writer
-  asked, an action claimed or a fact researched for it where the routes say so, an action of the
-  granted column with auto pilot off, a held push above all, confirmed first and claimed on the
-  operator's Yes, a close-out's promotion deferred to the run's own task, a researched block routed
-  on what its work found, the stage session's debrief, where the brief carries one, left or made a
-  notice, a card, a comment on an open card on the same change, or a fieldnote, and the pass after
-  the writer answered, which asks nothing, and `plan`'s the plan's upkeep in its modes, in the order
-  a job meets them: the setup, the first job at Create project; an action of Pilot's done, the
-  `done` of a claimed action after a turn of its run, of a worker's document or of an item of
-  Pilot's own, which that `done` closes on its last open block, one Pilot's server hands back left
-  to the operator, and of each action deferred with a close-out's promotion after its work's turn,
-  its notes standing until then; an item of Pilot's own a person closed in the app; what is next
-  after the pass, after that close and in the chat, every task that can start started, a close-out's
-  deferred promotion once the run's continuation has ended, read on every task of the plan and
-  started once the handbook lets it go, a criterion owed after an act of Pilot's own in the store
-  settled by the job that does the act, a cancelled run's a notice to the operator and nothing
-  started, the handbook's result checked at the plan's end, the operator asked for the next step
-  where the handbook grows the plan in the chat; a wait's firings, each judged on the card read
-  again, the wait closed through `mark` with its note once its event came, the note on its task
-  struck and the task started by the plan's one passage on starting a task, or left open, with its
-  backstop, a card wait and its backstop closed together; the sweep; and the finish decision, whose
-  Finish and archive calls `finish` with `archive`.
+  repository and never in the session's environment by `rules/placement.md`, `create`'s the
+  definition chat's, which writes the draft with the person, `pre-rule`'s the pass over what a
+  worker's turn registered, each open block routed by `rules/routing.md`, its writer asked, an
+  action claimed or a fact researched for it where the routes say so, what only Pilot knows of a
+  block left to a person its note on the block and a Send another ask must come before its alert on
+  the document, by exception alone, as the pre-rule and plan skills say in the same words, an action
+  of the granted column with auto pilot off, a held push above all, confirmed first and claimed on
+  the operator's Yes, a close-out's promotion deferred to the run's own task, a researched block
+  routed on what its work found, the stage session's debrief, where the brief carries one, left or
+  made a note on the run's document still open, a notice where none is, a card, a comment on an open
+  card on the same change, or a fieldnote, and the pass after the writer answered, which asks
+  nothing, and `plan`'s the plan's upkeep in its modes, in the order a job meets them: the setup,
+  the first job at Create project; an action of Pilot's done, the `done` of a claimed action after a
+  turn of its run, of a worker's document or of an item of Pilot's own, which that `done` closes on
+  its last open block, one left undone given Pilot's note on the block while its run still holds it,
+  one Pilot's server hands back left to the operator, and of each action deferred with a close-out's
+  promotion after its work's turn, its notes standing until then; an item of Pilot's own a person
+  closed in the app; an offer of Pilot's taken, the work it offered started as any work item and
+  nothing written on the block; what is next after the pass, after that close and in the chat, every
+  task that can start started, a close-out's deferred promotion once the run's continuation has
+  ended, read on every task of the plan and started once the handbook lets it go, a criterion owed
+  after an act of Pilot's own in the store settled by the job that does the act, a cancelled run's a
+  notice to the operator and nothing started, the handbook's result checked at the plan's end, the
+  operator asked for the next step where the handbook grows the plan in the chat; a wait's firings,
+  each judged on the card read again, the wait closed through `mark` with its note once its event
+  came, the note on its task struck and the task started by the plan's one passage on starting a
+  task, or left open, with its backstop, a card wait and its backstop closed together; the sweep;
+  and the finish decision, whose Finish and archive calls `finish` with `archive`.
 - `rules/`: the rules the skills apply, each file the one home of its own — `grants.md` (what goes
   ahead and what asks the operator first, an operator action Pilot can run itself and the
   topic-branch push and the deploy a worker follows among it),
@@ -109,4 +114,9 @@ The dev image has no uv, so everything runs in the `python` tool container, from
   which the work item's field line and a stage's brief follow, and the debrief's notice: the
   server's in `CLAUDE.md`'s `add_item` line, its form none of `add_item`'s in the fixtures'
   `reference.json`, read only on a member's word in `CLAUDE.md` and the chat skill, and the place
-  where the pre-rule skill says the operator reads a debrief.
+  where the pre-rule skill says the operator reads a debrief, and Pilot's notes and alerts: the
+  rule that writes one by exception alone, in the same words in the pre-rule and plan skills, the
+  pass's note on a block left to a person and the debrief's on the run's open document in place of
+  a notice, the note on a claimed action left undone, the job an offer's taking places by its kind
+  line, `note` and `alert` and the notes in `timeline.json` in `CLAUDE.md`, and the chat reading a
+  quoted block with its note.

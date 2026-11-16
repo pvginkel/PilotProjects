@@ -308,6 +308,35 @@ def _one_line(text: str) -> str:
     return " ".join(text.split())
 
 
+def _field(label: str, text: str, indent: str) -> Iterator[str]:
+    """`label: text` on one line, or the label and the text's lines under
+    it, indented, where it has more than one."""
+    lines = text.splitlines()
+    if len(lines) == 1:
+        yield f"{indent}{label}: {text}"
+        return
+    yield f"{indent}{label}:"
+    for line in lines:
+        yield f"{indent}    {line}"
+
+
+def _pilots_note(note: dict[str, Any], head: str, indent: str) -> Iterator[str]:
+    """A note of Pilot's as `timeline.json` holds it: its head and time,
+    then its text and each suggestion and offer it holds, indented under it."""
+    yield f"{indent}{head} · {note['at']}"
+    inner = indent + "    "
+    if note["text"] is not None:
+        for line in note["text"].splitlines():
+            yield f"{inner}{line}"
+    if note["suggested_answer"] is not None:
+        yield from _field("suggested answer", note["suggested_answer"], inner)
+    if note["suggested_note"] is not None:
+        yield from _field("suggested note", note["suggested_note"], inner)
+    if note["offer"] is not None:
+        label = "offer, taken" if note["offer_taken"] else "offer"
+        yield from _field(label, note["offer"], inner)
+
+
 def _title_of(item: dict[str, Any], document: dsl.ParsedDocument | None = None) -> str:
     """The item's title, else its document's, else `(no title)`."""
     return item["title"] or (None if document is None else document.title) or "(no title)"
@@ -372,14 +401,22 @@ def _show(project: Project, item: dict[str, Any]) -> int:
         print("note:")
         for line in note.splitlines():
             print(f"    {line}")
+    # Only a prose item's row carries `notes` and `alert` (F74.2).
+    notes = {standing["block"]: standing for standing in item.get("notes", [])}
+    if None in notes:
+        for line in _pilots_note(notes.pop(None), "Pilot's note on the item", ""):
+            print(line)
+    alert = item.get("alert")
+    if alert is not None:
+        print(f"Pilot's alert · {alert['at']} · awaits {alert['awaits']}")
+        for line in alert["text"].splitlines():
+            print(f"    {line}")
     parsed = _parsed(project, item)
     if item["path"] is not None and parsed is None:
         print(f"its document {item['path']} is not on disk")
-    if parsed is None:
-        return DONE
-    text, document = parsed
-    lines = text.splitlines()
-    for block in document.blocks:
+    blocks = [] if parsed is None else parsed[1].blocks
+    lines = [] if parsed is None else parsed[0].splitlines()
+    for block in blocks:
         heading = "" if block.section is None else f" · {block.section.heading}"
         print(f"{block.local_id} · {block.kind}{heading}")
         spans = sorted(
@@ -391,6 +428,13 @@ def _show(project: Project, item: dict[str, Any]) -> int:
                 print(f"    {line}")
         if not spans:
             print("    no answer")
+        if block.local_id in notes:
+            for line in _pilots_note(notes.pop(block.local_id), "Pilot's note", "    "):
+                print(line)
+    # The notes on blocks the file on disk does not hold, all of them where it is not on disk.
+    for local_id, standing in notes.items():
+        for line in _pilots_note(standing, f"Pilot's note on {local_id}", ""):
+            print(line)
     return DONE
 
 
@@ -1060,8 +1104,8 @@ def build_parser() -> argparse.ArgumentParser:
         items,
         "show",
         _items_show,
-        "the item's line and summary, its file's blocks with their answer lines, a wait's firings,"
-        " a done item's note",
+        "the item's line and summary, its file's blocks with their answer lines and Pilot's notes"
+        " under them, Pilot's note on the item and its alert, a wait's firings, a done item's note",
     )
     show.add_argument(
         "item",

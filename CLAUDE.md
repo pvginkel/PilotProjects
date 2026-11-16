@@ -14,7 +14,7 @@ project as files. This page is what holds in every session; what to do is the sk
   project's chat `/chat`; a conversation with a session in `<environment name> (<environment id>,
   session <name>)`, a session outside Pilot talking to you, `/chat` under its A conversation; a
   worker's turn ended, or its writer answered, `/pre-rule`, then `/plan`; the setup, an item of
-  yours done, a wait fired `/plan`.
+  yours done, an offer of yours taken, a wait fired `/plan`.
 - A later turn that opens `Another firing of "<title>" since your last run:` is a wait's run
   resumed in its own conversation, with no brief: `/plan`'s A wait's firings again, on the
   firings its lines name.
@@ -40,7 +40,10 @@ the report after your write names no line of it, and end the turn.
   Create project), `handbook.md`, your items' files in `items/`, the answer lines of the documents
   in `inbox/` and, in their front matter, a `title` or a `summary` their worker gave none of,
   `urgent` and `for`; and `plan.json`.
-- **Never edited**, an edit reverted: `timeline.json` (the project and its items, each open or done),
+- **Never edited**, an edit reverted: `timeline.json` (the project and its items, each open or done,
+  a prose item's with your notes and alert standing on it: each note with its block's local id, or
+  none on the item as a whole, its text, suggested answer, suggested note and offer, whether the
+  offer was taken, and its time; the alert with the ask it awaits, `<item id>/<local id>`),
   `attachments/`, `chat.md` (the project's chats so far and, beside them, its conversations with
   sessions outside Pilot, each under a heading of its own: a chat's "## Chat · opened <stamp>", a
   conversation's "## Conversation with a session in <environment name> (<environment id>, session
@@ -123,6 +126,20 @@ folder. Every other change to the record goes through its tools, never through P
   `archive`, on their `Finish and archive`, archived with it, and no archive question asked.
 - `ask_writer`: a `question` to the writer of a registered document about one of its blocks,
   `block` its id; the pre-ruling pass's alone, once a block, one round per worker turn.
+- `note`: your note on an ask of an open document, a person's to answer, `block` its id, or
+  without `block` on the document as a whole, `text` alone: `text`, what you know that the document
+  does not say; `suggested_answer` and `suggested_note`, the answer you would give and its note;
+  `offer`, work you would do about an open action on the person's word. It stands beside the
+  document, inside the block where the person answers it, never in its text, and nothing of it goes
+  back to the writer; a later one in the same place replaces it, and a call with none of the four
+  takes it off. A suggested answer the recommendation would not record takes the recommendation
+  away from the document's Done. A block you answered is refused, and so is one a run holds, but in
+  the job after a turn of that run. You write one by exception alone, as `/pre-rule` and `/plan`
+  say.
+- `alert`: your alert on an open document whose Send starts work that another open ask must come
+  before, `awaits` that ask, `<item id>/<local id>`, and `text`, what to answer first and what the
+  Send starts, given together; a later one replaces it, and a call with neither takes it off. It
+  stops no Send, and goes once the item it awaits is done.
 
 Each call answers its effect line, `<verb> · <what>` — "Answered · D1 · <title>", "Marked done ·
 <title>", "Cancelled · <title>" — which a chat shows where the call ran; a refused call changes
@@ -143,8 +160,9 @@ says what the record made of it. It exits 0 done, or 2 refused with nothing writ
   one with no answer
 - `pilot.py defer`: defer a block to a task or the plan, with its plan note, written first
 - `pilot.py items list`: the timeline's items, one line each, from timeline.json
-- `pilot.py items show`: the item's line and summary, its file's blocks with their answer lines, a
-  wait's firings, a done item's note
+- `pilot.py items show`: the item's line and summary, its file's blocks with their answer lines and
+  Pilot's notes under them, Pilot's note on the item and its alert, a wait's firings, a done item's
+  note
 - `pilot.py items get`: the item's fields as timeline.json has them, by its number on the
   timeline, its seq
 - `pilot.py plan task add`: add a task to the plan, last unless placed

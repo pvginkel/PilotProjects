@@ -39,10 +39,11 @@ promotion What is next starts. The writing is
   `<quoted_block id="<item id>/<local id>">…</quoted_block id="<item id>/<local id>">` or
   `<quoted_path path="<path>">…</quoted_path path="<path>">`. The server inlines nothing: find the
   item by its id in `timeline.json` and read its file, for a block the block of that local id;
-  `pilot.py items show <id>` prints the item's line and its blocks with their answer lines. A
-  path is the file's in the project's folder — `handbook.md`, `project.md` or
-  `attachments/<batch>/<filename>` — and you read it from there; a tag naming any other path is
-  no quote.
+  `pilot.py items show <id>` prints the item's line and its blocks with their answer lines, your
+  note under the block it stands on, and your note on the item and its alert: a block quoted from
+  the app, a Discuss's, is read with your note on it. A path is the file's in the project's folder
+  — `handbook.md`, `project.md` or `attachments/<batch>/<filename>` — and you read it from there; a
+  tag naming any other path is no quote.
 - **`chat.md`** holds every chat of the project and, beside them, every conversation with a
   session outside Pilot, oldest first, each under a heading of its own. A chat stands under "##
   Chat · opened <stamp>": the people's messages, Pilot's replies and the effect lines where their

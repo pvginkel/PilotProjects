@@ -1,6 +1,6 @@
 ---
 name: pre-rule
-description: Pilot's pass over what a worker's turn registered — each document's open blocks routed by the routing rules, answered, deferred, claimed or asked of their writer by Pilot or left to the operator, in the order the brief lists them, a document Pilot settled whole marked Done, the stage session's debrief, where the brief carries one, left or made a notice, a card or a fieldnote; and the pass after the writer answered, asking nothing — then /plan for what is next. Run it when Pilot's brief opens with /pre-rule.
+description: Pilot's pass over what a worker's turn registered — each document's open blocks routed by the routing rules, answered, deferred, claimed or asked of their writer by Pilot or left to the operator, in the order the brief lists them, Pilot's note on a block or an alert on a document only by exception, a document Pilot settled whole marked Done, the stage session's debrief, where the brief carries one, left or made a note on the run's open document, a notice, a card or a fieldnote; and the pass after the writer answered, asking nothing — then /plan for what is next. Run it when Pilot's brief opens with /pre-rule.
 ---
 
 # Pre-rule
@@ -37,6 +37,40 @@ claimed — is as `rules/routing.md`'s head has it, what you checked and found s
 notice is posted only for what the operator must know or do, never one that only says "nothing for you". An item's
 heading and first paragraph carry its ruling in about 60 words, its grounds after them.
 
+**Your notes and alerts, by exception.** What only you know of an ask left to a person stands on
+the ask, where they answer it, never in a notice after its document: your note on the block,
+`note` with `item` the document's id and `block` the block's id, `<item id>/<local id>`, or without
+`block` on the document as a whole, `text` alone; and your alert on the document, `alert`. The note
+is a record beside the document: its text and fence stay the writer's, and nothing of it goes back
+to the writer. A block with nothing of yours on it is the normal case, and you write one only for
+one of these:
+
+- **An answer you would give otherwise** than the writer recommends: `suggested_answer`, with the
+  `suggested_note` you would write beside it, and `text` where the suggestion needs its reason. A
+  suggested answer other than the one the recommendation would record takes the recommendation
+  away, the document's Send waiting on the person's answer to that block; where you would give the
+  recommendation, you suggest none.
+- **A fact the document does not say** that could change the answer — a standing preference, a
+  later task that makes the ask moot, a collision with another project: `text` alone, in a few
+  lines.
+- **Work you would do** about an open action on the person's word, the action itself or something
+  beside it: `offer`, in a line. Their press of it places a job of yours that starts the work; the
+  action stays theirs, with its Done.
+- **An alert**, where the document's Send starts work that another open ask must come before:
+  `awaits` that ask, `<item id>/<local id>`, and `text`, what to answer first and what the Send
+  starts.
+
+Never one to say a block is fine, that a check came out well or that you agree, and never one that
+retells the document — the operator, 2026-11-16, of "notices basically explaining that it's just
+fine, or that pilot checked this with that and saw it was good and stuff like that": "Exceptions
+only. Otherwise it becomes noise in no time." A later note in the same place replaces the one
+standing there, so that one call holds all you have to say of it, and a call with none of `text`,
+`suggested_answer`, `suggested_note` and `offer` takes it off; a later alert replaces the one
+standing, and a call with neither of its two takes it off. A note written once the document is the
+person's is read as any other, nothing marking it new: where it cannot wait for them to open the
+document, `urgent: true` in its front matter alerts them again. A notice stays for news with no open
+document to sit on.
+
 The rules it applies: `rules/routing.md`, each route and what it writes, deferral, the `Later`
 card, a delegated answer, another project's decision and the friction half; `rules/grants.md`, what
 the switch lets go ahead; `rules/stages.md`, what a stage of the workflow registers and what each
@@ -48,11 +82,11 @@ an action you claim. The writing — an answer's note, a missing title or summar
 
 Per published document, one after the other:
 
-1. **Read it.** `pilot.py items show <id>` prints its line and its blocks with their answer lines;
-   its file, at the brief's path, holds the prose and the asks whole. A document a person closed
-   while the job waited is passed by. The open notes a block touches are a read away,
-   `pilot.py plan note list`: a note that already holds its ask, or settles it, is cited in your
-   answer's note, never written twice.
+1. **Read it.** `pilot.py items show <id>` prints its line and its blocks with their answer lines,
+   and your notes and alert standing on it; its file, at the brief's path, holds the prose and the
+   asks whole. A document a person closed while the job waited is passed by. The open notes a block
+   touches are a read away, `pilot.py plan note list`: a note that already holds its ask, or settles
+   it, is cited in your answer's note, never written twice.
 2. **The front matter first**, by hand, in your first edit of the file and before any answer: a
    `title` where the worker's front matter gives none — its first heading's words, copied as they
    stand, where it has one, else the document's subject in a line — and a `summary` where the front
@@ -61,9 +95,9 @@ Per published document, one after the other:
 3. **Nothing else of the worker's**: not its prose, not a block's definition, not its kind; no
    context added, no ask reframed, no plan condensed. What only Pilot knows — a standing preference
    that settles the need, a later task that makes the ask moot, a collision with another project —
-   goes into your answer's note or, on a block left to the operator, into a notice of yours after
-   the document (step 7). A document that reads badly is its writer's skill's to fix: the friction half
-   (`rules/routing.md`), never a patch here.
+   goes into your answer's note or, on a block left to a person, into your note on the block (step
+   7), beside the document's text and never in it. A document that reads badly is its writer's
+   skill's to fix: the friction half (`rules/routing.md`), never a patch here.
 4. **Each open block, routed** by `rules/routing.md`'s table, in the document's order: the table
    names each block's route and what it writes, and below are each route's command and what of it
    is the pass's alone. A block answered already — a person's answer, or yours from an earlier job
@@ -141,9 +175,12 @@ Per published document, one after the other:
    written on it, and the document stays open. In its front matter, `urgent: true` where it holds
    up work now, and `for` the one person who can judge it, by handle, where the handbook or the
    record names them; neither where it does not hold. What only Pilot knows of the block (step 3)
-   goes into a notice of yours after the document (`add_item`), quoting the block's words and
-   naming it, `<item id>/<local id>`, and ending with the answer you suggest and the note for it,
-   as you would answer the block yourself.
+   is your note on it, by exception (Your notes and alerts): `note` with `block` its id, the answer
+   you would give suggested only where you would answer otherwise than the writer recommends, the
+   fact alone where you know something that could change the answer, and no note where you would
+   give the recommendation and know nothing more. What the document as a whole needs said that it
+   does not show is your note without `block`; where its Send starts work another open ask must
+   come before, your `alert` on it. No notice of yours follows the document.
 
 ## A researched block
 
@@ -190,10 +227,13 @@ Read it against the run — the work item's line, what it registered and your pa
 do with it what you do with the rest, one of these, or more where it holds more than one thing:
 
 - **Nothing**, where it holds nothing the operator must know or do and nothing to change.
-- **A notice**, only where the operator must know or do something: through `add_item`, quoting the
-  debrief's words it rests on, and ending with what you suggest. Never one that retells the
-  debrief or says the loop went well: the operator reads it in the debrief's notice and behind the
-  Debrief.
+- **A note or a notice**, only where the operator must know or do something, quoting the debrief's
+  words it rests on and ending with what you suggest: your note on the run's document still open
+  after the pass, where there is one, `note` with `item` its id and no `block`, the one its words
+  bear on where more are open, written with what your note on that document as a whole holds
+  already, which it replaces; where none is open, a notice through `add_item`. Never one that
+  retells the debrief or says the loop went well: the operator reads it in the debrief's notice and
+  behind the Debrief.
 - **A card**, for a change the debrief shows is needed, in the work's repository or in the
   workflow: made through youtrack in your turn, in the project of what it is about, AIWorkflow's
   own for the workflow, its text the debrief's words it rests on, quoted, and what is to change.
@@ -228,11 +268,12 @@ last the stage session's debrief, where it gave one, in the lines The debrief re
 ## The summary line
 
 One line, a part per document in the brief's order, its path short — "Pre-ruled: inbox/7 Done (3
-answered, 1 deferred to t5); inbox/8 open for the operator (D2), A1 claimed for "Rotate the CI
-token", Q3 researched by "Count the hosts", D4 asked of its writer; inbox/9 not read; inbox/6 Q2
-answered on its research" — or "Pre-ruled: nothing registered"; where the brief carries a
-debrief, a last part says what came of it: "the debrief: nothing", or the notice, the card by its
-id, the comment by its card's id, or the post. Then `/plan`, What is next (step 4).
+answered, 1 deferred to t5); inbox/8 open for the operator (D2, your note on it), A1 claimed for
+"Rotate the CI token", Q3 researched by "Count the hosts", D4 asked of its writer; inbox/9 not
+read; inbox/6 Q2 answered on its research" — or "Pre-ruled: nothing registered"; where the brief
+carries a debrief, a last part says what came of it: "the debrief: nothing", or the note and its
+document, the notice, the card by its id, the comment by its card's id, or the post. Then `/plan`,
+What is next (step 4).
 
 ## The brief
 
