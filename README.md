@@ -28,11 +28,12 @@ its database. The app is `pvginkel/PilotApp`.
   of the granted column with auto pilot off, a held push above all, confirmed first and claimed on
   the operator's Yes, a close-out's promotion deferred to the run's own task, a researched block
   routed on what its work found, the stage session's debrief, where the brief carries one, left or
-  made a note on the run's document still open, a notice where none is, a card, a comment on an open
-  card on the same change, or a fieldnote, and the pass after the writer answered, which asks
-  nothing, and `plan`'s the plan's upkeep in its modes, in the order a job meets them: the setup,
-  the first job at Create project; an action of Pilot's done, the `done` of a claimed action after a
-  turn of its run, of a worker's document or of an item of Pilot's own, which that `done` closes on
+  made a note on the run's document still open that has a block, a notice where none is, a card, a
+  comment on an open card on the same change, or a fieldnote, and the pass after the writer
+  answered, which asks nothing, and `plan`'s the plan's upkeep in its modes, in the order a job
+  meets them: the setup, the first job at Create project; an action of Pilot's done, the `done` of
+  a claimed action after a turn of its run, of a worker's document or of an item of Pilot's own,
+  which that `done` closes on
   its last open block, one left undone given Pilot's note on the block while its run still holds it,
   one Pilot's server hands back left to the operator, and of each action deferred with a close-out's
   promotion after its work's turn, its notes standing until then; an item of Pilot's own a person

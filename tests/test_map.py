@@ -364,16 +364,18 @@ DEBRIEF_IN_THE_BRIEF = (
 DEBRIEF_ABSENT = "A brief without that line has none"
 DEBRIEF_NO_DOCUMENT = "The debrief is no document: it has no block, and nothing is answered"
 # What the pass makes of it (F52.4): nothing; only where the operator must know or do something,
-# ending with its suggestion (D142, D144), a note on the run's document still open after the pass,
-# a notice where none is (F168.9); a card, none of a finding a stage's document holds; or a
-# fieldnote, one already there for the same friction fine.
+# ending with its suggestion (D142, D144), a note on the run's document that has a block and is
+# still open after the pass, a notice where none is, `note` refusing a document with no block
+# (F168.9); a card, none of a finding a stage's document holds; or a fieldnote, one already there
+# for the same friction fine.
 DEBRIEF_FATES = (
     "- **Nothing**, where it holds nothing the operator must know or do and nothing to change.",
     "- **A note or a notice**, only where the operator must know or do something",
     "and ending with what you suggest",
-    "your note on the run's document still open after the pass, where there is one, `note` with"
-    " `item` its id and no `block`",
-    "where none is open, a notice through `add_item`",
+    "your note on the run's document that has a block and is still open after the pass, where there"
+    " is one, `note` with `item` its id and no `block`",
+    "where none with a block is open, a notice through `add_item`, since `note` refuses a document"
+    " with no block",
     "- **A card**, for a change the debrief shows is needed",
     "a close-out's among them, is that document's, its fate the stage's to carry out:"
     " no card of it",

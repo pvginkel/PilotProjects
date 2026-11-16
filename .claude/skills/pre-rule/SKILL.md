@@ -228,12 +228,13 @@ do with it what you do with the rest, one of these, or more where it holds more 
 
 - **Nothing**, where it holds nothing the operator must know or do and nothing to change.
 - **A note or a notice**, only where the operator must know or do something, quoting the debrief's
-  words it rests on and ending with what you suggest: your note on the run's document still open
-  after the pass, where there is one, `note` with `item` its id and no `block`, the one its words
-  bear on where more are open, written with what your note on that document as a whole holds
-  already, which it replaces; where none is open, a notice through `add_item`. Never one that
-  retells the debrief or says the loop went well: the operator reads it in the debrief's notice and
-  behind the Debrief.
+  words it rests on and ending with what you suggest: your note on the run's document that has a
+  block and is still open after the pass, where there is one, `note` with `item` its id and no
+  `block`, the one its words bear on where more are open, written with what your note on that
+  document as a whole holds already, which it replaces; where none with a block is open, a notice
+  through `add_item`, since `note` refuses a document with no block. Never one that retells the
+  debrief or says the loop went well: the operator reads it in the debrief's notice and behind the
+  Debrief.
 - **A card**, for a change the debrief shows is needed, in the work's repository or in the
   workflow: made through youtrack in your turn, in the project of what it is about, AIWorkflow's
   own for the workflow, its text the debrief's words it rests on, quoted, and what is to change.
