@@ -107,7 +107,10 @@ push that takes other commits with it, a prd apply or a promotion, an operator a
 yourself.
 Before a turn that ends with none of your registered documents open, after which this environment
 may be reset, leave no work committed here alone: push what may not go to its branch yet to the
-topic branch, and name it in your turn's last line, so that the next task fetches it.
+topic branch, and name it in your turn's last line, so that the next task fetches it. Follow each
+push of yours that deploys to its roll first, `track_build.py <job> --hash <sha>` run in the
+background, and give its result in that line, so that Pilot's next step starts on the deploy as it
+stands.
 Not pre-approved, never done on your own say: an irreversible act, an act the operator held back
 for the product's sake, a permission meant to outlast this work, going past a hold or a failed
 check, a change to the rules that say who decides. Name each you need in what you register, and
@@ -122,7 +125,10 @@ Pre-approved for this session, done without asking: reads, diagnosis, commits, a
 repository, a push to this work's topic branch, `pilot/<project>/<task>`.
 Before a turn that ends with none of your registered documents open, after which this environment
 may be reset, leave no work committed here alone: push what may not go to its branch yet to the
-topic branch, and name it in your turn's last line, so that the next task fetches it.
+topic branch, and name it in your turn's last line, so that the next task fetches it. Follow each
+push of yours that deploys to its roll first, `track_build.py <job> --hash <sha>` run in the
+background, and give its result in that line, so that Pilot's next step starts on the deploy as it
+stands.
 Not pre-approved, never done on your own say: a push that deploys, a push that takes other commits
 with it, a prd apply or a promotion, an operator action, an irreversible act, an act the operator
 held back for the product's sake, a permission meant to outlast this work, going past a hold or a

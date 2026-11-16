@@ -841,6 +841,36 @@ HELD_CITING = (
     ("plan", "## An action of Pilot's done"),
     ("pre-rule", "## A researched block"),
 )
+# A run whose resume waits on work Pilot knows about has the blocks the pass would settle left
+# unanswered and held through that work's run, as a researched block is: a due promotion's, named
+# in its work item's `researches` by What is next (PROMOTION_DUE); the pass neither settles nor
+# marks the document Done, and routes the blocks once that run is done with them (P-282, the
+# operator's "Hold the block", 2026-11-16, Pilot v1.1 task t19).
+RESUME_SECTION = "## A resume that waits on work"
+RESUME_RULE = (
+    "A run that must not resume before work Pilot knows about has done its part — a close-out's"
+    " promotion that is due, which the handbook's rules on other work running held back while this"
+    " run's turn ran and which its end lets go, the handbook holding the project's new starts while"
+    " it is owed — has the blocks of its document that the pass would settle left unanswered and"
+    " held through that work's run, as a researched block is (the operator, 2026-11-16: \"Hold the"
+    ' block", P-282):',
+    "- **A due promotion**: the blocks left for What is next, which names them in the `researches`"
+    " of the promotion's work item as it starts it (`/plan`'s What is next, step 3).",
+    "- **The note** on that work's task says what comes between, where anything does, which the job"
+    " after its turn does before the pass routes the blocks.",
+    "- **The person's blocks** are left to them as ever: a block the table leaves to a person is"
+    " never held, so that they can answer it while the work runs.",
+)
+RESUME_PASS = (
+    "In a run whose resume waits on work, a block you would settle is left unanswered for it (step"
+    " 6).",
+    "A run whose resume waits on work (`rules/routing.md`'s A resume that waits on work) is not"
+    " settled whole: the blocks you would settle are left unanswered for that work, as that section"
+    " has it, and the document is not marked Done.",
+    "A block held for work its run's resume waits on is found once that work's run is done with it:"
+    " do first what the note on that work's task says comes between, then route the block as the"
+    " pass would have.",
+)
 CLAIM_HANDED_BACK = (
     "**Left undone**, its act refused or never reached in a turn that registered no document with"
     " a block in it: the claim stays and the block open, the operator's once this job ends",
@@ -1215,7 +1245,9 @@ PROMOTION_DUE = (
     f"is met only once it is due, as {PROMOTION_CITED} has it: until then its notes stand, neither"
     " acted on nor struck",
     "one work item does them all but a criterion owed after an act of Pilot's own in the store, its"
-    " `step` the run's task, the promotion first, its brief carrying `rules/promote.md`",
+    " `step` the run's task, the promotion first, the blocks the pass left for it, of a run whose"
+    " resume waits on the promotion (`rules/routing.md`'s A resume that waits on work), named in its"
+    " `researches`, its brief carrying `rules/promote.md`",
     "an act of Pilot's own deferred with them that job does itself, settling the criterion owed"
     " after it in the same turn",
     "and naming the application's commit read then, its `main` as the continuation left it, never"
@@ -1404,6 +1436,21 @@ TOPIC_BRANCH_IN_THE_BRIEF = (
     " to fetch, and to delete once the work has landed on the branch it was meant for"
     " (`rules/grants.md`'s never-asked list).",
 )
+# A worker's turn that ends its work follows each push of its own that deploys to its roll with the
+# host's track_build.py first, its result in the turn's last line, which the job after the turn
+# reads; no wait is armed for it (P-295, the operator's "Worker follows", 2026-11-16, Pilot v1.1
+# task t19).
+DEPLOY_FOLLOWED_BRIEF = (
+    "Follow each push of yours that deploys to its roll first, `track_build.py <job> --hash <sha>`"
+    " run in the background, and give its result in that line, so that Pilot's next step starts on"
+    " the deploy as it stands."
+)
+DEPLOY_NO_WAIT = (
+    "- **A deploy a worker pushed** is no wait: the worker follows it before its work ends"
+    " (`rules/grants.md`'s In a worker's brief), and the job after its turn reads the result in its"
+    " last line; a wait is armed only on a build no worker of the project follows (the operator,"
+    ' 2026-11-16: "Worker follows", P-295).'
+)
 # A design, a design session or an arch design is a work item of Pilot's that presents the design
 # as a document, never an action for the operator's hands; a mockup is theirs (P-353, the store's
 # memory note design-through-pilot; the operator, 2026-11-14).
@@ -1567,7 +1614,8 @@ def command_fault(command: str, options: dict[str, set[str]]) -> str | None:
 MAP_SECTIONS = {
     "rules/grants.md": ("never asked, granted and kept", "an operator action Pilot can run itself",
                         "the confirmation reasons", "a worker's brief's text"),
-    "rules/routing.md": ("the routes", "the claim", "a block a run holds", "due diligence",
+    "rules/routing.md": ("the routes", "the claim", "a block a run holds",
+                         "a resume that waits on work", "due diligence",
                          "deferral", "a wait", "a close-out's promotion", "the `Later` card",
                          "a delegated answer", "another project's decision", "the friction half"),
     "rules/work-items.md": ("fields", "brief", "the answer", "its own card", "its close for good"),
@@ -2013,6 +2061,22 @@ class WorkItemRuleTest(unittest.TestCase):
             self.assertIn(SECRET_IN_THE_BRIEF, " ".join(block.split()))
         self.assertNotIn(SECRET_IN_THE_BRIEF_RETIRED, text)
         self.assertIn(SECRET_IN_THE_BRIEF_RULED, " ".join(text.split()))
+
+    def test_a_worker_follows_its_deploy_before_its_work_ends(self) -> None:
+        text = (ROOT / "rules" / "grants.md").read_text()
+        _, _, rest = text.partition("\n## In a worker's brief\n")
+        on, off = re.findall(r"^```text\n(.*?)^```$", rest, re.MULTILINE | re.DOTALL)
+        for name, block in (("on", on), ("off", off)):
+            pre_approved, _, not_pre_approved = " ".join(block.split()).partition(
+                "Not pre-approved"
+            )
+            with self.subTest(name):
+                self.assertIn(TOPIC_BRANCH_BRIEF + " " + DEPLOY_FOLLOWED_BRIEF, pre_approved)
+                self.assertNotIn("track_build.py", not_pre_approved)
+        routing = (ROOT / "rules" / "routing.md").read_text()
+        _, _, rest = routing.partition(f"\n{WAIT_SECTION}\n")
+        section, _, _ = rest.partition("\n## ")
+        self.assertIn(DEPLOY_NO_WAIT, " ".join(section.split()))
 
     def test_a_worker_leaves_no_work_committed_in_its_environment_alone(self) -> None:
         text = (ROOT / "rules" / "grants.md").read_text()
@@ -2529,6 +2593,21 @@ class ResearchTest(unittest.TestCase):
         for source, form in RESEARCH_NAMED.items():
             with self.subTest(source):
                 self.assertIn(form, " ".join((ROOT / source).read_text().split()))
+
+
+class ResumeWaitsOnWorkTest(unittest.TestCase):
+    def test_a_resume_that_waits_on_work_holds_its_blocks_through_that_work(self) -> None:
+        routing = (ROOT / "rules" / "routing.md").read_text()
+        self.assertEqual(routing.splitlines().count(RESUME_SECTION), 1)
+        _, _, rest = routing.partition(f"\n{RESUME_SECTION}\n")
+        section, _, _ = rest.partition("\n## ")
+        for form in RESUME_RULE:
+            with self.subTest(form):
+                self.assertIn(form, " ".join(section.split()))
+        pre_rule = " ".join(skill_file("pre-rule").read_text().split())
+        for form in RESUME_PASS:
+            with self.subTest(form):
+                self.assertIn(form, pre_rule)
 
 
 class WaitTest(unittest.TestCase):

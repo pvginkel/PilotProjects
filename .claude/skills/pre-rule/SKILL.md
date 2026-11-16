@@ -67,7 +67,8 @@ Per published document, one after the other:
 4. **Each open block, routed** by `rules/routing.md`'s table, in the document's order: the table
    names each block's route and what it writes, and below are each route's command and what of it
    is the pass's alone. A block answered already — a person's answer, or yours from an earlier job
-   of this trigger, which a Retry's store holds — is settled: leave it.
+   of this trigger, which a Retry's store holds — is settled: leave it. In a run whose resume waits
+   on work, a block you would settle is left unanswered for it (step 6).
    - **Before any choice of yours, the due diligence** of `rules/routing.md`, the project's folder
      scanned through `pilot.py plan task list`, `pilot.py plan note list`, `pilot.py items list`,
      the files under `items/` and `inbox/` and `chat.md`, and a fact the ask rests on and nobody
@@ -130,9 +131,12 @@ Per published document, one after the other:
 6. **Settled whole** — every block answered, deferred or done, by you or by a person — the
    document is marked Done: `mark`, `item` the document's id, `mark` `done`, and no `for`, once the
    report after your last write of it names no line of its path, a document of a single block as
-   one of more. The resume of the run is the server's. A claimed action is settled once its `done`
-   is written, and a block asked of its writer is not: the document stays open, a claimed one for
-   `/plan` to mark Done then. One with no block is the operator's to mark Reviewed.
+   one of more. A run whose resume waits on work (`rules/routing.md`'s A resume that waits on work)
+   is not settled whole: the blocks you would settle are left unanswered for that work, as that
+   section has it, and the document is not marked Done. The resume of the run is the server's. A
+   claimed action is settled once its `done` is written, and a block asked of its writer is not:
+   the document stays open, a claimed one for `/plan` to mark Done then. One with no block is the
+   operator's to mark Reviewed.
 7. **Left to a person**, a block or more, left to the operator by the table: no answer line is
    written on it, and the document stays open. In its front matter, `urgent: true` where it holds
    up work now, and `for` the one person who can judge it, by handle, where the handbook or the
@@ -154,7 +158,10 @@ A block a run holds.
 
 1. **What the research found**, read from what the run registered, passed over first, its turn's
    last line and, where those do not say, its turn's reply whole (`get_session_response`),
-   never its session log, `get_session_log`, which cuts every line at about 80 characters.
+   never its session log, `get_session_log`, which cuts every line at about 80 characters. A block
+   held for work its run's resume waits on is found once that work's run is done with it: do
+   first what the note on that work's task says comes between, then route the block as the pass
+   would have.
 2. **Routed**, each `open` one whose fact the run found, as The pass's step 4 has it, the fact
    read, what was found and where said in your turn, and the note giving the choice and its one
    reason; its document marked Done once settled whole (The pass, step 6).

@@ -224,8 +224,10 @@ plan brought up to date with what happened, and every piece of work that can go,
    until then its notes stand, neither acted on nor struck. Then, as soon as the handbook's rules on
    other work running let it go, whichever task this job's brief names — with auto pilot off, on its
    confirmation's Yes (step 7) — one work item does them all but a criterion owed after an act of
-   Pilot's own in the store, its `step` the run's task, the promotion first, its brief carrying
-   `rules/promote.md` (`rules/work-items.md`) and naming the application's commit read then, its
+   Pilot's own in the store, its `step` the run's task, the promotion first, the blocks the pass
+   left for it, of a run whose resume waits on the promotion (`rules/routing.md`'s A resume that
+   waits on work), named in its `researches`, its brief carrying `rules/promote.md`
+   (`rules/work-items.md`) and naming the application's commit read then, its
    `main` as the continuation left it, never the commit or the build the close-out's block names,
    which predate the continuation's fixes — that `main` read on GitHub itself, never through
    gitblit, a daily mirror that may not hold the continuation's push yet. Their notes stand through

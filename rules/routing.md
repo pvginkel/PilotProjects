@@ -56,6 +56,21 @@ failed gets no job: its work item waits on a person's Resume, the blocks it hold
 a claim with its answer, the operator's until it resumes, and the end of its next turn brings the
 job after it.
 
+## A resume that waits on work
+
+A run that must not resume before work Pilot knows about has done its part — a close-out's
+promotion that is due, which the handbook's rules on other work running held back while this run's
+turn ran and which its end lets go, the handbook holding the project's new starts while it is owed
+— has the blocks of its document that the pass would settle left unanswered and held through that
+work's run, as a researched block is (the operator, 2026-11-16: "Hold the block", P-282):
+
+- **A due promotion**: the blocks left for What is next, which names them in the `researches` of
+  the promotion's work item as it starts it (`/plan`'s What is next, step 3).
+- **The note** on that work's task says what comes between, where anything does, which the job
+  after its turn does before the pass routes the blocks.
+- **The person's blocks** are left to them as ever: a block the table leaves to a person is never
+  held, so that they can answer it while the work runs.
+
 ## Due diligence
 
 What Pilot does before it chooses, every choice, in the project's folder (the operator,
@@ -126,6 +141,10 @@ deferred to its task"):
   has done it, `pilot.py done` — in the wait's run where Pilot's own hands do it, and where a work
   item does it, by the job after that work's turn, the note standing until then, as a close-out's
   promotion's do (`/plan`'s An action of Pilot's done).
+- **A deploy a worker pushed** is no wait: the worker follows it before its work ends
+  (`rules/grants.md`'s In a worker's brief), and the job after its turn reads the result in its
+  last line; a wait is armed only on a build no worker of the project follows (the operator,
+  2026-11-16: "Worker follows", P-295).
 
 ## A close-out's promotion
 
