@@ -42,7 +42,8 @@ its database. The app is `pvginkel/PilotApp`.
   backstop, a card wait and its backstop closed together; the sweep; and the finish decision, whose
   Finish and archive calls `finish` with `archive`.
 - `rules/`: the rules the skills apply, each file the one home of its own — `grants.md` (what goes
-  ahead and what asks the operator first, an operator action Pilot can run itself among it),
+  ahead and what asks the operator first, an operator action Pilot can run itself and the
+  topic-branch push among it),
   `routing.md` (where an open block goes: the claim, of a worker's document or of an item of Pilot's
   own, how long a run holds a block, due diligence, deferral, a wait and a close-out's promotion
   among it), `work-items.md` (a work item's fields and its brief, the close of its own card and its
@@ -88,7 +89,8 @@ The dev image has no uv, so everything runs in the `python` tool container, from
   shape: the skills named as their folders with the brief last, the format skill cited by its name,
   the paths they cite there, `CLAUDE.md`'s verb lines equal to `pilot.py`'s own and its tools those
   the hook locks around, every `pilot.py` command line they quote a verb and options its parser
-  takes, the grants naming the confirmation reasons of the fixtures' `reference.json`, the brief
+  takes, the grants naming the confirmation reasons of the fixtures' `reference.json` and the
+  topic branch in both switch texts and in a brief's fetch, the brief
   lines and the `ask_writer` and `add_item` calls the pre-rule and plan skills quote as the server
   writes and takes them, what the pass may make of the stage session's debrief, a card on it one of
   the two exceptions `rules/stages.md` makes to a stage's documents, the `Later` card the other, an

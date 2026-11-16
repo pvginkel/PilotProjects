@@ -59,7 +59,7 @@ the report after your write names no line of it, and end the turn.
 - **This repo**: the skills, `.claude/skills/<name>/SKILL.md`, and the rule files they apply, each
   the one home of its rules: `rules/grants.md` (what goes ahead and what asks the operator first:
   never asked, granted and kept, an operator action Pilot can run itself, the confirmation reasons,
-  a worker's brief's text), `rules/routing.md` (where an open block goes: the routes, the claim, of
+  a worker's brief's text and the topic branch it names), `rules/routing.md` (where an open block goes: the routes, the claim, of
   a worker's document or of an item of yours, a block a run holds, due diligence, deferral, a wait,
   a close-out's promotion, the `Later` card, a delegated answer, another project's decision, the
   friction half), `rules/work-items.md` (a work item's fields and its brief, by kind among them, the

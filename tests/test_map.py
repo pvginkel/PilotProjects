@@ -1372,6 +1372,38 @@ PUSH_AFTER_APPROVAL = (
     " asks them to push themselves"
 )
 PUSH_AFTER_APPROVAL_BRIEF = "A push they approve is yours to make, never theirs."
+# A worker leaves no work committed in its environment alone before the turn that frees it: what
+# may not go to its branch yet goes to the work's topic branch, never asked, which the brain writes
+# into the grants text, the next task's brief names to fetch, and that task deletes once landed
+# (P-293, the operator's "Topic branch", 2026-11-15; "Never asked" and "The task deletes it",
+# 2026-11-16, Pilot v1.1 task t34).
+TOPIC_BRANCH_ENTRY = (
+    "- the topic-branch push: before a turn that leaves its environment free to be reset, a worker"
+    " pushes what it committed there alone and may not push to its branch yet to the work's topic"
+    " branch, `pilot/<project>/<task>`, which no pipeline builds or deploys; the task that takes it"
+    " deletes the branch once its work has landed, which loses nothing and is no irreversible act"
+    ' (the operator, 2026-11-15: "Topic branch", P-293);'
+)
+TOPIC_BRANCH_WRITTEN_IN = (
+    "The brain writes the work's topic branch into it, `pilot/<project>/<task>`: the project's slug"
+    " and the plan task's id, or a few words of the work's title in kebab case where it serves no"
+    " task."
+)
+TOPIC_BRANCH_PRE_APPROVED = "a push to this work's topic branch, `pilot/<project>/<task>`"
+TOPIC_BRANCH_BRIEF = (
+    "Before a turn that ends with none of your registered documents open, after which this"
+    " environment may be reset, leave no work committed here alone: push what may not go to its"
+    " branch yet to the topic branch, and name it in your turn's last line, so that the next task"
+    " fetches it."
+)
+TOPIC_BRANCH_IN_THE_BRIEF = (
+    "copied verbatim from `rules/grants.md`'s \"In a worker's brief\", the work's topic branch"
+    " written into it as that section has it.",
+    "A task whose input is work an earlier task left on its topic branch, which that task's turn's"
+    " last line names, has its brief name the branch, `pilot/<project>/<task>` of the earlier task,"
+    " to fetch, and to delete once the work has landed on the branch it was meant for"
+    " (`rules/grants.md`'s never-asked list).",
+)
 # A design, a design session or an arch design is a work item of Pilot's that presents the design
 # as a document, never an action for the operator's hands; a mockup is theirs (P-353, the store's
 # memory note design-through-pilot; the operator, 2026-11-14).
@@ -1981,6 +2013,27 @@ class WorkItemRuleTest(unittest.TestCase):
             self.assertIn(SECRET_IN_THE_BRIEF, " ".join(block.split()))
         self.assertNotIn(SECRET_IN_THE_BRIEF_RETIRED, text)
         self.assertIn(SECRET_IN_THE_BRIEF_RULED, " ".join(text.split()))
+
+    def test_a_worker_leaves_no_work_committed_in_its_environment_alone(self) -> None:
+        text = (ROOT / "rules" / "grants.md").read_text()
+        table, _, rest = text.partition("\n## In a worker's brief\n")
+        never, _, _ = table.partition("**Granted**")
+        self.assertIn(TOPIC_BRANCH_ENTRY, " ".join(never.split()))
+        intro, _, _ = rest.partition("```text")
+        self.assertIn(TOPIC_BRANCH_WRITTEN_IN, " ".join(intro.split()))
+        on, off = re.findall(r"^```text\n(.*?)^```$", rest, re.MULTILINE | re.DOTALL)
+        for name, block in (("on", on), ("off", off)):
+            pre_approved, _, not_pre_approved = " ".join(block.split()).partition(
+                "Not pre-approved"
+            )
+            with self.subTest(name):
+                self.assertIn(TOPIC_BRANCH_PRE_APPROVED, pre_approved)
+                self.assertIn(TOPIC_BRANCH_BRIEF, pre_approved)
+                self.assertNotIn("topic branch", not_pre_approved)
+        work_items = " ".join((ROOT / WORK_ITEMS).read_text().split())
+        for form in TOPIC_BRANCH_IN_THE_BRIEF:
+            with self.subTest(form):
+                self.assertIn(form, work_items)
 
     def test_the_skills_that_start_work_cite_it_and_carry_no_copy(self) -> None:
         for name in WORK_ITEM_SKILLS:

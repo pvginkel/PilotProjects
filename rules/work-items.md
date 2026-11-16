@@ -29,7 +29,8 @@ Its first turn, your text, in this order:
 1. The task in a line.
 2. What to do and what to register: free-form work, which the session works out.
 3. The grants text the switch selects — the brief's switch line — copied verbatim from
-   `rules/grants.md`'s "In a worker's brief".
+   `rules/grants.md`'s "In a worker's brief", the work's topic branch written into it as that
+   section has it.
 4. For a promotion to production, the text of `rules/promote.md`'s "In a promotion's brief",
    copied verbatim, step 2 naming the application, its commit, the application's alone, never the
    deploy repository's, which the promotion takes from the build, and what follows it.
@@ -37,6 +38,11 @@ Its first turn, your text, in this order:
 What to do says one thing of how, whatever the work: the session hands its reading, its research
 and whatever else stands apart to sub-agents, eagerly, each call naming the model and the effort
 its job needs and never Fable, since a sub-agent called with no model runs on the session's own.
+
+A task whose input is work an earlier task left on its topic branch, which that task's turn's last
+line names, has its brief name the branch, `pilot/<project>/<task>` of the earlier task, to fetch,
+and to delete once the work has landed on the branch it was meant for (`rules/grants.md`'s
+never-asked list).
 
 A stage of the workflow takes a brief of its own shape: its command and the slice's number as the
 first line, then the task in a line, the ticket and the grants text, and nothing of what to do,

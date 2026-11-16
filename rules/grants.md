@@ -16,6 +16,11 @@ switch it was briefed under when the switch moves meanwhile; the brief says whic
 - commits;
 - the spec-repo push, granted for good: whoever made the commits pushes them — the workflow, a
   worker or a job of Pilot's own — never asked and never held;
+- the topic-branch push: before a turn that leaves its environment free to be reset, a worker
+  pushes what it committed there alone and may not push to its branch yet to the work's topic
+  branch, `pilot/<project>/<task>`, which no pipeline builds or deploys; the task that takes it
+  deletes the branch once its work has landed, which loses nothing and is no irreversible act
+  (the operator, 2026-11-15: "Topic branch", P-293);
 - waits;
 - Pilot's own acts on the tracker and on Fieldnotes: a card made, a comment on one, a card's close
   and a Fieldnotes post (the operator, 2026-11-15: "Never asked", to "The tracker and Fieldnotes
@@ -86,7 +91,9 @@ on, every open confirmation whose code is the granted column's, and never one of
 ## In a worker's brief
 
 A work item's brief carries the text below that the switch selects, copied verbatim, so that the
-session knows what is pre-approved and acts on it. Its sentence on a secret lets the worker the
+session knows what is pre-approved and acts on it. The brain writes the work's topic branch into it,
+`pilot/<project>/<task>`: the project's slug and the plan task's id, or a few words of the work's
+title in kebab case where it serves no task. Its sentence on a secret lets the worker the
 brief sends to place one do so, as An operator action Pilot can run itself has it, and no other
 (the operator, 2026-11-15: "New wording", to "Never shown, read back or passed on, placed only
 where the brief says").
@@ -95,8 +102,12 @@ Auto pilot on:
 
 ```text
 Pre-approved for this session, done without asking: reads, diagnosis, commits, a push of the spec
-repository, a push that deploys, a push that takes other commits with it, a prd apply or a
-promotion, an operator action you can run yourself.
+repository, a push to this work's topic branch, `pilot/<project>/<task>`, a push that deploys, a
+push that takes other commits with it, a prd apply or a promotion, an operator action you can run
+yourself.
+Before a turn that ends with none of your registered documents open, after which this environment
+may be reset, leave no work committed here alone: push what may not go to its branch yet to the
+topic branch, and name it in your turn's last line, so that the next task fetches it.
 Not pre-approved, never done on your own say: an irreversible act, an act the operator held back
 for the product's sake, a permission meant to outlast this work, going past a hold or a failed
 check, a change to the rules that say who decides. Name each you need in what you register, and
@@ -108,7 +119,10 @@ Auto pilot off:
 
 ```text
 Pre-approved for this session, done without asking: reads, diagnosis, commits, a push of the spec
-repository.
+repository, a push to this work's topic branch, `pilot/<project>/<task>`.
+Before a turn that ends with none of your registered documents open, after which this environment
+may be reset, leave no work committed here alone: push what may not go to its branch yet to the
+topic branch, and name it in your turn's last line, so that the next task fetches it.
 Not pre-approved, never done on your own say: a push that deploys, a push that takes other commits
 with it, a prd apply or a promotion, an operator action, an irreversible act, an act the operator
 held back for the product's sake, a permission meant to outlast this work, going past a hold or a
