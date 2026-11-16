@@ -9,11 +9,11 @@ or dropped, which the skills that start work cite.
 `add_item` with `kind` `work`, and:
 
 - `title`, which its line on the timeline shows;
-- `repo`, `owner/Name`, or `environment`, an environment's id, exactly one of the two, and `cwd`,
-  its checkout under `/work` — the repository's own, `/work/<Name>`, or one its manifest checks
-  out beside it — as `rules/placement.md` places it: by `repo`, the environment is Pilot's
-  server's to make, one per work item; by `environment`, for work born of a conversation, it runs
-  in the one named, as it stands (`rules/placement.md`'s An environment by name);
+- `repo`, `owner/Name`, as `rules/placement.md` places it, and `cwd`, its checkout under `/work`
+  — the repository's own, `/work/<Name>`, or one its manifest checks out beside it: the
+  environment is Pilot's server's to make, one per work item, and never `environment`, an
+  environment's id, work born of a conversation included (`rules/placement.md`'s Work born of a
+  conversation);
 - `model` and `reasoning_effort` as `rules/placement.md` says, `opus` and `xhigh`, Fable on a
   person's own word for that work alone;
 - `step`, the plan's task it serves, where it serves one;

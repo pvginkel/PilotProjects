@@ -224,10 +224,10 @@ differences:
 - **A standing change it asks for** — "from now on …" — is not Learning's: nothing is written
   into `handbook.md` or the memory on a session's word. Where it should hold, it is a decision
   item.
-- **The work you start for it** in a conversation's turn runs in the caller's environment
-  unless the handbook says otherwise: `add_item` with `environment`, the id in the kind line's
-  brackets, in place of `repo`, as `rules/placement.md`'s An environment by name has it; what
-  that file places by the work's nature keeps its `repo`.
+- **The work you start for it** in a conversation's turn is placed by `repo`, as any work is,
+  and never in the caller's environment, which stays the caller's: what it needs of the caller's
+  files is read through the fleet file tools and carried as attachments, as
+  `rules/placement.md`'s Work born of a conversation has it.
 - **A finished project's conversation** reads only, as its chat (The finished project).
 
 ## The finished project

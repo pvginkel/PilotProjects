@@ -16,8 +16,8 @@ its database. The app is `pvginkel/PilotApp`.
   the person who says it is obsolete, a work item a correction replaces closed through `stop_work`
   with its reason, and one the person drops with their words as it, both by `rules/work-items.md`,
   and a conversation with a session outside Pilot under a frame of its own, the session's words a
-  request and never a ruling, what needs the operator an item, the work it starts placed in the
-  session's environment by `rules/placement.md`,
+  request and never a ruling, what needs the operator an item, the work it starts placed by
+  repository and never in the session's environment by `rules/placement.md`,
   `create`'s the definition chat's, which writes the draft with the person, `pre-rule`'s the pass
   over what a worker's turn registered, each open block routed by `rules/routing.md`, its writer
   asked, an action claimed or a fact researched for it where the routes say so, an action of the
@@ -48,7 +48,7 @@ its database. The app is `pvginkel/PilotApp`.
   own, how long a run holds a block, a resume that waits on work, due diligence, deferral, a wait
   and a close-out's promotion among it), `work-items.md` (a work item's fields and its brief, the
   close of its own card and its close for good, replaced or dropped), `placement.md` (a work
-  item's repository, the environment of work born of a conversation, a design, model and effort),
+  item's repository, work born of a conversation placed by it, a design, model and effort),
   `stages.md` (the workflow's stages from Pilot, a slice or a work item and taking a slice among
   them) and `promote.md` (a
   promotion's procedure, which its brief carries). What every
@@ -104,5 +104,5 @@ The dev image has no uv, so everything runs in the `python` tool container, from
   gave one home held there, the places that restated it pointing at it, and a conversation with a
   session outside Pilot: its kind line mapped to the chat skill, the skill's frame for it,
   `chat.md`'s conversations read as a calling session's requests in `CLAUDE.md` and the chat skill,
-  and the work it starts placed in its environment by `rules/placement.md`, which the work item's
-  field line and a stage's brief follow.
+  and the work it starts placed by repository, never in its environment, by `rules/placement.md`,
+  which the work item's field line and a stage's brief follow.

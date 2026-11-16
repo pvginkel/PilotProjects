@@ -24,8 +24,8 @@ rule file, which the chat's correction and the plan's jobs cite; and each rule a
 one home held there, CLAUDE.md's shared ones among them, the places that restated it pointing at
 it; and a conversation with a session outside Pilot: its kind line mapped to the chat skill, the
 skill's frame for it, its transcript in chat.md read as a calling session's requests, in CLAUDE.md
-and the chat skill, and the work it starts placed in its environment by the placement rule, which
-the work item's field line and a stage's brief follow."""
+and the chat skill, and the work it starts placed by repository, never in its environment, by the
+placement rule, which the work item's field line and a stage's brief follow."""
 
 import importlib.util
 import itertools
@@ -97,9 +97,9 @@ CONVERSATION_ENTERED = (
     " for the whole session, before anything below."
 )
 # The frame, as PilotApp's design 3 §5.3 and F150.12 have it: the session's words a request and
-# never a ruling, what needs the operator an item as the chat makes one, the work it starts in
-# the caller's environment unless the handbook says otherwise; and what follows from the first
-# for the calls that record a person's word, the standing change and the finished project.
+# never a ruling, what needs the operator an item as the chat makes one, the work it starts placed
+# by repository and never in the caller's environment (D237); and what follows from the first for
+# the calls that record a person's word, the standing change and the finished project.
 CONVERSATION_FRAME = (
     f'The brief\'s kind line says so: "{CONVERSATION_KIND}", the session\'s name left out where'
     " its call gave none",
@@ -115,10 +115,10 @@ CONVERSATION_FRAME = (
     "the answer is the person's to give in the app or in the project's chat, never the session's"
     " to bring",
     "nothing is written into `handbook.md` or the memory on a session's word",
-    "**The work you start for it** in a conversation's turn runs in the caller's environment unless"
-    " the handbook says otherwise: `add_item` with `environment`, the id in the kind line's brackets,"
-    " in place of `repo`, as `rules/placement.md`'s An environment by name has it; what that file"
-    " places by the work's nature keeps its `repo`",
+    "**The work you start for it** in a conversation's turn is placed by `repo`, as any work is,"
+    " and never in the caller's environment, which stays the caller's: what it needs of the"
+    " caller's files is read through the fleet file tools and carried as attachments, as"
+    " `rules/placement.md`'s Work born of a conversation has it",
     "**A finished project's conversation** reads only, as its chat (The finished project)",
 )
 # chat.md holds the conversations beside the chats, each under its heading, and what stands under
@@ -149,55 +149,57 @@ TRANSCRIPT_RETIRED = (
     "`chat.md` (the project's chats so far),",
     "holds every chat of the project, oldest first: the people's messages",
 )
-# Work born of a conversation runs in the conversation's environment unless the handbook says
-# otherwise (F86.9), placed through add_item's `environment` as pilot-store takes and refuses it
-# (PilotApp's pilot_mcp/tools.py and PilotStoreService): the placement rule's section, its head,
-# which no longer leaves every environment to the server, the work item's field line and a
-# stage's brief.
-BY_NAME_SECTION = "## An environment by name"
-PLACED_BY_NAME = (
+# Work born of a conversation is placed by repository as any work is, never in the caller's
+# environment, which stays the caller's (F86.9, F150.12, the brain's design §5.3, D237: the
+# operator's ruling of 2026-11-16 on slice 059's close-out D2): the placement rule's section, its
+# head, which leaves every environment to the server, the work item's field line and a stage's
+# brief; what the work needs of the caller's files read through the fleet file tools and carried
+# as attachments, add_item's `attachments` taking `<environment>:<path>` (PilotApp's
+# pilot_mcp/api.py).
+CONVERSATION_PLACED_SECTION = "## Work born of a conversation"
+PLACED_BY_REPO = (
     "Work born of a conversation — a work item you start in a turn of a conversation with a"
-    " session outside Pilot (`/chat`'s A conversation), on what that session asks for — runs in the"
-    " conversation's environment, unless the project's handbook says otherwise",
-    "`add_item` with `environment`, that environment's id, in place of `repo`, and `cwd` its"
-    " checkout there",
-    f'The id stands in the brackets of the brief\'s kind line, "{CONVERSATION_KIND}".',
-    "it makes, takes, renames and resets no environment for it, starts the one named where it is"
-    " stopped, and stops it again, once nothing runs there, only where it started it",
-    'an environment KubeCoder\'s controller does not have, "Environment <id> was not found", or'
-    ' the store\'s own, "it is the store\'s environment, where no work item runs"',
-    "Say in the reply why it was refused, and never place the work by `repo` in its stead, which"
-    " the handbook alone can ask for.",
-    "Where the handbook does, the work item names its `repo`, by the two sections above.",
+    " session outside Pilot (`/chat`'s A conversation), on what that session asks for, and every"
+    " later task of that work — is placed by `repo`, by the two sections above, as any work is,"
+    " and never in the conversation's environment, which stays the caller's: no `add_item` of"
+    " yours names an `environment`.",
+    '"there is no need for the store agent to assign work at all, ever, to my environment"',
+    "its files read through the fleet file tools and carried as attachments, `add_item`'s"
+    " `attachments` naming each as `<environment id>:<path>`",
+    f'the id the one in the brackets of the brief\'s kind line, "{CONVERSATION_KIND}"',
+    "a branch it pushed named there, for the work item to fetch",
+    "the reply asks it for the files or the branch",
 )
-# What the rules place in `pvginkel/Ansible` by the work's nature, infrastructure access among it
-# (`rules/grants.md`'s An operator action Pilot can run itself), keeps its `repo` whichever session
-# asks for it: the section says so, and the chat's frame and a stage's brief leave the placement
-# to it.
-BY_NATURE_FIRST = (
-    "The repository, by the work's nature comes first: what that section places in"
-    " `pvginkel/Ansible` is placed there by `repo`, whichever session asks for it."
+# The placement by name the rules held while a conversation's work ran in the caller's
+# environment: its section, its add_item call, the server's refusals and the exceptions to it.
+PLACED_BY_NAME_RETIRED = (
+    "An environment by name",
+    "in place of `repo`",
+    "runs in the caller's environment",
+    "runs in the conversation's environment",
+    "unless the handbook says otherwise",
+    "which the handbook alone can ask for",
+    "whichever session asks for it",
+    "its `environment` the conversation's",
 )
-BY_NAME_RETIRED = "whatever its kind"
-BY_NATURE_IN_THE_FRAME = "what that file places by the work's nature keeps its `repo`"
-STAGE_PLACED_RETIRED = "started in a conversation's turn"
 PLACEMENT_HEAD = (
-    "The environment is Pilot's server's to make, but for work born of a conversation, which names"
-    " the conversation's environment in place of a repository (An environment by name)."
+    "The environment is Pilot's server's to make, one per work item, for work born of a"
+    " conversation as for any other (Work born of a conversation)."
 )
-PLACEMENT_HEAD_RETIRED = "The environment is Pilot's server's to make. "
+PLACEMENT_HEAD_RETIRED = "names the conversation's environment in place of a repository"
 WORK_ITEM_PLACED = (
-    "- `repo`, `owner/Name`, or `environment`, an environment's id, exactly one of the two, and"
-    " `cwd`, its checkout under `/work`",
-    "by `repo`, the environment is Pilot's server's to make, one per work item; by `environment`,"
-    " for work born of a conversation, it runs in the one named, as it stands"
-    " (`rules/placement.md`'s An environment by name);",
+    "- `repo`, `owner/Name`, as `rules/placement.md` places it, and `cwd`, its checkout under"
+    " `/work`",
+    "the environment is Pilot's server's to make, one per work item, and never `environment`, an"
+    " environment's id, work born of a conversation included (`rules/placement.md`'s Work born of"
+    " a conversation);",
 )
 STAGE_PLACED = (
-    "The work item's `repo` is the slice's repository, or, where `rules/placement.md`'s An"
-    " environment by name places it, its `environment` the conversation's, its `cwd` that"
-    " repository's checkout, `/work/<Name>`"
+    "The work item's `repo` is the slice's repository, a slice a conversation asked for included"
+    " (`rules/placement.md`'s Work born of a conversation), its `cwd` that repository's checkout,"
+    " `/work/<Name>`"
 )
+STAGE_PLACED_RETIRED = "started in a conversation's turn"
 # "Is it still going?" answered from the tree, as design 3 §6.3 and §11 and D054 have it: the
 # item's line and its session log pointed to, and neither its session's log nor its status read,
 # in How work goes and in Grounding alike (P-186).
@@ -1620,7 +1622,7 @@ MAP_SECTIONS = {
                          "a delegated answer", "another project's decision", "the friction half"),
     "rules/work-items.md": ("fields", "brief", "the answer", "its own card", "its close for good"),
     "rules/placement.md": ("by project key", "by the work's nature",
-                           "an environment by name for work born of a conversation", "a design",
+                           "work born of a conversation", "a design",
                            "model and effort"),
     "rules/stages.md": ("a slice or a work item", "taking a slice", "filing it"),
 }
@@ -1809,17 +1811,17 @@ class ConversationTest(unittest.TestCase):
                 with self.subTest(source=source, form=form):
                     self.assertNotIn(form, " ".join(text.split()))
 
-    def test_work_born_of_a_conversation_runs_in_its_environment_placed_by_name(self) -> None:
+    def test_work_born_of_a_conversation_is_placed_by_repository(self) -> None:
         text = (ROOT / PLACEMENT).read_text()
-        self.assertEqual(text.splitlines().count(BY_NAME_SECTION), 1)
+        self.assertEqual(text.splitlines().count(CONVERSATION_PLACED_SECTION), 1)
         head, _, rest = text.partition("\n## ")
-        head = " ".join(head.split()) + " "
+        head = " ".join(head.split())
         self.assertIn(PLACEMENT_HEAD, head)
         self.assertNotIn(PLACEMENT_HEAD_RETIRED, head)
-        _, _, rest = text.partition(f"\n{BY_NAME_SECTION}\n")
+        _, _, rest = text.partition(f"\n{CONVERSATION_PLACED_SECTION}\n")
         section, _, _ = rest.partition("\n## ")
         section = " ".join(section.split())
-        for form in PLACED_BY_NAME:
+        for form in PLACED_BY_REPO:
             with self.subTest(form):
                 self.assertIn(form, section)
 
@@ -1832,16 +1834,11 @@ class ConversationTest(unittest.TestCase):
         self.assertIn(STAGE_PLACED, stages)
         self.assertNotIn(STAGE_PLACED_RETIRED, stages)
 
-    def test_what_the_work_s_nature_places_keeps_its_repository_whoever_asks(self) -> None:
-        text = (ROOT / PLACEMENT).read_text()
-        _, _, rest = text.partition(f"\n{BY_NAME_SECTION}\n")
-        section, _, _ = rest.partition("\n## ")
-        section = " ".join(section.split())
-        self.assertIn(BY_NATURE_FIRST, section)
-        self.assertNotIn(BY_NAME_RETIRED, section)
-        _, _, rest = skill_file("chat").read_text().partition(f"\n{CONVERSATION_SECTION}\n")
-        frame, _, _ = rest.partition("\n## ")
-        self.assertIn(BY_NATURE_IN_THE_FRAME, " ".join(frame.split()))
+    def test_no_file_of_the_map_places_work_in_a_named_environment(self) -> None:
+        for source, text in the_map().items():
+            for form in PLACED_BY_NAME_RETIRED:
+                with self.subTest(source=source, form=form):
+                    self.assertNotIn(form, " ".join(text.split()))
 
 
 class CreateSkillTest(unittest.TestCase):

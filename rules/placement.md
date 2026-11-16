@@ -3,11 +3,10 @@
 Where a work item runs and on what. A work item names the repository its work belongs to,
 `owner/Name`: Pilot's judgment, guided by the two sections below and the project's own facts in its
 `handbook.md`, enforced nowhere, and what the project's handbook says of its repositories comes
-before their rules. The environment is Pilot's server's to make, but for work born of a
-conversation, which names the conversation's environment in place of a repository (An environment
-by name). The plan's `repo` is a label for the project's header and binds no work item. A design is
-placed as any other work (A design), and the model and the effort are no judgment of Pilot's (The
-model and the effort).
+before their rules. The environment is Pilot's server's to make, one per work item, for work born
+of a conversation as for any other (Work born of a conversation). The plan's `repo` is a label for
+the project's header and binds no work item. A design is placed as any other work (A design), and
+the model and the effort are no judgment of Pilot's (The model and the effort).
 
 ## The repository, by project key
 
@@ -36,29 +35,22 @@ Ansible environment reads no other. For a secret, the brief names its OpenBao pa
 operator's keystroke" is their convention for a person at a terminal: for Pilot's work the ruling
 `rules/grants.md`'s An operator action Pilot can run itself quotes stands.
 
-## An environment by name
+## Work born of a conversation
 
 Work born of a conversation — a work item you start in a turn of a conversation with a session
-outside Pilot (`/chat`'s A conversation), on what that session asks for — runs in the
-conversation's environment, unless the project's handbook says otherwise: `add_item` with
-`environment`, that environment's id, in place of `repo`, and `cwd` its checkout there. The id
-stands in the brackets of the brief's kind line, "a conversation with a session in <environment
-name> (<environment id>, session <name>)". What the calling session has there, pushed or not, is
-what the work builds on.
+outside Pilot (`/chat`'s A conversation), on what that session asks for, and every later task of
+that work — is placed by `repo`, by the two sections above, as any work is, and never in the
+conversation's environment, which stays the caller's: no `add_item` of yours names an
+`environment`. The operator, 2026-11-16: "there is no need for the store agent to assign work at
+all, ever, to my environment".
 
-Pilot's server places it in that environment as it stands: it makes, takes, renames and resets no
-environment for it, starts the one named where it is stopped, and stops it again, once nothing
-runs there, only where it started it. Its start is held at the gate as any work item's is
-(`rules/work-items.md`'s The answer).
-
-A placement by name the server refuses added nothing: an environment KubeCoder's controller does
-not have, "Environment <id> was not found", or the store's own, "it is the store's environment,
-where no work item runs". Say in the reply why it was refused, and never place the work by `repo`
-in its stead, which the handbook alone can ask for. Where the handbook does, the work item names
-its `repo`, by the two sections above.
-
-The repository, by the work's nature comes first: what that section places in `pvginkel/Ansible`
-is placed there by `repo`, whichever session asks for it.
+What the work needs of the caller's environment is carried into the project: its files read
+through the fleet file tools and carried as attachments, `add_item`'s `attachments` naming each as
+`<environment id>:<path>`, the id the one in the brackets of the brief's kind line, "a
+conversation with a session in <environment name> (<environment id>, session <name>)"; what the
+session wrote of it copied into the brief; a branch it pushed named there, for the work item to
+fetch. What the session neither pushed nor points at is no input of the work: the reply asks it
+for the files or the branch.
 
 ## A design
 
