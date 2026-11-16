@@ -39,8 +39,8 @@ operator's keystroke" is their convention for a person at a terminal: for Pilot'
 ## An environment by name
 
 Work born of a conversation — a work item you start in a turn of a conversation with a session
-outside Pilot (`/chat`'s A conversation), on what that session asks for, whatever its kind — runs
-in the conversation's environment, unless the project's handbook says otherwise: `add_item` with
+outside Pilot (`/chat`'s A conversation), on what that session asks for — runs in the
+conversation's environment, unless the project's handbook says otherwise: `add_item` with
 `environment`, that environment's id, in place of `repo`, and `cwd` its checkout there. The id
 stands in the brackets of the brief's kind line, "a conversation with a session in <environment
 name> (<environment id>, session <name>)". What the calling session has there, pushed or not, is
@@ -56,6 +56,9 @@ not have, "Environment <id> was not found", or the store's own, "it is the store
 where no work item runs". Say in the reply why it was refused, and never place the work by `repo`
 in its stead, which the handbook alone can ask for. Where the handbook does, the work item names
 its `repo`, by the two sections above.
+
+The repository, by the work's nature comes first: what that section places in `pvginkel/Ansible`
+is placed there by `repo`, whichever session asks for it.
 
 ## A design
 

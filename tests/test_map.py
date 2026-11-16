@@ -117,7 +117,8 @@ CONVERSATION_FRAME = (
     "nothing is written into `handbook.md` or the memory on a session's word",
     "**The work you start for it** in a conversation's turn runs in the caller's environment unless"
     " the handbook says otherwise: `add_item` with `environment`, the id in the kind line's brackets,"
-    " in place of `repo`, as `rules/placement.md`'s An environment by name has it",
+    " in place of `repo`, as `rules/placement.md`'s An environment by name has it; what that file"
+    " places by the work's nature keeps its `repo`",
     "**A finished project's conversation** reads only, as its chat (The finished project)",
 )
 # chat.md holds the conversations beside the chats, each under its heading, and what stands under
@@ -156,9 +157,8 @@ TRANSCRIPT_RETIRED = (
 BY_NAME_SECTION = "## An environment by name"
 PLACED_BY_NAME = (
     "Work born of a conversation — a work item you start in a turn of a conversation with a"
-    " session outside Pilot (`/chat`'s A conversation), on what that session asks for, whatever"
-    " its kind — runs in the conversation's environment, unless the project's handbook says"
-    " otherwise",
+    " session outside Pilot (`/chat`'s A conversation), on what that session asks for — runs in the"
+    " conversation's environment, unless the project's handbook says otherwise",
     "`add_item` with `environment`, that environment's id, in place of `repo`, and `cwd` its"
     " checkout there",
     f'The id stands in the brackets of the brief\'s kind line, "{CONVERSATION_KIND}".',
@@ -170,6 +170,17 @@ PLACED_BY_NAME = (
     " the handbook alone can ask for.",
     "Where the handbook does, the work item names its `repo`, by the two sections above.",
 )
+# What the rules place in `pvginkel/Ansible` by the work's nature, infrastructure access among it
+# (`rules/grants.md`'s An operator action Pilot can run itself), keeps its `repo` whichever session
+# asks for it: the section says so, and the chat's frame and a stage's brief leave the placement
+# to it.
+BY_NATURE_FIRST = (
+    "The repository, by the work's nature comes first: what that section places in"
+    " `pvginkel/Ansible` is placed there by `repo`, whichever session asks for it."
+)
+BY_NAME_RETIRED = "whatever its kind"
+BY_NATURE_IN_THE_FRAME = "what that file places by the work's nature keeps its `repo`"
+STAGE_PLACED_RETIRED = "started in a conversation's turn"
 PLACEMENT_HEAD = (
     "The environment is Pilot's server's to make, but for work born of a conversation, which names"
     " the conversation's environment in place of a repository (An environment by name)."
@@ -183,9 +194,9 @@ WORK_ITEM_PLACED = (
     " (`rules/placement.md`'s An environment by name);",
 )
 STAGE_PLACED = (
-    "The work item's `repo` is the slice's repository, or, started in a conversation's turn, its"
-    " `environment` the conversation's (`rules/placement.md`'s An environment by name), its `cwd`"
-    " that repository's checkout, `/work/<Name>`"
+    "The work item's `repo` is the slice's repository, or, where `rules/placement.md`'s An"
+    " environment by name places it, its `environment` the conversation's, its `cwd` that"
+    " repository's checkout, `/work/<Name>`"
 )
 # "Is it still going?" answered from the tree, as design 3 §6.3 and §11 and D054 have it: the
 # item's line and its session log pointed to, and neither its session's log nor its status read,
@@ -1739,6 +1750,18 @@ class ConversationTest(unittest.TestCase):
                 self.assertIn(form, fields)
         stages = " ".join((ROOT / "rules" / "stages.md").read_text().split())
         self.assertIn(STAGE_PLACED, stages)
+        self.assertNotIn(STAGE_PLACED_RETIRED, stages)
+
+    def test_what_the_work_s_nature_places_keeps_its_repository_whoever_asks(self) -> None:
+        text = (ROOT / PLACEMENT).read_text()
+        _, _, rest = text.partition(f"\n{BY_NAME_SECTION}\n")
+        section, _, _ = rest.partition("\n## ")
+        section = " ".join(section.split())
+        self.assertIn(BY_NATURE_FIRST, section)
+        self.assertNotIn(BY_NAME_RETIRED, section)
+        _, _, rest = skill_file("chat").read_text().partition(f"\n{CONVERSATION_SECTION}\n")
+        frame, _, _ = rest.partition("\n## ")
+        self.assertIn(BY_NATURE_IN_THE_FRAME, " ".join(frame.split()))
 
 
 class CreateSkillTest(unittest.TestCase):

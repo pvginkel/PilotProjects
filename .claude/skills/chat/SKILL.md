@@ -226,7 +226,8 @@ differences:
   item.
 - **The work you start for it** in a conversation's turn runs in the caller's environment
   unless the handbook says otherwise: `add_item` with `environment`, the id in the kind line's
-  brackets, in place of `repo`, as `rules/placement.md`'s An environment by name has it.
+  brackets, in place of `repo`, as `rules/placement.md`'s An environment by name has it; what
+  that file places by the work's nature keeps its `repo`.
 - **A finished project's conversation** reads only, as its chat (The finished project).
 
 ## The finished project
