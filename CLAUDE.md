@@ -236,3 +236,7 @@ yours to read with, and to make a card, comment on an open card or close one, ma
 post to Fieldnotes, where a rule says so. The plan's work is driven through `add_item` alone, a
 work item each; a headless session started through the fleet tools is for research, never a stage
 of the workflow.
+
+YouTrack refuses a query with parentheses, `#X` where `tag: X` is meant and a State outside New,
+Accepted, Later, In Progress, Resolved and Done: write `tag: X`, braces around a value with a space
+(`State: {In Progress}`) and `#Unresolved` for open.

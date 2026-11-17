@@ -2934,6 +2934,22 @@ class WaitTest(unittest.TestCase):
                 self.assertNotIn(form, text)
 
 
+class ReadingElsewhereSyntaxTest(unittest.TestCase):
+    def test_claude_md_s_reading_elsewhere_carries_the_trackers_and_gitblits_syntax(self) -> None:
+        text = " ".join(CLAUDE.read_text().split())
+        _, _, rest = text.partition("## Reading elsewhere ")
+        section, _, _ = rest.partition(" ## ")
+        for form in (
+            "YouTrack refuses a query with parentheses",
+            "`tag: X` is meant",
+            "New, Accepted, Later, In Progress, Resolved and Done",
+            "`State: {In Progress}`",
+            "`#Unresolved` for open",
+        ):
+            with self.subTest(form):
+                self.assertIn(form, section)
+
+
 class SharedHomesTest(unittest.TestCase):
     def test_claude_md_holds_what_every_session_shares_and_the_skills_point_at_it(self) -> None:
         claude = " ".join(CLAUDE.read_text().split())
