@@ -2945,6 +2945,9 @@ class ReadingElsewhereSyntaxTest(unittest.TestCase):
             "New, Accepted, Later, In Progress, Resolved and Done",
             "`State: {In Progress}`",
             "`#Unresolved` for open",
+            "Gitblit names a repo `pvginkel/<Name>.git`",
+            "daily mirror that may not hold a repo created recently",
+            "through the fleet's `read_file` in an environment holding its checkout",
         ):
             with self.subTest(form):
                 self.assertIn(form, section)

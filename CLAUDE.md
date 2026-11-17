@@ -240,3 +240,6 @@ of the workflow.
 YouTrack refuses a query with parentheses, `#X` where `tag: X` is meant and a State outside New,
 Accepted, Later, In Progress, Resolved and Done: write `tag: X`, braces around a value with a space
 (`State: {In Progress}`) and `#Unresolved` for open.
+
+Gitblit names a repo `pvginkel/<Name>.git` and is a daily mirror that may not hold a repo created
+recently: read one it lacks through the fleet's `read_file` in an environment holding its checkout.
