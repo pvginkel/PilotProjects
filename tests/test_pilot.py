@@ -418,8 +418,9 @@ class TestItems(PilotCase):
 
     def test_show_names_each_fact_of_a_run_the_record_holds_none_of(self) -> None:
         """A job, which has no repository, before its controller session is
-        confirmed, and a work item placed with no model or effort and not yet
-        started: each fact is on the run's line, none where the row has null."""
+        confirmed, and a job not yet started, the brain's model and effort
+        unset, the one row whose five are all null: each fact is on the run's
+        line, none where the row has null."""
         for facts, printed in (
             (
                 {"repo": None, "environment": "dana-store-9a0b3e", "session": None},
