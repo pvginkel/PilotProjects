@@ -576,6 +576,25 @@ def _task_add(project: Project, args: argparse.Namespace) -> int:
     return _edit_plan(project, edit)
 
 
+def _task_move(project: Project, args: argparse.Namespace) -> int:
+    def edit(plan: dict[str, Any]) -> str:
+        task = _task(plan, args.id, "<task id>")
+        flag, other_id = ("--before", args.before) if args.before is not None else (
+            "--after",
+            args.after,
+        )
+        other = _task(plan, other_id, flag)
+        if other is task:
+            raise Refused(f"{flag}: a task is not placed {flag[2:]} itself, `{task['id']}`")
+        tasks = plan["tasks"]
+        tasks.remove(task)
+        index = tasks.index(other) + (flag == "--after")
+        tasks.insert(index, task)
+        return f"task {task['id']} moved, {flag[2:]} {other_id}: {task['title']} ({task['status']})"
+
+    return _edit_plan(project, edit)
+
+
 def _task_set(project: Project, args: argparse.Namespace) -> int:
     def edit(plan: dict[str, Any]) -> str:
         if args.title is None and args.status is None:
@@ -963,7 +982,7 @@ def _shape(action: argparse.Action) -> str:
 
 def _usage(parser: argparse.ArgumentParser) -> str:
     """The verb's usage line in its arguments' order of definition, a
-    mutually exclusive pair as `[a|b]`."""
+    mutually exclusive pair as `[a|b]`, or `a|b` where one is required."""
     tokens: list[str] = []
     grouped: set[argparse._MutuallyExclusiveGroup] = set()
     for action in parser._actions:
@@ -977,7 +996,8 @@ def _usage(parser: argparse.ArgumentParser) -> str:
             tokens.append(_shape(action))
         elif group not in grouped:
             grouped.add(group)
-            tokens.append("[" + "|".join(_shape(a).strip("[]") for a in group._group_actions) + "]")
+            pair = "|".join(_shape(a).strip("[]") for a in group._group_actions)
+            tokens.append(pair if group.required else f"[{pair}]")
     return " ".join([parser.prog, *tokens])
 
 
@@ -1158,6 +1178,11 @@ def build_parser() -> argparse.ArgumentParser:
         task, "remove", _task_remove, "remove a task from the plan, refused while it has open notes"
     )
     remove.add_argument("id", metavar="<task id>", help="the task")
+    move = verb(task, "move", _task_move, "move a task before or after another")
+    move.add_argument("id", metavar="<task id>", help="the task to move")
+    to = move.add_mutually_exclusive_group(required=True)
+    to.add_argument("--before", metavar="<task id>", help="placed before this task")
+    to.add_argument("--after", metavar="<task id>", help="placed after this task")
     verb(task, "list", _task_list, "the plan's tasks in order, with their open notes' ids")
 
     note = plan.add_parser("note", help="the plan's notes").add_subparsers(

@@ -221,6 +221,7 @@ class TestTheFrame(PilotCase):
                 ),
                 "pilot.py plan task set <task id> [--title <text>] [--status pending|in_progress|done]",
                 "pilot.py plan task remove <task id>",
+                "pilot.py plan task move <task id> --before <task id>|--after <task id>",
                 "pilot.py plan task list",
                 (
                     "pilot.py plan note add [--task <task id>] --summary <line>"
@@ -807,6 +808,36 @@ class TestPlanTask(PilotCase):
         ):
             with self.subTest(args=args):
                 self.assert_refused("plan", "task", "add", *args, says=(says,))
+
+    def test_move_places_the_task_before_or_after_another(self) -> None:
+        for args, order in (
+            (("t3", "--before", "t1"), ["t3", "t1", "t2"]),
+            (("t1", "--after", "t2"), ["t2", "t1", "t3"]),
+            (("t1", "--after", "t3"), ["t2", "t3", "t1"]),
+            (("t3", "--after", "t1"), ["t1", "t3", "t2"]),
+            (("t1", "--before", "t3"), ["t2", "t1", "t3"]),
+        ):
+            with self.subTest(args=args):
+                self.put_plan(self.fixture_plan)
+                completed = self.pilot("plan", "task", "move", *args)
+                self.assert_written(completed)
+                title = self.fixture_plan["tasks"][int(args[0][1]) - 1]["title"]
+                where = args[1][2:]
+                self.assertTrue(
+                    completed.stdout.startswith(f"task {args[0]} moved, {where} {args[2]}: {title} (")
+                )
+                self.assertEqual([task["id"] for task in self.plan()["tasks"]], order)
+
+    def test_move_is_refused_a_task_the_plan_has_not_itself_and_no_place(self) -> None:
+        for args, says in (
+            (("t9", "--before", "t1"), "<task id>: the plan has no task `t9`"),
+            (("t1", "--before", "t9"), "--before: the plan has no task `t9`"),
+            (("t1", "--after", "t9"), "--after: the plan has no task `t9`"),
+            (("t2", "--before", "t2"), "--before: a task is not placed before itself, `t2`"),
+            (("t2", "--after", "t2"), "--after: a task is not placed after itself, `t2`"),
+        ):
+            with self.subTest(args=args):
+                self.assert_refused("plan", "task", "move", *args, says=(says,))
 
     def test_set_changes_the_title_and_the_status(self) -> None:
         completed = self.pilot(

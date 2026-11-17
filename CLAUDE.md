@@ -168,6 +168,7 @@ says what the record made of it. It exits 0 done, or 2 refused with nothing writ
 - `pilot.py plan task add`: add a task to the plan, last unless placed
 - `pilot.py plan task set`: change a task's title, status or both
 - `pilot.py plan task remove`: remove a task from the plan, refused while it has open notes
+- `pilot.py plan task move`: move a task before or after another
 - `pilot.py plan task list`: the plan's tasks in order, with their open notes' ids
 - `pilot.py plan note add`: add a note on a task or on the plan; its id is the next n<number>
 - `pilot.py plan note strike`: strike an open note
