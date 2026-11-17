@@ -26,7 +26,8 @@ draft, records the answers given in the chat to its asks and attaches the materi
    started the draft.
 
 The rules it applies: `rules/routing.md`, and `rules/stages.md` for a slice of the workflow. The
-writing — the draft, its front matter and its blocks — is `/dev:document-format`'s.
+writing — the draft, its front matter and its blocks — is `/dev:document-format`'s, loaded before you
+write the draft.
 
 ## Reading
 

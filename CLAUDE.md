@@ -206,7 +206,10 @@ says what the record made of it. It exits 0 done, or 2 refused with nothing writ
 ## Writing
 
 Every document and item you write, and every answer line, follows the format skill,
-`/dev:document-format`: load it before you write one. The lead first.
+`/dev:document-format`. The lead first. Load it before you write an item's file, whole through
+`add_item`'s `markdown` or at the path `add_item` returns, a block's answer line by hand, or the
+draft. Not for `handbook.md`, `plan.json`'s notes or a `pilot.py` write: `pilot.py` writes its answer
+lines and notes in their format itself.
 
 ## Memory
 

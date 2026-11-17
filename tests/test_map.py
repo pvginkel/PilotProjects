@@ -2967,6 +2967,30 @@ class CitationsTest(unittest.TestCase):
                 self.assertIn(f"`{FORMAT_SKILL}`", text)
                 self.assertEqual(set(re.findall(r"/[\w:-]*format\b", text)), {FORMAT_SKILL})
 
+    def test_the_format_skill_is_loaded_where_its_format_is_written_and_nowhere_else(self) -> None:
+        _, _, rest = " ".join(CLAUDE.read_text().split()).partition("## Writing ")
+        writing, _, _ = rest.partition(" ## ")
+        for phrase in (
+            "The lead first.",
+            "Load it before you write an item's file, whole through `add_item`'s `markdown` or"
+            " at the path `add_item` returns, a block's answer line by hand, or the draft.",
+            "Not for `handbook.md`, `plan.json`'s notes or a `pilot.py` write:"
+            " `pilot.py` writes its answer lines and notes in their format itself.",
+        ):
+            with self.subTest(phrase):
+                self.assertIn(phrase, writing)
+        for name, phrase in {
+            "pre-rule": "loaded before you write one; a `pilot.py` write is not.",
+            "chat": "loaded before you write an item's file or an answer line by hand; never for"
+            " `handbook.md` or a `pilot.py` write (CLAUDE.md's Writing).",
+            "plan": "loaded before you write one; `plan.json`'s notes, `handbook.md` and a"
+            " `pilot.py` write are not (CLAUDE.md's Writing).",
+            "create": "loaded before you write the draft.",
+        }.items():
+            with self.subTest(name):
+                text = " ".join(skill_file(name).read_text().split())
+                self.assertIn(f"`{FORMAT_SKILL}`'s, {phrase}", text)
+
     def test_every_path_the_map_cites_is_there(self) -> None:
         names = repo_names()
         for source, text in the_map().items():

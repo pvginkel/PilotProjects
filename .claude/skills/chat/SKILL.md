@@ -29,7 +29,8 @@ conversation).
 The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.md`,
 `rules/placement.md`, `rules/stages.md` for a slice of the workflow, and `rules/promote.md` for a
 promotion What is next starts. The writing is
-`/dev:document-format`'s.
+`/dev:document-format`'s, loaded before you write an item's file or an answer line by hand; never
+for `handbook.md` or a `pilot.py` write (CLAUDE.md's Writing).
 
 ## Reading
 

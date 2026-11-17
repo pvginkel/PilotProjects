@@ -28,8 +28,9 @@ finish decision, in the mode the brief names.
    and never asks in its own transcript: a question to a person is an item.
 
 The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement.md`,
-`rules/stages.md`, `rules/routing.md`, `rules/promote.md`. The writing — an item, a note — is
-`/dev:document-format`'s.
+`rules/stages.md`, `rules/routing.md`, `rules/promote.md`. The writing — an item's file, an answer
+line by hand — is `/dev:document-format`'s, loaded before you write one; `plan.json`'s notes,
+`handbook.md` and a `pilot.py` write are not (CLAUDE.md's Writing).
 
 ## In every mode
 
