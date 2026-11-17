@@ -59,8 +59,7 @@ for `handbook.md` or a `pilot.py` write (CLAUDE.md's Writing).
 - **How work goes**, asked — "is it still going?" — is not yours to answer: say what the tree
   holds of the work item, open, or done, when and how, as `pilot.py items show <id>` prints its
   line, and point the person to its line and its session log on the timeline. No more: no
-  estimate, and no read of its session's log or its session's status to tell how far it got,
-  since the tree names no session of an item.
+  estimate, and no read of its session's log or its session's status to tell how far it got.
 
 ## Recording
 

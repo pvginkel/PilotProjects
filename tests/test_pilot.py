@@ -52,6 +52,11 @@ LINES = {
     9: "9 · timed_wait · Backstop for the importer's card · open · step t2"
     f" · due 2026-10-29T09:00:00Z · no firings · no document · {BACKSTOP}",
 }
+# The fixture's work item's run, as `items show` prints it under the item's line.
+RUN_LINE = (
+    "run · repo dana/RecipeBox · environment dana-recipebox-4c7e21 · model opus"
+    " · reasoning_effort xhigh · session claude-1"
+)
 
 
 def canonical(plan: dict) -> str:
@@ -405,11 +410,62 @@ class TestItems(PilotCase):
             "      Old first.\n",
         )
 
-    def test_show_an_item_with_no_document_prints_its_line(self) -> None:
+    def test_show_a_work_item_prints_its_run_on_a_line_under_its_line(self) -> None:
+        completed = self.pilot("items", "show", IMPORTER)
+
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual(completed.stdout, f"{LINES[5]}\n{RUN_LINE}\n")
+
+    def test_show_names_each_fact_of_a_run_the_record_holds_none_of(self) -> None:
+        """A job, which has no repository, before its controller session is
+        confirmed, and a work item placed with no model or effort and not yet
+        started: each fact is on the run's line, none where the row has null."""
+        for facts, printed in (
+            (
+                {"repo": None, "environment": "dana-store-9a0b3e", "session": None},
+                (
+                    "run · repo none · environment dana-store-9a0b3e · model opus"
+                    " · reasoning_effort xhigh · session none"
+                ),
+            ),
+            (
+                dict.fromkeys(("repo", "environment", "model", "reasoning_effort", "session")),
+                (
+                    "run · repo none · environment none · model none · reasoning_effort none"
+                    " · session none"
+                ),
+            ),
+        ):
+            with self.subTest(facts=facts):
+                self.put_row(IMPORTER, facts)
+
+                completed = self.pilot("items", "show", IMPORTER)
+
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+                self.assertEqual(completed.stdout, f"{LINES[5]}\n{printed}\n")
+
+    def test_show_an_item_with_no_document_and_no_run_prints_its_line(self) -> None:
+        """A work item's row rendered before PilotApp put its run on it: its
+        line alone, and no error."""
+        timeline_path = self.folder / "timeline.json"
+        timeline = json.loads(timeline_path.read_text())
+        item = next(item for item in timeline["items"] if item["id"] == IMPORTER)
+        for key in ("repo", "environment", "model", "reasoning_effort", "session"):
+            del item[key]
+        timeline_path.write_text(json.dumps(timeline, indent=2) + "\n")
+
         completed = self.pilot("items", "show", IMPORTER)
 
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertEqual(completed.stdout, f"{LINES[5]}\n")
+
+    def put_row(self, item_id: str, fields: dict) -> None:
+        """The item's row in timeline.json with these fields set."""
+        timeline_path = self.folder / "timeline.json"
+        timeline = json.loads(timeline_path.read_text())
+        item = next(item for item in timeline["items"] if item["id"] == item_id)
+        item.update(fields)
+        timeline_path.write_text(json.dumps(timeline, indent=2) + "\n")
 
     def test_show_a_wait_prints_its_line_and_each_firing_with_the_run_that_took_it(self) -> None:
         for named, printed in (
@@ -492,6 +548,7 @@ class TestItems(PilotCase):
             "5 · work · Write the importer · done 2026-10-17T11:00:00Z (cancelled by agent)"
             " · step t2 · note: Replaced by the card view. The importer is t3's now."
             f" · no document · {IMPORTER}\n"
+            f"{RUN_LINE}\n"
             "note:\n"
             "    Replaced by the card view.\n"
             "    The importer is t3's now.\n",

@@ -93,7 +93,12 @@
       "summary": null,
       "created_at": "2026-10-14T09:00:00Z",
       "done": null,
-      "attachments": []
+      "attachments": [],
+      "repo": "dana/RecipeBox",
+      "environment": "dana-recipebox-4c7e21",
+      "model": "opus",
+      "reasoning_effort": "xhigh",
+      "session": "claude-1"
     },
     {
       "id": "3b9e6a14-8f2c-4d7b-a1e5-0c4f9b2d8e75",

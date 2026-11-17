@@ -38,6 +38,10 @@ DRAFT = "project.md"
 DRAFT_STATE = "draft"
 DOCUMENT_FOLDERS = ("items", "inbox")
 OPENING = "opening"
+# A work item's run as its row in `timeline.json` names it, a job's included, in the row's order
+# (PilotApp's engine/views.py, `_run`): a row of any other kind has none of these keys, and neither
+# has one rendered before PilotApp put them on a work item's row.
+RUN_KEYS = ("repo", "environment", "model", "reasoning_effort", "session")
 # What a person's request is called on each kind of wait (PilotApp's F27.3).
 REQUESTS = {"card_wait": "Check now", "timed_wait": "Skip wait"}
 # The answer of an action Pilot has claimed (F21.6, D062), pilot-dsl's.
@@ -366,6 +370,16 @@ def _item_line(item: dict[str, Any]) -> str:
     return " · ".join(parts)
 
 
+def _run_line(item: dict[str, Any]) -> str | None:
+    """A work item's run, each fact named and `none` where the record holds
+    none: `run · repo ada/tide · environment ada-tide-1d6b01 · model opus ·
+    reasoning_effort xhigh · session claude-1`; None for a row without them."""
+    if not all(key in item for key in RUN_KEYS):
+        return None
+    facts = (f"{key} {'none' if item[key] is None else item[key]}" for key in RUN_KEYS)
+    return " · ".join(("run", *facts))
+
+
 def _items_list(project: Project, args: argparse.Namespace) -> int:
     items = _timeline(project)["items"]
     if args.kind is not None:
@@ -391,6 +405,9 @@ def _items_show(project: Project, args: argparse.Namespace) -> int:
 
 def _show(project: Project, item: dict[str, Any]) -> int:
     print(_item_line(item))
+    run = _run_line(item)
+    if run is not None:
+        print(run)
     if item["summary"] is not None:
         print(f"summary: {item['summary']}")
     if _is_wait(item):
@@ -1124,8 +1141,10 @@ def build_parser() -> argparse.ArgumentParser:
         items,
         "show",
         _items_show,
-        "the item's line and summary, its file's blocks with their answer lines and Pilot's notes"
-        " under them, Pilot's note on the item and its alert, a wait's firings, a done item's note",
+        "the item's line; a work item's run on a line under it, its repo, environment id, model,"
+        " reasoning_effort and controller session, none where timeline.json holds none; its"
+        " summary, its file's blocks with their answer lines and Pilot's notes under them, Pilot's"
+        " note on the item and its alert, a wait's firings, a done item's note",
     )
     show.add_argument(
         "item",

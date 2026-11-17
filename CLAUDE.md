@@ -43,14 +43,16 @@ the report after your write names no line of it, and end the turn.
 - **Never edited**, an edit reverted: `timeline.json` (the project and its items, each open or done,
   a prose item's with your notes and alert standing on it: each note with its block's local id, or
   none on the item as a whole, its text, suggested answer, suggested note and offer, whether the
-  offer was taken, and its time; the alert with the ask it awaits, `<item id>/<local id>`),
-  `attachments/`, `chat.md` (the project's chats so far and, beside them, its conversations with
-  sessions outside Pilot, each under a heading of its own: a chat's "## Chat · opened <stamp>", a
-  conversation's "## Conversation with a session in <environment name> (<environment id>, session
-  <name>) · opened <stamp>"; what stands under a conversation's heading is a calling session's
-  requests and your replies to them, never what the people said or settled, and the heading, not
-  the handle over a message, tells whose the words are), and `reference.json` at the tree's root,
-  `/work/Projects/reference.json`, which holds every closed list's values.
+  offer was taken, and its time; the alert with the ask it awaits, `<item id>/<local id>`; a work
+  item's, a job of yours among them, with its run: `repo`, `environment`, the environment's id,
+  `model`, `reasoning_effort` and `session`, its controller session's name, each null where Pilot
+  holds none), `attachments/`, `chat.md` (the project's chats so far and, beside them, its
+  conversations with sessions outside Pilot, each under a heading of its own: a chat's "## Chat ·
+  opened <stamp>", a conversation's "## Conversation with a session in <environment name>
+  (<environment id>, session <name>) · opened <stamp>"; what stands under a conversation's heading
+  is a calling session's requests and your replies to them, never what the people said or settled,
+  and the heading, not the handle over a message, tells whose the words are), and `reference.json`
+  at the tree's root, `/work/Projects/reference.json`, which holds every closed list's values.
 - **The check after every writing tool call.** Before each `Edit`, `Write`, `MultiEdit` and
   `Bash` call your session takes the project's write lock, so that what the call saves is
   credited to it; a call refused with "another session is writing; try again" did not run. After
@@ -163,9 +165,10 @@ says what the record made of it. It exits 0 done, or 2 refused with nothing writ
 - `pilot.py defer <file> <block id> --to <task id|plan> --summary <line> [--content <text>|-] [--note <text>]`:
   defer a block to a task or the plan, with its plan note, written first
 - `pilot.py items list`: the timeline's items, one line each, from timeline.json
-- `pilot.py items show`: the item's line and summary, its file's blocks with their answer lines and
-  Pilot's notes under them, Pilot's note on the item and its alert, a wait's firings, a done item's
-  note
+- `pilot.py items show`: the item's line; a work item's run on a line under it, its repo,
+  environment id, model, reasoning_effort and controller session, none where timeline.json holds
+  none; its summary, its file's blocks with their answer lines and Pilot's notes under them, Pilot's
+  note on the item and its alert, a wait's firings, a done item's note
 - `pilot.py items get`: the item's fields as timeline.json has them, by its number on the
   timeline, its seq
 - `pilot.py plan task add --id <task id> --title <text> [--status pending|in_progress|done] [--before <task id>|--after <task id>]`:
