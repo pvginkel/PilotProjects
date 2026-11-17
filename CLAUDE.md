@@ -154,26 +154,35 @@ Run it from this repo's root, `cexec python uv run tools/pilot.py <verb> …`; i
 never calls the API. Every write holds the folder's lock, and the check after its Bash call
 says what the record made of it. It exits 0 done, or 2 refused with nothing written. Its verbs:
 
-- `pilot.py answer`: Pilot's answer to a block, `by: agent`, in place of its own
-- `pilot.py done`: an action's Done by Pilot, which takes an action Pilot claimed
+- `pilot.py answer <file> <block id> --value <text> [--note <text>|-]`:
+  Pilot's answer to a block, `by: agent`, in place of its own
+- `pilot.py done <file> <block id> [--note <text>|-]`:
+  an action's Done by Pilot, which takes an action Pilot claimed
   (`answer: Pilot does it`, `by: agent`), one Pilot deferred (`answer: deferred`, `by: agent`) or
   one with no answer
-- `pilot.py defer`: defer a block to a task or the plan, with its plan note, written first
+- `pilot.py defer <file> <block id> --to <task id|plan> --summary <line> [--content <text>|-] [--note <text>]`:
+  defer a block to a task or the plan, with its plan note, written first
 - `pilot.py items list`: the timeline's items, one line each, from timeline.json
 - `pilot.py items show`: the item's line and summary, its file's blocks with their answer lines and
   Pilot's notes under them, Pilot's note on the item and its alert, a wait's firings, a done item's
   note
 - `pilot.py items get`: the item's fields as timeline.json has them, by its number on the
   timeline, its seq
-- `pilot.py plan task add`: add a task to the plan, last unless placed
-- `pilot.py plan task set`: change a task's title, status or both
-- `pilot.py plan task remove`: remove a task from the plan, refused while it has open notes
-- `pilot.py plan task move`: move a task before or after another
+- `pilot.py plan task add --id <task id> --title <text> [--status pending|in_progress|done] [--before <task id>|--after <task id>]`:
+  add a task to the plan, last unless placed
+- `pilot.py plan task set <task id> [--title <text>] [--status pending|in_progress|done]`:
+  change a task's title, status or both
+- `pilot.py plan task remove <task id>`:
+  remove a task from the plan, refused while it has open notes
+- `pilot.py plan task move <task id> --before <task id>|--after <task id>`:
+  move a task before or after another
 - `pilot.py plan task list`: the plan's tasks in order, with their open notes' ids
-- `pilot.py plan note add`: add a note on a task or on the plan; its id is the next n<number>
-- `pilot.py plan note strike`: strike an open note
+- `pilot.py plan note add [--task <task id>] --summary <line> [--ref <item id>/<block id>]... <text>|-`:
+  add a note on a task or on the plan; its id is the next n<number>
+- `pilot.py plan note strike <note id>`: strike an open note
 - `pilot.py plan note list`: the open notes, each with its refs' blocks as they stand
-- `pilot.py plan set`: set or clear the plan's ticket and repo
+- `pilot.py plan set [--ticket <ticket>|--no-ticket] [--repo <owner/Name>|--no-repo]`:
+  set or clear the plan's ticket and repo
 
 ## The invariants
 

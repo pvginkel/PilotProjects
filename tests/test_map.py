@@ -1763,17 +1763,45 @@ def pilot_options() -> dict[str, set[str]]:
     return {parser.prog: set(parser._option_string_actions) for parser in parsers}
 
 
+# The verbs that write, each given in CLAUDE.md's list by its usage line; the others by their name.
+WRITE_VERBS = {
+    "pilot.py answer",
+    "pilot.py done",
+    "pilot.py defer",
+    "pilot.py plan task add",
+    "pilot.py plan task set",
+    "pilot.py plan task remove",
+    "pilot.py plan task move",
+    "pilot.py plan note add",
+    "pilot.py plan note strike",
+    "pilot.py plan set",
+}
+
+
+def pilot_usages() -> dict[str, str]:
+    """The usage line `--help` prints for each write verb, without its `usage: ` prefix."""
+    module = pilot_module()
+    return {
+        leaf.prog: " ".join(leaf.format_usage().removeprefix("usage: ").split())
+        for leaf in module._leaves(module.build_parser())
+        if leaf.prog in WRITE_VERBS
+    }
+
+
 def command_fault(command: str, options: dict[str, set[str]]) -> str | None:
     """Why a quoted pilot.py command line is not one its parser takes — a word after the
     script's name that is no verb of it, or an option its verb does not have; None for one it
-    takes. A word after the verb is an option, `--…`, or a placeholder, `<…>`."""
+    takes. A word after the verb is an option, `--…`, or a placeholder, `<…>`; in a usage line, as
+    `--help` prints it, either may stand in `[…]` or beside another as `a|b`."""
     words = command.split()
     verb = max((prog for prog in options if words[: len(prog.split())] == prog.split()), key=len)
     rest = words[len(verb.split()) :]
-    named = list(itertools.takewhile(lambda word: not word.startswith(("-", "<")), rest))
+    named = list(itertools.takewhile(lambda word: not word.startswith(("-", "<", "[")), rest))
     if named:
         return f"`{verb}` has no verb `{' '.join(named)}`"
-    unknown = [word for word in rest if word.startswith("--") and word not in options[verb]]
+    flags = [part for word in rest for part in word.lstrip("[").split("|")]
+    flags = [part.rstrip("].") for part in flags if part.startswith("--")]
+    unknown = [flag for flag in flags if flag not in options[verb]]
     return f"`{verb}` takes no {', '.join(unknown)}" if unknown else None
 
 
@@ -2949,11 +2977,26 @@ class CitationsTest(unittest.TestCase):
     def test_claude_md_gives_every_verb_of_pilot_py_its_one_line(self) -> None:
         text = " ".join(CLAUDE.read_text().split())
         verbs = pilot_verbs()
+        usages = pilot_usages()
         for verb, description in verbs.items():
             with self.subTest(verb):
-                self.assertIn(f"`{verb}`: {description}", text)
-        named = set(re.findall(r"`(pilot\.py [a-z ]+)`:", text))
+                self.assertIn(f"`{usages.get(verb, verb)}`: {description}", text)
+        named = {
+            max((verb for verb in verbs if f"{span} ".startswith(f"{verb} ")), key=len)
+            for span in re.findall(r"- `(pilot\.py [^`]+)`:", text)
+        }
         self.assertEqual(named, set(verbs))
+
+    def test_claude_md_gives_every_write_verb_its_usage_line_as_pilot_py_prints_it(self) -> None:
+        text = " ".join(CLAUDE.read_text().split())
+        usages = pilot_usages()
+        self.assertEqual(set(usages), WRITE_VERBS)
+        for verb, usage in usages.items():
+            with self.subTest(verb):
+                self.assertIn(f"- `{usage}`: ", text)
+        for verb in set(pilot_verbs()) - WRITE_VERBS:
+            with self.subTest(verb):
+                self.assertIn(f"- `{verb}`: ", text)
 
     def test_claude_md_names_every_tool_call_the_hook_locks_around(self) -> None:
         settings = json.loads((ROOT / ".claude" / "settings.json").read_text())
@@ -3074,6 +3117,23 @@ class CommandCheckTest(unittest.TestCase):
                 " <verb> …` or `pilot.py`."
             ),
             ["pilot.py plan note strike <id>"],
+        )
+
+    def test_a_usage_line_as_pilot_py_prints_it_is_taken(self) -> None:
+        options = pilot_options()
+        for usage in pilot_usages().values():
+            with self.subTest(usage):
+                self.assertIsNone(command_fault(usage, options))
+
+    def test_an_option_a_usage_line_gives_its_verb_and_has_not_is_refused(self) -> None:
+        options = pilot_options()
+        self.assertEqual(
+            command_fault("pilot.py plan set [--ticket <ticket>|--no-label] [--repo <r>]", options),
+            "`pilot.py plan set` takes no --no-label",
+        )
+        self.assertEqual(
+            command_fault("pilot.py plan task move <task id> [--to <task id>]", options),
+            "`pilot.py plan task move` takes no --to",
         )
 
     def test_a_verb_with_its_own_options_and_placeholders_is_taken(self) -> None:
