@@ -9,6 +9,12 @@ a slice is the definition chat's (Taking a slice), and the slice's folder is fil
 work item (Filing a slice). Every other work item is free-form, its brief your own text
 (`rules/work-items.md`).
 
+The plugin's update is always a work item, never run in your own turn (the operator's D1,
+2026-11-17: "A work item, always"): its session runs `claude plugin marketplace update aiworkflow`,
+then `claude plugin update dev@aiworkflow --yes`. The home is shared, so one update reaches every
+environment of every project; a session already running keeps the version it started with, and one
+started after has the new one.
+
 ## A slice or a work item
 
 A slice is for work that needs the whole workflow, and the operator's two tests say which: "(1)

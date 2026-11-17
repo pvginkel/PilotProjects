@@ -1817,7 +1817,8 @@ MAP_SECTIONS = {
     "rules/placement.md": ("by project key", "by the work's nature",
                            "work born of a conversation", "a design",
                            "model and effort"),
-    "rules/stages.md": ("a slice or a work item", "taking a slice", "filing it"),
+    "rules/stages.md": ("the plugin's update", "a slice or a work item", "taking a slice",
+                        "filing it"),
 }
 
 
@@ -2631,6 +2632,14 @@ PROJECTS_NEVER_COORDINATE_QUOTE = (
     ' work across them."'
 )
 
+PLUGIN_UPDATE = (
+    "The plugin's update is always a work item, never run in your own turn (the operator's D1,"
+    ' 2026-11-17: "A work item, always"): its session runs `claude plugin marketplace update'
+    " aiworkflow`, then `claude plugin update dev@aiworkflow --yes`. The home is shared, so one"
+    " update reaches every environment of every project; a session already running keeps the"
+    " version it started with, and one started after has the new one."
+)
+
 
 class StagesRuleTest(unittest.TestCase):
     def setUp(self) -> None:
@@ -2660,6 +2669,10 @@ class StagesRuleTest(unittest.TestCase):
         for form in DATABASE_CORRECTION_ROUTED:
             with self.subTest(form):
                 self.assertIn(form, routing)
+
+    def test_the_plugin_s_update_is_always_a_work_item_run_by_its_session(self) -> None:
+        head, _, _ = self.text.partition(" ## A slice or a work item ")
+        self.assertIn(PLUGIN_UPDATE, head)
 
     def test_projects_never_coordinate_in_the_order_and_in_the_draft(self) -> None:
         _, _, rest = self.text.partition("## The order ")
