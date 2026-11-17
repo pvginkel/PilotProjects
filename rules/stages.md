@@ -33,6 +33,11 @@ every code change through a slice still bind: there it is a slice, whatever the 
   which the stage's preflight holds to.
 - A stage waits on its loop inside its turn, and a turn lasts as long as the loop, hours for a
   run. A long turn is not a stalled one: its line says where the loop stands.
+- No ask, rule, hold, wait or plan note orders, holds or synchronises work across projects: each
+  project runs alone, its order its own, and the card a ruling hands to another project
+  (`rules/routing.md`'s Another project's decision) is made and left to run (the operator,
+  2026-11-15: "The projects run completely independently and I also don't want any attempt to
+  synchronize work across them.").
 
 ## Taking a slice
 

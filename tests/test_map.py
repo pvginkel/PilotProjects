@@ -2616,6 +2616,22 @@ class DebriefNoticeTest(unittest.TestCase):
                 self.assertIn(form, " ".join(bullet.split()))
 
 
+PROJECTS_NEVER_COORDINATE_ORDER = (
+    "No ask, rule, hold, wait or plan note orders, holds or synchronises work across projects: each"
+    " project runs alone, its order its own, and the card a ruling hands to another project"
+    " (`rules/routing.md`'s Another project's decision) is made and left to run (the operator,"
+    " 2026-11-15:"
+)
+PROJECTS_NEVER_COORDINATE_DRAFT = (
+    "the plan, the rules and the asks order, hold or wait on no other project's work, each project"
+    " running alone (`rules/stages.md`'s The order; the operator, 2026-11-15:"
+)
+PROJECTS_NEVER_COORDINATE_QUOTE = (
+    '"The projects run completely independently and I also don\'t want any attempt to synchronize'
+    ' work across them."'
+)
+
+
 class StagesRuleTest(unittest.TestCase):
     def setUp(self) -> None:
         self.text = " ".join((ROOT / "rules" / "stages.md").read_text().split())
@@ -2644,6 +2660,17 @@ class StagesRuleTest(unittest.TestCase):
         for form in DATABASE_CORRECTION_ROUTED:
             with self.subTest(form):
                 self.assertIn(form, routing)
+
+    def test_projects_never_coordinate_in_the_order_and_in_the_draft(self) -> None:
+        _, _, rest = self.text.partition("## The order ")
+        order, _, _ = rest.partition(" ## Taking a slice ")
+        self.assertIn(PROJECTS_NEVER_COORDINATE_ORDER, order)
+        self.assertIn(PROJECTS_NEVER_COORDINATE_QUOTE, order)
+        draft = " ".join(skill_file("create").read_text().split())
+        _, _, rest = draft.partition(" ## The draft ")
+        section, _, _ = rest.partition(" ## A slice of the workflow ")
+        self.assertIn(PROJECTS_NEVER_COORDINATE_DRAFT, section)
+        self.assertIn(PROJECTS_NEVER_COORDINATE_QUOTE, section)
 
     def test_a_hand_over_in_a_stage_s_document_is_the_card_fate_the_stage_makes(self) -> None:
         self.assertIn(HAND_OVER_CARD_FATE, self.text)

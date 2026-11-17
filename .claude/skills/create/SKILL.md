@@ -63,6 +63,10 @@ write the draft.
     `handbook.md`.
   - `## Context`: what a session working the project needs to know — its repositories, its
     environments, its people, where its material is. The setup copies it into `handbook.md` too.
+- **Never across projects**: the plan, the rules and the asks order, hold or wait on no other
+  project's work, each project running alone (`rules/stages.md`'s The order; the operator,
+  2026-11-15: "The projects run completely independently and I also don't want any attempt to
+  synchronize work across them.").
 - **The front matter**: `title`, the project's name in the list and the head; `slug`, the
   project's folder once it is created — Pilot's choice, as the format skill has it. Give both
   once the project has a name. The check after the save reports a slug that is no valid one, and
