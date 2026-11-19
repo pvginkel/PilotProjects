@@ -10,8 +10,9 @@ its database. The app is `pvginkel/PilotApp`.
   `alert` and what `timeline.json` carries of them, the debrief's notice, the server's, which it
   reads only on a member's word, the invariants, and how it writes.
 - `.claude/skills/<name>/SKILL.md`: the four skills a brief opens with, `create`, `chat`, `pre-rule`
-  and `plan`, each with its frontmatter, its first step, which reads the brief, the rule files it
-  applies, and the brief's slot, `## The brief`, last. `chat`, `pre-rule` and `plan` take the
+  and `plan`, each with its frontmatter, its first step, which reads the brief (`create`'s reads
+  the draft, then the brief), the rule files it applies, and the brief's slot, `## The brief`,
+  last. `chat`, `pre-rule` and `plan` take the
   project's state — the plan's tasks not done, the open items, the open notes whole — and the
   handbook from the brief on the turn it opens, with no listing run for them and no read of
   `handbook.md` first, and read the state fresh through `pilot.py`'s listings on a later turn,
