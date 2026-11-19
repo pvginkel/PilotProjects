@@ -106,7 +106,8 @@ The dev image has no uv, so everything runs in the `python` tool container, from
   shape: the skills named as their folders with the brief last, the brief read first, its state
   and handbook lines as the server writes them, no listing run for what it carries on the turn it
   opens, each listing a skill quotes placed on a later turn or on what the brief leaves out, the
-  quoted item's lines in a chat's message, the handbook read again on the server's notice alone,
+  quoted item's lines in a chat's message, the handbook read again in a chat on the server's
+  notice and on a wait's later firing,
   the format skill cited by its name,
   the paths they cite there, `CLAUDE.md`'s verb lines equal to `pilot.py`'s own and its tools those
   the hook locks around, every `pilot.py` command line they quote a verb and options its parser

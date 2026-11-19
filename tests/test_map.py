@@ -179,8 +179,8 @@ LISTING_PLACED = (
     "what the brief leaves out",
     "as `pilot.py items list` prints it",
 )
-# The handbook's file is read again by the chat alone, on the server's notice that it changed
-# (D052), which a later message opens with.
+# The handbook's file is read again by the chat on the server's notice that it changed (D052),
+# which a later message opens with.
 HANDBOOK_AGAIN = (
     "and after the server's `<store_notification>` that the handbook changed, when it has one:"
     " read `handbook.md` again then, before you answer",
@@ -189,6 +189,12 @@ HANDBOOK_AGAIN = (
 HANDBOOK_AGAIN_IN_THE_MAP = (
     "The one it sends says the handbook changed since your last turn: read `handbook.md` again"
     " before you answer."
+)
+# A wait's later firing reads the handbook's file again too: its turn carries no brief, and the
+# server's notice rides a chat's turn alone (BriefService's `wait_follow_up`; slice 063's I5).
+HANDBOOK_AGAIN_ON_A_LATER_FIRING = (
+    "and `handbook.md` is read again before any act, since the server sends such a turn no notice"
+    " that it changed."
 )
 # A project chat's message that quotes an item or a block carries the item as it stands, on its
 # opening brief and on a later turn alike (BriefService's `quoted`, QUOTED_HEADING and
@@ -2178,6 +2184,11 @@ class BriefStateTest(unittest.TestCase):
             with self.subTest(form):
                 self.assertIn(form, chat)
         self.assertIn(HANDBOOK_AGAIN_IN_THE_MAP, " ".join(CLAUDE.read_text().split()))
+
+    def test_a_wait_s_later_firing_reads_the_handbook_again(self) -> None:
+        _, _, rest = skill_file("plan").read_text().partition("\n## A wait's firings\n")
+        mode, _, _ = rest.partition("\n## ")
+        self.assertIn(HANDBOOK_AGAIN_ON_A_LATER_FIRING, " ".join(mode.split()))
 
     def test_the_chat_takes_a_quoted_item_from_its_message_and_what_changed_from_its_brief(
         self,

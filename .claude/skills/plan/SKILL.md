@@ -359,7 +359,8 @@ due <stamp>` — then `Firings pending, oldest first:`, a line each: `- <stamp> 
 `- <stamp> · the operator's request (Check now), by <handle>`, `(Skip wait)` on a timed wait. A
 later firing, while this run's conversation holds, comes as its next turn: `Another firing of
 "<title>" since your last run:` and the same lines, with no brief and no state, so that steps 1
-and 2 read the notes and the open items fresh (In every mode's A later turn).
+and 2 read the notes and the open items fresh (In every mode's A later turn), and `handbook.md` is
+read again before any act, since the server sends such a turn no notice that it changed.
 
 1. **The wait as the record holds it**: `pilot.py items show <id>` prints what it watches or when
    it is due, every firing with the run that took it, and its note once done; the note beside it
