@@ -20,7 +20,10 @@ CLAUDE.md, the chat and the plan cite, its done the item's close with no mark, n
 the finish decision's options and what each calls of pilot-store's `finish`, and copying the draft's
 prose into the handbook without its asks, a task's title the task alone and what it waits on a note,
 no file of the map refusing a wait, a work item's fields and brief in one rule file the skills
-starting work cite, the chat's cancel of an ask of Pilot's own by `cancel_ask`'s arguments, the
+starting work cite, the brief the work's own part alone, its grants text appended by PilotApp's
+server from the grants' section in the shape that server reads, the job after a worker's turn mapped
+to the pass or, where the run left it nothing, to the plan alone, the pass handing on to the plan
+with no arguments, the chat's cancel of an ask of Pilot's own by `cancel_ask`'s arguments, the
 chat's alone, and a replaced or dropped work item closed through `stop_work`'s `reason`, in that
 rule file, which the chat's correction and the plan's jobs cite; and each rule a consolidation gave
 one home held there, CLAUDE.md's shared ones among them, the places that restated it pointing at
@@ -793,7 +796,48 @@ PASS_CALLS = (
     CLAIM_NAMED,
     ASK_WRITER,
     "`mark`, `item` the document's id, `mark` `done`, and no `for`",
-    "run `/plan`, its mode What is next, in this session",
+    "run `/plan`, its mode What is next, in this session, with no arguments",
+)
+# The hand-on passes no brief: `/plan` is run with no arguments and reads the brief the session
+# opened with, so that the pass writes the brief out no second time (P-405).
+HAND_ON_NO_BRIEF = (
+    "the brief is in this session already, where `/plan` reads it, and it is never passed on or"
+    " written out again"
+)
+HAND_ON_READ = (
+    "Entered from `/pre-rule` once its pass is done, in the same session, this skill comes with no"
+    " arguments and nothing is below: the brief is the one the session opened with, above, and you"
+    " read it there."
+)
+HAND_ON_RETIRED = ("its arguments the brief", "the brief as you got it", "as the job received it")
+# The job after a worker's turn opens on `/plan` where its run left the pass nothing (PilotApp's
+# BriefService, `_worker_turn_ended`: `/pre-rule` where the run registered a document, gave a
+# debrief or researched a block, else `/plan`, under the same kind line; the job after a writer's
+# answer always on `/pre-rule`): CLAUDE.md's map of kinds, the pass's lead, and the plan's first
+# step and What is next, which reads the lines such a brief holds with no pass before it (P-405,
+# the operator's "Agree", 2026-11-17).
+PASS_MAPPED = (
+    "a worker's turn ended, `/pre-rule`, then `/plan`, where its run left the pass something — a"
+    " document it registered, one whose read failed among them, the stage session's debrief or a"
+    " block it researched — and `/plan` alone, with no pass, where it left nothing; its writer"
+    " answered, `/pre-rule`, then `/plan`;"
+)
+PASS_MAPPED_RETIRED = "a worker's turn ended, or its writer answered, `/pre-rule`, then `/plan`"
+NOTHING_FOR_THE_PASS = (
+    "A worker's turn whose run left the pass nothing — no document registered, no debrief and no"
+    " researched block — opens on `/plan` itself, and this skill is not run for it."
+)
+PLAN_OPENED_ON = (
+    "A worker's turn ended whose run left the pass nothing opens on this skill itself, its brief"
+    " below, with no pass before it (What is next)."
+)
+PLAN_START = (
+    "A worker's turn ended opens on `/plan` where its run registered no document, gave no debrief"
+    " and researched no block.",
+    "the work item's line, with its task and its turn's end; `Registered nothing this run.`, with"
+    " its final message whole where its turn ended with one; the files attached; and the claimed"
+    " actions given to the work item, where it was given any (An action of Pilot's done)",
+    'No pass came before it, and no "Pre-ruled:" line: what the turn did is read from those lines.',
 )
 # The brief of the job after a person's close of an item of Pilot's own as PilotApp's BriefService
 # writes it: its kind line and the item's line.
@@ -815,9 +859,10 @@ PLAN_MODES = (
 # rule file; its notes are a deferral's, the waits-on and collision notes step 5's; a confirmation
 # is the grants' one term; and the sweep and the finish open where step 8 sends them.
 WHAT_IS_NEXT_LEAD = (
-    "After the pass, entered from `/pre-rule` on a worker's turn ended or the writer answered; after"
-    " An item done and An offer taken; and in the chat, which carries out in its own turn a close it"
-    " records (`/chat`)"
+    "After the pass, entered from `/pre-rule` on a worker's turn ended or the writer answered, with"
+    " no arguments, its brief the one this session opened with; on a worker's turn ended whose run"
+    " left the pass nothing, opened on by its brief; after An item done and An offer taken; and in"
+    " the chat, which carries out in its own turn a close it records (`/chat`)"
 )
 WHAT_IS_NEXT_FORMS = (
     "A free-form work item's own card is closed then, as `rules/work-items.md`'s Its own card has"
@@ -1351,10 +1396,73 @@ WORK_ITEM_BY_KIND = (
 )
 WORK_ITEM_BRIEF = (
     "The task in a line.",
-    "copied verbatim from `rules/grants.md`'s \"In a worker's brief\"",
     "never paste the handbook",
 )
 WORK_ITEM_SKILLS = ("chat", "plan", "pre-rule")
+# The grants text is no part of the brief the brain writes: PilotApp's server appends the block the
+# switch selects, read from the store's rules/grants.md as the work item is added, the work's topic
+# branch written in (its PilotStoreService.add_item and BriefService.work_item; P-404, the
+# operator's "Overrule D056", 2026-11-17). The rule files say so, each skill that starts work says
+# its brief is the work's own part alone, and no file of the map has the brain copy the text.
+GRANTS_APPENDED = (
+    "Pilot's server appends the text below that the switch selects to a work item's brief, read"
+    " from this file as the work item is added",
+    "the brief you write is the work's own part alone, and holds no copy of it (the operator,"
+    ' 2026-11-17: "Overrule D056", to "The server appends the switch\'s text from the store repo;'
+    ' the brain writes only the work\'s own part")',
+    "A work item whose text it cannot read, the file out of its reach or no block here for the"
+    " switch, is refused at its add: none starts without its grants text.",
+)
+GRANTS_APPENDED_TO_THE_BRIEF = (
+    "Pilot's server appends the rest to every work item's brief, a stage's and a promotion's"
+    " included: the plan task it serves, the switch with the grants text it selects, read from"
+    " `rules/grants.md`'s In a worker's brief, the work's topic branch written into it, and the"
+    " handbook.",
+    "The brief you write is the work's own part alone: never copy the grants text or write the"
+    " work's topic branch into it, and never paste the handbook.",
+    "then the task in a line and the ticket, and nothing of what to do",
+)
+GRANTS_APPENDED_TO_A_STAGE = (
+    "the grants text is Pilot's server's to append, as to any work item's brief"
+    " (`rules/work-items.md`)"
+)
+GRANTS_APPENDED_TO_A_PROMOTION = (
+    "copied verbatim (`rules/work-items.md`): Pilot's server appends the grants text to the brief,"
+    " and nothing of this file"
+)
+GRANTS_THE_SERVERS = (
+    "its brief the work's own part alone, since Pilot's server appends the grants text the switch"
+    " selects"
+)
+GRANTS_COPY_RETIRED = (
+    "The grants text the switch selects",
+    "copied verbatim from `rules/grants.md`",
+    "as it carries the grants",
+    "the ticket and the grants text",
+    "The brain writes the work's topic branch",
+)
+# The grants' section as PilotApp's server reads it (its brief_service.py: GRANTS_SECTION,
+# SWITCH_LABELS, TOPIC_BRANCH, and the two patterns of `switch_grants`): the section runs from its
+# heading to the next line that begins `# ` or `## `, one inside a fenced block included, and a
+# position's text is the fenced block right under its label, blank lines alone between. A block the
+# server does not find refuses every work item's add under that position of the switch.
+GRANTS_SECTION = "## In a worker's brief"
+SWITCH_LABELS = ("Auto pilot on:", "Auto pilot off:")
+TOPIC_BRANCH = "pilot/<project>/<task>"
+GRANTS_SECTION_READ = re.compile(
+    rf"^{re.escape(GRANTS_SECTION)}[ \t]*$(.*?)(?=^##? |\Z)", re.MULTILINE | re.DOTALL
+)
+GRANTS_BLOCK_READ = re.compile(
+    rf"^({'|'.join(re.escape(label) for label in SWITCH_LABELS)})[ \t]*\n"
+    r"(?:[ \t]*\n)*```[^\n]*\n((?:(?!```)[^\n]*\n)*)```[ \t]*$",
+    re.MULTILINE,
+)
+GRANTS_SHAPE = (
+    "The server finds the text by its shape here: this section's heading, then each label alone on"
+    " its line, `Auto pilot on:` and `Auto pilot off:`, its fenced block right under it, blank"
+    " lines alone between, and no line of a block beginning `# ` or `## `, which ends the section"
+    " for the server."
+)
 # pilot-store's `cancel_ask` as it takes its arguments (PilotApp's pilot_mcp/tools.py): `item`, the
 # ask's id, and `for`, the handle of the person on whose word it is called off. PilotApp's
 # RecordService.call_off refuses Pilot as that person, a document a work item's run registered,
@@ -1444,8 +1552,8 @@ REPLACED_BY_A_JOB = (
 )
 # The map's line while `stop_work` took no reason.
 STOP_TOOL_RETIRED = "running, starting or held; a job of yours is refused"
-# A promotion's procedure, at home in one rule file whose text a promotion's brief carries, as it
-# carries the grants, since the worker runs outside the store (P-184): the job and its parameter,
+# A promotion's procedure, at home in one rule file whose text a promotion's brief carries, copied
+# by the brain, since the worker runs outside the store (P-184): the job and its parameter,
 # the wait on the build, production read through `cexec iac`, and what else is running, Pilot's.
 PROMOTE = "rules/promote.md"
 PROMOTE_SECTION = "## In a promotion's brief"
@@ -1699,7 +1807,7 @@ PUSH_AFTER_APPROVAL = (
 )
 PUSH_AFTER_APPROVAL_BRIEF = "A push they approve is yours to make, never theirs."
 # A worker leaves no work committed in its environment alone before the turn that frees it: what
-# may not go to its branch yet goes to the work's topic branch, never asked, which the brain writes
+# may not go to its branch yet goes to the work's topic branch, never asked, which the server writes
 # into the grants text, the next task's brief names to fetch, and that task deletes once landed
 # (P-293, the operator's "Topic branch", 2026-11-15; "Never asked" and "The task deletes it",
 # 2026-11-16, Pilot v1.1 task t34).
@@ -1711,8 +1819,8 @@ TOPIC_BRANCH_ENTRY = (
     ' (the operator, 2026-11-15: "Topic branch", P-293);'
 )
 TOPIC_BRANCH_WRITTEN_IN = (
-    "The brain writes the work's topic branch into it, `pilot/<project>/<task>`: the project's slug"
-    " and the plan task's id, or a few words of the work's title in kebab case where it serves no"
+    "The server writes the work's topic branch into it, in place of `pilot/<project>/<task>`: the"
+    " project's slug and the plan task's id, or the work's title in kebab case where it serves no"
     " task."
 )
 TOPIC_BRANCH_PRE_APPROVED = "a push to this work's topic branch, `pilot/<project>/<task>`"
@@ -1723,8 +1831,6 @@ TOPIC_BRANCH_BRIEF = (
     " fetches it."
 )
 TOPIC_BRANCH_IN_THE_BRIEF = (
-    "copied verbatim from `rules/grants.md`'s \"In a worker's brief\", the work's topic branch"
-    " written into it as that section has it.",
     "A task whose input is work an earlier task left on its topic branch, which that task's turn's"
     " last line names, has its brief name the branch, `pilot/<project>/<task>` of the earlier task,"
     " to fetch, and to delete once the work has landed on the branch it was meant for"
@@ -1870,6 +1976,19 @@ def first_step(body: str) -> str:
     return match.group(1)
 
 
+def switch_grants(source: str) -> dict[str, str] | None:
+    """The grants text by its label, as PilotApp's server reads `source`, the grants file: None
+    where it finds no section, and a position whose block it does not find left out."""
+    section = GRANTS_SECTION_READ.search(source)
+    if section is None:
+        return None
+    grants: dict[str, str] = {}
+    for label, block in GRANTS_BLOCK_READ.findall(section.group(1)):
+        if block.strip():
+            grants.setdefault(label, block)
+    return grants
+
+
 def passages(text: str) -> list[str]:
     """The text's passages, each on one line: a paragraph, or a list's item, a numbered step or
     a bullet, with the lines that continue it."""
@@ -1942,7 +2061,8 @@ def command_fault(command: str, options: dict[str, set[str]]) -> str | None:
 # CLAUDE.md's map line for each rule file names the sections it holds, in the map's words.
 MAP_SECTIONS = {
     "rules/grants.md": ("never asked, granted and kept", "an operator action Pilot can run itself",
-                        "the confirmation reasons", "a worker's brief's text"),
+                        "the confirmation reasons",
+                        "a worker's brief's text, which Pilot's server appends"),
     "rules/routing.md": ("the routes", "the claim", "a block a run holds",
                          "a resume that waits on work", "due diligence",
                          "deferral", "a wait", "a close-out's promotion", "the `Later` card",
@@ -2071,6 +2191,38 @@ class BriefStateTest(unittest.TestCase):
                 self.assertIn(form, reading)
         steps, _, _ = text.partition("\nThe rules it applies:")
         self.assertIn(QUOTED_IN_THE_MESSAGE[-1], " ".join(steps.split()))
+
+
+class GrantsReadTest(unittest.TestCase):
+    """The reader itself: what PilotApp's server finds of a grants file, and what it does not."""
+
+    ON = "Pre-approved: a push to pilot/<project>/<task>.\n"
+    OFF = "Pre-approved: reads.\nNot pre-approved: a push.\n"
+
+    def file(self, on: str | None = None, between: str = "\n") -> str:
+        return (
+            f"# The grants\n\n{GRANTS_SECTION}\n\nWhat a brief carries.\n\n"
+            f"Auto pilot on:\n{between}```text\n{self.ON if on is None else on}```\n\n"
+            f"Auto pilot off:\n\n```text\n{self.OFF}```\n\n## After it\n\n```text\nNo grant.\n```\n"
+        )
+
+    def test_each_label_s_block_right_under_it_is_read_whole(self) -> None:
+        self.assertEqual(
+            switch_grants(self.file()), {"Auto pilot on:": self.ON, "Auto pilot off:": self.OFF}
+        )
+
+    def test_a_block_the_server_does_not_find_is_left_out(self) -> None:
+        for name, source in (
+            ("a `# ` line in the block", self.file(on="Pre-approved:\n# reads\n")),
+            ("a `## ` line in the block", self.file(on="Pre-approved:\n## reads\n")),
+            ("a line between the label and its block", self.file(between="\nAs follows.\n\n")),
+            ("an empty block", self.file(on="")),
+        ):
+            with self.subTest(name):
+                self.assertNotIn("Auto pilot on:", switch_grants(source))
+
+    def test_a_file_without_the_section_has_no_grants(self) -> None:
+        self.assertIsNone(switch_grants(self.file().replace(GRANTS_SECTION, "## In a brief")))
 
 
 class PassagesTest(unittest.TestCase):
@@ -2321,6 +2473,20 @@ class PlanSkillTest(unittest.TestCase):
             with self.subTest(form):
                 self.assertIn(form, text)
 
+    def test_what_is_next_is_opened_on_by_a_turn_that_left_the_pass_nothing(self) -> None:
+        plan = skill_file("plan").read_text()
+        _, body = front_matter(plan)
+        self.assertIn(PLAN_OPENED_ON, " ".join(first_step(body).split()))
+        _, _, rest = plan.partition("\n## What is next\n")
+        lead, _, _ = rest.partition("\n1. ")
+        for form in PLAN_START:
+            with self.subTest(form):
+                self.assertIn(form, " ".join(lead.split()))
+
+    def test_entered_from_the_pass_the_plan_reads_the_brief_the_session_opened_with(self) -> None:
+        _, body = front_matter(skill_file("plan").read_text())
+        self.assertIn(HAND_ON_READ, " ".join(first_step(body).split()))
+
     def test_each_mode_is_a_section_of_its_own_in_the_order_a_job_meets_it(self) -> None:
         lines = skill_file("plan").read_text().splitlines()
         for heading in PLAN_MODES:
@@ -2469,9 +2635,46 @@ class WorkItemRuleTest(unittest.TestCase):
             with self.subTest(form):
                 self.assertIn(form, text)
 
-    def test_the_brief_s_grants_text_is_a_section_of_the_grants(self) -> None:
-        lines = (ROOT / "rules" / "grants.md").read_text().splitlines()
-        self.assertIn("## In a worker's brief", lines)
+    def test_the_grants_text_is_in_the_section_and_the_shape_pilot_s_server_reads(self) -> None:
+        text = (ROOT / "rules" / "grants.md").read_text()
+        self.assertEqual(text.splitlines().count(GRANTS_SECTION), 1)
+        grants = switch_grants(text)
+        self.assertEqual(list(grants), list(SWITCH_LABELS))
+        for label, block in grants.items():
+            with self.subTest(label):
+                self.assertEqual(text.splitlines().count(label), 1)
+                self.assertIn(TOPIC_BRANCH, block)
+        _, _, rest = text.partition(f"\n{GRANTS_SECTION}\n")
+        self.assertEqual(
+            list(grants.values()),
+            re.findall(r"^```text\n(.*?)^```$", rest, re.MULTILINE | re.DOTALL),
+        )
+        intro, _, _ = rest.partition("```text")
+        self.assertIn(GRANTS_SHAPE, " ".join(intro.split()))
+
+    def test_pilot_s_server_appends_the_grants_text_and_the_brief_is_the_work_s_own_part(
+        self,
+    ) -> None:
+        _, _, rest = (ROOT / "rules" / "grants.md").read_text().partition(f"\n{GRANTS_SECTION}\n")
+        intro, _, _ = rest.partition("```text")
+        for form in GRANTS_APPENDED:
+            with self.subTest(form):
+                self.assertIn(form, " ".join(intro.split()))
+        _, _, rest = (ROOT / WORK_ITEMS).read_text().partition("\n## The brief\n")
+        brief, _, _ = rest.partition("\n## ")
+        for form in GRANTS_APPENDED_TO_THE_BRIEF:
+            with self.subTest(form):
+                self.assertIn(form, " ".join(brief.split()))
+        self.assertEqual(re.findall(r"^\d+\. ", brief, re.MULTILINE), ["1. ", "2. ", "3. "])
+        stages = " ".join((ROOT / "rules" / "stages.md").read_text().split())
+        self.assertIn(GRANTS_APPENDED_TO_A_STAGE, stages)
+        for name in WORK_ITEM_SKILLS:
+            with self.subTest(skill=name):
+                self.assertIn(GRANTS_THE_SERVERS, " ".join(skill_file(name).read_text().split()))
+        for source, page in the_map().items():
+            for form in GRANTS_COPY_RETIRED:
+                with self.subTest(source=source, retired=form):
+                    self.assertNotIn(form, " ".join(page.split()))
 
     def test_with_auto_pilot_off_an_approved_push_is_an_agent_s(self) -> None:
         text = (ROOT / "rules" / "grants.md").read_text()
@@ -2590,8 +2793,13 @@ class PromoteRuleTest(unittest.TestCase):
             with self.subTest(form):
                 self.assertIn(form, block)
 
-    def test_a_promotion_s_brief_carries_the_text_as_it_carries_the_grants(self) -> None:
+    def test_a_promotion_s_brief_carries_the_text_copied_and_its_grants_from_the_server(
+        self,
+    ) -> None:
         self.assertIn(PROMOTE_BRIEF, " ".join((ROOT / WORK_ITEMS).read_text().split()))
+        self.assertIn(
+            GRANTS_APPENDED_TO_A_PROMOTION, " ".join((ROOT / PROMOTE).read_text().split())
+        )
 
     def test_the_brief_names_the_application_s_commit_and_the_build_the_deploy_commit(
         self,
@@ -2770,6 +2978,21 @@ class PreRuleSkillTest(unittest.TestCase):
         for call in PASS_CALLS:
             with self.subTest(call):
                 self.assertIn(call, self.text)
+
+    def test_the_pass_hands_on_to_the_plan_with_no_arguments_and_no_brief(self) -> None:
+        self.assertIn(HAND_ON_NO_BRIEF, self.text)
+        for source, page in the_map().items():
+            for form in HAND_ON_RETIRED:
+                with self.subTest(source=source, retired=form):
+                    self.assertNotIn(form, " ".join(page.split()))
+
+    def test_a_turn_that_left_the_pass_nothing_opens_on_the_plan_alone(self) -> None:
+        self.assertIn(NOTHING_FOR_THE_PASS, self.text)
+        claude = " ".join(CLAUDE.read_text().split())
+        _, _, rest = claude.partition("names the kind, and that names the skill:")
+        kinds, _, _ = rest.partition("- A later turn")
+        self.assertIn(PASS_MAPPED, kinds)
+        self.assertNotIn(PASS_MAPPED_RETIRED, claude)
 
     def test_the_pass_reads_the_writer_answered_brief_as_the_server_writes_it(self) -> None:
         for form in (WRITER_ANSWERED_KIND, *WRITER_ANSWERED_LINES):

@@ -34,7 +34,8 @@ its database. The app is `pvginkel/PilotApp`.
   routed on what its work found, the stage session's debrief, where the brief carries one, left or
   made a note on the run's document still open that has a block, a notice where none is, a card, a
   comment on an open card on the same change, or a fieldnote, and the pass after the writer
-  answered, which asks nothing, and `plan`'s the plan's upkeep in its modes, in the order a job
+  answered, which asks nothing, then its hand-on to `plan` with no arguments, the brief read where
+  the session opened with it, and `plan`'s the plan's upkeep in its modes, in the order a job
   meets them: the setup, the first job at Create project; an action of Pilot's done, the `done` of
   a claimed action after a turn of its run, of a worker's document or of an item of Pilot's own,
   which that `done` closes on
@@ -42,7 +43,8 @@ its database. The app is `pvginkel/PilotApp`.
   one Pilot's server hands back left to the operator, and of each action deferred with a close-out's
   promotion after its work's turn, its notes standing until then; an item of Pilot's own a person
   closed in the app; an offer of Pilot's taken, the work it offered started as any work item and
-  nothing written on the block; what is next after the pass, after that close and in the chat, every
+  nothing written on the block; what is next after the pass, after a worker's turn that left the
+  pass nothing, whose brief opens on `plan` itself, after that close and in the chat, every
   task that can start started, a close-out's deferred promotion once the run's continuation has
   ended, read on every task of the plan and started once the handbook lets it go, a criterion owed
   after an act of Pilot's own in the store settled by the job that does the act, a cancelled run's a
@@ -53,11 +55,13 @@ its database. The app is `pvginkel/PilotApp`.
   task, or left open, with its backstop, a card wait and its backstop closed together; the sweep;
   and the finish decision, whose Finish and archive calls `finish` with `archive`.
 - `rules/`: the rules the skills apply, each file the one home of its own — `grants.md` (what goes
-  ahead and what asks the operator first, an operator action Pilot can run itself and the
-  topic-branch push and the deploy a worker follows among it),
+  ahead and what asks the operator first, an operator action Pilot can run itself, the
+  topic-branch push and the deploy a worker follows among it, and the text Pilot's server appends
+  to a work item's brief by the switch, which it reads from the file by its section's shape),
   `routing.md` (where an open block goes: the claim, of a worker's document or of an item of Pilot's
   own, how long a run holds a block, a resume that waits on work, due diligence, deferral, a wait
   and a close-out's promotion among it), `work-items.md` (a work item's fields and its brief, the
+  work's own part alone, the
   close of its own card and its close for good, replaced or dropped), `placement.md` (a work
   item's repository, work born of a conversation placed by it, a design, model and effort),
   `stages.md` (the workflow's stages from Pilot, a slice or a work item and taking a slice among
@@ -106,7 +110,11 @@ The dev image has no uv, so everything runs in the `python` tool container, from
   the paths they cite there, `CLAUDE.md`'s verb lines equal to `pilot.py`'s own and its tools those
   the hook locks around, every `pilot.py` command line they quote a verb and options its parser
   takes, the grants naming the confirmation reasons of the fixtures' `reference.json` and the
-  topic branch and the deploy a worker follows in both switch texts and in a brief's fetch, a
+  topic branch and the deploy a worker follows in both switch texts and in a brief's fetch, each
+  switch text found by the patterns PilotApp's server reads the file with, the brief the brain
+  writes the work's own part alone and no copy of the grants text left in the map, the job after a
+  worker's turn mapped to the pass or, where its run left the pass nothing, to the plan alone, the
+  pass's hand-on with no arguments, a
   resume that waits on work holding its blocks through that work, the brief
   lines and the `ask_writer` and `add_item` calls the pre-rule and plan skills quote as the server
   writes and takes them, what the pass may make of the stage session's debrief, a card on it one of

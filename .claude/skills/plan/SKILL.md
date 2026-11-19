@@ -12,19 +12,21 @@ finish decision, in the mode the brief names.
 
 1. Read the brief, below: its kind line, `Pilot's brief · <the kind> · …`, names the mode —
    `Pilot's brief · the setup · …`, The setup; `Pilot's brief · a worker's turn ended · …` and
-   `Pilot's brief · the writer answered · …`, What is next, entered from `/pre-rule` once its pass
-   is done, in the same session, its arguments the brief as the job received it, An action of
-   Pilot's done first where the brief names claimed actions or its work item is a close-out's
-   promotion's or does an action deferred to a wait; `Pilot's brief · an item of yours is done · …`,
-   An item done, then What is next; `Pilot's brief · an offer of yours was taken · …`, An offer
-   taken, then What is next; `Pilot's brief · a wait fired · …`, A wait's firings —; its
-   switch line, the grants that hold for this session; a pause; the trigger's lines; then the
-   project's state — the job's seq and its trigger's item's, the plan's tasks not done, the open
-   items, the open notes whole, your return list and the deferrals without a home — and the
-   handbook, whole, which you read here and not from the store (In every mode's What is there
-   first). A later turn of a wait's run, `Another firing of "<title>" since your last run:` and its
-   lines, has no brief: A wait's firings again, on those firings, what it acts on read fresh (In
-   every mode's A later turn).
+   `Pilot's brief · the writer answered · …`, What is next, An action of Pilot's done first where
+   the brief names claimed actions or its work item is a close-out's promotion's or does an action
+   deferred to a wait; `Pilot's brief · an item of yours is done · …`, An item done, then What is
+   next; `Pilot's brief · an offer of yours was taken · …`, An offer taken, then What is next;
+   `Pilot's brief · a wait fired · …`, A wait's firings —; its switch line, the grants that hold
+   for this session; a pause; the trigger's lines; then the project's state — the job's seq and its
+   trigger's item's, the plan's tasks not done, the open items, the open notes whole, your return
+   list and the deferrals without a home — and the handbook, whole, which you read here and not
+   from the store (In every mode's What is there first). Entered from `/pre-rule` once its pass is
+   done, in the same session, this skill comes with no arguments and nothing is below: the brief is
+   the one the session opened with, above, and you read it there. A worker's turn ended whose run
+   left the pass nothing opens on this skill itself, its brief below, with no pass before it (What
+   is next). A later turn of a wait's run, `Another firing of "<title>" since your last run:` and
+   its lines, has no brief: A wait's firings again, on those firings, what it acts on read fresh
+   (In every mode's A later turn).
 2. Do the mode's work, then end your turn with one line saying what it did. A job never waits
    and never asks in its own transcript: a question to a person is an item.
 
@@ -66,7 +68,8 @@ line by hand — is `/dev:document-format`'s, loaded before you write one; `plan
   task is a fixture. A task you add yourself is a slice's three, its filing, its planning and its
   run, only where its work needs the whole workflow by `rules/stages.md`'s A slice or a work item,
   and a single task done by a free-form work item otherwise.
-- **Work** is a work item, its fields and its brief as `rules/work-items.md` has them: a stage of
+- **Work** is a work item, its fields and its brief as `rules/work-items.md` has them, its brief the
+  work's own part alone, since Pilot's server appends the grants text the switch selects: a stage of
   the workflow for a slice's planning and its run, filed first by a work item of its own
   (`rules/stages.md`), and free-form from a brief of yours otherwise, each placed by
   `rules/placement.md` and what the handbook says of the project's repositories. A work item you
@@ -276,10 +279,18 @@ action's own section quoted line by line, then your note's fields as it stood wh
 
 ## What is next
 
-After the pass, entered from `/pre-rule` on a worker's turn ended or the writer answered; after An
-item done and An offer taken; and in the chat, which carries out in its own turn a close it records
-(`/chat`): the plan brought up to date with what happened, and every piece of work that can go,
-going.
+After the pass, entered from `/pre-rule` on a worker's turn ended or the writer answered, with no
+arguments, its brief the one this session opened with; on a worker's turn ended whose run left the
+pass nothing, opened on by its brief; after An item done and An offer taken; and in the chat, which
+carries out in its own turn a close it records (`/chat`): the plan brought up to date with what
+happened, and every piece of work that can go, going.
+
+A worker's turn ended opens on `/plan` where its run registered no document, gave no debrief and
+researched no block. Its brief holds the lines `/pre-rule` reads of such a turn: the work item's
+line, with its task and its turn's end; `Registered nothing this run.`, with its final message
+whole where its turn ended with one; the files attached; and the claimed actions given to the work
+item, where it was given any (An action of Pilot's done). No pass came before it, and no
+"Pre-ruled:" line: what the turn did is read from those lines.
 
 1. **The task's status**, from what the run or the close did — the task the brief's work item or
    item names: `pilot.py plan task set <task id> --status done` where its work is done, nothing of it

@@ -13,8 +13,11 @@ project as files. This page is what holds in every session; what to do is the sk
   kind> · …` names the kind, and that names the skill: the definition chat `/create`; the
   project's chat `/chat`; a conversation with a session in `<environment name> (<environment id>,
   session <name>)`, a session outside Pilot talking to you, `/chat` under its A conversation; a
-  worker's turn ended, or its writer answered, `/pre-rule`, then `/plan`; the setup, an item of
-  yours done, an offer of yours taken, a wait fired `/plan`.
+  worker's turn ended, `/pre-rule`, then `/plan`, where its run left the pass something — a
+  document it registered, one whose read failed among them, the stage session's debrief or a block
+  it researched — and `/plan` alone, with no pass, where it left nothing; its writer answered,
+  `/pre-rule`, then `/plan`; the setup, an item of yours done, an offer of yours taken, a wait
+  fired `/plan`.
 - A later turn that opens `Another firing of "<title>" since your last run:` is a wait's run
   resumed in its own conversation, with no brief: `/plan`'s A wait's firings again, on the
   firings its lines name.
@@ -74,7 +77,8 @@ the report after your write names no line of it, and end the turn.
 - **This repo**: the skills, `.claude/skills/<name>/SKILL.md`, and the rule files they apply, each
   the one home of its rules: `rules/grants.md` (what goes ahead and what asks the operator first:
   never asked, granted and kept, an operator action Pilot can run itself, the confirmation reasons,
-  a worker's brief's text, the topic branch it names and the deploy it follows), `rules/routing.md`
+  a worker's brief's text, which Pilot's server appends, the topic branch it names and the deploy
+  it follows), `rules/routing.md`
   (where an open block goes: the routes, the claim, of a worker's document or of an item of yours,
   a block a run holds, a resume that waits on work, due diligence, deferral, a wait,
   a close-out's promotion, the `Later` card, a delegated answer, another project's decision, the

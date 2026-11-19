@@ -28,10 +28,7 @@ Its first turn, your text, in this order:
 
 1. The task in a line.
 2. What to do and what to register: free-form work, which the session works out.
-3. The grants text the switch selects — the brief's switch line — copied verbatim from
-   `rules/grants.md`'s "In a worker's brief", the work's topic branch written into it as that
-   section has it.
-4. For a promotion to production, the text of `rules/promote.md`'s "In a promotion's brief",
+3. For a promotion to production, the text of `rules/promote.md`'s "In a promotion's brief",
    copied verbatim, step 2 naming the application, its commit, the application's alone, never the
    deploy repository's, which the promotion takes from the build, and what follows it.
 
@@ -45,10 +42,14 @@ and to delete once the work has landed on the branch it was meant for (`rules/gr
 never-asked list).
 
 A stage of the workflow takes a brief of its own shape: its command and the slice's number as the
-first line, then the task in a line, the ticket and the grants text, and nothing of what to do,
-which its skill has (`rules/stages.md`).
+first line, then the task in a line and the ticket, and nothing of what to do, which its skill has
+(`rules/stages.md`).
 
-Pilot appends the plan task it serves, the switch and the handbook: never paste the handbook.
+Pilot's server appends the rest to every work item's brief, a stage's and a promotion's included:
+the plan task it serves, the switch with the grants text it selects, read from `rules/grants.md`'s
+In a worker's brief, the work's topic branch written into it, and the handbook. The brief you write
+is the work's own part alone: never copy the grants text or write the work's topic branch into it,
+and never paste the handbook.
 
 What a brief says by its work's kind has its home beside that kind's rules:
 
@@ -56,7 +57,7 @@ What a brief says by its work's kind has its home beside that kind's rules:
 - an operator action that needs infrastructure access, a secret's included: `rules/placement.md`'s
   The repository, by the work's nature;
 - a research: `rules/routing.md`'s Due diligence, step 4;
-- a promotion: item 4 above, `rules/promote.md`;
+- a promotion: item 3 above, `rules/promote.md`;
 - a slice's filing: `rules/stages.md`'s Filing a slice.
 
 ## The answer

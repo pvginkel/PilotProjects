@@ -90,13 +90,22 @@ on, every open confirmation whose code is the granted column's, and never one of
 
 ## In a worker's brief
 
-A work item's brief carries the text below that the switch selects, copied verbatim, so that the
-session knows what is pre-approved and acts on it. The brain writes the work's topic branch into it,
-`pilot/<project>/<task>`: the project's slug and the plan task's id, or a few words of the work's
-title in kebab case where it serves no task. Its sentence on a secret lets the worker the
-brief sends to place one do so, as An operator action Pilot can run itself has it, and no other
-(the operator, 2026-11-15: "New wording", to "Never shown, read back or passed on, placed only
-where the brief says").
+Pilot's server appends the text below that the switch selects to a work item's brief, read from
+this file as the work item is added, so that the session knows what is pre-approved and acts on
+it: the brief you write is the work's own part alone, and holds no copy of it (the operator,
+2026-11-17: "Overrule D056", to "The server appends the switch's text from the store repo; the
+brain writes only the work's own part"). The server writes the work's topic branch into it, in
+place of `pilot/<project>/<task>`: the project's slug and the plan task's id, or the work's title
+in kebab case where it serves no task. Its sentence on a secret lets the worker the brief sends to
+place one do so, as An operator action Pilot can run itself has it, and no other (the operator,
+2026-11-15: "New wording", to "Never shown, read back or passed on, placed only where the brief
+says").
+
+The server finds the text by its shape here: this section's heading, then each label alone on its
+line, `Auto pilot on:` and `Auto pilot off:`, its fenced block right under it, blank lines alone
+between, and no line of a block beginning `# ` or `## `, which ends the section for the server. A
+work item whose text it cannot read, the file out of its reach or no block here for the switch, is
+refused at its add: none starts without its grants text.
 
 Auto pilot on:
 

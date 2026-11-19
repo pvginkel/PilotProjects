@@ -8,7 +8,9 @@ description: Pilot's pass over what a worker's turn registered — each document
 The pass over the documents a worker's turn registered, before the operator reads them: each open
 block routed, answered, deferred, claimed or asked of its writer by you, or left to the operator, a
 document you settled whole marked Done; then `/plan`, for what is next, in this same session. The
-routes are yours: Pilot's server routes nothing.
+routes are yours: Pilot's server routes nothing. A worker's turn whose run left the pass nothing —
+no document registered, no debrief and no researched block — opens on `/plan` itself, and this
+skill is not run for it.
 
 1. Read the brief, below: its kind line, `Pilot's brief · a worker's turn ended · …`, or
    `Pilot's brief · the writer answered · …` after the writer's answer (The writer answered); its
@@ -35,7 +37,8 @@ routes are yours: Pilot's server routes nothing.
    brief carries one (The debrief). A document whose read failed has no text: it is the operator's
    to mark Reviewed, and the pass writes nothing of it.
 3. End the pass with its one line (The summary line), then run `/plan`, its mode What is next, in
-   this session, its arguments the brief as you got it.
+   this session, with no arguments: the brief is in this session already, where `/plan` reads it,
+   and it is never passed on or written out again.
 
 A job never waits and never asks in its own transcript: what a person must decide stays open in its
 document, or is put to them as an item.
@@ -84,8 +87,9 @@ The rules it applies: `rules/routing.md`, each route and what it writes, deferra
 card, a delegated answer, another project's decision and the friction half; `rules/grants.md`, what
 the switch lets go ahead; `rules/stages.md`, what a stage of the workflow registers and what each
 fate in its documents means; `rules/work-items.md` and `rules/placement.md`, the work item that does
-an action you claim. The writing — an answer line or its note by hand, a missing title or summary —
-is `/dev:document-format`'s, loaded before you write one; a `pilot.py` write is not.
+an action you claim, its brief the work's own part alone, since Pilot's server appends the grants
+text the switch selects. The writing — an answer line or its note by hand, a missing title or
+summary — is `/dev:document-format`'s, loaded before you write one; a `pilot.py` write is not.
 
 ## The pass
 

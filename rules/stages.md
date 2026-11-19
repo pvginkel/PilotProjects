@@ -97,10 +97,10 @@ A stage's brief has a shape of its own:
 2. The task in a line, then `Ticket: <id>` on a line of its own, the plan's ticket: every card
    the stage files is parented to it. A plan with no ticket gives none, and the stage files its
    cards without a parent and says so.
-3. The grants text the switch selects, as `rules/work-items.md` has it.
 
 Nothing else of yours: no instructions, no context, no list of what to register, and nothing on
-its debrief or on notices. The stage's skill has them, and the slice's folder holds the rest. The
+its debrief or on notices. The stage's skill has them, and the slice's folder holds the rest; the
+grants text is Pilot's server's to append, as to any work item's brief (`rules/work-items.md`). The
 work item's `repo` is the slice's repository, a slice a conversation asked for included
 (`rules/placement.md`'s Work born of a conversation), its `cwd` that repository's checkout,
 `/work/<Name>`, and its `step` the slice's task, which every document it registers carries.

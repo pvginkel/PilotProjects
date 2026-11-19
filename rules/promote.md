@@ -3,8 +3,9 @@
 What a promotion to production needs, the same in every project: the job and its parameter, the
 wait on the build, the read of production through `cexec iac`, and the check for what else is
 running. The worker runs outside the store, so a promotion's brief carries the text below,
-copied verbatim, as it carries the grants (`rules/work-items.md`); the brief names the rest, the
-application, its commit and what the close-out owes after it.
+copied verbatim (`rules/work-items.md`): Pilot's server appends the grants text to the brief, and
+nothing of this file; the brief names the rest, the application, its commit and what the close-out
+owes after it.
 
 Pilot starts a promotion's work item where the handbook's rules on other work running let it,
 and a close-out's promotion besides only once the run's continuation has ended

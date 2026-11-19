@@ -146,7 +146,8 @@ for `handbook.md` or a `pilot.py` write (CLAUDE.md's Writing).
 ## Acting
 
 - **Work the person asks for** is a work item, its fields and its brief as `rules/work-items.md`
-  has them. Work that does an open action of an item of Pilot's own, one the person hands to a
+  has them, its brief the work's own part alone, since Pilot's server appends the grants text the
+  switch selects. Work that does an open action of an item of Pilot's own, one the person hands to a
   worker, claims it on its `add_item`, as `rules/routing.md`'s The claim has
   it: `claims` the block's id, `<item id>/<local id>`, then
   `pilot.py answer <file> <block id> --value "Pilot does it" --note <its work item>`, so that the
