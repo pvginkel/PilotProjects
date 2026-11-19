@@ -10,8 +10,12 @@ its database. The app is `pvginkel/PilotApp`.
   `alert` and what `timeline.json` carries of them, the debrief's notice, the server's, which it
   reads only on a member's word, the invariants, and how it writes.
 - `.claude/skills/<name>/SKILL.md`: the four skills a brief opens with, `create`, `chat`, `pre-rule`
-  and `plan`, each with its frontmatter, its first step, the rule files it applies, and the brief's
-  slot, `## The brief`, last. Between them, `chat`'s body is the project's chat's procedure on
+  and `plan`, each with its frontmatter, its first step, which reads the brief, the rule files it
+  applies, and the brief's slot, `## The brief`, last. `chat`, `pre-rule` and `plan` take the
+  project's state — the plan's tasks not done, the open items, the open notes whole — and the
+  handbook from the brief on the turn it opens, with no listing run for them and no read of
+  `handbook.md` first, and read the state fresh through `pilot.py`'s listings on a later turn,
+  which carries none; the chat takes the item a message quotes from the message. Between them, `chat`'s body is the project's chat's procedure on
   Pilot's `pilot-store` tools and the brief the server composes, a ruling it records on an item of
   Pilot's own carried out in its own turn, with no job after it, an action of one the person hands
   to a worker claimed for that work item, an ask of Pilot's own called off through `cancel_ask` for
@@ -94,7 +98,11 @@ The dev image has no uv, so everything runs in the `python` tool container, from
 - `kc project test`: every test under `tests/`: `pilot.py`'s, against invented project folders
   (`tests/fixtures/tree/`); the hook's, against a stand-in for `pilot-sync`'s local endpoint; and
   the map's (`tests/test_map.py`), which holds `CLAUDE.md`, the rule files and the skills to their
-  shape: the skills named as their folders with the brief last, the format skill cited by its name,
+  shape: the skills named as their folders with the brief last, the brief read first, its state
+  and handbook lines as the server writes them, no listing run for what it carries on the turn it
+  opens, each listing a skill quotes placed on a later turn or on what the brief leaves out, the
+  quoted item's lines in a chat's message, the handbook read again on the server's notice alone,
+  the format skill cited by its name,
   the paths they cite there, `CLAUDE.md`'s verb lines equal to `pilot.py`'s own and its tools those
   the hook locks around, every `pilot.py` command line they quote a verb and options its parser
   takes, the grants naming the confirmation reasons of the fixtures' `reference.json` and the

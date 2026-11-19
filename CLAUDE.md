@@ -18,8 +18,18 @@ project as files. This page is what holds in every session; what to do is the sk
 - A later turn that opens `Another firing of "<title>" since your last run:` is a wait's run
   resumed in its own conversation, with no brief: `/plan`'s A wait's firings again, on the
   firings its lines name.
-- Read `handbook.md` before you do anything the brief asks, in every kind but the definition chat,
-  whose draft has none.
+- The brief carries the project's state and its handbook, in every kind but the definition chat,
+  whose draft has none: a job's seq on the timeline and that of the item its trigger names, the
+  plan's tasks not done, the open items and the open plan notes whole, each as `pilot.py` prints
+  its listing, the deferrals without a home, and `handbook.md` whole; a part with nothing in it is
+  left out, its heading too. On the turn the brief opens you read them there: no
+  `pilot.py plan task list`, `pilot.py plan note list` or `pilot.py items list --open` is run for
+  what it carries, and `handbook.md` is not read first.
+- The brief's state is the record's as the brief was composed, and it serves the turn the brief
+  opens. A later turn of the session — a chat's later message, a wait's run resumed, a turn of
+  Pilot's server — carries no brief and no state, and workers, jobs and people changed the record
+  meanwhile: what such a turn acts on is read fresh, through `pilot.py plan task list`,
+  `pilot.py plan note list` and `pilot.py items list --open`, never taken from the opening brief.
 
 ## The server's notices
 

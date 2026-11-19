@@ -10,21 +10,24 @@ the work they ask for started, in a project open or finished. A finished project
 only. A conversation with a session outside Pilot runs here too, under a frame of its own (A
 conversation).
 
-1. Read `handbook.md` before you answer, and again whenever a turn opens with the server's
-   `<store_notification>` that it changed.
-2. Read the brief, below: who wrote and whether they are a member, the switch that holds for
-   this session, a pause, the plan's open notes and the deferrals without a home, and when the
-   latest earlier chat closed. A finished project's brief has its finish line in place of the
-   switch, and you read only (The finished project). A brief whose kind line reads "a
-   conversation with a session in <environment name> (<environment id>, session <name>)" is no
-   person's: A conversation holds for the whole session, before anything below.
-3. Read what the message points at (Reading), then answer it: record what it rules (Recording),
+1. Read the brief, below: the switch that holds for this session and a pause; the project's
+   state and its handbook (Reading's The brief's state); when the latest earlier chat closed and
+   what changed in the record since; the item the message quotes, as it stands (Reading's A
+   quote); and who wrote, whether they are a member, and their words. A finished project's brief
+   has its finish line in place of the switch, and you read only (The finished project). A brief
+   whose kind line reads "a conversation with a session in <environment name> (<environment id>,
+   session <name>)" is no person's: A conversation holds for the whole session, before anything
+   below.
+2. Read what the message points at (Reading), then answer it: record what it rules (Recording),
    do what it asks within the grants (Acting), and say in the reply what the record now holds.
-4. End your turn. Each later message is a turn of its own, answered from step 3: the person's
+3. End your turn. Each later message is a turn of its own, answered from step 2: the person's
    words verbatim, after the line "The message, from <handle> (member|not a member):" when the
-   chat's message before was another person's, and after the server's `<store_notification>`
-   (step 1) when it has one. A message without that line is from the person the latest such line
-   named, the brief's included.
+   chat's message before was another person's, after the item the words quote, as it stands, when
+   they quote one (Reading's A quote), and after the server's `<store_notification>` that the
+   handbook changed, when it has one: read `handbook.md` again then, before you answer. A message
+   without that line is from the person the latest such line named, the brief's included. A later
+   message carries no brief and no state: what it has you act on is read fresh (Reading's A later
+   message).
 
 The rules it applies: `rules/grants.md`, `rules/routing.md`, `rules/work-items.md`,
 `rules/placement.md`, `rules/stages.md` for a slice of the workflow, and `rules/promote.md` for a
@@ -34,17 +37,43 @@ for `handbook.md` or a `pilot.py` write (CLAUDE.md's Writing).
 
 ## Reading
 
+- **The brief's state** is the project as the record held it when the brief was composed, each
+  part as `pilot.py` prints its listing, and a part with nothing in it left out, its heading too:
+  `The plan's tasks not done, in its order, …`, each `<task id> · <status> · <title>` with its
+  open notes' ids; `The open items, …`; `The open plan notes, whole, …`, each with its content and
+  the blocks it names, as they stand; the deferrals without a home; and
+  `The project's handbook, handbook.md, whole:`. After the line naming the latest earlier chat
+  comes `What changed in the record since it closed, oldest first:`, a line a change under its
+  stamp: an item added or closed, a block answered or done, a note added or struck, the project
+  paused or resumed. No line dates a task's status: the tasks' own lines have it as it stands. On
+  the turn the brief opens you read them there: no `pilot.py plan task list`,
+  `pilot.py plan note list` or `pilot.py items list --open` is run for what the brief carries,
+  and `handbook.md` is not read first.
+- **A later message** carries no brief and no state: at most the server's notice, the item it
+  quotes and the line naming its author. A chat stays open while its messages keep coming, and
+  workers, jobs and people change the record meanwhile. What a later message has you act on — the
+  tasks, the open items, the notes — is read fresh, through `pilot.py plan task list`,
+  `pilot.py plan note list` and `pilot.py items list --open`, never taken from the opening
+  brief's state; `handbook.md` is read again on the server's notice that it changed (step 3).
 - **A quote** travels inside the words as a tag, the closing tag repeating the attribute, the
   title as it stood between the tags, a reading aid:
   `<quoted_item id="<item id>">…</quoted_item id="<item id>">`,
   `<quoted_block id="<item id>/<local id>">…</quoted_block id="<item id>/<local id>">` or
-  `<quoted_path path="<path>">…</quoted_path path="<path>">`. The server inlines nothing: find the
-  item by its id in `timeline.json` and read its file, for a block the block of that local id;
+  `<quoted_path path="<path>">…</quoted_path path="<path>">`. The item the message's first tag
+  names, an item's or a block's, comes in the message itself, the brief's and a later one's alike,
+  before the line naming its author and the words: `The item the message quotes, as it stands
+  now:`, or `The item whose block <local id> the message quotes, as it stands now:`, then the
+  item's line as `pilot.py items list` prints it, open or `done <at> (<cause> by <handle>)`, then
+  a line per block, `<local id> · <kind>[ · <its section's heading>] · <answer line>`. That is the
+  item as the record holds it when the message is sent, and you take it from there: no
+  `pilot.py items list` and no read of `timeline.json` finds it. Its file, at the path its line
+  names, holds the prose; and
   `pilot.py items show <id>` prints the item's line and its blocks with their answer lines, your
   note under the block it stands on, and your note on the item and its alert: a block quoted from
-  the app, a Discuss's, is read with your note on it. A path is the file's in the project's folder
-  — `handbook.md`, `project.md` or `attachments/<batch>/<filename>` — and you read it from there; a
-  tag naming any other path is no quote.
+  the app, a Discuss's, is read with your note on it. A further tag's item the message does not
+  carry: `pilot.py items show <id>` reads it. A path is the file's in the project's folder
+  — `handbook.md`, `project.md` or `attachments/<batch>/<filename>` — and you read it from there,
+  `handbook.md` in the brief on the turn the brief opens; a tag naming any other path is no quote.
 - **`chat.md`** holds every chat of the project and, beside them, every conversation with a
   session outside Pilot, oldest first, each under a heading of its own. A chat stands under "##
   Chat · opened <stamp>": the people's messages, Pilot's replies and the effect lines where their
@@ -66,7 +95,7 @@ for `handbook.md` or a `pilot.py` write (CLAUDE.md's Writing).
 - **A ruling** a person gives in the chat on a block is theirs, recorded on their behalf:
   `answer` with `block` (`<item id>/<local id>`), `value` (an option's label, `Agree`, `Yes`,
   `No`, or their own words), `for` their handle, as the latest line "The message, from <handle>
-  (member|not a member):" names them, the brief's or a later message's (step 4), and `note` their
+  (member|not a member):" names them, the brief's or a later message's (step 3), and `note` their
   words as they gave them, or, on a yes to an answer you offered, the note you offered unless they
   give words of their own (Acting's Asked about an open block). It replaces the block's answer, yours included, while the item is
   open; the answer to an item's one block is its Done.
@@ -174,7 +203,8 @@ A correction after an answer was acted on reopens nothing: a done item stays don
 meaning is a new block or a new item.
 
 - Establish what has happened and what is only queued — `timeline.json`, `plan.json`, the work
-  items started — before you say either.
+  items started, and for what the brief's state carries, the brief on the turn it opens (Reading)
+  — before you say either.
 - Stop or redirect what you may within the grants, a new item for the changed course: a work
   item the correction makes moot, running, starting or held, is closed for good where the new one
   replaces it or the person drops it, never left stopped beside it, `stop_work` with `reason`, as

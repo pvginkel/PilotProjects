@@ -10,8 +10,7 @@ block routed, answered, deferred, claimed or asked of its writer by you, or left
 document you settled whole marked Done; then `/plan`, for what is next, in this same session. The
 routes are yours: Pilot's server routes nothing.
 
-1. Read `handbook.md` before anything the brief asks.
-2. Read the brief, below: its kind line, `Pilot's brief · a worker's turn ended · …`, or
+1. Read the brief, below: its kind line, `Pilot's brief · a worker's turn ended · …`, or
    `Pilot's brief · the writer answered · …` after the writer's answer (The writer answered); its
    switch line, the grants that hold for this session; a pause; the work item's line — its title,
    its task, its repository, its environment and session, its turn's end and its last line; then
@@ -20,13 +19,22 @@ routes are yours: Pilot's server routes nothing.
    `Registered nothing this run.`; the files attached on the work item; the stage session's
    debrief, where it gave one, `The stage session's debrief, as given:` and its words on the lines
    after it; the claimed actions given to the work item, which are `/plan`'s; the blocks it
-   researched, which are the pass's; the plan's open notes by summary; and the deferrals without a
-   home, which are `/plan`'s too.
-3. Pass over each published document, in the brief's order (The pass), then over the blocks the
+   researched, which are the pass's; then the project's state as the record held it when the brief
+   was composed, each part as `pilot.py` prints its listing, and a part with nothing in it left
+   out, its heading too: `This job is seq <n> on the timeline; the item its trigger names, seq
+   <m>.`, that item the work item or the clarification run; `The plan's tasks not done, in its
+   order, …`; `The open items, …`; `The open plan notes, whole, …`, each with its content and the
+   blocks it names, as they stand; the deferrals without a home, which are `/plan`'s too; and last
+   `The project's handbook, handbook.md, whole:`. You read them there: on this turn no
+   `pilot.py plan task list`, `pilot.py plan note list` or `pilot.py items list --open` is run for
+   what the brief carries, and `handbook.md` is not read first. A later turn of this session, one
+   of Pilot's server, carries no brief and no state: what it acts on is read fresh through those
+   three, never taken from the brief above it (`CLAUDE.md`'s Who you are).
+2. Pass over each published document, in the brief's order (The pass), then over the blocks the
    work item researched (A researched block), then over the stage session's debrief, where the
    brief carries one (The debrief). A document whose read failed has no text: it is the operator's
    to mark Reviewed, and the pass writes nothing of it.
-4. End the pass with its one line (The summary line), then run `/plan`, its mode What is next, in
+3. End the pass with its one line (The summary line), then run `/plan`, its mode What is next, in
    this session, its arguments the brief as you got it.
 
 A job never waits and never asks in its own transcript: what a person must decide stays open in its
@@ -86,8 +94,8 @@ Per published document, one after the other:
 1. **Read it.** `pilot.py items show <id>` prints its line and its blocks with their answer lines,
    and your notes and alert standing on it; its file, at the brief's path, holds the prose and the
    asks whole. A document a person closed while the job waited is passed by. The open notes a block
-   touches are a read away, `pilot.py plan note list`: a note that already holds its ask, or settles
-   it, is cited in your answer's note, never written twice.
+   touches are in the brief, whole: a note that already holds its ask, or settles it, is cited in
+   your answer's note, never written twice.
 2. **The front matter first**, by hand, in your first edit of the file and before any answer: a
    `title` where the worker's front matter gives none — its first heading's words, copied as they
    stand, where it has one, else the document's subject in a line — and a `summary` where the front
@@ -105,9 +113,10 @@ Per published document, one after the other:
    of this trigger, which a Retry's store holds — is settled: leave it. In a run whose resume waits
    on work, a block you would settle is left unanswered for it (step 6).
    - **Before any choice of yours, the due diligence** of `rules/routing.md`, the project's folder
-     scanned through `pilot.py plan task list`, `pilot.py plan note list`, `pilot.py items list`,
-     the files under `items/` and `inbox/` and `chat.md`, and a fact the ask rests on and nobody
-     read found first (Researched).
+     scanned: the handbook, the tasks not done, the open items and the open notes in the brief;
+     what the brief leaves out, the tasks done and the items closed, through
+     `pilot.py plan task list` and `pilot.py items list`; the files under `items/` and `inbox/`;
+     and `chat.md`; and a fact the ask rests on and nobody read found first (Researched).
    - **Answered**, `by: agent`:
      `pilot.py answer <file> <block id> --value <option> --note <why>`, the value an option's
      label, `Agree`, `Yes`, `No`, a routing ask's fate as `rules/stages.md`'s A fate in a stage's
@@ -275,7 +284,7 @@ answered, 1 deferred to t5); inbox/8 open for the operator (D2, your note on it)
 read; inbox/6 Q2 answered on its research" — or "Pre-ruled: nothing registered"; where the brief
 carries a debrief, a last part says what came of it: "the debrief: nothing", or the note and its
 document, the notice, the card by its id, the comment by its card's id, or the post. Then `/plan`,
-What is next (step 4).
+What is next (step 3).
 
 ## The brief
 

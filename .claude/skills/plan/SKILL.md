@@ -10,9 +10,7 @@ work ends, what is next after a worker's turn, after an item of yours is done an
 yours is taken, the work that offer starts, a wait's firings, the sweep before the finish and the
 finish decision, in the mode the brief names.
 
-1. Read `handbook.md` before anything the brief asks; at the setup it is empty, unless the setup
-   is a Retry (In every mode).
-2. Read the brief, below: its kind line, `Pilot's brief · <the kind> · …`, names the mode —
+1. Read the brief, below: its kind line, `Pilot's brief · <the kind> · …`, names the mode —
    `Pilot's brief · the setup · …`, The setup; `Pilot's brief · a worker's turn ended · …` and
    `Pilot's brief · the writer answered · …`, What is next, entered from `/pre-rule` once its pass
    is done, in the same session, its arguments the brief as the job received it, An action of
@@ -20,11 +18,14 @@ finish decision, in the mode the brief names.
    promotion's or does an action deferred to a wait; `Pilot's brief · an item of yours is done · …`,
    An item done, then What is next; `Pilot's brief · an offer of yours was taken · …`, An offer
    taken, then What is next; `Pilot's brief · a wait fired · …`, A wait's firings —; its
-   switch line, the grants that hold for this session; a pause; the trigger's lines; the plan's open
-   notes, by summary; and the deferrals without a home. A later turn of a wait's run,
-   `Another firing of "<title>" since your last run:` and its lines, has no brief: A wait's firings
-   again, on those firings.
-3. Do the mode's work, then end your turn with one line saying what it did. A job never waits
+   switch line, the grants that hold for this session; a pause; the trigger's lines; then the
+   project's state — the job's seq and its trigger's item's, the plan's tasks not done, the open
+   items, the open notes whole, your return list and the deferrals without a home — and the
+   handbook, whole, which you read here and not from the store (In every mode's What is there
+   first). A later turn of a wait's run, `Another firing of "<title>" since your last run:` and its
+   lines, has no brief: A wait's firings again, on those firings, what it acts on read fresh (In
+   every mode's A later turn).
+2. Do the mode's work, then end your turn with one line saying what it did. A job never waits
    and never asks in its own transcript: a question to a person is an item.
 
 The rules it applies: `rules/grants.md`, `rules/work-items.md`, `rules/placement.md`,
@@ -34,13 +35,31 @@ line by hand — is `/dev:document-format`'s, loaded before you write one; `plan
 
 ## In every mode
 
-- **What is there first.** The brief says what triggered the job; the store says what is there:
-  `plan.json` (`pilot.py plan task list`, `pilot.py plan note list`) and `timeline.json`
-  (`pilot.py items list --open`) are read before you write. A job may be a person's Retry of one
-  that failed or stopped: the same kind line and brief, composed as it starts — a setup's word for
-  word, `The plan: plan.json, empty.` included — while the store holds whatever the failed job
+- **What is there first.** The brief says what triggered the job and what is there: the project's
+  state as the record held it when the brief was composed, each part as `pilot.py` prints its
+  listing, and a part with nothing in it left out, its heading too. In its order:
+  `This job is seq <n> on the timeline; the item its trigger names, seq <m>.`, the setup's its own
+  seq alone; `The plan's tasks not done, in its order, …`, each `<task id> · <status> · <title>`
+  with its open notes' ids, and none there where no task is left undone; `The open items, …`, each
+  with the task it serves, `step <task id>`; `The open plan notes, whole, …`, each
+  `<note id> · <task id> · <summary>`, or `<note id> · plan · <summary>` for the plan's own, its
+  content and the blocks it names, as they stand, under it; `Your return list, …`, the open notes
+  of the trigger's task and the plan's own, after an item done, an offer taken and a wait fired;
+  the deferrals without a home; and last
+  `The project's handbook, handbook.md, whole:`, at the setup none, its handbook empty, unless the
+  setup is a Retry. Read them there before you write: on the turn the brief opens, no
+  `pilot.py plan task list`, `pilot.py plan note list` or `pilot.py items list --open` is run for
+  what it carries, and `handbook.md` is not read first. A job may be a person's Retry of one that
+  failed or stopped: the same kind line and trigger's lines — a setup's word for word,
+  `The plan: plan.json, empty.` included — while the brief's state holds whatever the failed job
   wrote first: a handbook, the plan's tasks, a work item it started, a note, an item. Take up what
   is there, and never add a second of it.
+- **A later turn** carries no brief and no state: a wait's run resumed on another firing, a turn
+  of Pilot's server, and a chat's later message, on which `/chat` carries out What is next. The
+  record moved meanwhile, by workers, jobs and people, so what such a turn acts on is read fresh —
+  `pilot.py plan task list`, `pilot.py plan note list`, a task's alone with
+  `pilot.py plan note list --task <task id>`, and `pilot.py items list --open` — never taken from
+  the opening brief's state.
 - **As lean as the project**: the plan holds the tasks the project needs and no more — "the
   build is failing" is a task or two — a task added where the work shows one missing, removed
   where it turns moot, `pilot.py plan task remove <task id>` once its notes are struck or moved; no
@@ -58,9 +77,9 @@ line by hand — is `/dev:document-format`'s, loaded before you write one; `plan
   waits on gets its work item, in an environment of its own, all at once — the gate throttles them,
   and a held start is a line, never a reason to start less — and is set going as its work item
   starts, `pilot.py plan task set <task id> --status in_progress`, never a job later. Held back only
-  what the plan says waits — what a task waits on is a note on it,
-  `pilot.py plan note list --task <task id>`, which you strike,
-  `pilot.py plan note strike <note id>`, once what it waits on is met — and what would collide: two
+  what the plan says waits — what a task waits on is a note on it, one of the open notes (What is
+  there first; A later turn), which you strike, `pilot.py plan note strike <note id>`, once what it
+  waits on is met — and what would collide: two
   runs on one repository's same files, or work whose input is a run's open document; a task held
   back for a collision says so in a note on it. Each run waits only on its own documents: the task a
   finished document unblocks is started at once, whatever other runs still wait on theirs. One at a
@@ -268,8 +287,9 @@ going.
    waiting on a person. A free-form work item's own card is closed then, as `rules/work-items.md`'s
    Its own card has it.
 2. **A deferral's notes**, the task's and those of each task you start below, each naming the blocks
-   deferred to it, the content and blocks a read away, `pilot.py plan note list --task <task id>`; the
-   plan's own at the plan's end (The sweep). Each is met and acted on — what it says to ask asked,
+   deferred to it, its content and those blocks as they stand under it among the open notes (What is
+   there first; A later turn), the task's and the plan's own named by the brief's return list after
+   an item done and an offer taken; the plan's own at the plan's end (The sweep). Each is met and acted on — what it says to ask asked,
    in the work item's brief or as an item, what it says to do done — then struck,
    `pilot.py plan note strike <note id>`; or re-deferred with a reason, a note on the task or the plan
    where it now returns, naming the same blocks and why, the old one struck; or struck where its
@@ -277,8 +297,8 @@ going.
    are step 3's, and a note on what a task waits on, on a collision or on a wait's event is no
    deferral's: step 5 and A wait's firings read those.
 3. **A close-out's promotion**, deferred to the run's own task with what follows it, is read on
-   every task of the plan, never the brief's task alone, the brief's open notes by summary naming
-   each, and is met only once it is due, as `rules/routing.md`'s A close-out's promotion has it:
+   every task of the plan, never the brief's task alone, the open notes naming each, and is met only
+   once it is due, as `rules/routing.md`'s A close-out's promotion has it:
    until then its notes stand, neither acted on nor struck. Then, as soon as the handbook's rules on
    other work running let it go, whichever task this job's brief names — with auto pilot off, on its
    confirmation's Yes (step 7) — one work item does them all but a criterion owed after an act of
@@ -300,7 +320,8 @@ going.
    never started, since a person who cancelled may not want it promoted. The job that meets their
    notes starts nothing of them, posts the operator a notice naming the promotion and the cancelled
    run it was owed after, and strikes the notes.
-4. **The deferrals without a home**, the brief's last list, which the pass leaves to you: each
+4. **The deferrals without a home**, the brief's list after its open notes, which the pass leaves to
+   you: each
    given its note in this turn, as `rules/routing.md`'s Deferral has it —
    `pilot.py plan note add --task <task id> --summary <line> --ref <item id>/<block id> <content>`,
    without `--task` for one deferred to the plan — or its block answered anew in a new item, as
@@ -326,14 +347,17 @@ due <stamp>` — then `Firings pending, oldest first:`, a line each: `- <stamp> 
 <to>, by <login>`, a card's transition; `- <stamp> · due <stamp> — fired at its due time`; or
 `- <stamp> · the operator's request (Check now), by <handle>`, `(Skip wait)` on a timed wait. A
 later firing, while this run's conversation holds, comes as its next turn: `Another firing of
-"<title>" since your last run:` and the same lines.
+"<title>" since your last run:` and the same lines, with no brief and no state, so that steps 1
+and 2 read the notes and the open items fresh (In every mode's A later turn).
 
 1. **The wait as the record holds it**: `pilot.py items show <id>` prints what it watches or when
    it is due, every firing with the run that took it, and its note once done; the note beside it
-   on its task, `pilot.py plan note list --task <task id>`, says what was to happen once its event
-   came (`rules/routing.md`'s A wait).
-2. **Its pair**, a card wait and its backstop, found by the task they share:
-   `pilot.py items list --open` gives each wait its `step`. A card wait's backstop is the open timed
+   on its task says what was to happen once its event came (`rules/routing.md`'s A wait): one of
+   the open notes the brief's return list names, and on a later firing's turn
+   `pilot.py plan note list --task <task id>`.
+2. **Its pair**, a card wait and its backstop, found by the task they share: the open items give
+   each wait its `step`, the brief's on the turn it opens and `pilot.py items list --open` on a
+   later firing's. A card wait's backstop is the open timed
    wait on its task titled as one, `Backstop: <the card wait's title>` (`rules/routing.md`'s A
    wait), and a backstop's card wait the open one on its task that its title names. A timed wait a
    person asked for on the same task is titled otherwise: it is no backstop, and nothing of the card
@@ -367,8 +391,8 @@ later firing, while this run's conversation holds, comes as its next turn: `Anot
 ## The sweep
 
 Where What is next's step 8 sends here: before the finish decision, in every plan, and at the
-plan's sweep task where it has one: the plan's open notes of its own — those
-`pilot.py plan note list` lists as the plan's — and, where the plan has a ticket, the `Later`
+plan's sweep task where it has one: the plan's open notes of its own — those the open notes give
+as the plan's, `<note id> · plan · <summary>` (What is there first; A later turn) — and, where the plan has a ticket, the `Later`
 cards linked to that epic (`rules/routing.md`'s The `Later` card), read through youtrack. Each one
 is:
 

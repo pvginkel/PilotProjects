@@ -1,5 +1,7 @@
 """The brain's map as its sessions load it — CLAUDE.md, the rule files and the four skills: each
-skill named as its folder and its brief last, the handbook read first, the format skill cited by
+skill named as its folder and its brief last, the brief read first with the project's state and the
+handbook in it, no listing run for what it carries and the state read fresh on a later turn, a
+chat's quoted item taken from its message, the format skill cited by
 its name, pilot.py's verbs as its parser has them, the tool calls the hook locks around, every
 pilot.py command line it quotes one the parser takes, every path the map cites in place, the chat
 skill and the create skill reading a person's message as PilotApp's server sends it, the create
@@ -82,6 +84,131 @@ LATEST_NAMING = (
     " included.",
     f"`for` their handle, as the latest line {NAMING_LINE} names them",
 )
+# The project's state and the handbook in a brief, as PilotApp's BriefService writes them (its
+# `_state`: `_seqs`, TASKS_HEADING, ITEMS_HEADING, NOTES_HEADING, `_return_list` and
+# HANDBOOK_HEADING; a heading that quotes a pilot.py listing is cut at its comma): every brief's
+# but the definition chat's, a job's with its seqs, a job on a task with its return list.
+STATE_SEQS = "`This job is seq <n> on the timeline; the item its trigger names, seq <m>.`"
+STATE_TASKS = "`The plan's tasks not done, in its order, …`"
+STATE_ITEMS = "`The open items, …`"
+STATE_NOTES = "`The open plan notes, whole, …`"
+STATE_RETURN_LIST = "`Your return list, …`"
+STATE_HANDBOOK = "`The project's handbook, handbook.md, whole:`"
+STATE_IN_THE_BRIEF = {
+    "plan": (STATE_SEQS, STATE_TASKS, STATE_ITEMS, STATE_NOTES, STATE_RETURN_LIST, STATE_HANDBOOK),
+    "pre-rule": (STATE_SEQS, STATE_TASKS, STATE_ITEMS, STATE_NOTES, STATE_HANDBOOK),
+    "chat": (STATE_TASKS, STATE_ITEMS, STATE_NOTES, STATE_HANDBOOK),
+}
+STATE_SKILLS = tuple(sorted(STATE_IN_THE_BRIEF))
+# On the turn the brief opens, the skills and the map take the state and the handbook from it: no
+# listing is run for what it carries, and no skill reads the handbook's file first (the operator's
+# "State and handbook", 2026-11-17, on P-402).
+BRIEF_FIRST = "Read the brief, below:"
+NO_LISTING = (
+    "no `pilot.py plan task list`, `pilot.py plan note list` or `pilot.py items list --open` is run"
+    " for what"
+)
+NO_HANDBOOK_FIRST = "`handbook.md` is not read first"
+STATE_IN_THE_MAP = (
+    "The brief carries the project's state and its handbook, in every kind but the definition chat,"
+    " whose draft has none",
+    "a part with nothing in it is left out, its heading too",
+    "On the turn the brief opens you read them there",
+)
+# The steps and passages that read the store for what a brief now carries.
+STATE_RETIRED = (
+    "Read `handbook.md` before",
+    "are read before you write",
+    "a read away",
+    "open notes by summary",
+    "open notes, by summary",
+    "The server inlines nothing",
+    "scanned through `pilot.py plan task list`",
+    "lists as the plan's",
+)
+# A later turn of a session carries no brief and no state (BriefService's `message_from` and
+# `wait_follow_up`, ChatService's `_send`), so what it acts on is read fresh through the listings,
+# never taken from the opening brief: in the map, and in each skill for the later turns it has.
+LATER_TURN_IN_THE_MAP = (
+    "The brief's state is the record's as the brief was composed, and it serves the turn the brief"
+    " opens.",
+    "A later turn of the session — a chat's later message, a wait's run resumed, a turn of Pilot's"
+    " server — carries no brief and no state",
+    "what such a turn acts on is read fresh, through `pilot.py plan task list`,"
+    " `pilot.py plan note list` and `pilot.py items list --open`, never taken from the opening"
+    " brief.",
+)
+LATER_TURN = {
+    "plan": (
+        "- **A later turn** carries no brief and no state: a wait's run resumed on another firing,"
+        " a turn of Pilot's server, and a chat's later message, on which `/chat` carries out What"
+        " is next.",
+        "so what such a turn acts on is read fresh — `pilot.py plan task list`,"
+        " `pilot.py plan note list`, a task's alone with"
+        " `pilot.py plan note list --task <task id>`, and `pilot.py items list --open` — never"
+        " taken from the opening brief's state.",
+        "with no brief and no state, so that steps 1 and 2 read the notes and the open items fresh"
+        " (In every mode's A later turn)",
+        "one of the open notes the brief's return list names, and on a later firing's turn"
+        " `pilot.py plan note list --task <task id>`",
+        "the brief's on the turn it opens and `pilot.py items list --open` on a later firing's",
+    ),
+    "pre-rule": (
+        "A later turn of this session, one of Pilot's server, carries no brief and no state: what"
+        " it acts on is read fresh through those three, never taken from the brief above it",
+    ),
+    "chat": (
+        "A later message carries no brief and no state: what it has you act on is read fresh"
+        " (Reading's A later message).",
+        "- **A later message** carries no brief and no state: at most the server's notice, the item"
+        " it quotes and the line naming its author.",
+        "is read fresh, through `pilot.py plan task list`, `pilot.py plan note list` and"
+        " `pilot.py items list --open`, never taken from the opening brief's state",
+    ),
+}
+# A listing a skill quotes stands in a passage that says which turn runs it, or what it reads that
+# the brief leaves out: never a read of the state on the turn the brief opens.
+LISTING = re.compile(r"`pilot\.py (?:plan task list|plan note list|items list)[^`]*`")
+LISTING_PLACED = (
+    NO_LISTING,
+    "read fresh",
+    "on a later firing's",
+    "what the brief leaves out",
+    "as `pilot.py items list` prints it",
+)
+# The handbook's file is read again by the chat alone, on the server's notice that it changed
+# (D052), which a later message opens with.
+HANDBOOK_AGAIN = (
+    "and after the server's `<store_notification>` that the handbook changed, when it has one:"
+    " read `handbook.md` again then, before you answer",
+    "`handbook.md` is read again on the server's notice that it changed (step 3)",
+)
+HANDBOOK_AGAIN_IN_THE_MAP = (
+    "The one it sends says the handbook changed since your last turn: read `handbook.md` again"
+    " before you answer."
+)
+# A project chat's message that quotes an item or a block carries the item as it stands, on its
+# opening brief and on a later turn alike (BriefService's `quoted`, QUOTED_HEADING and
+# QUOTED_BLOCK_HEADING, the item of the message's first tag, ChatService's `_quote`), and the
+# opening brief what changed since the latest earlier chat closed (CHANGED_HEADING).
+QUOTED_IN_THE_MESSAGE = (
+    "The item the message's first tag names, an item's or a block's, comes in the message itself,"
+    " the brief's and a later one's alike, before the line naming its author and the words",
+    "`The item the message quotes, as it stands now:`",
+    "`The item whose block <local id> the message quotes, as it stands now:`",
+    "then the item's line as `pilot.py items list` prints it, open or"
+    " `done <at> (<cause> by <handle>)`",
+    "`<local id> · <kind>[ · <its section's heading>] · <answer line>`",
+    "no `pilot.py items list` and no read of `timeline.json` finds it",
+    "A further tag's item the message does not carry: `pilot.py items show <id>` reads it.",
+    "after the item the words quote, as it stands, when they quote one (Reading's A quote)",
+)
+CHANGED_SINCE = (
+    "`What changed in the record since it closed, oldest first:`",
+    "an item added or closed, a block answered or done, a note added or struck, the project paused"
+    " or resumed",
+    "No line dates a task's status: the tasks' own lines have it as it stands.",
+)
 # A conversation with a session outside Pilot, as PilotApp's server writes it: the kind line of
 # its brief (BriefService's CONVERSATION_KIND_LINE, then its caller), the line over the brief's
 # message, and its heading in chat.md (ViewService's CONVERSATION_HEADING, then the same caller),
@@ -99,7 +226,8 @@ CONVERSATION_MAPPED = (
     "a conversation with a session in `<environment name> (<environment id>, session <name>)`, a"
     " session outside Pilot talking to you, `/chat` under its A conversation"
 )
-# The chat skill is sent to the section by its second step, before anything it does for a person.
+# The chat skill is sent to the section by the step that reads the brief, before anything it does
+# for a person.
 CONVERSATION_ENTERED = (
     f'A brief whose kind line reads "{CONVERSATION_KIND}" is no person\'s: A conversation holds'
     " for the whole session, before anything below."
@@ -1452,8 +1580,7 @@ PROMOTION_STRUCK_AT_ITS_START = "and the notes of what it does are struck"
 # handbook lets it go, whichever task the job's brief names (P-218, the operator's "Every task",
 # 2026-11-15).
 PROMOTION_ON_EVERY_TASK = (
-    "is read on every task of the plan, never the brief's task alone, the brief's open notes by"
-    " summary naming each",
+    "is read on every task of the plan, never the brief's task alone, the open notes naming each",
     "Then, as soon as the handbook's rules on other work running let it go, whichever task this"
     " job's brief names — with auto pilot off, on its confirmation's Yes (step 7) — one work item"
     " does them all",
@@ -1743,6 +1870,13 @@ def first_step(body: str) -> str:
     return match.group(1)
 
 
+def passages(text: str) -> list[str]:
+    """The text's passages, each on one line: a paragraph, or a list's item, a numbered step or
+    a bullet, with the lines that continue it."""
+    parts = re.split(r"\n[ \t]*\n|\n(?=[ \t]*(?:- |\d+\. ))", text)
+    return [" ".join(part.split()) for part in parts if part.strip()]
+
+
 def pilot_module():
     spec = importlib.util.spec_from_file_location("pilot", ROOT / "tools" / "pilot.py")
     module = importlib.util.module_from_spec(spec)
@@ -1841,11 +1975,18 @@ class SkillsTest(unittest.TestCase):
                 self.assertEqual(text.count("## The brief"), 1)
                 self.assertEqual(text.count("$ARGUMENTS"), 1)
 
-    def test_every_skill_but_create_reads_the_handbook_first(self) -> None:
-        for name in SKILL_NAMES - {"create"}:
+    def test_every_skill_but_create_reads_the_brief_first_and_no_handbook_before_it(self) -> None:
+        for name in STATE_SKILLS:
             with self.subTest(name):
-                _, body = front_matter(skill_file(name).read_text())
-                self.assertIn("`handbook.md`", first_step(body))
+                text = skill_file(name).read_text()
+                _, body = front_matter(text)
+                self.assertTrue(first_step(body).startswith(BRIEF_FIRST))
+                self.assertIn(NO_HANDBOOK_FIRST, " ".join(text.split()))
+        claude = " ".join(CLAUDE.read_text().split())
+        self.assertIn(NO_HANDBOOK_FIRST, claude)
+        for source, page in the_map().items():
+            with self.subTest(source=source):
+                self.assertNotIn("Read `handbook.md` before", " ".join(page.split()))
 
     def test_claude_md_s_map_names_each_rule_file_s_sections(self) -> None:
         text = " ".join(CLAUDE.read_text().split())
@@ -1861,6 +2002,95 @@ class SkillsTest(unittest.TestCase):
         for name in SKILL_NAMES:
             with self.subTest(name):
                 self.assertIn(f"`/{name}`", text)
+
+
+class BriefStateTest(unittest.TestCase):
+    def test_the_skills_read_the_state_and_the_handbook_as_the_server_writes_them(self) -> None:
+        for name, forms in STATE_IN_THE_BRIEF.items():
+            text = " ".join(skill_file(name).read_text().split())
+            for form in forms:
+                with self.subTest(skill=name, form=form):
+                    self.assertIn(form, text)
+        create = " ".join(skill_file("create").read_text().split())
+        for form in STATE_IN_THE_BRIEF["plan"]:
+            with self.subTest(skill="create", form=form):
+                self.assertNotIn(form, create)
+
+    def test_no_listing_is_run_for_what_the_brief_carries_on_the_turn_it_opens(self) -> None:
+        claude = " ".join(CLAUDE.read_text().split())
+        for form in (*STATE_IN_THE_MAP, NO_LISTING):
+            with self.subTest(source="CLAUDE.md", form=form):
+                self.assertIn(form, claude)
+        for name in STATE_SKILLS:
+            with self.subTest(skill=name):
+                self.assertIn(NO_LISTING, " ".join(skill_file(name).read_text().split()))
+        for source, page in the_map().items():
+            for form in STATE_RETIRED:
+                with self.subTest(source=source, retired=form):
+                    self.assertNotIn(form, " ".join(page.split()))
+
+    def test_a_listing_a_skill_quotes_names_its_turn_or_what_the_brief_leaves_out(self) -> None:
+        for name in STATE_SKILLS:
+            quoting = [
+                passage
+                for passage in passages(skill_file(name).read_text())
+                if LISTING.search(passage)
+            ]
+            self.assertTrue(quoting)
+            for passage in quoting:
+                with self.subTest(skill=name, passage=passage[:60]):
+                    self.assertTrue(any(form in passage for form in LISTING_PLACED))
+
+    def test_a_later_turn_reads_what_it_acts_on_fresh(self) -> None:
+        claude = " ".join(CLAUDE.read_text().split())
+        for form in LATER_TURN_IN_THE_MAP:
+            with self.subTest(source="CLAUDE.md", form=form):
+                self.assertIn(form, claude)
+        for name, forms in LATER_TURN.items():
+            text = " ".join(skill_file(name).read_text().split())
+            for form in forms:
+                with self.subTest(skill=name, form=form):
+                    self.assertIn(form, text)
+
+    def test_the_chat_reads_the_handbook_again_on_the_server_s_notice_alone(self) -> None:
+        chat = " ".join(skill_file("chat").read_text().split())
+        for form in HANDBOOK_AGAIN:
+            with self.subTest(form):
+                self.assertIn(form, chat)
+        self.assertIn(HANDBOOK_AGAIN_IN_THE_MAP, " ".join(CLAUDE.read_text().split()))
+
+    def test_the_chat_takes_a_quoted_item_from_its_message_and_what_changed_from_its_brief(
+        self,
+    ) -> None:
+        text = skill_file("chat").read_text()
+        _, _, rest = text.partition("\n## Reading\n")
+        reading, _, _ = rest.partition("\n## ")
+        reading = " ".join(reading.split())
+        for form in (*QUOTED_IN_THE_MESSAGE[:-1], *CHANGED_SINCE):
+            with self.subTest(form):
+                self.assertIn(form, reading)
+        steps, _, _ = text.partition("\nThe rules it applies:")
+        self.assertIn(QUOTED_IN_THE_MESSAGE[-1], " ".join(steps.split()))
+
+
+class PassagesTest(unittest.TestCase):
+    """The passage split itself: what the listing check reads as one passage."""
+
+    def test_a_paragraph_a_step_and_a_bullet_are_each_a_passage_with_their_lines(self) -> None:
+        self.assertEqual(
+            passages(
+                "A lead\nof two lines.\n\n1. A step\n   that goes on.\n2. Another:\n"
+                "   - a bullet\n     of its own.\n   - and one more.\n\n- A last one.\n"
+            ),
+            [
+                "A lead of two lines.",
+                "1. A step that goes on.",
+                "2. Another:",
+                "- a bullet of its own.",
+                "- and one more.",
+                "- A last one.",
+            ],
+        )
 
 
 class ChatSkillTest(unittest.TestCase):
