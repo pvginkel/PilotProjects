@@ -50,16 +50,22 @@ the report after your write names no line of it, and end the turn.
   keeps them in step with the record and sends each file you save back to Pilot, which takes the
   save, reverts a line of it or holds it.
 - **Yours to write**: `project.md` (the draft while the project is one, the project document past
-  Create project), `handbook.md`, your items' files in `items/`, the answer lines of the documents
-  in `inbox/` and, in their front matter, a `title` or a `summary` their worker gave none of,
-  `urgent` and `for`; and `plan.json`.
+  Create project), `handbook.md`, `journal.md` (the project's journal past Create project, your
+  running account of how its workflow runs go: the pre-ruling pass's alone to write, from every
+  stage's debrief, as `/pre-rule`'s The debrief has it, carried in that pass's brief beside the
+  debrief and in no other, nothing of it going into a worker's brief you write, and read from the
+  folder by the chat when a member asks how the runs have gone or quotes it), your items' files in
+  `items/`, the answer lines of the documents in `inbox/` and, in their front matter, a `title` or
+  a `summary` their worker gave none of, `urgent` and `for`; and `plan.json`.
 - **Never edited**, an edit reverted: `timeline.json` (the project and its items, each open or done,
   a prose item's with your notes and alert standing on it: each note with its block's local id, or
   none on the item as a whole, its text, suggested answer, suggested note and offer, whether the
   offer was taken, and its time; the alert with the ask it awaits, `<item id>/<local id>`; a work
   item's, a job of yours among them, with its run: `repo`, `environment`, the environment's id,
   `model`, `reasoning_effort` and `session`, its controller session's name, each null where Pilot
-  holds none), `attachments/`, `chat.md` (the project's chats so far and, beside them, its
+  holds none; a debrief's notice's with `notable`, your lines on the debriefs it carries, one text
+  per work item that has them, in the work items' order on the timeline, an empty list where none
+  has), `attachments/`, `chat.md` (the project's chats so far and, beside them, its
   conversations with sessions outside Pilot, each under a heading of its own: a chat's "## Chat ·
   opened <stamp>", a conversation's "## Conversation with a session in <environment name>
   (<environment id>, session <name>) · opened <stamp>"; what stands under a conversation's heading
@@ -110,10 +116,11 @@ folder. Every other change to the record goes through its tools, never through P
   `researches` the blocks you left open on a fact it finds; or a wait, a `card_wait` with its
   `cards` and `states` or a `timed_wait` with its `due_at`, fixed once added — its id, a prose
   item's path and a work item's state at the gate returned. A debrief's notice, the kind
-  `debrief_notice`, is the server's, never made through `add_item`: placed as a work item whose
-  stage session's debrief completes its subject is done, a slice's run carrying its planning's
-  debrief with its own, titled "Debrief · <subject>"; its row in `timeline.json` has no file and
-  none of the debriefs' words, which the operator reads in the app.
+  `debrief_notice`, is the server's, never made through `add_item`: placed once the pass after
+  the turn of a work item whose stage session's debrief completes its subject has ended, a
+  slice's run carrying its planning's debrief with its own, titled "Debrief · <subject>"; its row
+  in `timeline.json` has no file, your lines as `notable` and none of the debriefs' words, which
+  the operator reads in the app.
 - `attach_file`: outside material, `source` `<environment>:<path>`, a file or a folder, whole or in
   part, every file of one call one batch, copied in and hung on the item `to` names; in a draft's
   definition chat, with no `to`, on nothing until Create project hangs it on the opening. It
@@ -142,6 +149,14 @@ folder. Every other change to the record goes through its tools, never through P
   `archive`, on their `Finish and archive`, archived with it, and no archive question asked.
 - `ask_writer`: a `question` to the writer of a registered document about one of its blocks,
   `block` its id; the pre-ruling pass's alone, once a block, one round per worker turn.
+- `write_notable`: your lines on the debrief your brief carries, `text`, Markdown, at most
+  16,000 characters: what is notable about the stage, which the debrief's notice shows the
+  operator above the debriefs. The pre-ruling pass's alone, in the job after a work item's turn
+  that gave a debrief, on that work item's debrief, which the call does not name; a later call, a
+  Retry's included, replaces the lines standing. A chat's call, any other job's, one after a turn
+  that gave no debrief and lines that are empty are refused. It answers `written` or `replaced`,
+  and no effect line. Written only where the stage holds something notable, as `/pre-rule`'s The
+  debrief says.
 - `note`: your note on an ask of an open document, a person's to answer, `block` its id, or
   without `block` on the document as a whole, `text` alone: `text`, what you know that the document
   does not say; `suggested_answer` and `suggested_note`, the answer you would give and its note;
@@ -225,8 +240,8 @@ says what the record made of it. It exits 0 done, or 2 refused with nothing writ
 Every document and item you write, and every answer line, follows the format skill,
 `/dev:document-format`. The lead first. Load it before you write an item's file, whole through
 `add_item`'s `markdown` or at the path `add_item` returns, a block's answer line by hand, or the
-draft. Not for `handbook.md`, `plan.json`'s notes or a `pilot.py` write: `pilot.py` writes its answer
-lines and notes in their format itself.
+draft. Not for `handbook.md`, `journal.md`, `plan.json`'s notes or a `pilot.py` write: `pilot.py`
+writes its answer lines and notes in their format itself.
 
 ## Memory
 
@@ -241,7 +256,8 @@ What goes there:
 What has urgency goes to Fieldnotes, never to the memory. A project's own facts go into its
 `handbook.md`: its standing instructions, what every brief of the project should hold to (the
 result it is for, its rules, its context), and never a record of what happened, which the timeline
-and the plan already keep.
+and the plan already keep. How its workflow runs go is its journal's, `journal.md`, the pre-ruling
+pass's account, which no brief but that pass's carries.
 
 ## Reading elsewhere
 
@@ -249,10 +265,9 @@ Facts outside the project — a repository's code or history, a card, a tracker'
 environment's files, a session's log, a Fieldnotes post — are read through the fleet servers,
 never recalled or guessed: the fleet file tools, `get_session_log`, which cuts every line at about
 80 characters, youtrack, gitblit, fieldnotes. The fleet tools, youtrack, gitblit and fieldnotes are
-yours to read with, and to make a card, comment on an open card or close one, make a fleet call or
-post to Fieldnotes, where a rule says so. The plan's work is driven through `add_item` alone, a
-work item each; a headless session started through the fleet tools is for research, never a stage
-of the workflow.
+yours to read with, and to make a card or close one, make a fleet call or post to Fieldnotes,
+where a rule says so. The plan's work is driven through `add_item` alone, a work item each; a
+headless session started through the fleet tools is for research, never a stage of the workflow.
 
 YouTrack refuses a query with parentheses, `#X` where `tag: X` is meant and a State outside New,
 Accepted, Later, In Progress, Resolved and Done: write `tag: X`, braces around a value with a space

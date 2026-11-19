@@ -8,7 +8,8 @@ its database. The app is `pvginkel/PilotApp`.
 - `CLAUDE.md`: the brain's map, what holds in every session Pilot runs here — who it is, where its
   project's files are, its tools and `pilot.py`'s verbs, its notes and alerts through `note` and
   `alert` and what `timeline.json` carries of them, the debrief's notice, the server's, which it
-  reads only on a member's word, the invariants, and how it writes.
+  reads only on a member's word, its lines in that notice through `write_notable`, the project's
+  journal, `journal.md`, the pre-ruling pass's alone to write, the invariants, and how it writes.
 - `.claude/skills/<name>/SKILL.md`: the four skills a brief opens with, `create`, `chat`, `pre-rule`
   and `plan`, each with its frontmatter, its first step, which reads the brief (`create`'s reads
   the draft, then the brief), the rule files it applies, and the brief's slot, `## The brief`,
@@ -22,6 +23,8 @@ its database. The app is `pvginkel/PilotApp`.
   to a worker claimed for that work item, an ask of Pilot's own called off through `cancel_ask` for
   the person who says it is obsolete, a work item a correction replaces closed through `stop_work`
   with its reason, and one the person drops with their words as it, both by `rules/work-items.md`,
+  the project's journal read from the tree when a member asks how its runs have gone or quotes
+  it, apart from how one work item goes now,
   and a conversation with a session outside Pilot under a frame of its own, the session's words a
   request and never a ruling, what needs the operator an item, the work it starts placed by
   repository and never in the session's environment by `rules/placement.md`, `create`'s the
@@ -32,9 +35,13 @@ its database. The app is `pvginkel/PilotApp`.
   the document, by exception alone, as the pre-rule and plan skills say in the same words, an action
   of the granted column with auto pilot off, a held push above all, confirmed first and claimed on
   the operator's Yes, a close-out's promotion deferred to the run's own task, a researched block
-  routed on what its work found, the stage session's debrief, where the brief carries one, left or
-  made a note on the run's document still open that has a block, a notice where none is, a card, a
-  comment on an open card on the same change, or a fieldnote, and the pass after the writer
+  routed on what its work found, the stage's full debrief, where the brief carries one — the
+  stage session's words, every role's entry, the loop's figures, the stages' times and the
+  project's journal — read against that journal, the journal kept after every stage that gives
+  one, in a default shape the pass may go beyond, with no filler, an account and no tracker, only
+  what is notable written as Pilot's lines in the debrief's notice through `write_notable`, a
+  planning's pass journalling only, no card, note or notice made of a debrief, and a fieldnote it
+  may post named in nothing the operator reads, and the pass after the writer
   answered, which asks nothing, then its hand-on to `plan` with no arguments, the brief read where
   the session opened with it, and `plan`'s the plan's upkeep in its modes, in the order a job
   meets them: the setup, the first job at Create project; an action of Pilot's done, the `done` of
@@ -119,8 +126,11 @@ The dev image has no uv, so everything runs in the `python` tool container, from
   pass's hand-on with no arguments, a
   resume that waits on work holding its blocks through that work, the brief
   lines and the `ask_writer` and `add_item` calls the pre-rule and plan skills quote as the server
-  writes and takes them, what the pass may make of the stage session's debrief, a card on it one of
-  the two exceptions `rules/stages.md` makes to a stage's documents, the `Later` card the other, an
+  writes and takes them, the stage's full debrief in the pass's brief by the lines the server
+  writes, the journal the pass keeps of it, its default shape and its leeway, what is notable
+  written through `write_notable` by examples and no list, a planning's pass journalling only, no
+  card, note or notice made of a debrief and its fieldnote unnamed, the `Later` card the one
+  exception `rules/stages.md` makes to a stage's documents and a debrief taking none, an
   action of an item of Pilot's own that a work item does claimed by `rules/routing.md`'s one
   section, which `CLAUDE.md` and the chat and plan skills cite, its `done` the item's close,
   `cancel_ask` by its arguments in `CLAUDE.md` and the chat skill and nowhere else, `stop_work`'s
@@ -131,11 +141,14 @@ The dev image has no uv, so everything runs in the `python` tool container, from
   `chat.md`'s conversations read as a calling session's requests in `CLAUDE.md` and the chat skill,
   and the work it starts placed by repository, never in its environment, by `rules/placement.md`,
   which the work item's field line and a stage's brief follow, and the debrief's notice: the
-  server's in `CLAUDE.md`'s `add_item` line, its form none of `add_item`'s in the fixtures'
+  server's in `CLAUDE.md`'s `add_item` line, placed once the pass has ended, its row carrying
+  Pilot's lines and no debrief, its form none of `add_item`'s in the fixtures'
   `reference.json`, read only on a member's word in `CLAUDE.md` and the chat skill, and the place
   where the pre-rule skill says the operator reads a debrief, and Pilot's notes and alerts: the
-  rule that writes one by exception alone, in the same words in the pre-rule and plan skills, the
-  pass's note on a block left to a person and the debrief's on the run's open document in place of
-  a notice, the note on a claimed action left undone, the job an offer's taking places by its kind
+  rule that writes one by exception alone and none of a debrief, in the same words in the pre-rule
+  and plan skills, the pass's note on a block left to a person, the note on a claimed action left
+  undone, the job an offer's taking places by its kind
   line, `note` and `alert` and the notes in `timeline.json` in `CLAUDE.md`, and the chat reading a
-  quoted block with its note.
+  quoted block with its note, and the project's journal: `journal.md` a file of the project's
+  folder, the pre-ruling pass's to write in `CLAUDE.md`, `write_notable` by its argument there,
+  and the chat reading it from the tree on a member's ask and taking a quote of it by its path.

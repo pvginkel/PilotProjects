@@ -72,8 +72,9 @@ for `handbook.md` or a `pilot.py` write (CLAUDE.md's Writing).
   note under the block it stands on, and your note on the item and its alert: a block quoted from
   the app, a Discuss's, is read with your note on it. A further tag's item the message does not
   carry: `pilot.py items show <id>` reads it. A path is the file's in the project's folder
-  — `handbook.md`, `project.md` or `attachments/<batch>/<filename>` — and you read it from there,
-  `handbook.md` in the brief on the turn the brief opens; a tag naming any other path is no quote.
+  — `handbook.md`, `project.md`, `journal.md` or `attachments/<batch>/<filename>` — and you read
+  it from there, `handbook.md` in the brief on the turn the brief opens; a tag naming any other
+  path is no quote.
 - **`chat.md`** holds every chat of the project and, beside them, every conversation with a
   session outside Pilot, oldest first, each under a heading of its own. A chat stands under "##
   Chat · opened <stamp>": the people's messages, Pilot's replies and the effect lines where their
@@ -89,6 +90,16 @@ for `handbook.md` or a `pilot.py` write (CLAUDE.md's Writing).
   holds of the work item, open, or done, when and how, as `pilot.py items show <id>` prints its
   line, and point the person to its line and its session log on the timeline. No more: no
   estimate, and no read of its session's log or its session's status to tell how far it got.
+- **How the project's runs have gone**, asked — "how have the slices been going?" — is another
+  question than How work goes, and the journal's: read `journal.md` from the project's folder,
+  your running account of the project's workflow runs, which the pre-ruling pass keeps from every
+  stage's debrief (`/pre-rule`'s The debrief), and answer from it; a Discuss on it quotes it by
+  its path (A quote). No chat's brief carries it, so it is read from the tree each time it is
+  asked about or quoted. Where it is empty, no stage has been journalled yet: say so. It is the
+  pass's to write, never the chat's. A debrief itself is in no file, and you read none. A
+  debrief's notice a message quotes has no file either: your lines on the debriefs it carries are
+  its row's `notable` in `timeline.json`, which `pilot.py items get <seq>` prints, and the
+  debriefs the person reads in the app.
 
 ## Recording
 

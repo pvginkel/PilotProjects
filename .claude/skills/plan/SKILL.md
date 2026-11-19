@@ -146,7 +146,8 @@ line by hand — is `/dev:document-format`'s, loaded before you write one; `plan
   person's is read as any other, nothing marking it new: where it cannot wait for them to open the
   document, `urgent: true` in its front matter alerts them again, the turn to urgent alone, so that
   on a document urgent already it alerts no one. A notice stays for news with no open document to
-  sit on.
+  sit on. Of a debrief neither a note nor a notice is written: its news are your lines in the
+  debrief's notice, which the pass after the stage's turn writes through `write_notable`.
 
 ## The setup
 

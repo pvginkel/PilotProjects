@@ -8,10 +8,12 @@ skill and the create skill reading a person's message as PilotApp's server sends
 skill naming a draft's ask and its material as pilot-store takes them, the pre-rule skill reading
 the briefs of a worker's turn and of its writer's answer as PilotApp's server writes them and
 naming its writes — a claim, a research, a question to the writer and a wait among them — routing
-the blocks a research's brief gives and its hand-on to the plan, making nothing, a notice, a card
-or a fieldnote of the stage session's debrief they carry, an open card on the same change
-commented on rather than a card made, a card on it the one exception
-rules/stages.md makes to a stage's documents, whose brief says nothing of it, the plan skill naming
+the blocks a research's brief gives and its hand-on to the plan, reading the stage's full debrief
+they carry by the lines the server writes, against the project's journal, keeping the journal in
+its default shape or beyond it, writing only what is notable through `write_notable`, a planning's
+pass the journal alone, and making no card, note or notice of a debrief, a fieldnote unnamed, the
+`Later` card the one exception rules/stages.md makes to a stage's documents, whose brief says
+nothing of its debrief, the plan skill naming
 each mode by its brief's kind line, reading the brief of an item done, the claimed actions of a
 worker's turn and the brief and the follow-up of a wait's run as the server writes them, a claimed
 action the run's or the operator's where the server's reading draws the line, an open action of an
@@ -31,14 +33,17 @@ it; and a conversation with a session outside Pilot: its kind line mapped to the
 skill's frame for it, its transcript in chat.md read as a calling session's requests, in CLAUDE.md
 and the chat skill, and the work it starts placed by repository, never in its environment, by the
 placement rule, which the work item's field line and a stage's brief follow; and the debrief's
-notice, the server's, which no `add_item` makes and whose row carries no debrief, read only on a
-member's word, the operator reading a debrief in it and behind the Debrief; and Pilot's notes and
-alerts: the pre-rule and plan skills saying in the same words that one is written by exception
-alone, the pass's note on a block left to a person and the debrief's on the run's open document in
-place of a notice, the note on a claimed action left undone written while its run holds it, the job
-an offer's taking places, by its kind line, starting the work and writing nothing on the block,
-CLAUDE.md naming the two tools and the notes in timeline.json, and the chat reading a block with
-its note."""
+notice, the server's, which no `add_item` makes and whose row carries Pilot's lines and no debrief,
+read only on a member's word, the operator reading a debrief in it and behind the Debrief; and
+Pilot's notes and alerts: the pre-rule and plan skills saying in the same words that one is written
+by exception alone and none of a debrief, the pass's note on a block left to a person, the note on
+a claimed action left undone written while its run holds it, the job an offer's taking places, by
+its kind line, starting the work and writing nothing on the block, CLAUDE.md naming the two tools
+and the notes in timeline.json, and the chat reading a block with its note; and the project's
+journal, journal.md: a file of the project's folder, the pre-ruling pass's alone to write and
+carried in no worker's brief, `write_notable` by its argument in CLAUDE.md, the chat reading it
+from the tree when a member asks how the runs have gone, apart from how one work item goes, and a
+quote of it by its path, which a draft's chat takes none of."""
 
 import importlib.util
 import itertools
@@ -61,6 +66,7 @@ BRIEF = "## The brief\n\n$ARGUMENTS"
 TREE_FILES = {
     "project.md",
     "handbook.md",
+    "journal.md",
     "plan.json",
     "timeline.json",
     "chat.md",
@@ -79,7 +85,19 @@ QUOTE_TAGS = (
     '`<quoted_block id="<item id>/<local id>">…</quoted_block id="<item id>/<local id>">`',
     '`<quoted_path path="<path>">…</quoted_path path="<path>">`',
 )
-QUOTED_PATHS = ("`handbook.md`", "`project.md`", "`attachments/<batch>/<filename>`")
+QUOTED_PATHS = (
+    "`handbook.md`",
+    "`project.md`",
+    "`journal.md`",
+    "`attachments/<batch>/<filename>`",
+)
+# The list as the chat skill says it, in the order of the server's pattern (PilotApp's
+# chat_service.py, QUOTE_TAG).
+QUOTED_PATHS_LISTED = (
+    "A path is the file's in the project's folder — `handbook.md`, `project.md`, `journal.md` or"
+    " `attachments/<batch>/<filename>` — and you read it from there, `handbook.md` in the brief on"
+    " the turn the brief opens; a tag naming any other path is no quote."
+)
 # The server names a message's author only when the message before was another person's, so the
 # chat skill takes a message without the line, and a ruling's `for`, from the latest such line.
 LATEST_NAMING = (
@@ -487,63 +505,170 @@ WRITER_ANSWERED_LINES = (
     "`Asked <stamp> on <path> (<item id>):`",
     "`This pass asks nothing: …`",
 )
-# The stage session's debrief as BriefService writes it after the turn its loop completed in
-# (PilotApp's brief_service.py, `_debriefed`): its line, then its words, after what is attached and
-# before the claimed actions, and last in the brief after the writer answered.
+# The stage's full debrief as BriefService writes it after the turn its loop completed in
+# (PilotApp's brief_service.py: `_debriefed`, with DEBRIEF_HEADING, ENTRIES_HEADING and `_entry`,
+# FIGURES_HEADING, STAGE_TIMES_HEADING, JOURNAL_HEADING and JOURNAL_EMPTY, a time as `_took` gives
+# it): each heading a line of its own, after what is attached and before the claimed actions, and
+# last in the brief after the writer answered (F52.4, F169.3).
 DEBRIEF_LINE = "`The stage session's debrief, as given:`"
 DEBRIEF_IN_THE_BRIEF = (
-    "the files attached on the work item; the stage session's debrief, where it gave one,"
-    f" {DEBRIEF_LINE} and its words on the lines after it; the claimed actions given",
-    "and last the stage session's debrief, where it gave one, in the lines The debrief reads",
+    "the files attached on the work item; the stage's full debrief, where its session gave one,"
+    f" from {DEBRIEF_LINE} to the project's journal, in the lines The debrief reads; the claimed"
+    " actions given",
+    "and last the stage's full debrief, where its session gave one, in the lines The debrief reads",
+)
+FULL_DEBRIEF_LINES = (
+    "a stage's brief carries the stage's full debrief after the files attached, each heading a line"
+    " of its own:",
+    f"- {DEBRIEF_LINE}, then its words",
+    "- `The debrief's entries, each whole and as given, in the order given, under its section,"
+    " round, role and time:`",
+    "`- <section> · round <n> · <role> · <time>`, ending ` · passed` or ` · failed` where it has a"
+    " result",
+    "`Why this round was needed: <why>` where it opens a round past the first, then its words.",
+    "Left out, its heading too, where the debrief has no entry.",
+    "- `The loop's figures, as given:`",
+    "Left out where the stage gave none.",
+    "- `The work items the debrief's notice carries, each with the time its stage took, its turns"
+    " summed:`",
+    '`- "<title>" (<item id>) — <time>` per work item, in timeline order',
+    "a planning's brief lists itself and each earlier planning of its subject",
+    "`<1m`, `17m` or `1h 40m`",
+    "- `The project's journal, journal.md, whole:`, then its text; or the one line `The project's"
+    " journal: journal.md, empty.`",
 )
 # A brief without it, a Pilot's that carries no debrief among them, leaves the pass nothing to do;
-# and the debrief is no document, so nothing of it is answered, marked or written.
-DEBRIEF_ABSENT = "A brief without that line has none"
-DEBRIEF_NO_DOCUMENT = "The debrief is no document: it has no block, and nothing is answered"
-# What the pass makes of it (F52.4): nothing; only where the operator must know or do something,
-# ending with its suggestion (D142, D144), a note on the run's document that has a block and is
-# still open after the pass, a notice where none is, `note` refusing a document with no block
-# (F168.9); a card, none of a finding a stage's document holds; or a fieldnote, one already there
-# for the same friction fine.
-DEBRIEF_FATES = (
-    "- **Nothing**, where it holds nothing the operator must know or do and nothing to change.",
-    "- **A note or a notice**, only where the operator must know or do something",
-    "and ending with what you suggest",
-    "your note on the run's document that has a block and is still open after the pass, where there"
-    " is one, `note` with `item` its id and no `block`",
-    "where none with a block is open, a notice through `add_item`, since `note` refuses a document"
-    " with no block",
-    "- **A card**, for a change the debrief shows is needed",
-    "a close-out's among them, is that document's, its fate the stage's to carry out:"
-    " no card of it",
-    "- **A fieldnote**, for friction the debrief names in an environment or in tooling",
+# the debrief is no document, so nothing of it is answered or marked; and nothing of one is in the
+# project's folder, the journal being Pilot's own account (F52.4, F169.2).
+DEBRIEF_ABSENT = "A brief without the first of these lines has none"
+DEBRIEF_NO_DOCUMENT = (
+    "The debrief is no document: it has no block, and nothing is answered or marked of it"
+)
+DEBRIEF_NOT_IN_THE_TREE = (
+    "Nothing of a debrief is in the project's folder, and no chat reads one: what stays of a stage"
+    " in the folder is your account of it, the journal."
+)
+# The pass reads the stage against the journal, then keeps the journal after every stage that
+# gives a debrief (F52.4, F169.3): its shape a default the pass may go beyond, in the operator's
+# words, with no filler, and never a debrief or an entry copied whole (F169.2); a Retry's pass
+# appends no second entry.
+DEBRIEF_READ_AGAINST = (
+    "1. **Read the stage against the journal.** The full debrief — the stage session's words, every"
+    " role's entry, the figures and the stage's time — read against the run",
+    "and against the journal as the brief carries it",
+)
+JOURNAL_KEPT = (
+    "2. **Keep the journal**, `journal.md` in the project's folder, your running account of how the"
+    " project's workflow runs go, after every stage that gives a debrief, a planning's as a run's.",
+    "Its shape, a default:",
+    "- a short head you rewrite: what you are watching, each pattern with the slices it showed in;",
+    "- then one dated entry per stage, appended, under the day its turn ended and its work item's"
+    " title: what happened with the slice and its figures, in your words.",
+    "More where you judge it warranted, in the head, an entry or a part of its own — the operator,"
+    ' 2026-11-19: "Your suggestion is a fine default, but if the agent feels more information is'
+    " warranted, it's allowed to add it. No frivolous dribble though.\"",
+    'No filler: a verdict such as "went smoothly" is none.',
+    "Never a debrief or an entry copied whole: the journal is your account, so that the project's"
+    " folder still carries no debrief.",
+    "with no block in it, and the format skill is not loaded for it",
+    "the journal written again until it names none",
+    "A Retry's pass may find this stage's entry there already, an earlier job's of this trigger:"
+    " that entry is brought up to date, and no second one appended.",
+)
+# An account, not a tracker, and the project's own (F169.5).
+JOURNAL_AN_ACCOUNT = (
+    "3. **An account, not a tracker.** An entry actions nothing, and never stands in for a"
+    " fieldnote — the operator, 2026-11-18: \"Stuff in the handbook won't be actioned. Fieldnotes"
+    ' are."',
+    "The journal is this project's own: a pattern spread over several projects goes unseen, which"
+    " the operator accepts (\"Yes, that's an accepted limitation.\").",
+)
+# What is notable, and only that, as Pilot's lines in the debrief's notice (F52.4, F26.13): through
+# pilot-store's `write_notable` (PilotApp's pilot_mcp/tools.py), `text` its one argument, the work
+# item named by none, a later call replacing; F52.4's four examples, and no list, threshold or cap;
+# no call where nothing is notable; a planning's pass the journal alone.
+NOTABLE_WRITTEN = (
+    "4. **What is notable, and only that**, as your lines in the debrief's notice — the operator,"
+    ' 2026-11-18: "if it finds any notable events for me, it writes only those."',
+    "Where the stage, read against the journal, holds something the operator would want to know,"
+    " write that: `write_notable` with `text`, Markdown.",
+    "For example: a friction met in a third slice, one that is solved, a first such as a project's"
+    " first stop, a stage far off what the project's stages usually take.",
+    "These are examples and no list: what is notable is yours to judge, with no threshold and no"
+    " cap.",
+    "Where the stage holds nothing of the kind, no call",
+    "no lines say that nothing was notable or that the loop went well",
+    "The call names no work item: the lines are on the debrief this brief carries.",
+    "A later call replaces the lines standing, a Retry's included, so that one call holds all you"
+    " have to say.",
+    "with no heading of its own over them and nothing saying which work item they are about",
+    '`<quoted_path path="journal.md">…</quoted_path path="journal.md">`',
+)
+PLANNING_JOURNALS_ONLY = (
+    "5. **A planning's pass journals only.** The notice is placed once the pass after the run has"
+    " ended, and carries both stages",
+    "After the turn of a `/dev:plan-slice` work item, no `write_notable`.",
+)
+# No card from a debrief, in any project, no comment on one, and neither a note nor a notice of it
+# (F52.4, F168.9; the operator, 2026-11-18); a fieldnote it may post, one already there for the
+# same friction fine, and nothing the operator reads says so.
+DEBRIEF_NO_CARD = (
+    "6. **No card, no note, no notice.** No card is made from a debrief, in any project, and no"
+    " comment is added to one — the operator, 2026-11-18: \"Pilot shouldn't have raised cards from"
+    ' this at all. This should all have gone into fieldnotes."',
+    "Neither a note nor a notice is written of it (Your notes and alerts): its news are your lines.",
+    "a close-out's among them, is that document's, its fate the stage's to carry out"
+    " (`rules/stages.md`)",
+)
+DEBRIEF_FIELDNOTE = (
+    "7. **A fieldnote, where it fits.** Friction the debrief names in an environment or in tooling"
+    " may be posted to Fieldnotes as routing's friction half has it (`rules/routing.md`)",
     "one already there for the same friction, that one is fine",
+    "Nothing the operator reads says that you posted: not your lines, not the journal, not the"
+    " summary line.",
 )
-# A card from a debrief is looked for first (slice 043's close-out I1, the operator's Agree,
-# 2026-11-15): an open card on the same change in that project takes the debrief's words as a
-# comment and no card is made; CLAUDE.md grants that comment, and the summary line names it.
-DEBRIEF_OPEN_CARD = (
-    "Before you make it, search that project through youtrack for an open card on the same change:"
-    " where one is open, add the debrief's words it rests on to that card as a comment, quoted,"
-    " and make no card",
+# The summary line's last part, where the brief carries a debrief.
+DEBRIEF_SUMMED = (
+    'a last part says what came of it: "the debrief: journalled", or "the debrief: journalled,'
+    ' lines in its notice"; a fieldnote you posted is not named.'
+)
+# The fates the pass had for a debrief before the journal: a note or a notice, a card, a comment
+# on an open card on the same change, each gone from the whole map; and the grant of that comment
+# in CLAUDE.md, which no rule uses now.
+DEBRIEF_FATES_RETIRED = (
+    "- **A note or a notice**, only where the operator must know or do something",
+    "- **A card**, for a change the debrief shows is needed",
+    "search that project through youtrack for an open card on the same change",
     "the comment by its card's id",
+    '"the debrief: nothing"',
+    "a card on it is yours",
+    "Two cards stay yours",
+    "left or made a note on the run's open document",
 )
-COMMENT_GRANT = (
-    "yours to read with, and to make a card, comment on an open card or close one, make a fleet call"
-    " or post to Fieldnotes, where a rule says so"
+CARD_GRANT = (
+    "yours to read with, and to make a card or close one, make a fleet call or post to Fieldnotes,"
+    " where a rule says so"
 )
-# The debrief's notice (F26.12 to F26.14, P-363): the server places it, so the map names its kind in
-# `add_item`'s line as no `add_item`'s, its row carrying no debrief, and the store's list gives it a
-# form `add_item` makes none of; a member's word alone reads it, `read` with `for` them, in the
-# map's `mark` line and where the chat records a person's Read; and the pass's two lines on where
-# the operator reads a debrief name the notice beside the Debrief, where they named it alone.
+CARD_GRANT_RETIRED = "comment on an open card"
+# The debrief's notice (F26.12, F26.13, F74): the server places it, once the pass after the turn
+# of the work item that completes its subject has ended, so the map names its kind in `add_item`'s
+# line as no `add_item`'s, its row carrying Pilot's lines as `notable` and no debrief (PilotApp's
+# engine/views.py), which the map's `timeline.json` line says too, and the store's list gives it
+# a form `add_item` makes none of; a member's word alone reads it, `read` with `for` them, in the
+# map's `mark` line and where the chat records a person's Read; and the pass's line on where the
+# operator reads a debrief names the notice, under its Details, beside the Debrief.
 DEBRIEF_NOTICE_KIND = "debrief_notice"
 DEBRIEF_NOTICE_NAMED = (
     "A debrief's notice, the kind `debrief_notice`, is the server's, never made through `add_item`:"
-    " placed as a work item whose stage session's debrief completes its subject is done, a slice's"
-    ' run carrying its planning\'s debrief with its own, titled "Debrief · <subject>"; its row in'
-    " `timeline.json` has no file and none of the debriefs' words, which the operator reads in the"
-    " app."
+    " placed once the pass after the turn of a work item whose stage session's debrief completes"
+    " its subject has ended, a slice's run carrying its planning's debrief with its own, titled"
+    ' "Debrief · <subject>"; its row in `timeline.json` has no file, your lines as `notable` and'
+    " none of the debriefs' words, which the operator reads in the app."
+)
+DEBRIEF_NOTICE_PLACED_RETIRED = "debrief completes its subject is done"
+NOTABLE_IN_THE_TIMELINE = (
+    "a debrief's notice's with `notable`, your lines on the debriefs it carries, one text per work"
+    " item that has them, in the work items' order on the timeline, an empty list where none has"
 )
 ADD_ITEM_FORMS = {"prose", "work", "wait"}
 DEBRIEF_NOTICE_READ_BY = {
@@ -563,15 +688,56 @@ DEBRIEF_NOTICE_READ_BY = {
     ),
 }
 DEBRIEF_READ = (
-    "the operator reads it in the debrief's notice and behind the Debrief of the done work item.",
-    (
-        "Never one that retells the debrief or says the loop went well: the operator reads it in the"
-        " debrief's notice and behind the Debrief."
-    ),
+    "the operator reads it in the debrief's notice, under its Details, and behind the Debrief of the"
+    " done work item."
 )
 DEBRIEF_READ_RETIRED = (
     "the operator reads it on the done work item, behind its Debrief.",
     "the operator reads it behind the Debrief.",
+    "the operator reads it in the debrief's notice and behind the Debrief",
+)
+# The project's journal in CLAUDE.md's map (F169.1, F169.3, F74, F77): a file of the project's
+# folder, the pre-ruling pass's alone to write, carried in that pass's brief and no other, a
+# worker's included, and read from the folder by the chat; what the handbook is not for; and
+# pilot-store's `write_notable` by its argument, its limits and its answer (PilotApp's
+# pilot_mcp/tools.py).
+JOURNAL_IN_THE_MAP = (
+    "`journal.md` (the project's journal past Create project, your running account of how its"
+    " workflow runs go: the pre-ruling pass's alone to write, from every stage's debrief, as"
+    " `/pre-rule`'s The debrief has it, carried in that pass's brief beside the debrief and in no"
+    " other, nothing of it going into a worker's brief you write, and read from the folder by the"
+    " chat when a member asks how the runs have gone or quotes it)"
+)
+JOURNAL_NOT_THE_HANDBOOK = (
+    "How its workflow runs go is its journal's, `journal.md`, the pre-ruling pass's account, which"
+    " no brief but that pass's carries."
+)
+WRITE_NOTABLE_IN_THE_MAP = (
+    "your lines on the debrief your brief carries, `text`, Markdown, at most 16,000 characters:"
+    " what is notable about the stage, which the debrief's notice shows the operator above the"
+    " debriefs.",
+    "The pre-ruling pass's alone, in the job after a work item's turn that gave a debrief, on that"
+    " work item's debrief, which the call does not name; a later call, a Retry's included, replaces"
+    " the lines standing.",
+    "A chat's call, any other job's, one after a turn that gave no debrief and lines that are empty"
+    " are refused.",
+    "It answers `written` or `replaced`, and no effect line.",
+    "Written only where the stage holds something notable, as `/pre-rule`'s The debrief says.",
+)
+# The chat reads the journal from the tree when a member asks how the project's runs have gone or
+# quotes it (F169.3, F38.3), apart from How work goes, which is one work item's state now; it
+# writes none of it and reads no debrief (F52.4), Pilot's lines on a notice standing in its row.
+JOURNAL_READ_BY_THE_CHAT = (
+    "is another question than How work goes, and the journal's: read `journal.md` from the"
+    " project's folder, your running account of the project's workflow runs, which the pre-ruling"
+    " pass keeps from every stage's debrief (`/pre-rule`'s The debrief), and answer from it; a"
+    " Discuss on it quotes it by its path (A quote).",
+    "No chat's brief carries it, so it is read from the tree each time it is asked about or quoted.",
+    "Where it is empty, no stage has been journalled yet: say so.",
+    "It is the pass's to write, never the chat's.",
+    "A debrief itself is in no file, and you read none.",
+    "A debrief's notice a message quotes has no file either: your lines on the debriefs it carries"
+    " are its row's `notable` in `timeline.json`, which `pilot.py items get <seq>` prints",
 )
 # A worker's brief on a secret: never shown, read back or passed on, and placed only where the brief
 # says, so that the worker the grants send to place one is not told it must not handle one
@@ -619,15 +785,18 @@ TRACKER_DONE_AT_ONCE = (
 )
 TRACKER_CONFIRMED_RETIRED = "a tool call: a card, a fleet call"
 # A stage's documents get no card and no fold of the pass's, the stage's continuation carrying out
-# their fates; a card on the stage session's debrief is the one exception; and the stage's brief
-# says nothing of its debrief or of notices.
+# their fates; the `Later` card is the one exception; the stage session's debrief takes no card
+# either, in any project (F52.4); and the stage's brief says nothing of its debrief or of notices.
 STAGE_DOCUMENTS_NO_CARD = "you make no card and fold nothing, or it is done twice"
-STAGE_DEBRIEF_CARD = (
-    "Two cards stay yours, the exceptions: the stage session's debrief, which the brief after the"
-    " turn its loop completed in carries, is no document of the stage's, and a card on it is yours"
-    " (`/pre-rule`'s The debrief)",
-    "and a finding you defer to the project's end takes its `Later` card, yours too"
-    " (`rules/routing.md`'s The `Later` card)",
+STAGE_LATER_CARD = (
+    "One card stays yours, the exception: a finding you defer to the project's end takes its `Later`"
+    " card (`rules/routing.md`'s The `Later` card)."
+)
+STAGE_DEBRIEF_NO_CARD = (
+    "The stage session's debrief, which the brief after the turn its loop completed in carries, is"
+    " no document of the stage's, and takes no card either, in any project: the pass keeps the"
+    " project's journal from it and writes the operator what is notable in the debrief's notice"
+    " (`/pre-rule`'s The debrief)."
 )
 STAGE_BRIEF_SILENT = "no list of what to register, and nothing on its debrief or on notices"
 # A hand-over to another project in a stage's document is the answer's card fate naming it, and the
@@ -1261,9 +1430,13 @@ NOTICE_SKILLS = ("pre-rule", "plan")
 # the alert through `alert` (PilotApp's pilot_mcp/tools.py); the three things a note is for and the
 # alert's one; what is never written, in the operator's words; the replace and the take-off; a note
 # that cannot wait marking its document urgent, the turn to urgent alone alerting again (F168.8);
-# and the notice kept for news with no open document to sit on.
+# the notice kept for news with no open document to sit on; and neither a note nor a notice of a
+# debrief, whose news are Pilot's lines in its notice (F168.9; the operator's "Agree", 2026-11-19).
 NOTE_EXCEPTION_LEAD = "**Your notes and alerts, by exception.**"
-NOTE_EXCEPTION_END = "A notice stays for news with no open document to sit on."
+NOTE_EXCEPTION_END = (
+    "Of a debrief neither a note nor a notice is written: its news are your lines in the debrief's"
+    " notice, which the pass after the stage's turn writes through `write_notable`."
+)
 NOTE_EXCEPTION = (
     "What only you know of an ask left to a person stands on the ask, where they answer it, never in"
     " a notice after its document: your note on the block, `note` with `item` the document's id and"
@@ -1289,6 +1462,7 @@ NOTE_EXCEPTION = (
     "A note written once the document is the person's is read as any other, nothing marking it new:"
     " where it cannot wait for them to open the document, `urgent: true` in its front matter alerts"
     " them again, the turn to urgent alone, so that on a document urgent already it alerts no one.",
+    "A notice stays for news with no open document to sit on.",
     NOTE_EXCEPTION_END,
 )
 NOTE_SKILLS = ("pre-rule", "plan")
@@ -2259,9 +2433,27 @@ class PassagesTest(unittest.TestCase):
 class ChatSkillTest(unittest.TestCase):
     def test_the_chat_skill_reads_the_naming_line_and_every_quote_tag(self) -> None:
         text = " ".join(skill_file("chat").read_text().split())
-        for form in (NAMING_LINE, *QUOTE_TAGS, *QUOTED_PATHS):
+        for form in (NAMING_LINE, *QUOTE_TAGS, *QUOTED_PATHS, QUOTED_PATHS_LISTED):
             with self.subTest(form):
                 self.assertIn(form, text)
+
+    def test_the_chat_reads_the_journal_from_the_tree_when_asked_how_the_runs_have_gone(
+        self,
+    ) -> None:
+        text = skill_file("chat").read_text()
+        _, _, rest = text.partition("\n## Reading\n")
+        reading, _, _ = rest.partition("\n## ")
+        self.assertIn("- **How the project's runs have gone**", reading)
+        self.assertLess(
+            reading.index("- **How work goes**"),
+            reading.index("- **How the project's runs have gone**"),
+        )
+        _, _, rest = reading.partition("- **How the project's runs have gone**")
+        passage, _, _ = rest.partition("\n- **")
+        passage = " ".join(passage.split())
+        for form in JOURNAL_READ_BY_THE_CHAT:
+            with self.subTest(form):
+                self.assertIn(form, passage)
 
     def test_the_chat_skill_takes_for_from_the_latest_naming_line(self) -> None:
         text = " ".join(skill_file("chat").read_text().split())
@@ -2436,6 +2628,7 @@ class CreateSkillTest(unittest.TestCase):
         for form in (NAMING_LINE, *DRAFT_QUOTE_TAGS, *DRAFT_QUOTED_PATHS):
             with self.subTest(form):
                 self.assertIn(form, self.text)
+        self.assertNotIn("journal", self.text)
 
     def test_the_create_skill_takes_for_from_the_latest_naming_line_or_the_starter(self) -> None:
         for rule in DRAFT_LATEST_NAMING:
@@ -3033,31 +3226,86 @@ class PreRuleSkillTest(unittest.TestCase):
             with self.subTest(form):
                 self.assertIn(form, self.text)
 
-    def test_the_pass_reads_the_debrief_as_the_server_writes_it_or_finds_none(self) -> None:
+    def debrief_section(self) -> str:
+        _, _, rest = skill_file("pre-rule").read_text().partition("\n## The debrief\n")
+        section, _, _ = rest.partition("\n## ")
+        return " ".join(section.split())
+
+    def test_the_pass_reads_the_full_debrief_as_the_server_writes_it_or_finds_none(self) -> None:
         lines = skill_file("pre-rule").read_text().splitlines()
         self.assertEqual(lines.count("## The debrief"), 1)
-        for form in (*DEBRIEF_IN_THE_BRIEF, DEBRIEF_ABSENT, DEBRIEF_NO_DOCUMENT):
+        for form in DEBRIEF_IN_THE_BRIEF:
             with self.subTest(form):
                 self.assertIn(form, self.text)
+        section = self.debrief_section()
+        for form in (
+            *FULL_DEBRIEF_LINES,
+            DEBRIEF_ABSENT,
+            DEBRIEF_NO_DOCUMENT,
+            DEBRIEF_NOT_IN_THE_TREE,
+        ):
+            with self.subTest(form):
+                self.assertIn(form, section)
+        positions = [section.index(form) for form in FULL_DEBRIEF_LINES]
+        self.assertEqual(positions, sorted(positions))
 
-    def test_the_pass_makes_nothing_a_notice_a_card_or_a_fieldnote_of_the_debrief(self) -> None:
-        for form in DEBRIEF_FATES:
+    def test_the_pass_keeps_the_journal_in_a_default_shape_it_may_go_beyond(self) -> None:
+        section = self.debrief_section()
+        for form in (*DEBRIEF_READ_AGAINST, *JOURNAL_KEPT, *JOURNAL_AN_ACCOUNT):
             with self.subTest(form):
-                self.assertIn(form, self.text)
+                self.assertIn(form, section)
 
-    def test_a_card_from_the_debrief_comments_on_an_open_card_on_the_same_change(self) -> None:
-        for form in DEBRIEF_OPEN_CARD:
+    def test_the_pass_writes_only_what_is_notable_and_a_planning_s_journals_only(self) -> None:
+        section = self.debrief_section()
+        for form in (*NOTABLE_WRITTEN, *PLANNING_JOURNALS_ONLY):
             with self.subTest(form):
-                self.assertIn(form, self.text)
-        self.assertIn(COMMENT_GRANT, " ".join(CLAUDE.read_text().split()))
+                self.assertIn(form, section)
+
+    def test_the_pass_makes_no_card_note_or_notice_of_the_debrief_and_names_no_fieldnote(
+        self,
+    ) -> None:
+        section = self.debrief_section()
+        for form in (*DEBRIEF_NO_CARD, *DEBRIEF_FIELDNOTE):
+            with self.subTest(form):
+                self.assertIn(form, section)
+        _, _, rest = skill_file("pre-rule").read_text().partition("\n## The summary line\n")
+        summary, _, _ = rest.partition("\n## ")
+        self.assertIn(DEBRIEF_SUMMED, " ".join(summary.split()))
+        for source, page in the_map().items():
+            for form in DEBRIEF_FATES_RETIRED:
+                with self.subTest(source=source, retired=form):
+                    self.assertNotIn(form, " ".join(page.split()))
+        claude = " ".join(CLAUDE.read_text().split())
+        self.assertIn(CARD_GRANT, claude)
+        self.assertNotIn(CARD_GRANT_RETIRED, claude)
 
     def test_the_operator_reads_the_debrief_in_its_notice_and_behind_the_debrief(self) -> None:
-        for form in DEBRIEF_READ:
-            with self.subTest(form):
-                self.assertIn(form, self.text)
+        self.assertIn(DEBRIEF_READ, self.text)
         for form in DEBRIEF_READ_RETIRED:
             with self.subTest(retired=form):
                 self.assertNotIn(form, self.text)
+
+
+class JournalTest(unittest.TestCase):
+    def test_the_map_names_the_journal_as_the_pass_s_to_write_and_no_worker_s_to_read(
+        self,
+    ) -> None:
+        text = CLAUDE.read_text()
+        _, _, rest = text.partition("\n- **Yours to write**: ")
+        bullet, _, _ = rest.partition("\n- ")
+        self.assertIn(JOURNAL_IN_THE_MAP, " ".join(bullet.split()))
+        _, _, rest = text.partition("\n## Memory\n")
+        memory, _, _ = rest.partition("\n## ")
+        self.assertIn(JOURNAL_NOT_THE_HANDBOOK, " ".join(memory.split()))
+
+    def test_the_map_names_write_notable_by_its_argument_and_whose_it_is(self) -> None:
+        _, found, rest = CLAUDE.read_text().partition("\n- `write_notable`: ")
+        self.assertTrue(found)
+        bullet, _, _ = rest.partition("\n- ")
+        bullet = " ".join(bullet.split())
+        for form in WRITE_NOTABLE_IN_THE_MAP:
+            with self.subTest(form):
+                self.assertIn(form, bullet)
 
 
 class DebriefNoticeTest(unittest.TestCase):
@@ -3065,6 +3313,11 @@ class DebriefNoticeTest(unittest.TestCase):
         _, _, rest = CLAUDE.read_text().partition("\n- `add_item`: ")
         bullet, _, _ = rest.partition("\n- ")
         self.assertIn(DEBRIEF_NOTICE_NAMED, " ".join(bullet.split()))
+        claude = " ".join(CLAUDE.read_text().split())
+        self.assertNotIn(DEBRIEF_NOTICE_PLACED_RETIRED, claude)
+        _, _, rest = CLAUDE.read_text().partition("\n- **Never edited**")
+        bullet, _, _ = rest.partition("\n- ")
+        self.assertIn(NOTABLE_IN_THE_TIMELINE, " ".join(bullet.split()))
         reference = json.loads(
             (ROOT / "tests" / "fixtures" / "tree" / "reference.json").read_text()
         )
@@ -3109,8 +3362,8 @@ class StagesRuleTest(unittest.TestCase):
     def setUp(self) -> None:
         self.text = " ".join((ROOT / "rules" / "stages.md").read_text().split())
 
-    def test_a_card_on_the_debrief_is_the_one_exception_to_a_stage_s_documents(self) -> None:
-        for form in (STAGE_DOCUMENTS_NO_CARD, *STAGE_DEBRIEF_CARD):
+    def test_the_later_card_is_the_one_exception_and_a_debrief_takes_no_card(self) -> None:
+        for form in (STAGE_DOCUMENTS_NO_CARD, STAGE_LATER_CARD, STAGE_DEBRIEF_NO_CARD):
             with self.subTest(form):
                 self.assertIn(form, self.text)
 
@@ -3497,7 +3750,7 @@ class CitationsTest(unittest.TestCase):
             "The lead first.",
             "Load it before you write an item's file, whole through `add_item`'s `markdown` or"
             " at the path `add_item` returns, a block's answer line by hand, or the draft.",
-            "Not for `handbook.md`, `plan.json`'s notes or a `pilot.py` write:"
+            "Not for `handbook.md`, `journal.md`, `plan.json`'s notes or a `pilot.py` write:"
             " `pilot.py` writes its answer lines and notes in their format itself.",
         ):
             with self.subTest(phrase):
@@ -3640,6 +3893,7 @@ class PathCheckTest(unittest.TestCase):
             "tools/",
             "pilot.py",
             "handbook.md",
+            "journal.md",
             "items/<seq>-<slug>.md",
             "/work/Projects/reference.json",
         ):

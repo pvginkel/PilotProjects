@@ -1,6 +1,6 @@
 ---
 name: pre-rule
-description: Pilot's pass over what a worker's turn registered — each document's open blocks routed by the routing rules, answered, deferred, claimed or asked of their writer by Pilot or left to the operator, in the order the brief lists them, Pilot's note on a block or an alert on a document only by exception, a document Pilot settled whole marked Done, the stage session's debrief, where the brief carries one, left or made a note on the run's open document, a notice, a card or a fieldnote; and the pass after the writer answered, asking nothing — then /plan for what is next. Run it when Pilot's brief opens with /pre-rule.
+description: Pilot's pass over what a worker's turn registered — each document's open blocks routed by the routing rules, answered, deferred, claimed or asked of their writer by Pilot or left to the operator, in the order the brief lists them, Pilot's note on a block or an alert on a document only by exception, a document Pilot settled whole marked Done, the stage's full debrief, where the brief carries one, read against the project's journal, the journal kept and only what is notable written as Pilot's lines in the debrief's notice, with no card, note or notice of it; and the pass after the writer answered, asking nothing — then /plan for what is next. Run it when Pilot's brief opens with /pre-rule.
 ---
 
 # Pre-rule
@@ -8,9 +8,10 @@ description: Pilot's pass over what a worker's turn registered — each document
 The pass over the documents a worker's turn registered, before the operator reads them: each open
 block routed, answered, deferred, claimed or asked of its writer by you, or left to the operator, a
 document you settled whole marked Done; then `/plan`, for what is next, in this same session. The
-routes are yours: Pilot's server routes nothing. A worker's turn whose run left the pass nothing —
-no document registered, no debrief and no researched block — opens on `/plan` itself, and this
-skill is not run for it.
+routes are yours: Pilot's server routes nothing. Where the brief carries the stage's debrief, the
+pass keeps the project's journal from it and writes the operator only what is notable (The
+debrief). A worker's turn whose run left the pass nothing — no document registered, no debrief and
+no researched block — opens on `/plan` itself, and this skill is not run for it.
 
 1. Read the brief, below: its kind line, `Pilot's brief · a worker's turn ended · …`, or
    `Pilot's brief · the writer answered · …` after the writer's answer (The writer answered); its
@@ -18,12 +19,13 @@ skill is not run for it.
    its task, its repository, its environment and session, its turn's end and its last line; then
    the documents the run registered, in the order registered, each
    `- <path> (<item id>) — published` or `- <path> (<item id>) — read failed: <reason>`, or
-   `Registered nothing this run.`; the files attached on the work item; the stage session's
-   debrief, where it gave one, `The stage session's debrief, as given:` and its words on the lines
-   after it; the claimed actions given to the work item, which are `/plan`'s; the blocks it
-   researched, which are the pass's; then the project's state as the record held it when the brief
-   was composed, each part as `pilot.py` prints its listing, and a part with nothing in it left
-   out, its heading too: `This job is seq <n> on the timeline; the item its trigger names, seq
+   `Registered nothing this run.`; the files attached on the work item; the stage's full debrief,
+   where its session gave one, from `The stage session's debrief, as given:` to the project's
+   journal, in the lines The debrief reads; the claimed actions given to the work item, which are
+   `/plan`'s; the blocks it researched, which are the pass's; then the project's state as the
+   record held it when the brief was composed, each part as `pilot.py` prints its listing, and a
+   part with nothing in it left out, its heading too:
+   `This job is seq <n> on the timeline; the item its trigger names, seq
    <m>.`, that item the work item or the clarification run; `The plan's tasks not done, in its
    order, …`; `The open items, …`; `The open plan notes, whole, …`, each with its content and the
    blocks it names, as they stand; the deferrals without a home, which are `/plan`'s too; and last
@@ -33,9 +35,9 @@ skill is not run for it.
    of Pilot's server, carries no brief and no state: what it acts on is read fresh through those
    three, never taken from the brief above it (`CLAUDE.md`'s Who you are).
 2. Pass over each published document, in the brief's order (The pass), then over the blocks the
-   work item researched (A researched block), then over the stage session's debrief, where the
-   brief carries one (The debrief). A document whose read failed has no text: it is the operator's
-   to mark Reviewed, and the pass writes nothing of it.
+   work item researched (A researched block), then over the stage's full debrief, where the brief
+   carries one, read against the project's journal (The debrief). A document whose read failed has
+   no text: it is the operator's to mark Reviewed, and the pass writes nothing of it.
 3. End the pass with its one line (The summary line), then run `/plan`, its mode What is next, in
    this session, with no arguments: the brief is in this session already, where `/plan` reads it,
    and it is never passed on or written out again.
@@ -81,7 +83,8 @@ standing, and a call with neither of its two takes it off. A note written once t
 person's is read as any other, nothing marking it new: where it cannot wait for them to open the
 document, `urgent: true` in its front matter alerts them again, the turn to urgent alone, so that on
 a document urgent already it alerts no one. A notice stays for news with no open document to sit
-on.
+on. Of a debrief neither a note nor a notice is written: its news are your lines in the debrief's
+notice, which the pass after the stage's turn writes through `write_notable`.
 
 The rules it applies: `rules/routing.md`, each route and what it writes, deferral, the `Later`
 card, a delegated answer, another project's decision and the friction half; `rules/grants.md`, what
@@ -230,36 +233,92 @@ A block a run holds.
 
 ## The debrief
 
-After the turn its loop completed in, a stage's brief carries the stage session's debrief after the
-files attached: the line `The stage session's debrief, as given:`, then its words, on how it feels
-the loop went. A brief without that line has none, a turn that ended on a hand-back among them, and
-the pass has nothing of it to do. The debrief is no document: it has no block, and nothing is
-answered, marked or written of it; the operator reads it in the debrief's notice and behind the
-Debrief of the done work item.
+After the turn its loop completed in, a stage's brief carries the stage's full debrief after the
+files attached, each heading a line of its own:
 
-Read it against the run — the work item's line, what it registered and your pass over that — then
-do with it what you do with the rest, one of these, or more where it holds more than one thing:
+- `The stage session's debrief, as given:`, then its words, on how it feels the loop went.
+- `The debrief's entries, each whole and as given, in the order given, under its section, round,
+  role and time:`, then the entry of every agent the loop dispatched, each
+  `- <section> · round <n> · <role> · <time>`, ending ` · passed` or ` · failed` where it has a
+  result; under it, set in, `Why this round was needed: <why>` where it opens a round past the
+  first, then its words. Left out, its heading too, where the debrief has no entry.
+- `The loop's figures, as given:`, then the figures: phases, rounds, consults, durations, cost.
+  Left out where the stage gave none.
+- `The work items the debrief's notice carries, each with the time its stage took, its turns
+  summed:`, then `- "<title>" (<item id>) — <time>` per work item, in timeline order, a slice's
+  planning before its run; a planning's brief lists itself and each earlier planning of its
+  subject. The time is Pilot's server's, the stage's turns summed and the waits between them
+  counting nothing: `<1m`, `17m` or `1h 40m`.
+- `The project's journal, journal.md, whole:`, then its text; or the one line
+  `The project's journal: journal.md, empty.`
 
-- **Nothing**, where it holds nothing the operator must know or do and nothing to change.
-- **A note or a notice**, only where the operator must know or do something, quoting the debrief's
-  words it rests on and ending with what you suggest: your note on the run's document that has a
-  block and is still open after the pass, where there is one, `note` with `item` its id and no
-  `block`, the one its words bear on where more are open, written with what your note on that
-  document as a whole holds already, which it replaces; where none with a block is open, a notice
-  through `add_item`, since `note` refuses a document with no block. Never one that retells the
-  debrief or says the loop went well: the operator reads it in the debrief's notice and behind the
-  Debrief.
-- **A card**, for a change the debrief shows is needed, in the work's repository or in the
-  workflow: made through youtrack in your turn, in the project of what it is about, AIWorkflow's
-  own for the workflow, its text the debrief's words it rests on, quoted, and what is to change.
-  Before you make it, search that project through youtrack for an open card on the same change:
-  where one is open, add the debrief's words it rests on to that card as a comment, quoted, and
-  make no card, so that a friction that comes back run after run stays one card that records each
-  return. A finding a document of the stage holds already, a close-out's among them, is that
-  document's, its fate the stage's to carry out: no card of it (`rules/stages.md`).
-- **A fieldnote**, for friction the debrief names in an environment or in tooling, posted to
-  Fieldnotes as routing's friction half has it (`rules/routing.md`); where the post answers with
-  one already there for the same friction, that one is fine: react to it.
+A brief without the first of these lines has none, a turn that ended on a hand-back among them,
+and the pass has nothing of it to do. The debrief is no document: it has no block, and nothing is
+answered or marked of it; the operator reads it in the debrief's notice, under its Details, and
+behind the Debrief of the done work item. Nothing of a debrief is in the project's folder, and no
+chat reads one: what stays of a stage in the folder is your account of it, the journal.
+
+What you do with it, in this order:
+
+1. **Read the stage against the journal.** The full debrief — the stage session's words, every
+   role's entry, the figures and the stage's time — read against the run, the work item's line,
+   what it registered and your pass over that, and against the journal as the brief carries it:
+   what it is watching, and what the project's earlier stages took and met.
+2. **Keep the journal**, `journal.md` in the project's folder, your running account of how the
+   project's workflow runs go, after every stage that gives a debrief, a planning's as a run's.
+   Its shape, a default:
+
+   - a short head you rewrite: what you are watching, each pattern with the slices it showed in;
+   - then one dated entry per stage, appended, under the day its turn ended and its work item's
+     title: what happened with the slice and its figures, in your words.
+
+   More where you judge it warranted, in the head, an entry or a part of its own — the operator,
+   2026-11-19: "Your suggestion is a fine default, but if the agent feels more information is
+   warranted, it's allowed to add it. No frivolous dribble though." No filler: a verdict such as
+   "went smoothly" is none. Never a debrief or an entry copied whole: the journal is your account,
+   so that the project's folder still carries no debrief. It is prose of your own, as
+   `handbook.md` is, with no block in it, and the format skill is not loaded for it. The report
+   after your write is read for its lines naming `journal.md` — a line reverted, a fault that
+   holds the save — and the journal written again until it names none. A Retry's pass may find
+   this stage's entry there already, an earlier job's of this trigger: that entry is brought up to
+   date, and no second one appended.
+3. **An account, not a tracker.** An entry actions nothing, and never stands in for a fieldnote —
+   the operator, 2026-11-18: "Stuff in the handbook won't be actioned. Fieldnotes are." The
+   journal is this project's own: a pattern spread over several projects goes unseen, which the
+   operator accepts ("Yes, that's an accepted limitation.").
+4. **What is notable, and only that**, as your lines in the debrief's notice — the operator,
+   2026-11-18: "if it finds any notable events for me, it writes only those." Where the stage,
+   read against the journal, holds something the operator would want to know, write that:
+   `write_notable` with `text`, Markdown. For example: a friction met in a third slice, one that
+   is solved, a first such as a project's first stop, a stage far off what the project's stages
+   usually take. These are examples and no list: what is notable is yours to judge, with no
+   threshold and no cap. Where the stage holds nothing of the kind, no call: the notice then shows
+   the stages' times and the debriefs alone, and no lines say that nothing was notable or that the
+   loop went well.
+
+   The call names no work item: the lines are on the debrief this brief carries. A later call
+   replaces the lines standing, a Retry's included, so that one call holds all you have to say.
+   The notice shows them right under the stages' times, with no heading of its own over them and
+   nothing saying which work item they are about, above the debriefs, which stand closed under
+   Details: write them to be read first and alone, the lead first, naming the stage a line is
+   about where the notice carries more than one. A line may point at the journal by the tag
+   `<quoted_path path="journal.md">…</quoted_path path="journal.md">`, which the app draws as a
+   chip that opens it.
+5. **A planning's pass journals only.** The notice is placed once the pass after the run has
+   ended, and carries both stages: what a planning holds goes into its journal entry, and the pass
+   after the run, whose brief carries that entry, writes the lines on both. After the turn of a
+   `/dev:plan-slice` work item, no `write_notable`.
+6. **No card, no note, no notice.** No card is made from a debrief, in any project, and no
+   comment is added to one — the operator, 2026-11-18: "Pilot shouldn't have raised cards from
+   this at all. This should all have gone into fieldnotes." Neither a note nor a notice is
+   written of it (Your notes and alerts): its news are your lines. A finding a document of the
+   stage holds already, a close-out's among them, is that document's, its fate the stage's to
+   carry out (`rules/stages.md`).
+7. **A fieldnote, where it fits.** Friction the debrief names in an environment or in tooling may
+   be posted to Fieldnotes as routing's friction half has it (`rules/routing.md`); where the post
+   answers with one already there for the same friction, that one is fine: react to it. Nothing
+   the operator reads says that you posted: not your lines, not the journal, not the summary
+   line.
 
 ## The writer answered
 
@@ -270,7 +329,7 @@ document asked about, `Asked <stamp> on <path> (<item id>):`, a question a line 
 local id, then the writer's answer as the document records it: a line per block, or the reply
 whole, quoted, where it did not keep the asked headings, or none, where the run's turn ended with
 no text. What the run registered follows, as any run's, then `This pass asks nothing: …`, and
-last the stage session's debrief, where it gave one, in the lines The debrief reads.
+last the stage's full debrief, where its session gave one, in the lines The debrief reads.
 
 - **The pass** goes over each document asked about, in the brief's order, then each the run
   registered, as The pass has it.
@@ -286,9 +345,9 @@ One line, a part per document in the brief's order, its path short — "Pre-rule
 answered, 1 deferred to t5); inbox/8 open for the operator (D2, your note on it), A1 claimed for
 "Rotate the CI token", Q3 researched by "Count the hosts", D4 asked of its writer; inbox/9 not
 read; inbox/6 Q2 answered on its research" — or "Pre-ruled: nothing registered"; where the brief
-carries a debrief, a last part says what came of it: "the debrief: nothing", or the note and its
-document, the notice, the card by its id, the comment by its card's id, or the post. Then `/plan`,
-What is next (step 3).
+carries a debrief, a last part says what came of it: "the debrief: journalled", or "the debrief:
+journalled, lines in its notice"; a fieldnote you posted is not named. Then `/plan`, What is next
+(step 3).
 
 ## The brief
 
