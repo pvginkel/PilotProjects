@@ -1766,6 +1766,21 @@ PROMOTE_BRIEF_COMMIT = (
     "step 2 naming the application, its commit, the application's alone, never the deploy"
     " repository's, which the promotion takes from the build, and what follows it"
 )
+# A promotion's work item publishes one step with a kind, so that Pilot prices it as any other
+# step (F156.9): pending first, in a call of its own, since Pilot knows no listing of a step first
+# published active on a work item's first list, and its timing then counts in no estimate.
+PROMOTE_STEP = {"code": "promote", "label": "Promote to production", "kind": "promote"}
+PROMOTE_STEP_CALLS = (
+    "through its `set_progress` tool, `mcp__pilot__set_progress`, each call the whole list, that"
+    " step alone with its `code`, `label` and `kind`",
+    "At your start, before anything else, note the time, `date +%s`, and make two calls:",
+    'then the same with `"state": "active"`',
+    "Pending comes first, in a call of its own: a step first published `active` leaves a timing no"
+    " estimate counts",
+    "At your end, before your turn's last line, a third call: the same with `\"state\": \"done\"`"
+    " and `\"duration\"`, the whole seconds since your start, as a number",
+    "A call Pilot refuses holds nothing of the promotion: go on.",
+)
 # A close-out's promotion deferred to the run's own task, never claimed, with what the close-out
 # owes after it, so that the close-out closes on its other blocks and the continuation goes on;
 # the promotion due once that continuation has ended, so that it takes its fixes (P-183, D2). Its
@@ -3017,6 +3032,22 @@ class PromoteRuleTest(unittest.TestCase):
         work_items = " ".join((ROOT / WORK_ITEMS).read_text().split())
         self.assertIn(PROMOTE_BRIEF_COMMIT, work_items)
         self.assertNotIn("the commit to promote", work_items)
+
+
+    def test_the_brief_has_the_worker_publish_one_step_pending_then_active_then_done(
+        self,
+    ) -> None:
+        _, _, section = (ROOT / PROMOTE).read_text().partition(f"\n{PROMOTE_SECTION}\n")
+        (block,) = re.findall(r"^```text\n(.*?)^```$", section, re.MULTILINE | re.DOTALL)
+        block = " ".join(block.split())
+        for form in PROMOTE_STEP_CALLS:
+            with self.subTest(form):
+                self.assertIn(form, block)
+        (first,) = re.findall(r"`(\[\{.*?\}\])`", block)
+        self.assertEqual(json.loads(first), [{**PROMOTE_STEP, "state": "pending"}])
+        states = [block.index(f'"state": "{state}"') for state in ("pending", "active", "done")]
+        self.assertEqual(states, sorted(states))
+        self.assertLess(block.index(PROMOTE_STEP_CALLS[0]), block.index(PROMOTE_TEXT[0]))
 
 
 class DeferredPromotionTest(unittest.TestCase):

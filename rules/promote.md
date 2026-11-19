@@ -1,11 +1,11 @@
 # A promotion
 
-What a promotion to production needs, the same in every project: the job and its parameter, the
-wait on the build, the read of production through `cexec iac`, and the check for what else is
-running. The worker runs outside the store, so a promotion's brief carries the text below,
-copied verbatim (`rules/work-items.md`): Pilot's server appends the grants text to the brief, and
-nothing of this file; the brief names the rest, the application, its commit and what the close-out
-owes after it.
+What a promotion to production needs, the same in every project: the one step it publishes, the
+job and its parameter, the wait on the build, the read of production through `cexec iac`, and the
+check for what else is running. The worker runs outside the store, so a promotion's brief carries
+the text below, copied verbatim (`rules/work-items.md`): Pilot's server appends the grants text to
+the brief, and nothing of this file; the brief names the rest, the application, its commit and
+what the close-out owes after it.
 
 Pilot starts a promotion's work item where the handbook's rules on other work running let it,
 and a close-out's promotion besides only once the run's continuation has ended
@@ -17,6 +17,15 @@ start, never the worker's.
 ```text
 A promotion to production, the same in every project:
 
+- Your one step, first: Pilot shows a promotion's time left from the one step you publish through
+  its `set_progress` tool, `mcp__pilot__set_progress`, each call the whole list, that step alone
+  with its `code`, `label` and `kind`. At your start, before anything else, note the time,
+  `date +%s`, and make two calls: `[{"code": "promote", "label": "Promote to production",
+  "kind": "promote", "state": "pending"}]`, then the same with `"state": "active"`. Pending comes
+  first, in a call of its own: a step first published `active` leaves a timing no estimate
+  counts. At your end, before your turn's last line, a third call: the same with
+  `"state": "done"` and `"duration"`, the whole seconds since your start, as a number. A call
+  Pilot refuses holds nothing of the promotion: go on.
 - The job: the application's promotion job, `<App>/Promote-PRD`, in its Jenkins folder beside its
   build job, `<App>/Build-Main`. It runs `Jenkinsfile.promote` in the application's deploy
   repository, whose header names the job on its `Job:` line and says what each parameter takes:
